@@ -1,0 +1,289 @@
+/* =========================================================
+   styles.qss — STS2 Adviser 深色主题
+   参考杀戮尖塔的暗色调 + 金属质感风格
+   ========================================================= */
+
+/* ── 全局字体 ── */
+* {
+    font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+    font-size: 15px;
+    color: #D4C5A9;
+}
+
+/* ── 主容器（圆角 + 半透明深色背景）── */
+#MainContainer {
+    background-color: rgba(22, 18, 14, 0.92);
+    border: 1px solid #4A3C28;
+    border-radius: 8px;
+}
+
+/* ── 标题栏 ── */
+#TitleBar {
+    background-color: rgba(40, 30, 18, 0.95);
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom: 1px solid #3A2E1E;
+    min-height: 38px;
+}
+
+#TitleLabel {
+    font-size: 16px;
+    font-weight: bold;
+    color: #C8A96E;
+    letter-spacing: 0.5px;
+}
+
+#CloseButton {
+    background-color: transparent;
+    border: 1px solid #5A4530;
+    border-radius: 4px;
+    color: #8A7560;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 0;
+    min-width: 26px;
+    min-height: 26px;
+}
+
+#CloseButton:hover {
+    background-color: #6B2020;
+    border-color: #A03030;
+    color: #FF6B6B;
+}
+
+/* ── 工具栏 ── */
+#Toolbar {
+    background-color: rgba(30, 24, 16, 0.85);
+    border-bottom: 1px solid #2E2416;
+}
+
+#RefreshButton, #RefreshDetectButton, #SettingsButton {
+    background-color: #3A2E1E;
+    border: 1px solid #5A4A2E;
+    border-radius: 4px;
+    color: #C8A96E;
+    padding: 4px 14px;
+    font-size: 13px;
+    min-height: 28px;
+}
+
+#RefreshButton:hover, #RefreshDetectButton:hover, #SettingsButton:hover {
+    background-color: #4A3C26;
+    border-color: #8A6A3E;
+    color: #E8C98E;
+}
+
+#RefreshButton:pressed, #RefreshDetectButton:pressed, #SettingsButton:pressed {
+    background-color: #2A1E10;
+}
+
+#RefreshButton:disabled, #RefreshDetectButton:disabled {
+    color: #5A4A3E;
+    border-color: #3A2E1E;
+}
+
+#BackendIndicator {
+    font-size: 13px;
+    color: #6A5A4A;
+}
+
+/* ── 分隔线 ── */
+#Separator {
+    color: #3A2E1E;
+    background-color: #3A2E1E;
+    border: none;
+    height: 1px;
+    max-height: 1px;
+}
+
+/* ── 列表头 ── */
+#ListHeader {
+    background-color: rgba(30, 24, 16, 0.60);
+    border-bottom: 1px solid #2E2416;
+    min-height: 24px;
+}
+
+#HeaderLabel {
+    font-size: 12px;
+    color: #7A6A52;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* ── 滚动区域 ── */
+#CardScrollArea {
+    background-color: transparent;
+    border: none;
+}
+
+#CardScrollArea QScrollBar:vertical {
+    background: rgba(20, 16, 10, 0.5);
+    width: 8px;
+    border-radius: 4px;
+}
+
+#CardScrollArea QScrollBar::handle:vertical {
+    background: #4A3C28;
+    border-radius: 4px;
+    min-height: 20px;
+}
+
+#CardScrollArea QScrollBar::handle:vertical:hover {
+    background: #6A5A3E;
+}
+
+#CardScrollArea QScrollBar::add-line:vertical,
+#CardScrollArea QScrollBar::sub-line:vertical {
+    height: 0;
+}
+
+/* ── 卡牌结果行 ── */
+#CardResultWidget {
+    background-color: rgba(35, 28, 18, 0.70);
+    border: 1px solid #2E2416;
+    border-radius: 4px;
+    min-height: 36px;
+}
+
+#CardResultWidget:hover {
+    background-color: rgba(55, 44, 28, 0.80);
+    border-color: #5A4A2E;
+}
+
+#cardName {
+    color: #D4C5A9;
+    font-size: 15px;
+}
+
+#cardRole {
+    color: #8A7A60;
+    font-size: 12px;
+}
+
+#cardScore {
+    color: #C8A96E;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+/* ── 状态栏 ── */
+#StatusBar {
+    font-size: 12px;
+    color: #6A5A46;
+    padding: 4px 8px;
+}
+
+/* ── 占位文本 ── */
+#Placeholder {
+    color: #5A4A36;
+    font-size: 14px;
+    padding: 24px;
+}
+
+/* ── 卡牌选择器 ── */
+#CardPickerSection {
+    background-color: transparent;
+}
+
+#CardPickerScroll {
+    background-color: rgba(20, 16, 10, 0.6);
+    border: 1px solid #2E2416;
+    border-radius: 4px;
+}
+
+#CardPickerScroll QScrollBar:vertical {
+    background: rgba(20, 16, 10, 0.5);
+    width: 6px;
+    border-radius: 3px;
+}
+
+#CardPickerScroll QScrollBar::handle:vertical {
+    background: #4A3C28;
+    border-radius: 3px;
+    min-height: 16px;
+}
+
+#CardPickerScroll QScrollBar::add-line:vertical,
+#CardPickerScroll QScrollBar::sub-line:vertical {
+    height: 0;
+}
+
+#CardPickerSectionHeader {
+    color: #7A6A52;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 3px 2px 1px 2px;
+}
+
+/* 未选中的卡片 */
+#CardChip {
+    background-color: rgba(35, 28, 18, 0.8);
+    border: 1px solid #3A2E1E;
+    border-radius: 3px;
+    color: #9A8A6A;
+    font-size: 13px;
+    padding: 3px 6px;
+    text-align: left;
+}
+
+#CardChip:hover {
+    background-color: rgba(55, 44, 28, 0.9);
+    border-color: #5A4A2E;
+    color: #C8A96E;
+}
+
+/* 已选中的卡片 */
+#CardChipSelected {
+    background-color: rgba(50, 80, 30, 0.85);
+    border: 1px solid #5A8A2E;
+    border-radius: 3px;
+    color: #A8D870;
+    font-size: 13px;
+    padding: 3px 6px;
+    text-align: left;
+}
+
+#CardChipSelected:hover {
+    background-color: rgba(65, 100, 40, 0.9);
+    border-color: #7AAA4E;
+}
+
+/* 候选托盘 */
+#SelectionTray {
+    background-color: rgba(25, 20, 12, 0.75);
+    border: 1px solid #2E2416;
+    border-radius: 4px;
+    min-height: 40px;
+}
+
+/* 评估按钮 */
+#EvaluateButton {
+    background-color: #3A5A1E;
+    border: 1px solid #5A8A3E;
+    border-radius: 4px;
+    color: #A8D870;
+    font-weight: bold;
+    font-size: 14px;
+    padding: 4px 14px;
+    min-height: 28px;
+}
+
+#EvaluateButton:hover {
+    background-color: #4A7A28;
+    border-color: #7AAA5E;
+    color: #C8F090;
+}
+
+#EvaluateButton:disabled {
+    background-color: #2A2A1A;
+    border-color: #3A3A2A;
+    color: #5A5A3A;
+}
+
+/* ── 缩放手柄 ── */
+#ResizeGrip {
+    background-color: transparent;
+    width: 16px;
+    height: 16px;
+}
