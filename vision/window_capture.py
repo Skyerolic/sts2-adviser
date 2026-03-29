@@ -116,8 +116,43 @@ class WindowCapture:
         try:
             win32gui.EnumWindows(_enum_callback, None)
         except Exception as e:
-            log.error(f"EnumWindows 失败: {e}")
-            return None
+            log.warning(f"win32gui.EnumWindows 失败 ({e})，尝试 ctypes fallback")
+            # ctypes fallback（win32gui DLL 不可用时）
+            try:
+                import ctypes
+                import ctypes.wintypes
+                _WNDENUMPROC = ctypes.WINFUNCTYPE(ctypes.c_bool, ctypes.wintypes.HWND, ctypes.wintypes.LPARAM)
+
+                def _ctypes_cb(hwnd, _lp):
+                    if not ctypes.windll.user32.IsWindowVisible(hwnd):
+                        return True
+                    buf = ctypes.create_unicode_buffer(256)
+                    ctypes.windll.user32.GetWindowTextW(hwnd, buf, 256)
+                    title = buf.value.strip()
+                    if not title:
+                        return True
+                    title_lower = title.lower()
+                    for kw in _STS2_TITLE_KEYWORDS:
+                        if kw.lower() in title_lower:
+                            try:
+                                rect = ctypes.wintypes.RECT()
+                                ctypes.windll.user32.GetWindowRect(hwnd, ctypes.byref(rect))
+                                left, top, right, bottom = rect.left, rect.top, rect.right, rect.bottom
+                                w = right - left
+                                h = bottom - top
+                                if w > 100 and h > 100:
+                                    nonlocal found
+                                    found = WindowInfo(hwnd=hwnd, title=title,
+                                                       left=left, top=top, width=w, height=h)
+                            except Exception as ex:
+                                log.debug(f"ctypes GetWindowRect 失败: {ex}")
+                            return False
+                    return True
+
+                ctypes.windll.user32.EnumWindows(_WNDENUMPROC(_ctypes_cb), 0)
+            except Exception as e2:
+                log.error(f"ctypes EnumWindows 也失败: {e2}")
+                return None
 
         if found:
             # 仅首次找到时打 INFO，窗口未变化时静默

@@ -31,6 +31,22 @@ from PIL import Image
 
 log = logging.getLogger(__name__)
 
+# OpenCV 可选依赖懒加载（首次调用时检测一次）
+_CV2_AVAILABLE: Optional[bool] = None
+
+
+def _check_cv2() -> bool:
+    global _CV2_AVAILABLE
+    if _CV2_AVAILABLE is None:
+        try:
+            import cv2  # noqa: F401
+            _CV2_AVAILABLE = True
+        except ImportError:
+            _CV2_AVAILABLE = False
+            log.info("opencv-python 未安装，使用 PIL 预处理回退")
+    return _CV2_AVAILABLE
+
+
 # 优先尝试的语言标签顺序（中文优先，用于界面关键词检测）
 _PREFERRED_LANGS = ["zh-Hans-CN", "zh-CN", "zh-Hans", "zh", "en-US", "en"]
 
@@ -366,22 +382,70 @@ class WindowsOcrEngine:
     def _preprocess(img: "Image.Image") -> "Image.Image":
         """
         OCR 前预处理：
-        - 小图放大（Windows OCR 最佳输入约 200-300px 高度）
-        - 灰度增强（暂不做，Windows OCR 对彩色图效果已够好）
+        - 全图截图（h >= 300px）：不处理，Windows OCR 直接处理效果良好
+        - 卡名截图（h < 300px）：
+            有 OpenCV：放大(INTER_CUBIC) → 灰度 → CLAHE → 高斯去噪 → 锐化
+            无 OpenCV：放大(PIL LANCZOS) → 对比度×1.8 → 锐化×1.5（原有逻辑）
         """
+        from PIL import ImageEnhance
         w, h = img.size
-        min_height = 80
-        target_height = 200
 
-        if h < min_height:
-            # 图像太小，放大
-            scale = target_height / max(h, 1)
+        if h >= 300:
+            return img
+
+        target_h = 200
+
+        if _check_cv2():
+            return WindowsOcrEngine._preprocess_cv(img, target_h)
+
+        # PIL 回退路径
+        if h < 80:
+            scale = target_h / max(h, 1)
             new_w = int(w * scale)
             new_h = int(h * scale)
             img = img.resize((new_w, new_h), Image.LANCZOS)
-            log.debug(f"图像预处理放大: {w}x{h} → {new_w}x{new_h}")
-
+            log.debug(f"PIL 放大: {w}x{h} → {new_w}x{new_h}")
+        img = ImageEnhance.Contrast(img).enhance(1.8)
+        img = ImageEnhance.Sharpness(img).enhance(1.5)
+        log.debug("PIL 增强: contrast×1.8 sharpness×1.5")
         return img
+
+    @staticmethod
+    def _preprocess_cv(img: "Image.Image", target_h: int = 200) -> "Image.Image":
+        """OpenCV 卡名截图预处理：放大 → 灰度 → CLAHE → 去噪 → 锐化"""
+        import cv2
+
+        # PIL RGB → numpy BGR
+        bgr = np.array(img.convert("RGB"))[:, :, ::-1].copy()
+        h, w = bgr.shape[:2]
+
+        # 1. INTER_CUBIC 放大至目标高度
+        if h < target_h:
+            scale = target_h / h
+            new_w = int(w * scale)
+            bgr = cv2.resize(bgr, (new_w, target_h), interpolation=cv2.INTER_CUBIC)
+            log.debug(f"cv2 放大: {w}x{h} → {new_w}x{target_h}")
+
+        # 2. 转灰度
+        gray = cv2.cvtColor(bgr, cv2.COLOR_BGR2GRAY)
+
+        # 3. CLAHE 自适应对比度（tileGridSize=(8,4) 适合横向文字横幅）
+        clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 4))
+        enhanced = clahe.apply(gray)
+
+        # 4. 高斯去噪（3×3，在锐化前去除噪点）
+        denoised = cv2.GaussianBlur(enhanced, (3, 3), 0)
+
+        # 5. 锐化内核（unsharp mask）
+        kernel = np.array([[ 0, -1,  0],
+                           [-1,  5, -1],
+                           [ 0, -1,  0]], dtype=np.float32)
+        sharpened = cv2.filter2D(denoised, -1, kernel)
+
+        # 6. 灰度 → RGB 给 Windows OCR
+        rgb = cv2.cvtColor(sharpened, cv2.COLOR_GRAY2RGB)
+        log.debug(f"cv2 预处理完成: 输出 {rgb.shape[1]}x{rgb.shape[0]}")
+        return Image.fromarray(rgb)
 
 
 # 模块级单例

@@ -6,7 +6,7 @@
 /* ── 全局字体 ── */
 * {
     font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
-    font-size: 15px;
+    font-size: 18px;
     color: #D4C5A9;
 }
 
@@ -23,11 +23,11 @@
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
     border-bottom: 1px solid #3A2E1E;
-    min-height: 38px;
+    min-height: 42px;
 }
 
 #TitleLabel {
-    font-size: 16px;
+    font-size: 19px;
     font-weight: bold;
     color: #C8A96E;
     letter-spacing: 0.5px;
@@ -38,11 +38,11 @@
     border: 1px solid #5A4530;
     border-radius: 4px;
     color: #8A7560;
-    font-size: 18px;
+    font-size: 20px;
     font-weight: bold;
     padding: 0;
-    min-width: 26px;
-    min-height: 26px;
+    min-width: 28px;
+    min-height: 28px;
 }
 
 #CloseButton:hover {
@@ -63,8 +63,8 @@
     border-radius: 4px;
     color: #C8A96E;
     padding: 4px 14px;
-    font-size: 13px;
-    min-height: 28px;
+    font-size: 15px;
+    min-height: 30px;
 }
 
 #RefreshButton:hover, #RefreshDetectButton:hover, #SettingsButton:hover {
@@ -83,7 +83,7 @@
 }
 
 #BackendIndicator {
-    font-size: 13px;
+    font-size: 15px;
     color: #6A5A4A;
 }
 
@@ -100,11 +100,11 @@
 #ListHeader {
     background-color: rgba(30, 24, 16, 0.60);
     border-bottom: 1px solid #2E2416;
-    min-height: 24px;
+    min-height: 26px;
 }
 
 #HeaderLabel {
-    font-size: 12px;
+    font-size: 13px;
     color: #7A6A52;
     font-weight: bold;
     text-transform: uppercase;
@@ -143,7 +143,7 @@
     background-color: rgba(35, 28, 18, 0.70);
     border: 1px solid #2E2416;
     border-radius: 4px;
-    min-height: 36px;
+    min-height: 44px;
 }
 
 #CardResultWidget:hover {
@@ -153,23 +153,23 @@
 
 #cardName {
     color: #D4C5A9;
-    font-size: 15px;
+    font-size: 18px;
 }
 
 #cardRole {
     color: #8A7A60;
-    font-size: 12px;
+    font-size: 14px;
 }
 
 #cardScore {
     color: #C8A96E;
-    font-size: 17px;
+    font-size: 20px;
     font-weight: bold;
 }
 
 /* ── 套路提示标签 ── */
 #ArchetypeLabel {
-    font-size: 15px;
+    font-size: 18px;
     font-weight: bold;
     color: #C8A96E;
     padding: 2px 0px;
@@ -177,7 +177,7 @@
 
 /* ── 状态栏 ── */
 #StatusBar {
-    font-size: 13px;
+    font-size: 14px;
     color: #7A6A50;
     padding: 2px 8px;
 }
@@ -185,7 +185,7 @@
 /* ── 占位文本 ── */
 #Placeholder {
     color: #5A4A36;
-    font-size: 14px;
+    font-size: 17px;
     padding: 24px;
 }
 
@@ -219,7 +219,7 @@
 
 #CardPickerSectionHeader {
     color: #7A6A52;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: bold;
     padding: 3px 2px 1px 2px;
 }
@@ -230,7 +230,7 @@
     border: 1px solid #3A2E1E;
     border-radius: 3px;
     color: #9A8A6A;
-    font-size: 13px;
+    font-size: 15px;
     padding: 3px 6px;
     text-align: left;
 }
@@ -247,7 +247,7 @@
     border: 1px solid #5A8A2E;
     border-radius: 3px;
     color: #A8D870;
-    font-size: 13px;
+    font-size: 15px;
     padding: 3px 6px;
     text-align: left;
 }
@@ -262,7 +262,7 @@
     background-color: rgba(25, 20, 12, 0.75);
     border: 1px solid #2E2416;
     border-radius: 4px;
-    min-height: 40px;
+    min-height: 44px;
 }
 
 /* 评估按钮 */
@@ -272,9 +272,9 @@
     border-radius: 4px;
     color: #A8D870;
     font-weight: bold;
-    font-size: 14px;
+    font-size: 16px;
     padding: 4px 14px;
-    min-height: 28px;
+    min-height: 30px;
 }
 
 #EvaluateButton:hover {
@@ -320,7 +320,7 @@
 
 /* ── OCR 界面识别提示标签 ── */
 #OcrScreenLabel {
-    font-size: 11px;
+    font-size: 13px;
     padding: 2px 4px;
     color: #888;
 }
@@ -334,6 +334,37 @@
 /* ── 卡牌解释文本 ── */
 #cardReason {
     color: #6A7A60;
-    font-size: 11px;
+    font-size: 13px;
     padding-left: 4px;
+}
+
+/* ── 侧边手动选牌抽屉 ── */
+#SideDrawerPanel {
+    background-color: rgba(18, 14, 10, 0.95);
+    border-left: 1px solid #3A2E1E;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+#DrawerToggleBtn {
+    background-color: rgba(30, 24, 16, 0.90);
+    border: 1px solid #3A2E1E;
+    border-radius: 0px;
+    color: #7A6A52;
+    font-size: 16px;
+    min-width: 22px;
+    max-width: 22px;
+    padding: 0;
+}
+
+#DrawerToggleBtn:hover {
+    background-color: rgba(50, 40, 24, 0.95);
+    color: #C8A96E;
+}
+
+#DrawerTitle {
+    font-size: 15px;
+    font-weight: bold;
+    color: #9A8A6A;
+    padding: 4px 8px;
 }

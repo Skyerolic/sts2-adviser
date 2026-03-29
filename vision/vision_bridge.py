@@ -139,6 +139,9 @@ class VisionBridge:
         self._on_state_change: Optional[Callable[[dict], None]] = None
         self._on_status_change: Optional[Callable[[dict], None]] = None
 
+        # OCR 并发锁（防止上一次 OCR 尚未结束就启动新一轮）
+        self._ocr_running = False
+
     # ------------------------------------------------------------------
     # 公开接口（与 GameWatcher 兼容）
     # ------------------------------------------------------------------
@@ -236,6 +239,9 @@ class VisionBridge:
                 # 已确认，无需重复识别，等界面消失
                 return
             self._set_state(BridgeState.RECOGNIZING)
+            if self._ocr_running:
+                log.debug("OCR 上一帧尚未完成，跳过本轮识别")
+                return
             self._try_recognize(screenshot, det_ocr_result=det.ocr_result)
         else:
             # 不是选卡界面
@@ -255,6 +261,13 @@ class VisionBridge:
             screenshot: 游戏窗口截图
             det_ocr_result: 界面检测时已产生的全图 OcrResult（用于定位标题 Y）
         """
+        self._ocr_running = True
+        try:
+            self._try_recognize_inner(screenshot, det_ocr_result)
+        finally:
+            self._ocr_running = False
+
+    def _try_recognize_inner(self, screenshot: np.ndarray, det_ocr_result=None) -> None:
         # 综合全图OCR行坐标 + 区域补全，提取三张卡名
         title_y_rel = VisionBridge._find_title_y(det_ocr_result)
         ocr_texts = VisionBridge._extract_card_names_combined(
@@ -327,20 +340,15 @@ class VisionBridge:
             return ["", "", ""]
 
         _TITLE_KW = ["choose a card", "选择一张牌", "选一张牌", "choose one", "pick a card"]
-        _SKIP_KW  = re.compile(
-            r"^(skip|跳过|choose|选择|pass|back|return|cancel|取消"
-            r"|攻击|技能|能力|attack|skill|power|curse|status)$",
-            re.IGNORECASE,
-        )
         _NOISE = re.compile(r"^[\d\W\s]{0,5}$")
 
         def is_noise(t: str) -> bool:
+            # 白名单策略：只做最小过滤（空/短/纯符号）
+            # 具体卡名验证交由 card_normalizer 的 fuzzy 匹配（置信度 < 0.55 自动丢弃）
             t = t.strip()
             if not t or len(t) < 2:
                 return True
             if _NOISE.match(t):
-                return True
-            if _SKIP_KW.match(t.lower()):
                 return True
             return False
 
@@ -432,13 +440,7 @@ class VisionBridge:
         def normalize_zh(t: str) -> str:
             return re.sub(r'(?<=[\u4e00-\u9fff])\s+(?=[\u4e00-\u9fff])', '', t)
 
-        _SKIP_KW = re.compile(
-            r"^(skip|跳过|choose|选择|pass|back|cancel|取消"
-            r"|攻击|技能|能力|诅咒|状态"
-            r"|attack|skill|power|curse|status)$",
-            re.IGNORECASE,
-        )
-        # 描述文字特征词（含这些词的行不是卡名）
+        # 描述文字特征词（含这些词的行几乎不可能是卡名，且文字较长，提前排除）
         _DESC_KW = re.compile(
             r"造成|获得|敌人|伤害|抽.{0,2}张|如果|则.*|额外|该敌|将其|打出|消耗"
             r"|\d\s*层|层易伤|层力量|层护甲|层中毒|免费打出|加入你|手牌|本回合|翻倍"
@@ -448,12 +450,12 @@ class VisionBridge:
         _NOISE = re.compile(r"^[\d\W\s]{0,5}$")
 
         def is_noise(t: str) -> bool:
+            # 白名单策略：只做最小过滤（空/短/纯符号/明确的描述词）
+            # 具体卡名验证交由 card_normalizer 的 fuzzy 匹配（置信度 < 0.55 自动丢弃）
             t = t.strip()
             if not t or len(t) < 2:
                 return True
             if _NOISE.match(t):
-                return True
-            if _SKIP_KW.match(t.lower()):
                 return True
             if _DESC_KW.search(t):
                 return True
@@ -465,7 +467,7 @@ class VisionBridge:
 
         if ocr_result is not None and ocr_result.lines and title_y_rel is not None:
             y_min = title_y_rel + 0.10
-            y_max = title_y_rel + 0.45
+            y_max = title_y_rel + 0.32   # 只取卡名横幅（约+15%~+30%），排除下方类型标签行
 
             candidates = []
             for line in ocr_result.lines:
@@ -514,10 +516,10 @@ class VisionBridge:
             card_y_bot = title_y_rel + 0.25  # 只取卡名横幅，不含描述文字
         else:
             card_y_top = 0.40
-            card_y_bot = 0.51
+            card_y_bot = 0.50
 
-        # 默认三列X中心
-        default_centers = [0.22, 0.50, 0.78]
+        # 默认三列X中心（基于 2273x1202 实测：左≈0.21, 中≈0.50, 右≈0.79）
+        default_centers = [0.21, 0.50, 0.79]
         # 用全图OCR坐标覆盖已知的
         resolved_centers = list(default_centers)
         for i, xc in enumerate(card_x_from_ocr):

@@ -899,8 +899,33 @@ class PathSettingsDialog(QDialog):
 # 单张卡评估结果 Widget
 # ---------------------------------------------------------------------------
 
+_ROLE_ZH = {
+    "core":       "套路核心",
+    "enabler":    "使能卡",
+    "transition": "过渡卡",
+    "filler":     "补件",
+    "pollution":  "污染",
+    "unknown":    "未知",
+}
+
+_REC_COLORS = {
+    "强烈推荐": "#A8D870", "Highly Recommended": "#A8D870",
+    "推荐":     "#64B5F6", "Recommended":        "#64B5F6",
+    "可选":     "#FFD54F", "Optional":           "#FFD54F",
+    "谨慎":     "#FFB74D", "Caution":            "#FFB74D",
+    "不推荐":   "#FF7043", "Not Recommended":    "#FF7043",
+    "跳过":     "#EF5350", "Skip":               "#EF5350",
+}
+
+
 class CardResultWidget(QFrame):
-    """显示单张卡的评估结果行"""
+    """
+    垂直布局的单张卡评估结果块：
+      卡牌名（中文，粗体大字）
+      定位（中文角色标签） | 分数 | 推荐
+      推荐理由（绿色小字）
+      不推荐理由（橙红色小字）
+    """
 
     def __init__(self, result: dict, language: str = "en", parent: QWidget | None = None) -> None:
         super().__init__(parent)
@@ -910,72 +935,72 @@ class CardResultWidget(QFrame):
 
     def _build_ui(self, result: dict) -> None:
         outer = QVBoxLayout(self)
-        outer.setContentsMargins(8, 4, 8, 4)
-        outer.setSpacing(2)
+        outer.setContentsMargins(10, 6, 10, 6)
+        outer.setSpacing(3)
 
-        # --- 主行：卡名 / 角色 / 分数 / 推荐 ---
-        row = QHBoxLayout()
-        row.setSpacing(4)
-
-        # 卡名（根据语言设置显示中文或英文）
+        # ── 行1：卡牌名（中文） ──────────────────────────────────────────
         raw_name = result.get("card_name", "?")
         card_id = result.get("card_id", "")
-        if self._language == "zh" and card_id:
+        try:
             try:
-                try:
-                    from frontend.card_locale import get_card_locale
-                except ImportError:
-                    from card_locale import get_card_locale
-                zh_name = get_card_locale().get_chinese_name(card_id)
-                raw_name = zh_name or raw_name
-            except Exception:
-                pass
+                from frontend.card_locale import get_card_locale
+            except ImportError:
+                from card_locale import get_card_locale
+            zh_name = get_card_locale().get_chinese_name(card_id)
+            raw_name = zh_name or raw_name
+        except Exception:
+            pass
+
         name_label = QLabel(raw_name)
         name_label.setObjectName("cardName")
-        name_label.setMinimumWidth(120)
-        name_label.setStyleSheet("font-weight: bold;")
-        row.addWidget(name_label)
+        name_label.setStyleSheet("font-weight:bold;font-size:17px;")
+        outer.addWidget(name_label)
 
-        # 角色
-        role_label = QLabel(result.get("role", ""))
+        # ── 行2：定位 | 分数 | 推荐 ─────────────────────────────────────
+        meta_row = QHBoxLayout()
+        meta_row.setSpacing(6)
+
+        role_en = result.get("role", "unknown")
+        role_zh = _ROLE_ZH.get(role_en, role_en)
+        role_label = QLabel(role_zh)
         role_label.setObjectName("cardRole")
-        role_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        role_label.setMinimumWidth(60)
-        row.addWidget(role_label)
+        role_label.setStyleSheet("color:#A09070;font-size:14px;")
+        meta_row.addWidget(role_label)
 
-        # 分数
+        meta_row.addStretch()
+
         score = result.get("total_score", 0)
-        score_label = QLabel(f"{score:.0f}")
+        score_label = QLabel(f"{score:.0f} 分")
         score_label.setObjectName("cardScore")
-        score_label.setAlignment(Qt.AlignmentFlag.AlignRight)
-        score_label.setMinimumWidth(40)
-        row.addWidget(score_label)
+        score_label.setStyleSheet("color:#C8A96E;font-size:14px;")
+        meta_row.addWidget(score_label)
 
-        # 推荐标签（颜色区分）
         rec = result.get("recommendation", "")
+        rec_color = _REC_COLORS.get(rec, "#9A8A6A")
         rec_label = QLabel(rec)
         rec_label.setObjectName("cardRecommendation")
-        rec_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        rec_label.setMinimumWidth(70)
-        _REC_COLORS = {
-            "强烈推荐": "#A8D870", "Highly Recommended": "#A8D870",
-            "推荐": "#64B5F6",     "Recommended": "#64B5F6",
-            "可选": "#FFD54F",     "Optional": "#FFD54F",
-            "不推荐": "#FF7043",   "Not Recommended": "#FF7043",
-        }
-        rec_color = _REC_COLORS.get(rec, "#9A8A6A")
-        rec_label.setStyleSheet(f"color:{rec_color};font-weight:bold;")
-        row.addWidget(rec_label)
-        outer.addLayout(row)
+        rec_label.setStyleSheet(f"color:{rec_color};font-weight:bold;font-size:14px;")
+        meta_row.addWidget(rec_label)
 
-        # --- 解释文本行 ---
-        reason = result.get("reason", "") or result.get("explanation", "")
-        if reason:
-            reason_label = QLabel(reason)
-            reason_label.setObjectName("cardReason")
-            reason_label.setWordWrap(True)
-            reason_label.setStyleSheet("color:#7A8A6A;font-size:11px;padding-left:4px;")
-            outer.addWidget(reason_label)
+        outer.addLayout(meta_row)
+
+        # ── 行3+：推荐 / 不推荐理由 ─────────────────────────────────────
+        reasons_for     = result.get("reasons_for", [])
+        reasons_against = result.get("reasons_against", [])
+
+        if reasons_for:
+            lbl = QLabel("▸ " + "；".join(reasons_for))
+            lbl.setObjectName("cardReasonFor")
+            lbl.setWordWrap(True)
+            lbl.setStyleSheet("color:#8BC34A;font-size:12px;padding-top:1px;")
+            outer.addWidget(lbl)
+
+        if reasons_against:
+            lbl = QLabel("▸ " + "；".join(reasons_against))
+            lbl.setObjectName("cardReasonAgainst")
+            lbl.setWordWrap(True)
+            lbl.setStyleSheet("color:#FF8A65;font-size:12px;padding-top:1px;")
+            outer.addWidget(lbl)
 
 
 # ---------------------------------------------------------------------------
@@ -1029,24 +1054,26 @@ class CardAdviserWindow(QWidget):
             | Qt.WindowType.Tool   # 不在任务栏显示
         )
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
-        self.setMinimumSize(420, 400)
-        self.resize(560, 820)
+        self.setMinimumSize(460, 400)
+        self.resize(600, 860)
+        self._drawer_open = False   # 侧边抽屉初始收起
 
     # ------------------------------------------------------------------
     # UI 构建
     # ------------------------------------------------------------------
 
     def _build_ui(self) -> None:
-        root = QVBoxLayout(self)
+        # 最外层水平：主面板 | 拨片按钮 | 侧边抽屉
+        root = QHBoxLayout(self)
         root.setContentsMargins(0, 0, 0, 0)
         root.setSpacing(0)
 
-        # 外层容器（用于实现圆角 + 半透明）
-        container = QWidget()
-        container.setObjectName("MainContainer")
-        root.addWidget(container)
+        # ── 主面板 ──────────────────────────────────────────────────────
+        main_panel = QWidget()
+        main_panel.setObjectName("MainContainer")
+        root.addWidget(main_panel, 1)
 
-        main_layout = QVBoxLayout(container)
+        main_layout = QVBoxLayout(main_panel)
         main_layout.setContentsMargins(0, 0, 0, 8)
         main_layout.setSpacing(0)
 
@@ -1064,10 +1091,6 @@ class CardAdviserWindow(QWidget):
         sep.setObjectName("Separator")
         main_layout.addWidget(sep)
 
-        # ---- 卡牌选择器 ----
-        card_section = self._build_card_picker_section()
-        main_layout.addWidget(card_section)
-
         # ---- 评分区（含 OCR 识别预览 + 列表头 + 卡牌列表）----
         score_section = QWidget()
         score_section.setObjectName("ScoreSection")
@@ -1075,15 +1098,12 @@ class CardAdviserWindow(QWidget):
         score_layout.setContentsMargins(0, 0, 0, 0)
         score_layout.setSpacing(0)
 
-        # OCR 识别预览嵌入评分区顶部
         self._ocr_preview_panel = self._build_ocr_preview_panel()
         score_layout.addWidget(self._ocr_preview_panel)
 
-        # 列表头
         header = self._build_list_header()
         score_layout.addWidget(header)
 
-        # 卡牌列表（滚动区域）
         self._scroll_area = QScrollArea()
         self._scroll_area.setWidgetResizable(True)
         self._scroll_area.setHorizontalScrollBarPolicy(
@@ -1094,7 +1114,7 @@ class CardAdviserWindow(QWidget):
         self._list_container = QWidget()
         self._list_layout = QVBoxLayout(self._list_container)
         self._list_layout.setContentsMargins(4, 4, 4, 4)
-        self._list_layout.setSpacing(2)
+        self._list_layout.setSpacing(4)
         self._list_layout.addStretch()
 
         self._scroll_area.setWidget(self._list_container)
@@ -1110,18 +1130,16 @@ class CardAdviserWindow(QWidget):
         bottom_layout.setContentsMargins(8, 4, 8, 2)
         bottom_layout.setSpacing(2)
 
-        # 套路提示行（大字体）
         self._archetype_label = QLabel("")
         self._archetype_label.setObjectName("ArchetypeLabel")
         self._archetype_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self._archetype_label.setWordWrap(True)
         self._archetype_label.setStyleSheet(
-            "color:#C8A96E;font-size:15px;font-weight:bold;padding:2px 0px;"
+            "color:#C8A96E;font-size:18px;font-weight:bold;padding:2px 0px;"
         )
         self._archetype_label.setVisible(False)
         bottom_layout.addWidget(self._archetype_label)
 
-        # 状态栏 + resize grip
         status_row = QHBoxLayout()
         status_row.setContentsMargins(0, 0, 0, 0)
         status_row.setSpacing(0)
@@ -1137,6 +1155,22 @@ class CardAdviserWindow(QWidget):
         bottom_layout.addLayout(status_row)
 
         main_layout.addWidget(bottom_bar)
+
+        # ── 拨片按钮（主面板右侧，始终可见）───────────────────────────
+        self._drawer_toggle_btn = QPushButton("◀")
+        self._drawer_toggle_btn.setObjectName("DrawerToggleBtn")
+        self._drawer_toggle_btn.setToolTip("展开/收起手动选牌面板")
+        self._drawer_toggle_btn.setCursor(Qt.CursorShape.PointingHandCursor)
+        self._drawer_toggle_btn.clicked.connect(self._toggle_side_drawer)
+        self._drawer_toggle_btn.setSizePolicy(
+            QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Expanding
+        )
+        root.addWidget(self._drawer_toggle_btn)
+
+        # ── 侧边抽屉（初始隐藏）────────────────────────────────────────
+        self._side_drawer = self._build_side_drawer()
+        self._side_drawer.setVisible(False)
+        root.addWidget(self._side_drawer)
 
         # 展示占位数据
         self._show_placeholder()
@@ -1344,17 +1378,13 @@ class CardAdviserWindow(QWidget):
         header = QWidget()
         header.setObjectName("ListHeader")
         layout = QHBoxLayout(header)
-        layout.setContentsMargins(8, 2, 8, 2)
+        layout.setContentsMargins(10, 2, 10, 2)
 
-        for text, width in [("卡名", 120), ("角色", 60), ("分数", 40), ("推荐", 70)]:
-            lbl = QLabel(text)
-            lbl.setObjectName("HeaderLabel")
-            lbl.setMinimumWidth(width)
-            if text in ("分数",):
-                lbl.setAlignment(Qt.AlignmentFlag.AlignRight)
-            elif text in ("角色", "推荐"):
-                lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
-            layout.addWidget(lbl)
+        lbl = QLabel("候选卡评估")
+        lbl.setObjectName("HeaderLabel")
+        lbl.setStyleSheet("color:#8A7A5A;font-size:11px;")
+        layout.addWidget(lbl)
+        layout.addStretch()
 
         return header
 
@@ -1727,59 +1757,35 @@ class CardAdviserWindow(QWidget):
     # 卡牌选择器
     # ------------------------------------------------------------------
 
-    def _build_card_picker_section(self) -> QWidget:
-        container = QWidget()
-        container.setObjectName("CardPickerSection")
-        layout = QVBoxLayout(container)
-        layout.setContentsMargins(4, 2, 4, 2)
-        layout.setSpacing(2)
+    def _build_side_drawer(self) -> QWidget:
+        """侧边手动选牌抽屉面板（从右侧滑入）"""
+        drawer = QWidget()
+        drawer.setObjectName("SideDrawerPanel")
+        drawer.setMinimumWidth(280)
+        drawer.setMaximumWidth(360)
 
-        # 折叠标题行
-        toggle_row = QWidget()
-        toggle_row.setObjectName("PickerToggleRow")
-        toggle_row.setStyleSheet(
-            "background:rgba(30,24,16,0.7);border:1px solid #2E2416;border-radius:4px;"
-        )
-        toggle_row.setCursor(Qt.CursorShape.PointingHandCursor)
-        toggle_layout = QHBoxLayout(toggle_row)
-        toggle_layout.setContentsMargins(8, 4, 8, 4)
-        toggle_layout.setSpacing(4)
+        layout = QVBoxLayout(drawer)
+        layout.setContentsMargins(6, 8, 6, 8)
+        layout.setSpacing(4)
 
-        self._picker_toggle_arrow = QLabel("▼")
-        self._picker_toggle_arrow.setStyleSheet("color:#7A6A52;font-size:10px;")
-        toggle_layout.addWidget(self._picker_toggle_arrow)
-
-        toggle_label = QLabel("手动选牌")
-        toggle_label.setStyleSheet("color:#9A8A6A;font-size:13px;font-weight:bold;")
-        toggle_layout.addWidget(toggle_label)
-        toggle_layout.addStretch()
-
-        self._picker_collapsed = False
-        toggle_row.mousePressEvent = lambda e: self._toggle_card_picker()
-        layout.addWidget(toggle_row)
-
-        # 可折叠内容区
-        self._picker_body = QWidget()
-        picker_body_layout = QVBoxLayout(self._picker_body)
-        picker_body_layout.setContentsMargins(0, 2, 0, 0)
-        picker_body_layout.setSpacing(2)
+        title = QLabel("手动选牌")
+        title.setObjectName("DrawerTitle")
+        layout.addWidget(title)
 
         self._card_picker = CardPickerPanel()
         self._card_picker.selection_changed.connect(self._on_card_selection_changed)
-        picker_body_layout.addWidget(self._card_picker)
+        layout.addWidget(self._card_picker, 1)
 
         self._selection_tray = SelectionTrayWidget()
         self._selection_tray.evaluate_requested.connect(self._on_evaluate_from_picker)
-        picker_body_layout.addWidget(self._selection_tray)
+        layout.addWidget(self._selection_tray)
 
-        layout.addWidget(self._picker_body)
+        return drawer
 
-        return container
-
-    def _toggle_card_picker(self) -> None:
-        self._picker_collapsed = not self._picker_collapsed
-        self._picker_body.setVisible(not self._picker_collapsed)
-        self._picker_toggle_arrow.setText("▶" if self._picker_collapsed else "▼")
+    def _toggle_side_drawer(self) -> None:
+        self._drawer_open = not self._drawer_open
+        self._side_drawer.setVisible(self._drawer_open)
+        self._drawer_toggle_btn.setText("▶" if self._drawer_open else "◀")
 
     def _fetch_cards_for_character(self, character: str) -> None:
         if not character:

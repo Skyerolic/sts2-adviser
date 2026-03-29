@@ -300,6 +300,26 @@ _OCR_CORRECTIONS = {
     "ii": "n",   # ii → n（部分字体）
 }
 
+# 中文 OCR 常见误字映射（字形相近 / 严重乱码）
+_ZH_OCR_CORRECTIONS = {
+    # 已有
+    "米槌": "头槌",
+    "米锤": "头槌",
+    # 熔融之拳 常见误读
+    "煊融之拳": "熔融之拳",
+    "厴覯之拳": "熔融之拳",
+    "熔融之碎": "熔融之拳",
+    # 双重打击
+    "双重打吉": "双重打击",
+    "双重打击击": "双重打击",
+    # 御血术
+    "御皿术": "御血术",
+    "御血木": "御血术",
+    # 煊/熔 单字（用于短文本修正）
+    "煊融": "熔融",
+    "厴覯": "熔融",
+}
+
 _NOISE_PATTERN = re.compile(r"[^\w\s\u4e00-\u9fff]")  # 保留字母/数字/空格/中文
 
 
@@ -307,7 +327,7 @@ def _clean_ocr_text(text: str) -> str:
     """
     清洗 OCR 文字：
     1. 去除前后空白
-    2. 修正常见 OCR 错误字符
+    2. 修正常见 OCR 错误字符（含中文误字）
     3. 去除噪声符号
     4. 合并多余空格
     """
@@ -319,6 +339,10 @@ def _clean_ocr_text(text: str) -> str:
 
     # Unicode 规范化
     text = unicodedata.normalize("NFC", text)
+
+    # 修正中文 OCR 常见误字
+    for wrong, correct in _ZH_OCR_CORRECTIONS.items():
+        text = text.replace(wrong, correct)
 
     # 去除汉字之间的空格（Windows OCR 常在汉字间插入空格）
     text = re.sub(r'(?<=[\u4e00-\u9fff])\s+(?=[\u4e00-\u9fff])', '', text)
