@@ -203,7 +203,7 @@ class RunState(BaseModel):
 class ScoreBreakdown(BaseModel):
     """评分各维度拆解（便于解释）"""
     base_score:        float = 0.0   # 基础分（稀有度兜底，无套路时生效）
-    rarity_score:      float = 0.0   # 稀有度加成
+    rarity_score:      float = 0.0   # v0.7: community_score (0~1; 0 = 无社区数据)
     archetype_score:   float = 0.0   # 套路契合度
     completion_score:  float = 0.0   # 套路完成度贡献
     phase_score:       float = 0.0   # 当前阶段适配度

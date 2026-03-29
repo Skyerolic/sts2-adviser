@@ -17,6 +17,15 @@ FastAPI 服务器
 
 from __future__ import annotations
 
+import sys
+import io
+
+# Fix Windows console encoding so Chinese/Unicode print() calls don't crash the process
+if sys.stdout and hasattr(sys.stdout, 'buffer'):
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
+if sys.stderr and hasattr(sys.stderr, 'buffer'):
+    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
+
 import json
 import uvicorn
 import os
@@ -225,6 +234,58 @@ def _load_raw_card_db() -> dict[str, dict]:
 CARD_DB: dict[str, Card] = _load_card_db_from_json()
 RAW_CARD_DB: dict[str, dict] = _load_raw_card_db()
 
+
+# ---------------------------------------------------------------------------
+# 社区数据加载
+# ---------------------------------------------------------------------------
+
+from dataclasses import dataclass as _dc
+
+@_dc
+class CommunityStats:
+    """一张卡的社区统计数据（来自 card_library.json）"""
+    card_id:          str
+    win_rate_pct:     float   # 原始胜率百分比，e.g. 61.4
+    pick_rate_pct:    float   # 原始选取率百分比，e.g. 34.1
+    community_score:  float   # 归一化评分 0~1（sigmoid 转换后）
+
+
+def _load_community_db() -> "dict[str, CommunityStats]":
+    """
+    从 data/card_library.json 加载社区统计数据。
+    win_rate/pick_rate 任一为 null 的卡不加入 db（保持缺失语义）。
+    """
+    from .scoring import community_score_from_raw
+    json_path = Path(__file__).parent.parent / "data" / "card_library.json"
+    if not json_path.exists():
+        print(f"[CommunityDB] card_library.json not found at {json_path}")
+        return {}
+    try:
+        with open(json_path, "r", encoding="utf-8") as f:
+            raw = json.load(f)
+        db: dict[str, CommunityStats] = {}
+        for entry in raw:
+            cid = entry.get("id", "").lower()
+            if not cid:
+                continue
+            wr_str = entry.get("win_rate")
+            pr_str = entry.get("pick_rate")
+            if wr_str is None or pr_str is None:
+                continue
+            wr = float(str(wr_str).rstrip("%"))
+            pr = float(str(pr_str).rstrip("%"))
+            cs = community_score_from_raw(wr, pr)
+            db[cid] = CommunityStats(cid, wr, pr, cs)
+        print(f"[CommunityDB] Loaded {len(db)} community records from card_library.json")
+        return db
+    except Exception as e:
+        print(f"[CommunityDB] Error loading community db: {e}")
+        return {}
+
+
+COMMUNITY_DB: "dict[str, CommunityStats]" = _load_community_db()
+
+
 # ---------------------------------------------------------------------------
 # 请求 / 响应模型
 # ---------------------------------------------------------------------------
@@ -260,12 +321,13 @@ class ConnectionManager:
         self._loop = asyncio.get_event_loop()
         print(f"[WebSocket] 客户端已连接 (总共: {len(self.active_connections)})")
 
-        # 启动游戏监视（如果还没启动）
+        # 启动游戏监视（在 executor 中执行，避免阻塞 asyncio 握手）
         if not self.is_watching:
+            loop = asyncio.get_event_loop()
             if GAME_WATCHER_AVAILABLE:
-                self.start_game_watcher()
+                await loop.run_in_executor(None, self.start_game_watcher)
             if VISION_BRIDGE_AVAILABLE:
-                self.start_vision_bridge()
+                await loop.run_in_executor(None, self.start_vision_bridge)
 
         # 连接后立即推送当前游戏状态（不等日志更新）
         if self.game_watcher:
@@ -410,7 +472,9 @@ async def evaluate_cards(request: EvaluateRequest):
     if not run_state.card_choices:
         raise HTTPException(status_code=400, detail="card_choices 不能为空")
 
-    evaluator = CardEvaluator(CARD_DB, archetype_library, raw_card_db=RAW_CARD_DB)
+    evaluator = CardEvaluator(CARD_DB, archetype_library,
+                              raw_card_db=RAW_CARD_DB,
+                              community_db=COMMUNITY_DB)
 
     try:
         detected = evaluator.detect_archetypes(run_state)

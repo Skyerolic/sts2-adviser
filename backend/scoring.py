@@ -1,6 +1,6 @@
 """
 backend/scoring.py
-评分引擎 v2
+评分引擎 v2 + 社区数据交叉验证层 (v0.7)
 
 评分逻辑：
   以 60 分为 "无害中性" 基线，向上向下浮动。
@@ -22,10 +22,19 @@ backend/scoring.py
   惩罚（直接从 raw score 减分）：
     pollution_penalty: 污染牌 -30~-50 分
     deck_bloat_penalty: deck 过厚时对低价值牌额外惩罚
+
+  社区交叉验证（post-processing）：
+    combine_scores() 输出 algo_score，再经 cross_validate() 与社区数据混合。
+    同趋势时放大置信度，冲突时折中，无数据时直接使用 algo_score。
 """
 
 from __future__ import annotations
+
 import logging
+import math
+from dataclasses import dataclass
+from enum import Enum
+from typing import Optional
 
 from .models import (
     Card, Rarity, GamePhase, RunState,
@@ -33,6 +42,138 @@ from .models import (
 )
 
 log = logging.getLogger(__name__)
+
+# ---------------------------------------------------------------------------
+# 社区交叉验证：可调常数
+# ---------------------------------------------------------------------------
+
+_COMMUNITY_WEIGHT: float      = 0.25   # 社区数据最大影响权重
+_DAMPENING: float             = 0.85   # 补丁滞后折扣（永久降低社区权重 15%）
+_AGREEMENT_THRESHOLD: float   = 0.15   # delta ≤ 此值 → AGREEMENT
+_CONFLICT_THRESHOLD: float    = 0.30   # delta > 此值 → CONFLICT
+
+
+# ---------------------------------------------------------------------------
+# 社区交叉验证：数据结构
+# ---------------------------------------------------------------------------
+
+class Alignment(str, Enum):
+    AGREEMENT     = "agreement"       # |delta| ≤ 0.15
+    SOFT_CONFLICT = "soft_conflict"   # 0.15 < |delta| ≤ 0.30
+    CONFLICT      = "conflict"        # |delta| > 0.30
+
+
+@dataclass
+class CrossValidationResult:
+    blended_norm:        float      # 最终归一化分数 0-1
+    community_score:     float      # 社区归一化分数（无数据时 = algo_norm）
+    confidence:          float      # 0.0(无数据) / 0.50 / 0.75 / 1.0
+    delta:               float      # |algo_norm - community_norm|
+    alignment:           Alignment
+    has_community_data:  bool
+
+
+# ---------------------------------------------------------------------------
+# 社区评分转换工具
+# ---------------------------------------------------------------------------
+
+def _sigmoid(x: float, center: float, steepness: float) -> float:
+    """Logistic sigmoid，避免极值压缩中间段。"""
+    return 1.0 / (1.0 + math.exp(-steepness * (x - center)))
+
+
+def community_score_from_raw(win_rate_pct: float, pick_rate_pct: float) -> float:
+    """
+    将社区统计（百分比）转换为归一化评分 0~1。
+
+    win_rate_pct : 胜率百分比，e.g. 61.4
+    pick_rate_pct: 选取率百分比，e.g. 34.1
+
+    sigmoid 中心：
+      win_rate  → 50%（中性基线）
+      pick_rate → 18%（经验均值）
+    权重：win_rate 65%，pick_rate 35%
+    """
+    norm_win  = _sigmoid(win_rate_pct,  center=50.0, steepness=0.12)
+    norm_pick = _sigmoid(pick_rate_pct, center=18.0, steepness=0.08)
+    return round(0.65 * norm_win + 0.35 * norm_pick, 4)
+
+
+# ---------------------------------------------------------------------------
+# 社区交叉验证：核心函数
+# ---------------------------------------------------------------------------
+
+def cross_validate(
+    algo_norm: float,
+    community_score: Optional[float],
+    community_weight: float = _COMMUNITY_WEIGHT,
+    dampening: float = _DAMPENING,
+) -> CrossValidationResult:
+    """
+    将算法归一化分数（0-1）与社区归一化分数（0-1 或 None）交叉验证。
+
+    规则：
+      - 无社区数据：直接返回 algo_norm，confidence=0.0
+      - AGREEMENT (delta ≤ 0.15)：双强/双弱时放大，confidence=1.0
+      - SOFT_CONFLICT (0.15 < delta ≤ 0.30)：社区权重打 75%，confidence=0.75
+      - CONFLICT (delta > 0.30)：社区权重打 50%，confidence=0.50
+
+    最终混合：
+      effective_cw = community_weight * confidence * dampening
+      blended = (1 - effective_cw) * algo_norm + effective_cw * adjusted_community
+    """
+    if community_score is None:
+        return CrossValidationResult(
+            blended_norm=algo_norm,
+            community_score=algo_norm,
+            confidence=0.0,
+            delta=0.0,
+            alignment=Alignment.AGREEMENT,
+            has_community_data=False,
+        )
+
+    delta = abs(algo_norm - community_score)
+
+    if delta <= _AGREEMENT_THRESHOLD:
+        # 同趋势放大
+        amp = 0.05 * (1.0 - delta / _AGREEMENT_THRESHOLD)
+        if algo_norm > 0.5 and community_score > 0.5:
+            adjusted = min(1.0, community_score + amp)
+        elif algo_norm < 0.5 and community_score < 0.5:
+            adjusted = max(0.0, community_score - amp)
+        else:
+            adjusted = community_score  # 混合方向，不放大
+        confidence = 1.0
+        alignment  = Alignment.AGREEMENT
+
+    elif delta <= _CONFLICT_THRESHOLD:
+        adjusted   = community_score
+        confidence = 0.75
+        alignment  = Alignment.SOFT_CONFLICT
+
+    else:
+        adjusted   = community_score
+        confidence = 0.50
+        alignment  = Alignment.CONFLICT
+
+    effective_cw = community_weight * confidence * dampening
+    blended = (1.0 - effective_cw) * algo_norm + effective_cw * adjusted
+    blended = max(0.0, min(1.0, blended))
+
+    log.debug(
+        f"cross_validate: algo={algo_norm:.3f} community={community_score:.3f}"
+        f" delta={delta:.3f} align={alignment.value} conf={confidence:.2f}"
+        f" ecw={effective_cw:.3f} blended={blended:.3f}"
+    )
+
+    return CrossValidationResult(
+        blended_norm=blended,
+        community_score=community_score,
+        confidence=confidence,
+        delta=delta,
+        alignment=alignment,
+        has_community_data=True,
+    )
 
 # ---------------------------------------------------------------------------
 # 权重配置
@@ -217,25 +358,26 @@ def deck_bloat_penalty(
 # 合并：加权求和 → 0~100 分
 # ---------------------------------------------------------------------------
 
-def combine_scores(breakdown: "ScoreBreakdown") -> float:
+def combine_scores(breakdown: "ScoreBreakdown", bloat_penalty: float = 0.0) -> float:
     """
-    将 ScoreBreakdown 各维度加权合并，返回 0~100 的最终分。
+    将 ScoreBreakdown 各维度加权合并，返回 0~100 的算法分（algo_score）。
 
     合并逻辑：
       raw = Σ(维度得分 × 权重) - 惩罚
       raw 映射到 [0, 1]，×100 取整到 0.1 精度。
 
-    注意：breakdown 中 base_score 字段被复用为 value_score，
-    rarity_score 字段被复用为 deck_bloat_penalty（节省模型改动）。
+    v0.7 变更：
+      - bloat_penalty 改为显式参数（不再从 breakdown.rarity_score 读取）
+      - breakdown.rarity_score 现存储 community_score（由 evaluator 写入）
     """
     raw = (
-        breakdown.archetype_score  * WEIGHTS["archetype"]
-        + breakdown.base_score     * WEIGHTS["value"]        # base_score 存 value_score
-        + breakdown.phase_score    * WEIGHTS["phase"]
+        breakdown.archetype_score    * WEIGHTS["archetype"]
+        + breakdown.base_score       * WEIGHTS["value"]
+        + breakdown.phase_score      * WEIGHTS["phase"]
         + breakdown.completion_score * WEIGHTS["completion"]
-        + breakdown.synergy_bonus  * WEIGHTS["synergy"]
-        - breakdown.pollution_penalty                        # 污染惩罚
-        - breakdown.rarity_score                             # rarity_score 存 bloat_penalty
+        + breakdown.synergy_bonus    * WEIGHTS["synergy"]
+        - breakdown.pollution_penalty
+        - bloat_penalty
     )
     total = round(max(0.0, min(1.0, raw)) * 100, 1)
     log.debug(
@@ -245,7 +387,7 @@ def combine_scores(breakdown: "ScoreBreakdown") -> float:
         f" completion={breakdown.completion_score:.2f}×{WEIGHTS['completion']}"
         f" synergy={breakdown.synergy_bonus:.2f}×{WEIGHTS['synergy']}"
         f" poll_pen={breakdown.pollution_penalty:.2f}"
-        f" bloat_pen={breakdown.rarity_score:.2f}"
+        f" bloat_pen={bloat_penalty:.2f}"
         f" → raw={raw:.3f} total={total}"
     )
     return total

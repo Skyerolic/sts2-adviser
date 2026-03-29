@@ -30,7 +30,7 @@ log = logging.getLogger(__name__)
 from .archetypes import ArchetypeLibrary, archetype_library
 from .archetype_inference import infer_weight
 from .models import (
-    Card, Archetype, CardRole, GamePhase,
+    Card, Archetype, CardRole, GamePhase, Rarity,
     RunState, EvaluationResult, ScoreBreakdown,
 )
 from .scoring import (
@@ -43,6 +43,9 @@ from .scoring import (
     pollution_penalty,
     deck_bloat_penalty,
     combine_scores,
+    cross_validate,
+    Alignment,
+    CrossValidationResult,
 )
 
 
@@ -60,16 +63,18 @@ class CardEvaluator:
         card_db: dict[str, Card],
         library: Optional[ArchetypeLibrary] = None,
         raw_card_db: Optional[dict[str, dict]] = None,
+        community_db: Optional[dict] = None,
     ) -> None:
         """
-        card_db:     card_id -> Card（全卡库）
-        library:     套路库（默认使用模块级单例）
-        raw_card_db: card_id -> 原始 JSON dict（含 powers_applied / keywords_key，
-                     用于推断层；可选，不传则推断层不生效）
+        card_db:      card_id -> Card（全卡库）
+        library:      套路库（默认使用模块级单例）
+        raw_card_db:  card_id -> 原始 JSON dict（含 powers_applied / keywords_key）
+        community_db: card_id -> CommunityStats（社区统计数据，可选）
         """
         self.card_db = card_db
         self.library = library or archetype_library
         self.raw_card_db: dict[str, dict] = raw_card_db or {}
+        self.community_db: dict = community_db or {}
 
     # ------------------------------------------------------------------
     # 公开接口
@@ -142,6 +147,7 @@ class CardEvaluator:
         archetype_weights: list[float] = []
         matched_archetype_ids: list[str] = []
         inferred_archetype_ids: list[str] = []   # 仅推断层命中（用于日志区分）
+        is_exact_match = False  # 是否有精确层命中
 
         raw = self.raw_card_db.get(card.id)      # 原始 JSON dict（可能为 None）
 
@@ -151,6 +157,7 @@ class CardEvaluator:
                 # 精确层命中
                 archetype_weights.append(weight_info.weight)
                 matched_archetype_ids.append(archetype.id)
+                is_exact_match = True
             elif raw is not None:
                 # 推断层兜底
                 inferred_w = infer_weight(raw, archetype.id)
@@ -163,7 +170,9 @@ class CardEvaluator:
                     )
 
         # 2. 确定卡牌角色
-        role = self._determine_role(card, detected_archetypes, archetype_weights)
+        # 推断层命中的卡最低为 FILLER，不判定为 POLLUTION（推断层设计上限 0.35 < 精确层最低 0.40）
+        role = self._determine_role(card, detected_archetypes, archetype_weights,
+                                    inferred_only=not is_exact_match and bool(inferred_archetype_ids))
 
         # 3. 计算套路完成度贡献
         comp_before = 0.0
@@ -175,10 +184,18 @@ class CardEvaluator:
             comp_after = self._calc_completion(primary, new_deck)
 
         # 4. 各维度评分
-        # 注意：base_score 字段复用为 value_score，rarity_score 复用为 bloat_penalty
+        # v0.7: bloat_penalty 显式计算；rarity_score 字段改存 community_score
+        bloat_pen = deck_bloat_penalty(card, len(run_state.deck), role)
+
+        # 查社区数据
+        community_stats = self.community_db.get(card.id)
+        community_norm: Optional[float] = (
+            community_stats.community_score if community_stats is not None else None
+        )
+
         breakdown = ScoreBreakdown(
-            base_score=score_base_dimension(card, run_state.phase),        # value_score
-            rarity_score=deck_bloat_penalty(card, len(run_state.deck), role),  # bloat_penalty
+            base_score=score_base_dimension(card, run_state.phase),
+            rarity_score=community_norm if community_norm is not None else 0.0,  # community_score
             archetype_score=score_archetype_dimension(card, archetype_weights),
             completion_score=score_completion_dimension(comp_before, comp_after),
             phase_score=score_phase_dimension(card, run_state.phase, role),
@@ -186,12 +203,21 @@ class CardEvaluator:
             pollution_penalty=pollution_penalty(card, len(run_state.deck), role),
         )
 
-        total = combine_scores(breakdown)
+        # algo_score（原有流程）
+        algo_score_100 = combine_scores(breakdown, bloat_penalty=bloat_pen)
+
+        # 社区交叉验证（post-processing）
+        algo_norm = algo_score_100 / 100.0
+        cv_result = cross_validate(algo_norm, community_norm)
+        total = round(cv_result.blended_norm * 100, 1)
 
         # 5. 生成解释
         reasons_for, reasons_against = self._build_reasons(
             card, role, breakdown, matched_archetype_ids, run_state,
             inferred_ids=inferred_archetype_ids,
+            community_stats=community_stats,
+            cv_result=cv_result,
+            algo_score=algo_score_100,
         )
 
         recommendation = self._make_recommendation(total, role)
@@ -199,7 +225,7 @@ class CardEvaluator:
         return EvaluationResult(
             card_id=card.id,
             card_name=card.name,
-            rarity=card.rarity.value,  # 添加稀有度
+            rarity=card.rarity.value,
             total_score=total,
             role=role,
             breakdown=breakdown,
@@ -246,19 +272,19 @@ class CardEvaluator:
         card: Card,
         detected_archetypes: list[Archetype],
         archetype_weights: list[float],
+        inferred_only: bool = False,
     ) -> CardRole:
         """
         根据套路匹配结果推断卡牌在当前 run 中的角色。
 
-        TODO（后续扩展）：
-          - 结合卡牌 tags 做更细粒度判断
-          - 污染卡检测（稀释 deck 的卡）
+        inferred_only: 若为 True，表示所有权重来自推断层（非手动定义），
+                       最低角色保底为 FILLER，不判定为 POLLUTION。
         """
         if not detected_archetypes or not archetype_weights:
             # 未匹配任何套路 → 按稀有度做保守判断
             from .models import Rarity
             if card.rarity in (Rarity.RARE, Rarity.ANCIENT):
-                return CardRole.FILLER   # 稀有牌通用价值，不算污染
+                return CardRole.FILLER
             elif card.rarity in (Rarity.UNCOMMON, Rarity.COMMON):
                 return CardRole.FILLER
             else:
@@ -274,6 +300,10 @@ class CardEvaluator:
         elif max_weight >= 0.30:
             return CardRole.FILLER
         else:
+            # 精确层明确标注 pollution（如 weight=0.15）→ 保留判断
+            # 推断层低权重（如 attack 类型命中 LOW 规则 0.10）→ 保底 FILLER
+            if inferred_only:
+                return CardRole.FILLER
             return CardRole.POLLUTION
 
     def _build_reasons(
@@ -284,11 +314,13 @@ class CardEvaluator:
         matched_archetypes: list[str],
         run_state: RunState,
         inferred_ids: Optional[list[str]] = None,
+        community_stats=None,
+        cv_result: Optional[CrossValidationResult] = None,
+        algo_score: float = 0.0,
     ) -> tuple[list[str], list[str]]:
         """
         生成中文可解释理由。
         返回 (reasons_for, reasons_against)。
-        inferred_ids: 仅由推断层命中的套路 id（非精确层），用于区分置信度
         """
         inferred_ids = inferred_ids or []
         reasons_for: list[str] = []
@@ -311,8 +343,8 @@ class CardEvaluator:
             ]
             reasons_for.append(f"推断与套路相关（关键词匹配）：{', '.join(inferred_names)}")
 
-        # 稀有度
-        if breakdown.rarity_score >= 0.7:
+        # 稀有度（直接读 card.rarity，不依赖 breakdown.rarity_score）
+        if card.rarity in (Rarity.RARE, Rarity.ANCIENT):
             reasons_for.append(f"高稀有度（{card.rarity.value}），基础价值较高")
 
         # 套路完成度贡献
@@ -339,6 +371,38 @@ class CardEvaluator:
         # 无任何匹配
         if not matched_archetypes:
             reasons_against.append("未匹配任何已检测套路，当前 run 中价值不明")
+
+        # 社区数据理由
+        if cv_result is not None:
+            if cv_result.has_community_data and community_stats is not None:
+                wr = f"{community_stats.win_rate_pct:.1f}%"
+                pr = f"{community_stats.pick_rate_pct:.1f}%"
+                cs = cv_result.community_score
+
+                if cv_result.alignment == Alignment.AGREEMENT:
+                    if cs >= 0.70:
+                        reasons_for.append(
+                            f"社区数据支持：胜率 {wr}，选取率 {pr}，与算法评估一致"
+                        )
+                    elif cs <= 0.35:
+                        reasons_against.append(
+                            f"社区数据警示：胜率 {wr}，选取率 {pr}，玩家普遍跳过此卡"
+                        )
+                elif cv_result.alignment == Alignment.SOFT_CONFLICT:
+                    reasons_against.append(
+                        f"社区数据与算法存在分歧（差值 {cv_result.delta:.0%}），评分已折中处理"
+                    )
+                elif cv_result.alignment == Alignment.CONFLICT:
+                    if algo_score / 100.0 > cv_result.community_score:
+                        reasons_against.append(
+                            f"社区数据与算法显著分歧：算法评分偏高，但社区胜率 {wr} 较低，建议参考套路情况"
+                        )
+                    else:
+                        reasons_for.append(
+                            f"社区数据提示潜力被低估：胜率 {wr} 较高，算法评分偏低"
+                        )
+            elif not cv_result.has_community_data and 40 <= algo_score <= 65:
+                reasons_against.append("缺少社区统计数据，评分仅基于算法判断")
 
         return reasons_for, reasons_against
 
@@ -401,7 +465,7 @@ class CardEvaluator:
                             "completion_score":   round(r.breakdown.completion_score, 4),
                             "synergy_bonus":      round(r.breakdown.synergy_bonus, 4),
                             "pollution_penalty":  round(r.breakdown.pollution_penalty, 4),
-                            "bloat_penalty":      round(r.breakdown.rarity_score, 4),
+                            "community_score":     round(r.breakdown.rarity_score, 4),
                         },
                         "reasons_for": r.reasons_for,
                         "reasons_against": r.reasons_against,
