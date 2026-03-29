@@ -14,14 +14,26 @@ websocket-client==1.6.4
 # Game monitoring
 psutil==5.9.6
 
-# OCR (optional, can be removed)
-# pyautogui
-# pillow
-# pytesseract
-# pygetwindow
+# Image processing (vision module)
+Pillow
+numpy
+
+# Screen capture (vision module)
+mss
 
 # Windows support
 pywin32
+
+# Windows OCR bindings (vision module)
+winrt-Windows.Media.Ocr
+winrt-Windows.Globalization
+winrt-Windows.Graphics.Imaging
+winrt-Windows.Storage.Streams
+winrt-Windows.Foundation
+winrt-Windows.Foundation.Collections
+
+# Fuzzy card name matching (vision module)
+rapidfuzz
 
 # Testing
 pytest==8.3.0

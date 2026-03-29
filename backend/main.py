@@ -47,6 +47,14 @@ except ImportError:
     def get_save_path(): return None
     def get_log_path(): return None
 
+# 导入视觉识别桥接器
+try:
+    from vision.vision_bridge import VisionBridge
+    VISION_BRIDGE_AVAILABLE = True
+except ImportError:
+    VISION_BRIDGE_AVAILABLE = False
+    logging.warning("VisionBridge not available (missing vision dependencies)")
+
 log = logging.getLogger(__name__)
 
 # ---------------------------------------------------------------------------
@@ -225,6 +233,7 @@ class ConnectionManager:
     def __init__(self):
         self.active_connections: Set[WebSocket] = set()
         self.game_watcher: Optional["STS2GameWatcher"] = None
+        self.vision_bridge: Optional["VisionBridge"] = None
         self.is_watching = False
         self._loop: Optional[asyncio.AbstractEventLoop] = None  # 保存事件循环引用
 
@@ -237,8 +246,11 @@ class ConnectionManager:
         print(f"[WebSocket] 客户端已连接 (总共: {len(self.active_connections)})")
 
         # 启动游戏监视（如果还没启动）
-        if not self.is_watching and GAME_WATCHER_AVAILABLE:
-            self.start_game_watcher()
+        if not self.is_watching:
+            if GAME_WATCHER_AVAILABLE:
+                self.start_game_watcher()
+            if VISION_BRIDGE_AVAILABLE:
+                self.start_vision_bridge()
 
         # 连接后立即推送当前游戏状态（不等日志更新）
         if self.game_watcher:
@@ -251,9 +263,12 @@ class ConnectionManager:
         self.active_connections.discard(websocket)
         print(f"[WebSocket] 客户端已断开 (剩余: {len(self.active_connections)})")
 
-        # 如果没有客户端，停止游戏监视
-        if not self.active_connections and self.game_watcher:
-            self.stop_game_watcher()
+        # 如果没有客户端，停止所有监视
+        if not self.active_connections:
+            if self.game_watcher:
+                self.stop_game_watcher()
+            if self.vision_bridge:
+                self.stop_vision_bridge()
 
     async def broadcast(self, message: dict):
         """广播消息到所有已连接的客户端"""
@@ -269,50 +284,43 @@ class ConnectionManager:
         for connection in disconnected:
             self.active_connections.discard(connection)
 
+    def _make_broadcast_callback(self, source_label: str, msg_type: str):
+        """创建一个从后台线程安全广播的回调函数"""
+        def callback(data: dict):
+            loop = self._loop
+            if loop and loop.is_running():
+                asyncio.run_coroutine_threadsafe(
+                    self.broadcast({"type": msg_type, "data": data}),
+                    loop=loop,
+                )
+            else:
+                print(f"[{source_label}] 无法广播: 事件循环未运行")
+        return callback
+
     def start_game_watcher(self):
-        """启动游戏状态监视"""
-        if self.is_watching:
+        """启动日志文件游戏状态监视"""
+        if self.is_watching and self.game_watcher:
             return
 
         try:
-            # 从配置文件读取自定义路径
             try:
                 from config_manager import get_save_path, get_log_path
                 custom_save_path = get_save_path()
                 custom_log_path = get_log_path()
-            except:
+            except Exception:
                 custom_save_path = None
                 custom_log_path = None
 
             self.game_watcher = STS2GameWatcher(
                 custom_save_path=custom_save_path,
-                custom_log_path=custom_log_path
+                custom_log_path=custom_log_path,
             )
-
-            def on_game_update(state: dict):
-                """游戏状态更新回调（从后台线程调用）"""
-                loop = self._loop
-                if loop and loop.is_running():
-                    asyncio.run_coroutine_threadsafe(
-                        self.broadcast({"type": "game_state", "data": state}),
-                        loop=loop
-                    )
-                else:
-                    print(f"[GameWatcher] 无法广播游戏状态: 事件循环未运行")
-
-            def on_log_status_update(status: dict):
-                """日志监视状态更新回调（从后台线程调用）"""
-                loop = self._loop
-                if loop and loop.is_running():
-                    asyncio.run_coroutine_threadsafe(
-                        self.broadcast({"type": "log_status", "data": status}),
-                        loop=loop
-                    )
-                else:
-                    print(f"[GameWatcher] 无法广播日志状态: 事件循环未运行")
-
-            self.game_watcher.on_state_change(on_game_update)
-            self.game_watcher.on_log_status_change(on_log_status_update)
+            self.game_watcher.on_state_change(
+                self._make_broadcast_callback("GameWatcher", "game_state")
+            )
+            self.game_watcher.on_log_status_change(
+                self._make_broadcast_callback("GameWatcher", "log_status")
+            )
             self.game_watcher.start()
             self.is_watching = True
             print("[GameWatcher] ✓ 游戏监视已启动")
@@ -320,11 +328,35 @@ class ConnectionManager:
             print(f"[GameWatcher] ✗ 启动失败: {e}")
 
     def stop_game_watcher(self):
-        """停止游戏状态监视"""
+        """停止日志文件监视"""
         if self.game_watcher:
             self.game_watcher.stop()
             self.is_watching = False
             print("[GameWatcher] ✓ 游戏监视已停止")
+
+    def start_vision_bridge(self):
+        """启动视觉识别桥接器"""
+        if self.vision_bridge:
+            return
+        try:
+            self.vision_bridge = VisionBridge()
+            self.vision_bridge.on_state_change(
+                self._make_broadcast_callback("VisionBridge", "vision_state")
+            )
+            self.vision_bridge.on_log_status_change(
+                self._make_broadcast_callback("VisionBridge", "vision_status")
+            )
+            self.vision_bridge.start()
+            print("[VisionBridge] ✓ 视觉识别已启动")
+        except Exception as e:
+            print(f"[VisionBridge] ✗ 启动失败: {e}")
+
+    def stop_vision_bridge(self):
+        """停止视觉识别桥接器"""
+        if self.vision_bridge:
+            self.vision_bridge.stop()
+            self.vision_bridge = None
+            print("[VisionBridge] ✓ 视觉识别已停止")
 
 
 manager = ConnectionManager()
@@ -444,7 +476,8 @@ async def update_config(request: ConfigRequest):
 
         # 等待一下再重启
         await asyncio.sleep(0.5)
-        manager.start_game_watcher()
+        if GAME_WATCHER_AVAILABLE:
+            manager.start_game_watcher()
 
         return {"status": "success", "message": "配置已更新，GameWatcher 已重启"}
     except Exception as e:

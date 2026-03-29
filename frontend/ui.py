@@ -83,6 +83,100 @@ class EvaluateWorker(QThread):
             self.error_occurred.emit(str(exc))
 
 
+class _OcrSnapshotWorker(QThread):
+    """
+    手动触发一次 OCR 截图识别。
+    直接在前端进程调用 vision 模块（不走后端 HTTP），
+    结果通过 result_ready 信号返回。
+    """
+    result_ready = pyqtSignal(dict)
+
+    def __init__(self, backend_url: str) -> None:
+        super().__init__()
+        self._backend_url = backend_url
+
+    def run(self) -> None:
+        try:
+            from vision.window_capture import WindowCapture
+            from vision.screen_detector import ScreenDetector, ScreenType
+            from vision.card_extractor import CardExtractor
+            from vision.ocr_engine import get_ocr_engine
+            from vision.card_normalizer import get_card_normalizer
+            import datetime
+
+            capture = WindowCapture()
+            if capture.find_window() is None:
+                self.result_ready.emit({
+                    "screen_type": "unknown",
+                    "error": "未找到 STS2 窗口",
+                })
+                return
+
+            screenshot = capture.capture()
+            if screenshot is None:
+                self.result_ready.emit({
+                    "screen_type": "unknown",
+                    "error": "截图失败",
+                })
+                return
+
+            # 界面检测（单帧，不投票）
+            detector = ScreenDetector(vote_frames=1)
+            det = detector.detect(screenshot)
+
+            if det.screen_type == ScreenType.CARD_REWARD:
+                # 提取卡名区域并 OCR
+                extractor = CardExtractor()
+                ocr = get_ocr_engine()
+                normalizer = get_card_normalizer()
+
+                regions = extractor.extract(screenshot)
+                ocr_texts = []
+                for region in regions:
+                    if region.image.size == 0:
+                        ocr_texts.append("")
+                        continue
+                    result = ocr.recognize(region.image)
+                    first_line = result.lines[0].text if result.lines else result.full_text
+                    ocr_texts.append(first_line.strip())
+
+                norm = normalizer.normalize(ocr_texts)
+                card_ids = [m.card_id if m else None for m in norm.cards]
+                card_names = [m.matched_name if m else "" for m in norm.cards]
+                confidences = [m.confidence if m else 0.0 for m in norm.cards]
+
+                self.result_ready.emit({
+                    "source": "vision_snapshot",
+                    "screen_type": "card_reward",
+                    "card_choices": [c for c in card_ids if c],
+                    "card_names": card_names,
+                    "confidences": confidences,
+                    "ocr_texts": ocr_texts,
+                    "all_reliable": norm.all_reliable,
+                    "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
+                })
+
+            elif det.screen_type == ScreenType.SHOP:
+                self.result_ready.emit({
+                    "source": "vision_snapshot",
+                    "screen_type": "shop",
+                    "matched_keywords": det.matched_keywords,
+                })
+            else:
+                self.result_ready.emit({
+                    "source": "vision_snapshot",
+                    "screen_type": det.screen_type.value,
+                    "ocr_text": det.ocr_text[:200] if det.ocr_text else "",
+                })
+
+        except Exception as e:
+            log.error(f"OCR 截图识别失败: {e}")
+            self.result_ready.emit({
+                "screen_type": "unknown",
+                "error": str(e),
+            })
+
+
 class CardsFetchWorker(QThread):
     """在独立线程中拉取指定角色的卡牌列表"""
     cards_ready = pyqtSignal(list)
@@ -334,6 +428,7 @@ class GameStateWatcher(QThread):
     game_state_updated = pyqtSignal(dict)
     connection_status = pyqtSignal(str, bool)  # (状态消息, 是否连接)
     log_status_updated = pyqtSignal(dict)  # 日志状态
+    vision_state_updated = pyqtSignal(dict)  # OCR 识别状态
 
     def __init__(self, backend_url: str) -> None:
         super().__init__()
@@ -390,9 +485,12 @@ class GameStateWatcher(QThread):
             elif data.get("type") == "log_status":
                 log_status = data.get("data", {})
                 log.debug(f"日志状态更新: {log_status}")
-
-                # 发出信号更新UI
                 self.log_status_updated.emit(log_status)
+
+            elif data.get("type") == "vision_state":
+                vision_data = data.get("data", {})
+                log.debug(f"OCR 识别结果: {vision_data}")
+                self.vision_state_updated.emit(vision_data)
 
         except json.JSONDecodeError as e:
             log.warning(f"无效的 WebSocket 消息: {e}")
@@ -888,6 +986,10 @@ class CardAdviserWindow(QWidget):
         sep.setObjectName("Separator")
         main_layout.addWidget(sep)
 
+        # ---- OCR 视觉识别预览面板 ----
+        self._ocr_preview_panel = self._build_ocr_preview_panel()
+        main_layout.addWidget(self._ocr_preview_panel)
+
         # ---- 卡牌选择器 ----
         card_section = self._build_card_picker_section()
         main_layout.addWidget(card_section)
@@ -976,6 +1078,13 @@ class CardAdviserWindow(QWidget):
         refresh_detect_btn.clicked.connect(self._on_refresh_detect)
         btn_layout.addWidget(refresh_detect_btn)
 
+        # 手动截图识别按钮（单次触发，与后台自动轮询独立）
+        self._ocr_btn = QPushButton("📷 截图识别")
+        self._ocr_btn.setObjectName("OcrButton")
+        self._ocr_btn.setToolTip("手动截一次图做OCR识别（后台也在自动轮询，此按钮用于即时触发）")
+        self._ocr_btn.clicked.connect(self._on_ocr_snapshot)
+        btn_layout.addWidget(self._ocr_btn)
+
         # 设置按钮
         settings_btn = QPushButton("⚙ 设置")
         settings_btn.setObjectName("SettingsButton")
@@ -1030,8 +1139,35 @@ class CardAdviserWindow(QWidget):
         log_box.addWidget(self._log_indicator)
         indicators_layout.addLayout(log_box)
 
+        # 视觉自动轮询指示器（后台 VisionBridge 状态）
+        ocr_box = QHBoxLayout()
+        ocr_box.setSpacing(4)
+        self._ocr_indicator = QLabel("● 视觉")
+        self._ocr_indicator.setObjectName("OcrIndicator")
+        self._ocr_indicator.setStyleSheet("color: #aaa; font-weight: bold;")
+        self._ocr_indicator.setToolTip("后台自动视觉识别状态（每秒轮询截图）")
+        ocr_box.addWidget(self._ocr_indicator)
+        # 轮询状态小字（监视中 / 识别中 / 已锁定）
+        self._ocr_state_badge = QLabel("监视中")
+        self._ocr_state_badge.setObjectName("OcrStateBadge")
+        self._ocr_state_badge.setStyleSheet(
+            "color: #555; font-size: 10px; "
+            "border: 1px solid #333; border-radius: 3px; padding: 0px 4px;"
+        )
+        ocr_box.addWidget(self._ocr_state_badge)
+        indicators_layout.addLayout(ocr_box)
+
         indicators_layout.addStretch()
         main_layout.addLayout(indicators_layout)
+
+        # ===== 第四行：OCR 界面识别提示 =====
+        self._ocr_screen_label = QLabel("")
+        self._ocr_screen_label.setObjectName("OcrScreenLabel")
+        self._ocr_screen_label.setStyleSheet(
+            "color: #888; font-size: 11pt; padding: 2px 0px;"
+        )
+        self._ocr_screen_label.setVisible(False)
+        main_layout.addWidget(self._ocr_screen_label)
 
         return toolbar
 
@@ -1043,6 +1179,53 @@ class CardAdviserWindow(QWidget):
         log_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
         subprocess.Popen(f'explorer "{log_dir}"')
         log.info("打开日志目录窗口。")
+
+    def _build_ocr_preview_panel(self) -> QWidget:
+        """
+        OCR 视觉识别预览面板。
+        默认隐藏，检测到选卡界面时显示候选卡名称和识别置信度。
+        """
+        panel = QWidget()
+        panel.setObjectName("OcrPreviewPanel")
+        panel.setVisible(False)
+
+        layout = QVBoxLayout(panel)
+        layout.setContentsMargins(8, 4, 8, 4)
+        layout.setSpacing(3)
+
+        # 标题行
+        title_row = QHBoxLayout()
+        lbl_title = QLabel("📷 视觉识别")
+        lbl_title.setStyleSheet("color: #64B5F6; font-size: 11px; font-weight: bold;")
+        title_row.addWidget(lbl_title)
+        title_row.addStretch()
+
+        self._ocr_preview_status = QLabel("识别中...")
+        self._ocr_preview_status.setStyleSheet("color: #888; font-size: 10px;")
+        title_row.addWidget(self._ocr_preview_status)
+        layout.addLayout(title_row)
+
+        # 三张卡名行
+        cards_row = QHBoxLayout()
+        cards_row.setSpacing(6)
+        self._ocr_preview_cards: list[QLabel] = []
+        for i in range(3):
+            card_lbl = QLabel(f"卡 {i+1}")
+            card_lbl.setObjectName(f"OcrPreviewCard{i}")
+            card_lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            card_lbl.setStyleSheet(
+                "color: #888; font-size: 11px; "
+                "border: 1px solid #333; border-radius: 4px; "
+                "padding: 2px 6px; background: #1a1a1a;"
+            )
+            card_lbl.setSizePolicy(
+                QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred
+            )
+            self._ocr_preview_cards.append(card_lbl)
+            cards_row.addWidget(card_lbl)
+        layout.addLayout(cards_row)
+
+        return panel
 
     def _build_list_header(self) -> QWidget:
         header = QWidget()
@@ -1093,6 +1276,7 @@ class CardAdviserWindow(QWidget):
         self._game_watcher.game_state_updated.connect(self._on_game_state_update)
         self._game_watcher.connection_status.connect(self._on_connection_status)
         self._game_watcher.log_status_updated.connect(self._on_log_status_update)
+        self._game_watcher.vision_state_updated.connect(self._on_vision_state_update)
         self._game_watcher.start()
 
         log.info("✓ 游戏状态监视已启动")
@@ -1193,6 +1377,192 @@ class CardAdviserWindow(QWidget):
             self._log_indicator.setText("● 日志")
             self._log_indicator.setStyleSheet("color: #F44336;")
             log.warning("日志未被监视")
+
+    def _on_vision_state_update(self, data: dict) -> None:
+        """处理 OCR 视觉识别结果"""
+        screen_type = data.get("screen_type", "unknown")
+        all_reliable = data.get("all_reliable", False)
+        card_names = data.get("card_names", [])
+        card_choices = data.get("card_choices", [])
+        confidences = data.get("confidences", [])
+
+        # 更新视觉轮询指示灯 + badge
+        if screen_type == "card_reward":
+            if all_reliable:
+                self._ocr_indicator.setText("● 视觉")
+                self._ocr_indicator.setStyleSheet("color: #4CAF50; font-weight: bold;")
+                self._ocr_indicator.setToolTip("后台视觉识别：已锁定选卡界面（自动轮询）")
+                self._ocr_state_badge.setText("已锁定")
+                self._ocr_state_badge.setStyleSheet(
+                    "color: #4CAF50; font-size: 10px; "
+                    "border: 1px solid #2E7D32; border-radius: 3px; padding: 0px 4px;"
+                )
+            else:
+                self._ocr_indicator.setText("● 视觉")
+                self._ocr_indicator.setStyleSheet("color: #FF9800; font-weight: bold;")
+                self._ocr_indicator.setToolTip("后台视觉识别：识别中（等待多帧稳定）")
+                self._ocr_state_badge.setText("识别中")
+                self._ocr_state_badge.setStyleSheet(
+                    "color: #FF9800; font-size: 10px; "
+                    "border: 1px solid #E65100; border-radius: 3px; padding: 0px 4px;"
+                )
+        elif screen_type == "shop":
+            self._ocr_indicator.setText("● 视觉")
+            self._ocr_indicator.setStyleSheet("color: #64B5F6; font-weight: bold;")
+            self._ocr_indicator.setToolTip("后台视觉识别：检测到商店界面")
+            self._ocr_state_badge.setText("商店")
+            self._ocr_state_badge.setStyleSheet(
+                "color: #64B5F6; font-size: 10px; "
+                "border: 1px solid #1565C0; border-radius: 3px; padding: 0px 4px;"
+            )
+        else:
+            self._ocr_indicator.setText("● 视觉")
+            self._ocr_indicator.setStyleSheet("color: #aaa; font-weight: bold;")
+            self._ocr_indicator.setToolTip("后台视觉识别：监视中（每秒自动截图）")
+            self._ocr_state_badge.setText("监视中")
+            self._ocr_state_badge.setStyleSheet(
+                "color: #555; font-size: 10px; "
+                "border: 1px solid #333; border-radius: 3px; padding: 0px 4px;"
+            )
+
+        # 更新 OCR 界面提示文字
+        _SCREEN_ICONS = {
+            "card_reward": "🃏 选卡界面",
+            "shop":        "🛒 商店界面",
+            "other":       "🗺 其他界面",
+            "unknown":     "",
+        }
+        screen_label = _SCREEN_ICONS.get(screen_type, "")
+
+        if screen_type == "card_reward" and card_names:
+            # 显示识别到的卡名（置信度颜色区分）
+            parts = []
+            for name, conf in zip(card_names, confidences):
+                if not name:
+                    parts.append("<span style='color:#666'>?</span>")
+                elif conf >= 0.8:
+                    parts.append(f"<span style='color:#A8D870'>{name}</span>")
+                elif conf >= 0.55:
+                    parts.append(f"<span style='color:#FFD54F'>{name}</span>")
+                else:
+                    parts.append(f"<span style='color:#FF7043'>{name}?</span>")
+            cards_html = "  /  ".join(parts)
+            self._ocr_screen_label.setText(
+                f"<span style='color:#ccc'>{screen_label}</span>  {cards_html}"
+            )
+            self._ocr_screen_label.setTextFormat(Qt.TextFormat.RichText)
+            self._ocr_screen_label.setVisible(True)
+        elif screen_label:
+            self._ocr_screen_label.setText(
+                f"<span style='color:#888'>{screen_label}</span>"
+            )
+            self._ocr_screen_label.setTextFormat(Qt.TextFormat.RichText)
+            self._ocr_screen_label.setVisible(True)
+        else:
+            self._ocr_screen_label.setVisible(False)
+
+        # 更新 OCR 预览面板
+        self._update_ocr_preview_panel(screen_type, card_names, confidences, all_reliable)
+
+        # 选卡界面且识别稳定 → 自动填入候选卡并触发评估
+        if screen_type == "card_reward" and all_reliable and card_choices:
+            self._auto_fill_vision_cards(card_choices)
+
+    def _update_ocr_preview_panel(
+        self,
+        screen_type: str,
+        card_names: list,
+        confidences: list,
+        all_reliable: bool,
+    ) -> None:
+        """更新 OCR 预览面板的显示内容"""
+        if screen_type != "card_reward":
+            self._ocr_preview_panel.setVisible(False)
+            return
+
+        self._ocr_preview_panel.setVisible(True)
+
+        # 状态文字
+        if all_reliable:
+            self._ocr_preview_status.setText("已锁定 ✓")
+            self._ocr_preview_status.setStyleSheet("color: #4CAF50; font-size: 10px;")
+        else:
+            self._ocr_preview_status.setText("识别中...")
+            self._ocr_preview_status.setStyleSheet("color: #FF9800; font-size: 10px;")
+
+        # 三张卡名标签
+        for i, lbl in enumerate(self._ocr_preview_cards):
+            name = card_names[i] if i < len(card_names) else ""
+            conf = confidences[i] if i < len(confidences) else 0.0
+            if not name:
+                lbl.setText(f"卡 {i+1}")
+                lbl.setStyleSheet(
+                    "color: #555; font-size: 11px; "
+                    "border: 1px solid #333; border-radius: 4px; "
+                    "padding: 2px 6px; background: #1a1a1a;"
+                )
+            elif conf >= 0.8:
+                lbl.setText(name)
+                lbl.setStyleSheet(
+                    "color: #A8D870; font-size: 11px; font-weight: bold; "
+                    "border: 1px solid #4CAF50; border-radius: 4px; "
+                    "padding: 2px 6px; background: #0d1a0d;"
+                )
+            elif conf >= 0.55:
+                lbl.setText(name)
+                lbl.setStyleSheet(
+                    "color: #FFD54F; font-size: 11px; "
+                    "border: 1px solid #FF9800; border-radius: 4px; "
+                    "padding: 2px 6px; background: #1a1200;"
+                )
+            else:
+                lbl.setText(f"{name}?")
+                lbl.setStyleSheet(
+                    "color: #FF7043; font-size: 11px; "
+                    "border: 1px solid #BF360C; border-radius: 4px; "
+                    "padding: 2px 6px; background: #1a0800;"
+                )
+
+    def _on_ocr_snapshot(self) -> None:
+        """手动触发一次截图识别（独立于后台自动轮询）"""
+        self._ocr_btn.setEnabled(False)
+        self._ocr_btn.setText("📷 识别中...")
+        self._status_label.setText("手动截图识别中...")
+
+        # 在后台线程执行，避免冻结 UI
+        worker = _OcrSnapshotWorker(BACKEND_URL)
+        worker.result_ready.connect(self._on_ocr_snapshot_result)
+        def _restore_btn():
+            self._ocr_btn.setEnabled(True)
+            self._ocr_btn.setText("📷 截图识别")
+        worker.finished.connect(_restore_btn)
+        worker.start()
+        # 保持引用避免被 GC
+        self._ocr_snapshot_worker = worker
+
+    def _on_ocr_snapshot_result(self, data: dict) -> None:
+        """处理手动 OCR 截图的结果"""
+        self._on_vision_state_update(data)
+        screen_type = data.get("screen_type", "unknown")
+        if screen_type == "card_reward":
+            self._status_label.setText("OCR 识别完成：选卡界面")
+        elif screen_type == "shop":
+            self._status_label.setText("OCR 识别完成：商店界面")
+        elif screen_type == "other":
+            self._status_label.setText("OCR 识别完成：其他界面")
+        else:
+            self._status_label.setText("OCR 识别完成：未识别到特定界面")
+
+    def _auto_fill_vision_cards(self, card_ids: list) -> None:
+        """OCR 识别稳定后，自动填入候选卡到当前 run_state 并触发评估"""
+        if not card_ids:
+            return
+        normalized = [cid.lower() for cid in card_ids]
+        # 构造虚拟 card dict 列表（只需 id 字段供评估器使用）
+        fake_cards = [{"id": cid} for cid in normalized]
+        self._status_label.setText(f"OCR 自动识别到 {len(normalized)} 张候选卡，正在评估...")
+        log.info(f"OCR 自动填入候选卡: {normalized}")
+        self._on_evaluate_from_picker(fake_cards)
 
     def _on_refresh_detect(self) -> None:
         """刷新检测：重新初始化游戏和日志检测"""

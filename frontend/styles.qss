@@ -287,3 +287,32 @@
     width: 16px;
     height: 16px;
 }
+
+/* ── OCR 识别按钮 ── */
+#OcrButton {
+    background-color: #1A2A3A;
+    border: 1px solid #2A5A8A;
+    border-radius: 4px;
+    color: #64B5F6;
+    padding: 3px 10px;
+    font-weight: bold;
+}
+
+#OcrButton:hover {
+    background-color: #1E3A5A;
+    border-color: #4A8ABA;
+    color: #90CAF9;
+}
+
+#OcrButton:disabled {
+    background-color: #1A1A2A;
+    border-color: #2A2A3A;
+    color: #3A4A5A;
+}
+
+/* ── OCR 界面识别提示标签 ── */
+#OcrScreenLabel {
+    font-size: 11px;
+    padding: 2px 4px;
+    color: #888;
+}
