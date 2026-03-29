@@ -31,8 +31,11 @@ from PIL import Image
 
 log = logging.getLogger(__name__)
 
-# 优先尝试的语言标签顺序（中文优先，fallback 英文）
+# 优先尝试的语言标签顺序（中文优先，用于界面关键词检测）
 _PREFERRED_LANGS = ["zh-Hans-CN", "zh-CN", "zh-Hans", "zh", "en-US", "en"]
+
+# 英文专用语言标签顺序（用于卡名 OCR）
+_EN_PREFERRED_LANGS = ["en-US", "en-GB", "en"]
 
 
 @dataclass
@@ -383,12 +386,22 @@ class WindowsOcrEngine:
 
 # 模块级单例
 _ocr_engine: Optional[WindowsOcrEngine] = None
+_en_ocr_engine: Optional[WindowsOcrEngine] = None
 
 
 def get_ocr_engine() -> WindowsOcrEngine:
-    """获取全局 OCR 引擎单例"""
+    """获取全局 OCR 引擎单例（中文优先，用于界面关键词检测）"""
     global _ocr_engine
     if _ocr_engine is None:
         _ocr_engine = WindowsOcrEngine()
         _ocr_engine.initialize()
     return _ocr_engine
+
+
+def get_en_ocr_engine() -> WindowsOcrEngine:
+    """获取英文 OCR 引擎单例（专用于英文卡名识别）"""
+    global _en_ocr_engine
+    if _en_ocr_engine is None:
+        _en_ocr_engine = WindowsOcrEngine(preferred_langs=_EN_PREFERRED_LANGS)
+        _en_ocr_engine.initialize()
+    return _en_ocr_engine

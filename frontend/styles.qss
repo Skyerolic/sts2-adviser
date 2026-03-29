@@ -167,11 +167,19 @@
     font-weight: bold;
 }
 
+/* ── 套路提示标签 ── */
+#ArchetypeLabel {
+    font-size: 15px;
+    font-weight: bold;
+    color: #C8A96E;
+    padding: 2px 0px;
+}
+
 /* ── 状态栏 ── */
 #StatusBar {
-    font-size: 12px;
-    color: #6A5A46;
-    padding: 4px 8px;
+    font-size: 13px;
+    color: #7A6A50;
+    padding: 2px 8px;
 }
 
 /* ── 占位文本 ── */
@@ -315,4 +323,17 @@
     font-size: 11px;
     padding: 2px 4px;
     color: #888;
+}
+
+/* ── OCR 识别+评分合并面板 ── */
+#OcrPreviewPanel {
+    background-color: rgba(15, 22, 35, 0.85);
+    border-bottom: 1px solid #1E3A5A;
+}
+
+/* ── 卡牌解释文本 ── */
+#cardReason {
+    color: #6A7A60;
+    font-size: 11px;
+    padding-left: 4px;
 }

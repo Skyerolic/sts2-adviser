@@ -1,0 +1,77 @@
+{
+  "timestamp": "20260329_141346",
+  "character": "ironclad",
+  "phase": "early",
+  "deck_size": 15,
+  "relics": [
+    "burning_blood"
+  ],
+  "results": [
+    {
+      "card_id": "headbutt",
+      "card_name": "Headbutt",
+      "rarity": "common",
+      "total_score": 20.8,
+      "recommendation": "跳过",
+      "role": "filler",
+      "matched_archetypes": [],
+      "breakdown": {
+        "value_score": 0.5,
+        "archetype_score": 0.0,
+        "phase_score": 0.55,
+        "completion_score": 0.0,
+        "synergy_bonus": 0.0,
+        "pollution_penalty": 0.0,
+        "bloat_penalty": 0.0
+      },
+      "reasons_for": [],
+      "reasons_against": [
+        "未匹配任何已检测套路，当前 run 中价值不明"
+      ]
+    },
+    {
+      "card_id": "iron_wave",
+      "card_name": "Iron Wave",
+      "rarity": "common",
+      "total_score": 20.8,
+      "recommendation": "跳过",
+      "role": "filler",
+      "matched_archetypes": [],
+      "breakdown": {
+        "value_score": 0.5,
+        "archetype_score": 0.0,
+        "phase_score": 0.55,
+        "completion_score": 0.0,
+        "synergy_bonus": 0.0,
+        "pollution_penalty": 0.0,
+        "bloat_penalty": 0.0
+      },
+      "reasons_for": [],
+      "reasons_against": [
+        "未匹配任何已检测套路，当前 run 中价值不明"
+      ]
+    },
+    {
+      "card_id": "molten_fist",
+      "card_name": "Molten Fist",
+      "rarity": "common",
+      "total_score": 20.8,
+      "recommendation": "跳过",
+      "role": "filler",
+      "matched_archetypes": [],
+      "breakdown": {
+        "value_score": 0.5,
+        "archetype_score": 0.0,
+        "phase_score": 0.55,
+        "completion_score": 0.0,
+        "synergy_bonus": 0.0,
+        "pollution_penalty": 0.0,
+        "bloat_penalty": 0.0
+      },
+      "reasons_for": [],
+      "reasons_against": [
+        "未匹配任何已检测套路，当前 run 中价值不明"
+      ]
+    }
+  ]
+}

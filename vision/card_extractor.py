@@ -61,8 +61,8 @@ _CARD_NAME_Y_MAX_OFFSET = 0.60   # 不超过这么远
 # fallback 固定比例（当 OCR 无坐标时使用）
 _FALLBACK_CENTERS_X    = [0.22, 0.50, 0.78]
 _FALLBACK_TITLE_TOP    = 0.28
-_FALLBACK_TITLE_BOTTOM = 0.45
-_FALLBACK_HALF_W       = 0.10
+_FALLBACK_TITLE_BOTTOM = 0.38
+_FALLBACK_HALF_W       = 0.14  # 水平宽度略大，避免卡名截断
 
 
 @dataclass
@@ -244,10 +244,11 @@ class CardExtractor:
         """
         已知标题 Y，但 OCR 行无坐标或聚类失败。
         使用固定水平三等分 + 标题下方固定垂直偏移。
+        卡名通常紧接在标题下方约 3%~10% 处。
         """
         h, w = screenshot.shape[:2]
-        top    = title_y + 0.12
-        bottom = title_y + 0.30
+        top    = title_y + 0.05
+        bottom = title_y + 0.18
         regions = []
         for i, cx in enumerate(_FALLBACK_CENTERS_X):
             l_px = max(0, int((cx - _FALLBACK_HALF_W) * w))

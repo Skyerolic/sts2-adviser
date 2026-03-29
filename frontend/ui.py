@@ -99,8 +99,6 @@ class _OcrSnapshotWorker(QThread):
         try:
             from vision.window_capture import WindowCapture
             from vision.screen_detector import ScreenDetector, ScreenType
-            from vision.card_extractor import CardExtractor
-            from vision.ocr_engine import get_ocr_engine
             from vision.card_normalizer import get_card_normalizer
             import datetime
 
@@ -125,21 +123,16 @@ class _OcrSnapshotWorker(QThread):
             det = detector.detect(screenshot)
 
             if det.screen_type == ScreenType.CARD_REWARD:
-                # 提取卡名区域并 OCR
-                extractor = CardExtractor()
-                ocr = get_ocr_engine()
+                # 用比例坐标裁剪三个卡名区域分别 OCR
+                from vision.vision_bridge import VisionBridge
+                from vision.ocr_engine import get_ocr_engine
                 normalizer = get_card_normalizer()
 
-                regions = extractor.extract(screenshot)
-                ocr_texts = []
-                for region in regions:
-                    if region.image.size == 0:
-                        ocr_texts.append("")
-                        continue
-                    result = ocr.recognize(region.image)
-                    first_line = result.lines[0].text if result.lines else result.full_text
-                    ocr_texts.append(first_line.strip())
-
+                ocr_engine = get_ocr_engine()
+                title_y = VisionBridge._find_title_y(det.ocr_result)
+                ocr_texts = VisionBridge._extract_card_names_combined(
+                    screenshot, ocr_engine, det.ocr_result, title_y
+                )
                 norm = normalizer.normalize(ocr_texts)
                 card_ids = [m.card_id if m else None for m in norm.cards]
                 card_names = [m.matched_name if m else "" for m in norm.cards]
@@ -178,7 +171,7 @@ class _OcrSnapshotWorker(QThread):
 
 
 class CardsFetchWorker(QThread):
-    """在独立线程中拉取指定角色的卡牌列表"""
+    """在独立线程中拉取指定角色的卡牌列表（含无色卡）"""
     cards_ready = pyqtSignal(list)
     error_occurred = pyqtSignal(str)
 
@@ -188,13 +181,25 @@ class CardsFetchWorker(QThread):
 
     def run(self) -> None:
         try:
-            resp = requests.get(
+            char_resp = requests.get(
                 f"{BACKEND_URL}/api/cards",
                 params={"character": self.character},
                 timeout=5,
             )
-            resp.raise_for_status()
-            self.cards_ready.emit(resp.json().get("cards", []))
+            char_resp.raise_for_status()
+            char_cards = char_resp.json().get("cards", [])
+
+            # 同时拉取无色卡牌
+            colorless_resp = requests.get(
+                f"{BACKEND_URL}/api/cards",
+                params={"character": "colorless"},
+                timeout=5,
+            )
+            colorless_cards = []
+            if colorless_resp.status_code == 200:
+                colorless_cards = colorless_resp.json().get("cards", [])
+
+            self.cards_ready.emit(char_cards + colorless_cards)
         except requests.exceptions.ConnectionError:
             self.error_occurred.emit("无法连接后端")
         except Exception as exc:
@@ -205,8 +210,28 @@ class CardsFetchWorker(QThread):
 # 卡牌选择器组件
 # ---------------------------------------------------------------------------
 
+_RARITY_CHIP_STYLE = {
+    "common": {
+        "normal":   "background:rgba(35,28,18,0.8);border:1px solid #3A2E1E;border-radius:3px;color:#9A8A6A;font-size:13px;padding:3px 6px;text-align:left;",
+        "selected": "background:rgba(50,80,30,0.85);border:1px solid #5A8A2E;border-radius:3px;color:#A8D870;font-size:13px;padding:3px 6px;text-align:left;",
+    },
+    "uncommon": {
+        "normal":   "background:rgba(20,35,50,0.8);border:1px solid #2E5A8A;border-radius:3px;color:#64B5F6;font-size:13px;padding:3px 6px;text-align:left;",
+        "selected": "background:rgba(20,55,90,0.9);border:1px solid #4A8ABA;border-radius:3px;color:#90CAF9;font-size:13px;padding:3px 6px;text-align:left;",
+    },
+    "rare": {
+        "normal":   "background:rgba(50,30,10,0.8);border:1px solid #8A5A1E;border-radius:3px;color:#FFD54F;font-size:13px;padding:3px 6px;text-align:left;",
+        "selected": "background:rgba(80,50,10,0.9);border:1px solid #C8901E;border-radius:3px;color:#FFE082;font-size:13px;padding:3px 6px;text-align:left;",
+    },
+    "basic": {
+        "normal":   "background:rgba(30,30,30,0.8);border:1px solid #444;border-radius:3px;color:#888;font-size:13px;padding:3px 6px;text-align:left;",
+        "selected": "background:rgba(50,50,50,0.9);border:1px solid #666;border-radius:3px;color:#bbb;font-size:13px;padding:3px 6px;text-align:left;",
+    },
+}
+
+
 class CardChipButton(QPushButton):
-    """单张卡牌的可切换按钮"""
+    """单张卡牌的可切换按钮（颜色按稀有度区分）"""
     toggled_card = pyqtSignal(dict, bool)  # (card, is_selected)
 
     def __init__(self, card: dict, display_name: str | None = None, parent=None) -> None:
@@ -214,13 +239,20 @@ class CardChipButton(QPushButton):
         self._card = card
         self._selected = False
         self._display_name = display_name or card.get("name", "")
+        rarity_raw = card.get("rarity", "common").lower()
+        self._rarity = rarity_raw if rarity_raw in _RARITY_CHIP_STYLE else "common"
 
         cost = card.get("cost", 0)
         cost_str = "X" if cost == -1 else str(cost)
         self.setText(f"[{cost_str}] {self._display_name}")
         self.setObjectName("CardChip")
+        self._apply_style()
         self.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
         self.clicked.connect(self._on_click)
+
+    def _apply_style(self) -> None:
+        key = "selected" if self._selected else "normal"
+        self.setStyleSheet(_RARITY_CHIP_STYLE[self._rarity][key])
 
     @property
     def card(self) -> dict:
@@ -231,9 +263,7 @@ class CardChipButton(QPushButton):
 
     def set_selected(self, value: bool, emit: bool = True) -> None:
         self._selected = value
-        self.setObjectName("CardChipSelected" if value else "CardChip")
-        self.style().unpolish(self)
-        self.style().polish(self)
+        self._apply_style()
         if emit:
             self.toggled_card.emit(self._card, value)
 
@@ -246,8 +276,8 @@ class CardPickerPanel(QScrollArea):
     selection_changed = pyqtSignal(list, list)  # (已选卡列表, 显示名列表)
 
     _TYPE_ORDER = ["attack", "skill", "power"]
-    _TYPE_LABELS_ZH = {"attack": "攻击", "skill": "技能", "power": "能力"}
-    _TYPE_LABELS_EN = {"attack": "Attack", "skill": "Skill", "power": "Power"}
+    _TYPE_LABELS_ZH = {"attack": "攻击", "skill": "技能", "power": "能力", "colorless": "无色"}
+    _TYPE_LABELS_EN = {"attack": "Attack", "skill": "Skill", "power": "Power", "colorless": "Colorless"}
 
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
@@ -301,6 +331,12 @@ class CardPickerPanel(QScrollArea):
             cost = c.get("cost", 0)
             return 99 if cost == -1 else cost
 
+        # 无色卡牌单独一组（character == colorless，不按 type 拆分）
+        colorless_cards = sorted(
+            [c for c in cards if c.get("character", "").lower() == "colorless"],
+            key=cost_key
+        )
+
         cols = 4
         for type_key in self._TYPE_ORDER:
             group = sorted(groups[type_key], key=cost_key)
@@ -316,6 +352,26 @@ class CardPickerPanel(QScrollArea):
             grid = QGridLayout()
             grid.setSpacing(3)
             for i, card in enumerate(group):
+                card_id = card.get("id", "")
+                display = locale_map.get(card_id) or card.get("name", "") if self._language == "zh" else card.get("name", "")
+                chip = CardChipButton(card, display_name=display)
+                chip.toggled_card.connect(self._on_chip_toggled)
+                self._chips.append(chip)
+                grid.addWidget(chip, i // cols, i % cols)
+
+            grid_container = QWidget()
+            grid_container.setLayout(grid)
+            self._layout.insertWidget(self._layout.count() - 1, grid_container)
+
+        # 无色卡牌分组
+        if colorless_cards:
+            header = QLabel(type_labels.get("colorless", "Colorless"))
+            header.setObjectName("CardPickerSectionHeader")
+            self._layout.insertWidget(self._layout.count() - 1, header)
+
+            grid = QGridLayout()
+            grid.setSpacing(3)
+            for i, card in enumerate(colorless_cards):
                 card_id = card.get("id", "")
                 display = locale_map.get(card_id) or card.get("name", "") if self._language == "zh" else card.get("name", "")
                 chip = CardChipButton(card, display_name=display)
@@ -853,8 +909,13 @@ class CardResultWidget(QFrame):
         self._build_ui(result)
 
     def _build_ui(self, result: dict) -> None:
-        layout = QHBoxLayout(self)
-        layout.setContentsMargins(8, 4, 8, 4)
+        outer = QVBoxLayout(self)
+        outer.setContentsMargins(8, 4, 8, 4)
+        outer.setSpacing(2)
+
+        # --- 主行：卡名 / 角色 / 分数 / 推荐 ---
+        row = QHBoxLayout()
+        row.setSpacing(4)
 
         # 卡名（根据语言设置显示中文或英文）
         raw_name = result.get("card_name", "?")
@@ -873,14 +934,14 @@ class CardResultWidget(QFrame):
         name_label.setObjectName("cardName")
         name_label.setMinimumWidth(120)
         name_label.setStyleSheet("font-weight: bold;")
-        layout.addWidget(name_label)
+        row.addWidget(name_label)
 
         # 角色
         role_label = QLabel(result.get("role", ""))
         role_label.setObjectName("cardRole")
         role_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         role_label.setMinimumWidth(60)
-        layout.addWidget(role_label)
+        row.addWidget(role_label)
 
         # 分数
         score = result.get("total_score", 0)
@@ -888,16 +949,33 @@ class CardResultWidget(QFrame):
         score_label.setObjectName("cardScore")
         score_label.setAlignment(Qt.AlignmentFlag.AlignRight)
         score_label.setMinimumWidth(40)
-        layout.addWidget(score_label)
+        row.addWidget(score_label)
 
-        # 推荐标签
+        # 推荐标签（颜色区分）
         rec = result.get("recommendation", "")
         rec_label = QLabel(rec)
         rec_label.setObjectName("cardRecommendation")
         rec_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         rec_label.setMinimumWidth(70)
-        # 移除颜色设置，使用默认样式
-        layout.addWidget(rec_label)
+        _REC_COLORS = {
+            "强烈推荐": "#A8D870", "Highly Recommended": "#A8D870",
+            "推荐": "#64B5F6",     "Recommended": "#64B5F6",
+            "可选": "#FFD54F",     "Optional": "#FFD54F",
+            "不推荐": "#FF7043",   "Not Recommended": "#FF7043",
+        }
+        rec_color = _REC_COLORS.get(rec, "#9A8A6A")
+        rec_label.setStyleSheet(f"color:{rec_color};font-weight:bold;")
+        row.addWidget(rec_label)
+        outer.addLayout(row)
+
+        # --- 解释文本行 ---
+        reason = result.get("reason", "") or result.get("explanation", "")
+        if reason:
+            reason_label = QLabel(reason)
+            reason_label.setObjectName("cardReason")
+            reason_label.setWordWrap(True)
+            reason_label.setStyleSheet("color:#7A8A6A;font-size:11px;padding-left:4px;")
+            outer.addWidget(reason_label)
 
 
 # ---------------------------------------------------------------------------
@@ -986,19 +1064,26 @@ class CardAdviserWindow(QWidget):
         sep.setObjectName("Separator")
         main_layout.addWidget(sep)
 
-        # ---- OCR 视觉识别预览面板 ----
-        self._ocr_preview_panel = self._build_ocr_preview_panel()
-        main_layout.addWidget(self._ocr_preview_panel)
-
         # ---- 卡牌选择器 ----
         card_section = self._build_card_picker_section()
         main_layout.addWidget(card_section)
 
-        # ---- 列表头 ----
-        header = self._build_list_header()
-        main_layout.addWidget(header)
+        # ---- 评分区（含 OCR 识别预览 + 列表头 + 卡牌列表）----
+        score_section = QWidget()
+        score_section.setObjectName("ScoreSection")
+        score_layout = QVBoxLayout(score_section)
+        score_layout.setContentsMargins(0, 0, 0, 0)
+        score_layout.setSpacing(0)
 
-        # ---- 卡牌列表（滚动区域）----
+        # OCR 识别预览嵌入评分区顶部
+        self._ocr_preview_panel = self._build_ocr_preview_panel()
+        score_layout.addWidget(self._ocr_preview_panel)
+
+        # 列表头
+        header = self._build_list_header()
+        score_layout.addWidget(header)
+
+        # 卡牌列表（滚动区域）
         self._scroll_area = QScrollArea()
         self._scroll_area.setWidgetResizable(True)
         self._scroll_area.setHorizontalScrollBarPolicy(
@@ -1013,22 +1098,43 @@ class CardAdviserWindow(QWidget):
         self._list_layout.addStretch()
 
         self._scroll_area.setWidget(self._list_container)
-        main_layout.addWidget(self._scroll_area)
+        score_layout.addWidget(self._scroll_area)
 
-        # ---- 状态栏 + 缩放手柄 ----
+        main_layout.addWidget(score_section)
+
+        # ---- 套路提示 + 状态栏 + 缩放手柄 ----
         bottom_bar = QWidget()
-        bottom_layout = QHBoxLayout(bottom_bar)
-        bottom_layout.setContentsMargins(0, 0, 0, 0)
-        bottom_layout.setSpacing(0)
+        bottom_bar.setObjectName("BottomBar")
+        bottom_bar.setStyleSheet("background:rgba(22,18,14,0.85);border-top:1px solid #2E2416;")
+        bottom_layout = QVBoxLayout(bottom_bar)
+        bottom_layout.setContentsMargins(8, 4, 8, 2)
+        bottom_layout.setSpacing(2)
+
+        # 套路提示行（大字体）
+        self._archetype_label = QLabel("")
+        self._archetype_label.setObjectName("ArchetypeLabel")
+        self._archetype_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self._archetype_label.setWordWrap(True)
+        self._archetype_label.setStyleSheet(
+            "color:#C8A96E;font-size:15px;font-weight:bold;padding:2px 0px;"
+        )
+        self._archetype_label.setVisible(False)
+        bottom_layout.addWidget(self._archetype_label)
+
+        # 状态栏 + resize grip
+        status_row = QHBoxLayout()
+        status_row.setContentsMargins(0, 0, 0, 0)
+        status_row.setSpacing(0)
 
         self._status_label = QLabel("就绪 — 等待游戏数据")
         self._status_label.setObjectName("StatusBar")
         self._status_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        bottom_layout.addWidget(self._status_label, 1)
+        status_row.addWidget(self._status_label, 1)
 
         grip = QSizeGrip(self)
         grip.setObjectName("ResizeGrip")
-        bottom_layout.addWidget(grip, 0, Qt.AlignmentFlag.AlignBottom | Qt.AlignmentFlag.AlignRight)
+        status_row.addWidget(grip, 0, Qt.AlignmentFlag.AlignBottom | Qt.AlignmentFlag.AlignRight)
+        bottom_layout.addLayout(status_row)
 
         main_layout.addWidget(bottom_bar)
 
@@ -1182,48 +1288,55 @@ class CardAdviserWindow(QWidget):
 
     def _build_ocr_preview_panel(self) -> QWidget:
         """
-        OCR 视觉识别预览面板。
-        默认隐藏，检测到选卡界面时显示候选卡名称和识别置信度。
+        OCR 视觉识别 + 评分提示合并面板。
+        默认隐藏，检测到选卡界面时显示在评分列表上方。
         """
         panel = QWidget()
         panel.setObjectName("OcrPreviewPanel")
         panel.setVisible(False)
+        panel.setStyleSheet(
+            "background:rgba(15,22,35,0.85);border-bottom:1px solid #1E3A5A;"
+        )
 
         layout = QVBoxLayout(panel)
-        layout.setContentsMargins(8, 4, 8, 4)
-        layout.setSpacing(3)
+        layout.setContentsMargins(8, 6, 8, 6)
+        layout.setSpacing(4)
 
-        # 标题行
+        # 标题行：图标 + "视觉识别" + 状态
         title_row = QHBoxLayout()
         lbl_title = QLabel("📷 视觉识别")
-        lbl_title.setStyleSheet("color: #64B5F6; font-size: 11px; font-weight: bold;")
+        lbl_title.setStyleSheet("color:#64B5F6;font-size:12px;font-weight:bold;")
         title_row.addWidget(lbl_title)
         title_row.addStretch()
 
         self._ocr_preview_status = QLabel("识别中...")
-        self._ocr_preview_status.setStyleSheet("color: #888; font-size: 10px;")
+        self._ocr_preview_status.setStyleSheet("color:#888;font-size:11px;")
         title_row.addWidget(self._ocr_preview_status)
         layout.addLayout(title_row)
 
-        # 三张卡名行
+        # 三张候选卡名（大字，作为识别结果展示）
         cards_row = QHBoxLayout()
         cards_row.setSpacing(6)
         self._ocr_preview_cards: list[QLabel] = []
         for i in range(3):
-            card_lbl = QLabel(f"卡 {i+1}")
+            card_lbl = QLabel(f"— 卡 {i+1} —")
             card_lbl.setObjectName(f"OcrPreviewCard{i}")
             card_lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
             card_lbl.setStyleSheet(
-                "color: #888; font-size: 11px; "
-                "border: 1px solid #333; border-radius: 4px; "
-                "padding: 2px 6px; background: #1a1a1a;"
+                "color:#555;font-size:13px;"
+                "border:1px solid #1E3A5A;border-radius:4px;"
+                "padding:4px 6px;background:#0d1520;"
             )
-            card_lbl.setSizePolicy(
-                QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred
-            )
+            card_lbl.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
             self._ocr_preview_cards.append(card_lbl)
             cards_row.addWidget(card_lbl)
         layout.addLayout(cards_row)
+
+        # 提示文字（解释性）
+        self._ocr_hint_label = QLabel("识别到选卡界面，正在评估候选卡...")
+        self._ocr_hint_label.setStyleSheet("color:#556672;font-size:11px;padding-top:2px;")
+        self._ocr_hint_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        layout.addWidget(self._ocr_hint_label)
 
         return panel
 
@@ -1485,10 +1598,14 @@ class CardAdviserWindow(QWidget):
         # 状态文字
         if all_reliable:
             self._ocr_preview_status.setText("已锁定 ✓")
-            self._ocr_preview_status.setStyleSheet("color: #4CAF50; font-size: 10px;")
+            self._ocr_preview_status.setStyleSheet("color:#4CAF50;font-size:11px;")
+            self._ocr_hint_label.setText("识别稳定，已自动填入候选卡并触发评估")
+            self._ocr_hint_label.setStyleSheet("color:#4A7A40;font-size:11px;padding-top:2px;")
         else:
             self._ocr_preview_status.setText("识别中...")
-            self._ocr_preview_status.setStyleSheet("color: #FF9800; font-size: 10px;")
+            self._ocr_preview_status.setStyleSheet("color:#FF9800;font-size:11px;")
+            self._ocr_hint_label.setText("正在等待多帧稳定以确认卡名...")
+            self._ocr_hint_label.setStyleSheet("color:#7A6030;font-size:11px;padding-top:2px;")
 
         # 三张卡名标签
         for i, lbl in enumerate(self._ocr_preview_cards):
@@ -1614,18 +1731,55 @@ class CardAdviserWindow(QWidget):
         container = QWidget()
         container.setObjectName("CardPickerSection")
         layout = QVBoxLayout(container)
-        layout.setContentsMargins(4, 4, 4, 4)
-        layout.setSpacing(4)
+        layout.setContentsMargins(4, 2, 4, 2)
+        layout.setSpacing(2)
+
+        # 折叠标题行
+        toggle_row = QWidget()
+        toggle_row.setObjectName("PickerToggleRow")
+        toggle_row.setStyleSheet(
+            "background:rgba(30,24,16,0.7);border:1px solid #2E2416;border-radius:4px;"
+        )
+        toggle_row.setCursor(Qt.CursorShape.PointingHandCursor)
+        toggle_layout = QHBoxLayout(toggle_row)
+        toggle_layout.setContentsMargins(8, 4, 8, 4)
+        toggle_layout.setSpacing(4)
+
+        self._picker_toggle_arrow = QLabel("▼")
+        self._picker_toggle_arrow.setStyleSheet("color:#7A6A52;font-size:10px;")
+        toggle_layout.addWidget(self._picker_toggle_arrow)
+
+        toggle_label = QLabel("手动选牌")
+        toggle_label.setStyleSheet("color:#9A8A6A;font-size:13px;font-weight:bold;")
+        toggle_layout.addWidget(toggle_label)
+        toggle_layout.addStretch()
+
+        self._picker_collapsed = False
+        toggle_row.mousePressEvent = lambda e: self._toggle_card_picker()
+        layout.addWidget(toggle_row)
+
+        # 可折叠内容区
+        self._picker_body = QWidget()
+        picker_body_layout = QVBoxLayout(self._picker_body)
+        picker_body_layout.setContentsMargins(0, 2, 0, 0)
+        picker_body_layout.setSpacing(2)
 
         self._card_picker = CardPickerPanel()
         self._card_picker.selection_changed.connect(self._on_card_selection_changed)
-        layout.addWidget(self._card_picker)
+        picker_body_layout.addWidget(self._card_picker)
 
         self._selection_tray = SelectionTrayWidget()
         self._selection_tray.evaluate_requested.connect(self._on_evaluate_from_picker)
-        layout.addWidget(self._selection_tray)
+        picker_body_layout.addWidget(self._selection_tray)
+
+        layout.addWidget(self._picker_body)
 
         return container
+
+    def _toggle_card_picker(self) -> None:
+        self._picker_collapsed = not self._picker_collapsed
+        self._picker_body.setVisible(not self._picker_collapsed)
+        self._picker_toggle_arrow.setText("▶" if self._picker_collapsed else "▼")
 
     def _fetch_cards_for_character(self, character: str) -> None:
         if not character:
@@ -1753,9 +1907,15 @@ class CardAdviserWindow(QWidget):
 
         if not results:
             self._status_label.setText("❌ 未找到匹配的卡牌")
+            self._archetype_label.setVisible(False)
         else:
-            arch_text = "、".join(archetypes) if archetypes else "未检测到套路"
-            self._status_label.setText(f"套路：{arch_text}")
+            if archetypes:
+                arch_text = "、".join(archetypes)
+                self._archetype_label.setText(f"⚔ 套路：{arch_text}")
+                self._archetype_label.setVisible(True)
+            else:
+                self._archetype_label.setVisible(False)
+            self._status_label.setText("评估完成")
 
     def _on_error(self, message: str) -> None:
         self._status_label.setText(f"错误：{message}")

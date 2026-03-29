@@ -25,7 +25,7 @@ from typing import Optional
 
 import numpy as np
 
-from .ocr_engine import WindowsOcrEngine, OcrResult, get_ocr_engine
+from .ocr_engine import WindowsOcrEngine, OcrResult, get_ocr_engine, get_en_ocr_engine
 
 log = logging.getLogger(__name__)
 
@@ -47,6 +47,8 @@ _CARD_REWARD_KEYWORDS_EN = [
     "choose a card", "choose one card", "pick a card",
     "card reward", "select a card",
 ]
+# OCR误读模式：兼容"选择。张牌"/"选择 张牌"等（"一"被误识别）
+_CARD_REWARD_PATTERN = re.compile(r"选择.{0,6}张牌|choose.{0,8}card", re.IGNORECASE)
 
 # 商店界面触发词
 _SHOP_KEYWORDS_ZH = ["购买", "商店", "售价", "金币"]
@@ -95,6 +97,7 @@ class ScreenDetector:
             scan_region_ratio: 扫描区域比例 (left, top, right, bottom)
                                默认只扫上 60%，避开底部 UI 噪声
         """
+        # 中文优先（识别"选择一张牌"等中文关键词），也支持英文关键词 "choose a card"
         self._ocr = ocr_engine or get_ocr_engine()
         self._vote_frames = max(1, vote_frames)
         self._scan_region = scan_region_ratio
@@ -232,6 +235,13 @@ class ScreenDetector:
         for kw in _CARD_REWARD_KEYWORDS_EN:
             if kw in text_lower:
                 matched.append(kw)
+
+        # 正则兼容OCR误读（如"选 择 。 张 牌"，去空格后匹配）
+        if not matched:
+            text_nospace = re.sub(r'\s+', '', text_normalized)
+            m = _CARD_REWARD_PATTERN.search(text_nospace)
+            if m:
+                matched.append(m.group(0))
 
         if matched:
             confidence = min(0.5 + 0.2 * len(matched), 0.99)

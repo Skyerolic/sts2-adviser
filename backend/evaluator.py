@@ -16,7 +16,16 @@ backend/evaluator.py
 
 from __future__ import annotations
 
+import json
+import logging
+from datetime import datetime
+from pathlib import Path
 from typing import Optional
+
+_LOGS_DIR = Path(__file__).parent.parent / "logs"
+_LOGS_DIR.mkdir(exist_ok=True)
+
+log = logging.getLogger(__name__)
 
 from .archetypes import ArchetypeLibrary, archetype_library
 from .models import (
@@ -31,6 +40,7 @@ from .scoring import (
     score_phase_dimension,
     score_synergy_bonus,
     pollution_penalty,
+    deck_bloat_penalty,
     combine_scores,
 )
 
@@ -81,6 +91,7 @@ class CardEvaluator:
 
         print(f"[DEBUG] Evaluation results: {[r.card_name for r in results]}")
         results.sort(key=lambda r: r.total_score, reverse=True)
+        self._save_score_log(results, run_state)
         return results
 
     def detect_archetypes(self, run_state: RunState) -> list[Archetype]:
@@ -143,9 +154,10 @@ class CardEvaluator:
             comp_after = self._calc_completion(primary, new_deck)
 
         # 4. 各维度评分
+        # 注意：base_score 字段复用为 value_score，rarity_score 复用为 bloat_penalty
         breakdown = ScoreBreakdown(
-            base_score=score_base_dimension(card, run_state.phase),
-            rarity_score=score_rarity_dimension(card),
+            base_score=score_base_dimension(card, run_state.phase),        # value_score
+            rarity_score=deck_bloat_penalty(card, len(run_state.deck), role),  # bloat_penalty
             archetype_score=score_archetype_dimension(card, archetype_weights),
             completion_score=score_completion_dimension(comp_before, comp_after),
             phase_score=score_phase_dimension(card, run_state.phase, role),
@@ -295,15 +307,17 @@ class CardEvaluator:
 
     @staticmethod
     def _make_recommendation(total_score: float, role: CardRole) -> str:
-        """根据分数和角色生成推荐语"""
+        """根据分数和角色生成推荐语（与 scoring.py 分档对应）"""
         if role == CardRole.POLLUTION:
             return "跳过"
-        if total_score >= 70:
+        if total_score >= 80:
             return "强烈推荐"
-        elif total_score >= 50:
+        elif total_score >= 65:
             return "推荐"
-        elif total_score >= 30:
+        elif total_score >= 50:
             return "可选"
+        elif total_score >= 30:
+            return "谨慎"
         else:
             return "跳过"
 
@@ -317,3 +331,58 @@ class CardEvaluator:
         for relic in run_state.relics:
             tags.extend(relic.tags)
         return tags
+
+    @staticmethod
+    def _save_score_log(results: list[EvaluationResult], run_state: RunState) -> None:
+        """
+        将评分细节写入 logs/score_YYYYMMDD_HHMMSS.json。
+        每次调用 rank_cards 时生成一份。保留最近 30 份。
+        """
+        try:
+            ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+            log_path = _LOGS_DIR / f"score_{ts}.json"
+
+            payload = {
+                "timestamp": ts,
+                "character": run_state.character.value if hasattr(run_state.character, "value") else str(run_state.character),
+                "phase": run_state.phase.value if hasattr(run_state.phase, "value") else str(run_state.phase),
+                "deck_size": len(run_state.deck),
+                "relics": [r.id for r in run_state.relics],
+                "results": [
+                    {
+                        "card_id": r.card_id,
+                        "card_name": r.card_name,
+                        "rarity": r.rarity,
+                        "total_score": r.total_score,
+                        "recommendation": r.recommendation,
+                        "role": r.role.value if hasattr(r.role, "value") else str(r.role),
+                        "matched_archetypes": r.matched_archetypes,
+                        "breakdown": {
+                            "value_score":        round(r.breakdown.base_score, 4),
+                            "archetype_score":    round(r.breakdown.archetype_score, 4),
+                            "phase_score":        round(r.breakdown.phase_score, 4),
+                            "completion_score":   round(r.breakdown.completion_score, 4),
+                            "synergy_bonus":      round(r.breakdown.synergy_bonus, 4),
+                            "pollution_penalty":  round(r.breakdown.pollution_penalty, 4),
+                            "bloat_penalty":      round(r.breakdown.rarity_score, 4),
+                        },
+                        "reasons_for": r.reasons_for,
+                        "reasons_against": r.reasons_against,
+                    }
+                    for r in results
+                ],
+            }
+
+            log_path.write_text(
+                json.dumps(payload, ensure_ascii=False, indent=2),
+                encoding="utf-8",
+            )
+            log.info(f"评分日志已保存: {log_path.name}")
+
+            # 只保留最新 30 份
+            old_logs = sorted(_LOGS_DIR.glob("score_*.json"))
+            for old in old_logs[:-30]:
+                old.unlink(missing_ok=True)
+
+        except Exception as e:
+            log.warning(f"保存评分日志失败: {e}")
