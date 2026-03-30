@@ -194,3 +194,7 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+else:
+    # PyInstaller EXE 模式：模块不以 __main__ 身份运行，需显式调用
+    if getattr(sys, "frozen", False):
+        main()
