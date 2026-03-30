@@ -26,26 +26,25 @@ if sys.stdout and hasattr(sys.stdout, 'buffer'):
 if sys.stderr and hasattr(sys.stderr, 'buffer'):
     sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
 
+import asyncio
 import json
-import uvicorn
+import logging
 import os
 import socket
-import asyncio
-import logging
+import uvicorn
 from pathlib import Path
+from typing import Optional, Set
+
 from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from typing import Set, Optional
 
 from .archetypes import archetype_library
 from .evaluator import CardEvaluator
 from .models import Card, RunState, EvaluationResult, Character, Rarity, CardType, CardKeywords
 
 # 导入游戏监视器和配置管理器
-import sys
-from pathlib import Path as PathlibPath
-sys.path.insert(0, str(PathlibPath(__file__).parent.parent / "scripts"))
+sys.path.insert(0, str(Path(__file__).parent.parent / "scripts"))
 try:
     from game_watcher import STS2GameWatcher
     from config_manager import get_save_path, get_log_path
@@ -53,8 +52,8 @@ try:
 except ImportError:
     GAME_WATCHER_AVAILABLE = False
     logging.warning("GameWatcher not available")
-    def get_save_path(): return None
-    def get_log_path(): return None
+    def get_save_path(): return None  # noqa: E301
+    def get_log_path(): return None   # noqa: E301
 
 # 导入视觉识别桥接器
 try:

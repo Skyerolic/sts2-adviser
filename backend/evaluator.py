@@ -85,7 +85,7 @@ class CardEvaluator:
         对 run_state.card_choices 中的所有候选卡进行评估并排序。
         返回按 total_score 降序排列的 EvaluationResult 列表。
         """
-        print(f"[DEBUG] card_choices: {run_state.card_choices}")
+        log.debug(f"card_choices: {run_state.card_choices}")
         detected = self.detect_archetypes(run_state)
         relic_tags = self._extract_relic_tags(run_state)
 
@@ -93,13 +93,13 @@ class CardEvaluator:
         for card_id in run_state.card_choices:
             card = self._resolve_card(card_id)
             if card is None:
-                print(f"[DEBUG] Card not found in DB: {card_id}")
+                log.warning(f"Card not found in DB: {card_id}")
                 continue
-            print(f"[DEBUG] Evaluating card: {card_id} -> {card.name}")
+            log.debug(f"Evaluating card: {card_id} -> {card.name}")
             result = self.evaluate_card(card, run_state, detected, relic_tags)
             results.append(result)
 
-        print(f"[DEBUG] Evaluation results: {[r.card_name for r in results]}")
+        log.debug(f"Evaluation results: {[r.card_name for r in results]}")
         results.sort(key=lambda r: r.total_score, reverse=True)
         self._save_score_log(results, run_state)
         return results
@@ -113,9 +113,6 @@ class CardEvaluator:
           - 计算每个套路的"完成度"（已有卡 / 套路核心卡数）
           - 返回完成度 > 阈值的套路列表（按完成度降序）
 
-        TODO（后续实现）：
-          - 更精细的权重加权完成度计算
-          - 遗物对套路方向的影响
         """
         candidate_archetypes = self.library.get_by_character(run_state.character)
         deck_set = set(self._normalize_card_id(cid) for cid in run_state.deck)
@@ -426,7 +423,7 @@ class CardEvaluator:
     def _extract_relic_tags(run_state: RunState) -> list[str]:
         """
         从当前遗物中提取协同标签（用于 synergy 计算）。
-        TODO: 后续可建立遗物 -> tags 映射表
+        当前直接使用遗物自带的 tags 字段；未来可扩展为遗物→标签映射表。
         """
         tags: list[str] = []
         for relic in run_state.relics:
