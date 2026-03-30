@@ -1,32 +1,32 @@
-# STS2 Adviser — 生产依赖（EXE 打包和直接运行均使用此文件）
-# 开发/测试依赖见 requirements.txt
+# STS2 Adviser - runtime dependencies (used for both direct run and EXE packaging)
+# Development/test dependencies: see requirements.txt
 
-# 后端
+# Backend
 fastapi==0.115.0
 uvicorn[standard]==0.30.0
 pydantic==2.9.0
 requests==2.32.3
 
-# 前端
+# Frontend
 PyQt6==6.7.1
 
-# WebSocket 支持
+# WebSocket
 websocket-client==1.6.4
 
-# 游戏进程监控
+# Game process monitoring
 psutil==5.9.6
 
-# 图像处理（视觉模块）
+# Image processing (vision module)
 Pillow
 numpy
 
-# 屏幕截图（视觉模块）
+# Screen capture (vision module)
 mss
 
-# Windows API 支持
+# Windows API
 pywin32
 
-# Windows OCR 绑定（视觉模块）
+# Windows OCR bindings (vision module)
 winrt-Windows.Media.Ocr
 winrt-Windows.Globalization
 winrt-Windows.Graphics.Imaging
@@ -34,5 +34,5 @@ winrt-Windows.Storage.Streams
 winrt-Windows.Foundation
 winrt-Windows.Foundation.Collections
 
-# 卡名模糊匹配（视觉模块）
+# Fuzzy card name matching (vision module)
 rapidfuzz

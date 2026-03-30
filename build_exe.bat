@@ -21,9 +21,9 @@ if not exist ".venv\Scripts\python.exe" (
 
 REM ── 2. 安装生产依赖 + PyInstaller ─────────────────────────────────────────────
 echo [2/4] 安装依赖（requirements-prod.txt + pyinstaller）...
-.venv\Scripts\pip install --quiet --upgrade pip
-.venv\Scripts\pip install --quiet -r requirements-prod.txt
-.venv\Scripts\pip install --quiet pyinstaller
+.venv\Scripts\python.exe -m pip install --quiet --upgrade pip
+.venv\Scripts\python.exe -m pip install --quiet -r requirements-prod.txt
+.venv\Scripts\python.exe -m pip install --quiet pyinstaller
 
 if errorlevel 1 (
     echo [!] 依赖安装失败，请检查网络连接或 requirements-prod.txt。
@@ -36,7 +36,7 @@ echo [3/4] 清理旧构建并运行 PyInstaller...
 if exist build rmdir /s /q build
 if exist dist  rmdir /s /q dist
 
-.venv\Scripts\pyinstaller sts2_adviser.spec
+.venv\Scripts\python.exe -m PyInstaller sts2_adviser.spec
 
 if errorlevel 1 (
     echo [!] 打包失败，请检查上方错误信息。
