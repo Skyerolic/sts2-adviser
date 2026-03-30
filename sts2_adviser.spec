@@ -38,10 +38,19 @@ project_datas = [
     ("utils",        "utils"),        # paths.py
 ]
 
+# ─── 显式打包 python310.dll（避免目标机器缺少此 DLL） ─────────────────────────
+import os, sysconfig
+_py_dll_candidates = [
+    os.path.join(os.path.dirname(sys.executable), "python310.dll"),          # venv/Scripts/
+    os.path.join(sysconfig.get_config_var("BINDIR") or "", "python310.dll"), # 系统 Python 目录
+]
+_py_dll = next((p for p in _py_dll_candidates if os.path.exists(p)), None)
+extra_binaries = [(_py_dll, ".")] if _py_dll else []
+
 a = Analysis(
     ["main.py"],                       # 入口脚本
     pathex=["."],
-    binaries=winrt_binaries,
+    binaries=winrt_binaries + extra_binaries,
     datas=project_datas + winrt_datas + qt_datas,
     hiddenimports=[
         # uvicorn 动态加载模块
