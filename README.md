@@ -4,6 +4,13 @@
 
 ## 快速开始
 
+### 方式一：直接运行 EXE（推荐，无需安装 Python）
+
+1. 前往 [Releases](https://github.com/Skyerolic/sts2-adviser/releases) 下载最新版 ZIP
+2. 解压后双击 `sts2_adviser.exe`
+
+### 方式二：从源码运行
+
 ```bash
 # 安装依赖
 pip install -r requirements.txt
@@ -184,7 +191,14 @@ python -m uvicorn backend.main:app --port 8001
 
 ## 版本历史
 
-### v0.99（当前）
+### v1.0 Test（当前）
+- **EXE 正式可用**：首个完整可独立运行的打包版本，无需安装 Python，解压即用
+- **GameWatcher 修复**：`scripts/` 改为标准 Python 包，EXE 模式下角色/楼层/牌组信息现可正确加载，套路契合度评分更准确
+- **路径修复（PyInstaller 6.x）**：用 `sys._MEIPASS` 解析 `_internal/` 目录，`data/`、`styles.qss`、日志路径在 EXE 模式下均正确
+- **进程退出修复**：改用 `os._exit()` 关闭浮窗后立即终止全部进程（含 uvicorn 后端线程）
+- **UI 调整**：初始窗口高度增大 1.5 倍（600×750），右下角缩放手柄改为金色可见样式
+
+### v0.99
 - **EXE 打包路径兼容**：新增 `utils/paths.py`，统一所有模块的根目录解析（开发模式 vs PyInstaller frozen 模式），修复 EXE 运行时 `data/`、`logs/`、`styles.qss` 路径错位问题
 - **依赖拆分**：`requirements-prod.txt`（仅生产依赖）与 `requirements.txt`（开发+测试）分离，用户安装更简洁
 - **build_exe.bat 升级**：自动创建/复用 `.venv` 虚拟环境，仅安装生产依赖，打包后显示目录大小并检测 UPX
