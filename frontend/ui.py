@@ -247,7 +247,8 @@ class CardChipButton(QPushButton):
         self.setText(f"[{cost_str}] {self._display_name}")
         self.setObjectName("CardChip")
         self._apply_style()
-        self.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
+        self.setMinimumWidth(100)
+        self.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
         self.clicked.connect(self._on_click)
 
     def _apply_style(self) -> None:
@@ -288,6 +289,9 @@ class CardPickerPanel(QScrollArea):
         self.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
 
         self._content = QWidget()
+        self._content.setSizePolicy(
+            QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred
+        )
         self._layout = QVBoxLayout(self._content)
         self._layout.setContentsMargins(4, 4, 4, 4)
         self._layout.setSpacing(2)
@@ -337,7 +341,7 @@ class CardPickerPanel(QScrollArea):
             key=cost_key
         )
 
-        cols = 4
+        cols = 3
         for type_key in self._TYPE_ORDER:
             group = sorted(groups[type_key], key=cost_key)
             if not group:
@@ -1035,6 +1039,8 @@ class CardAdviserWindow(QWidget):
         self._init_window()
         self._build_ui()
         self._load_stylesheet()
+        # 样式加载后让窗口根据内容自适应高度，宽度保持 _init_window 中设定的值
+        QTimer.singleShot(0, self._auto_fit_height)
 
         # 启动时检查后端连通性
         QTimer.singleShot(500, self._check_backend)
@@ -1055,7 +1061,7 @@ class CardAdviserWindow(QWidget):
         )
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
         self.setMinimumSize(460, 400)
-        self.resize(600, 860)
+        self.resize(600, 500)   # 初始高度由 _auto_fit_height 在布局完成后自动调整
         self._drawer_open = False   # 侧边抽屉初始收起
 
     # ------------------------------------------------------------------
@@ -1071,7 +1077,8 @@ class CardAdviserWindow(QWidget):
         # ── 主面板 ──────────────────────────────────────────────────────
         main_panel = QWidget()
         main_panel.setObjectName("MainContainer")
-        root.addWidget(main_panel, 1)
+        main_panel.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Expanding)
+        root.addWidget(main_panel, 0)   # stretch=0：主面板宽度不被抽屉挤压
 
         main_layout = QVBoxLayout(main_panel)
         main_layout.setContentsMargins(0, 0, 0, 8)
@@ -1167,7 +1174,7 @@ class CardAdviserWindow(QWidget):
         )
         root.addWidget(self._drawer_toggle_btn)
 
-        # ── 侧边抽屉（初始隐藏）────────────────────────────────────────
+        # ── 侧边抽屉（嵌入式，初始隐藏）────────────────────────────────
         self._side_drawer = self._build_side_drawer()
         self._side_drawer.setVisible(False)
         root.addWidget(self._side_drawer)
@@ -1758,11 +1765,10 @@ class CardAdviserWindow(QWidget):
     # ------------------------------------------------------------------
 
     def _build_side_drawer(self) -> QWidget:
-        """侧边手动选牌抽屉面板（从右侧滑入）"""
+        """嵌入式侧边手动选牌抽屉"""
         drawer = QWidget()
         drawer.setObjectName("SideDrawerPanel")
-        drawer.setMinimumWidth(280)
-        drawer.setMaximumWidth(360)
+        drawer.setMinimumWidth(340)
 
         layout = QVBoxLayout(drawer)
         layout.setContentsMargins(6, 8, 6, 8)
@@ -1778,14 +1784,23 @@ class CardAdviserWindow(QWidget):
 
         self._selection_tray = SelectionTrayWidget()
         self._selection_tray.evaluate_requested.connect(self._on_evaluate_from_picker)
-        layout.addWidget(self._selection_tray)
+        layout.addWidget(self._selection_tray, 0)
 
         return drawer
+
+    def _auto_fit_height(self) -> None:
+        """根据内容自适应窗口高度（宽度保持不变）"""
+        hint = self.sizeHint()
+        new_h = max(hint.height(), self.minimumHeight())
+        self.resize(self.width(), new_h)
 
     def _toggle_side_drawer(self) -> None:
         self._drawer_open = not self._drawer_open
         self._side_drawer.setVisible(self._drawer_open)
         self._drawer_toggle_btn.setText("▶" if self._drawer_open else "◀")
+        drawer_w = self._side_drawer.minimumWidth()
+        delta = drawer_w if self._drawer_open else -drawer_w
+        self.resize(self.width() + delta, self.height())
 
     def _fetch_cards_for_character(self, character: str) -> None:
         if not character:
