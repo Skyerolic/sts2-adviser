@@ -44,10 +44,9 @@ from .models import Card, RunState, EvaluationResult, Character, Rarity, CardTyp
 from utils.paths import get_app_root
 
 # 导入游戏监视器和配置管理器
-sys.path.insert(0, str(get_app_root() / "scripts"))
 try:
-    from game_watcher import STS2GameWatcher
-    from config_manager import get_save_path, get_log_path
+    from scripts.game_watcher import STS2GameWatcher
+    from scripts.config_manager import get_save_path, get_log_path
     GAME_WATCHER_AVAILABLE = True
 except ImportError:
     GAME_WATCHER_AVAILABLE = False

@@ -99,6 +99,9 @@ a = Analysis(
         "rapidfuzz.process",
         # 系统监控
         "psutil",
+        # scripts 包
+        "scripts.game_watcher",
+        "scripts.config_manager",
         # asyncio 子进程支持（Windows）
         "multiprocessing.popen_spawn_win32",
         # winrt 全量
