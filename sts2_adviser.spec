@@ -38,11 +38,13 @@ project_datas = [
     ("utils",        "utils"),        # paths.py
 ]
 
-# ─── 显式打包 python310.dll（避免目标机器缺少此 DLL） ─────────────────────────
+# ─── 显式打包 pythonXXX.dll（动态检测版本，避免目标机器缺少此 DLL） ──────────
 import os, sysconfig
+_py_ver = f"{sys.version_info.major}{sys.version_info.minor}"  # e.g. "310", "312", "314"
+_dll_name = f"python{_py_ver}.dll"
 _py_dll_candidates = [
-    os.path.join(os.path.dirname(sys.executable), "python310.dll"),          # venv/Scripts/
-    os.path.join(sysconfig.get_config_var("BINDIR") or "", "python310.dll"), # 系统 Python 目录
+    os.path.join(os.path.dirname(sys.executable), _dll_name),          # venv/Scripts/
+    os.path.join(sysconfig.get_config_var("BINDIR") or "", _dll_name), # 系统 Python 目录
 ]
 _py_dll = next((p for p in _py_dll_candidates if os.path.exists(p)), None)
 extra_binaries = [(_py_dll, ".")] if _py_dll else []
