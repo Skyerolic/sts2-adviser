@@ -80,6 +80,8 @@ os.environ["STS2_BACKEND_PORT"] = str(_BACKEND_PORT)
 
 # 必须在设置端口环境变量之后才导入前端，否则 BACKEND_URL 会被固定为旧端口
 from frontend.ui import CardAdviserWindow  # noqa: E402
+# 直接导入 app 对象（EXE 打包后字符串形式 "backend.main:app" 无法被 uvicorn 解析）
+from backend.main import app as _backend_app  # noqa: E402
 
 
 def _start_backend() -> None:
@@ -88,7 +90,7 @@ def _start_backend() -> None:
     该函数应在 daemon 线程中调用，随主线程退出自动结束。
     """
     config = uvicorn.Config(
-        "backend.main:app",
+        _backend_app,
         host=_BACKEND_HOST,
         port=_BACKEND_PORT,
         log_level="warning",   # 减少控制台噪音；改为 "info" 可调试
