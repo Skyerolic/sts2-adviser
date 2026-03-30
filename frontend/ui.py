@@ -1078,8 +1078,8 @@ class CardAdviserWindow(QWidget):
             | Qt.WindowType.Tool   # 不在任务栏显示
         )
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
-        self.setMinimumSize(460, 400)
-        self.resize(600, 500)   # 初始高度由 _auto_fit_height 在布局完成后自动调整
+        self.setMinimumSize(460, 600)
+        self.resize(600, 750)   # 初始高度由 _auto_fit_height 在布局完成后自动调整
         self._drawer_open = False   # 侧边抽屉初始收起
 
     # ------------------------------------------------------------------

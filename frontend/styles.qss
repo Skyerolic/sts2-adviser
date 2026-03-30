@@ -291,9 +291,15 @@
 
 /* ── 缩放手柄 ── */
 #ResizeGrip {
-    background-color: transparent;
-    width: 16px;
-    height: 16px;
+    background-color: rgba(180, 160, 80, 0.35);
+    border-top: 2px solid rgba(220, 200, 100, 0.7);
+    border-left: 2px solid rgba(220, 200, 100, 0.7);
+    border-bottom-right-radius: 6px;
+    width: 24px;
+    height: 24px;
+}
+#ResizeGrip:hover {
+    background-color: rgba(220, 200, 100, 0.55);
 }
 
 /* ── OCR 识别按钮 ── */
