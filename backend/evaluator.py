@@ -96,7 +96,7 @@ class CardEvaluator:
     # 公开接口
     # ------------------------------------------------------------------
 
-    def rank_cards(self, run_state: RunState) -> list[EvaluationResult]:
+    def rank_cards(self, run_state: RunState, language: str = "zh") -> list[EvaluationResult]:
         """
         对 run_state.card_choices 中的所有候选卡进行评估并排序。
         返回按 total_score 降序排列的 EvaluationResult 列表。
@@ -113,7 +113,8 @@ class CardEvaluator:
                 log.warning(f"Card not found in DB: {card_id}")
                 continue
             log.debug(f"Evaluating card: {card_id} -> {card.name}")
-            result = self.evaluate_card(card, run_state, detected, relic_tags, relic_boosts)
+            result = self.evaluate_card(card, run_state, detected, relic_tags, relic_boosts,
+                                        language=language)
             results.append(result)
 
         log.debug(f"Evaluation results: {[r.card_name for r in results]}")
@@ -180,10 +181,27 @@ class CardEvaluator:
         detected_archetypes: list[Archetype],
         relic_synergy_tags: list[str],
         relic_boosts: dict[str, float] | None = None,
+        language: str = "zh",
     ) -> EvaluationResult:
         """
         对单张卡进行全维度评估，返回 EvaluationResult。
         """
+        # 超出评分体系的卡牌：先古之民、诅咒等，直接返回统一提示
+        _BEYOND_SCORING = {Rarity.ANCIENT, Rarity.CURSE}
+        if card.rarity in _BEYOND_SCORING:
+            _msg = "塔的意志深不可测" if language == "zh" else "The Tower's will is inscrutable"
+            return EvaluationResult(
+                card_id=card.id,
+                card_name=card.name,
+                total_score=0,
+                grade="—",
+                recommendation="—",
+                role=card.rarity.value,  # "ancient" / "curse"
+                reasons_for=[],
+                reasons_against=[_msg],
+                breakdown=ScoreBreakdown(),
+            )
+
         deck_set = set(self._normalize_card_id(cid) for cid in run_state.deck)
 
         # 1. 收集该卡在各套路中的权重
@@ -271,9 +289,10 @@ class CardEvaluator:
             community_stats=community_stats,
             cv_result=cv_result,
             algo_score=algo_score_100,
+            language=language,
         )
 
-        recommendation = self._make_recommendation(total, role)
+        recommendation = self._make_recommendation(total, role, language=language)
 
         return EvaluationResult(
             card_id=card.id,
@@ -371,11 +390,10 @@ class CardEvaluator:
         community_stats=None,
         cv_result: Optional[CrossValidationResult] = None,
         algo_score: float = 0.0,
+        language: str = "zh",
     ) -> tuple[list[str], list[str]]:
-        """
-        生成中文可解释理由。
-        返回 (reasons_for, reasons_against)。
-        """
+        """生成可解释理由，支持中英文。返回 (reasons_for, reasons_against)。"""
+        zh = (language == "zh")
         inferred_ids = inferred_ids or []
         reasons_for: list[str] = []
         reasons_against: list[str] = []
@@ -384,47 +402,71 @@ class CardEvaluator:
         exact_ids = [aid for aid in matched_archetypes if aid not in inferred_ids]
         if exact_ids:
             archetype_names = [
-                a.name
-                for a in [self.library.get_archetype(aid) for aid in exact_ids]
+                a.name for a in [self.library.get_archetype(aid) for aid in exact_ids]
                 if a is not None
             ]
-            reasons_for.append(f"契合套路：{', '.join(archetype_names)}")
+            names = ", ".join(archetype_names)
+            reasons_for.append(f"契合套路：{names}" if zh else f"Fits archetype: {names}")
         if inferred_ids:
             inferred_names = [
-                a.name
-                for a in [self.library.get_archetype(aid) for aid in inferred_ids]
+                a.name for a in [self.library.get_archetype(aid) for aid in inferred_ids]
                 if a is not None
             ]
-            reasons_for.append(f"推断与套路相关（关键词匹配）：{', '.join(inferred_names)}")
+            names = ", ".join(inferred_names)
+            reasons_for.append(
+                f"推断与套路相关（关键词匹配）：{names}" if zh
+                else f"Inferred archetype match (keyword): {names}"
+            )
 
-        # 稀有度（直接读 card.rarity，不依赖 breakdown.rarity_score）
-        if card.rarity in (Rarity.RARE, Rarity.ANCIENT):
-            reasons_for.append(f"高稀有度（{card.rarity.value}），基础价值较高")
+        # 稀有度
+        if card.rarity == Rarity.RARE:
+            reasons_for.append(
+                f"高稀有度（Rare），基础价值较高" if zh
+                else "High rarity (Rare), strong base value"
+            )
 
         # 套路完成度贡献
         if breakdown.completion_score > 0.05:
             pct = round(breakdown.completion_score * 100, 1)
-            reasons_for.append(f"提升主套路完成度 +{pct}%")
+            reasons_for.append(
+                f"提升主套路完成度 +{pct}%" if zh
+                else f"Advances archetype completion +{pct}%"
+            )
 
         # 协同
         if breakdown.synergy_bonus > 0.0:
-            reasons_for.append("与当前遗物或卡组存在协同")
+            reasons_for.append(
+                "与当前遗物或卡组存在协同" if zh
+                else "Synergizes with current relics or deck"
+            )
 
         # 阶段适配
         if role == CardRole.TRANSITION and run_state.phase != GamePhase.EARLY:
-            reasons_against.append(f"过渡卡在 {run_state.phase.value} 阶段价值下降")
+            reasons_against.append(
+                f"过渡卡在 {run_state.phase.value} 阶段价值下降" if zh
+                else f"Transitional card loses value in {run_state.phase.value} phase"
+            )
 
         # 污染
         if role == CardRole.POLLUTION:
-            reasons_against.append("该卡与当前套路无协同，会稀释牌组")
+            reasons_against.append(
+                "该卡与当前套路无协同，会稀释牌组" if zh
+                else "No synergy with current archetype; dilutes the deck"
+            )
 
-        # 仅推断匹配时，补充置信度说明
+        # 仅推断匹配
         if matched_archetypes and not exact_ids and inferred_ids:
-            reasons_against.append("仅关键词推断匹配，非手动定义的套路核心卡，实际价值以游戏判断为准")
+            reasons_against.append(
+                "仅关键词推断匹配，实际价值以游戏判断为准" if zh
+                else "Keyword inference only; verify value in-game"
+            )
 
         # 无任何匹配
         if not matched_archetypes:
-            reasons_against.append("未匹配任何已检测套路，当前 run 中价值不明")
+            reasons_against.append(
+                "未匹配任何已检测套路，当前 run 中价值不明" if zh
+                else "No archetype match detected; value unclear for this run"
+            )
 
         # 社区数据理由
         if cv_result is not None:
@@ -436,45 +478,54 @@ class CardEvaluator:
                 if cv_result.alignment == Alignment.AGREEMENT:
                     if cs >= 0.70:
                         reasons_for.append(
-                            f"社区数据支持：胜率 {wr}，选取率 {pr}，与算法评估一致"
+                            f"社区数据支持：胜率 {wr}，选取率 {pr}，与算法评估一致" if zh
+                            else f"Community data agrees: win rate {wr}, pick rate {pr}"
                         )
                     elif cs <= 0.35:
                         reasons_against.append(
-                            f"社区数据警示：胜率 {wr}，选取率 {pr}，玩家普遍跳过此卡"
+                            f"社区数据警示：胜率 {wr}，选取率 {pr}，玩家普遍跳过此卡" if zh
+                            else f"Community warning: win rate {wr}, pick rate {pr} — widely skipped"
                         )
                 elif cv_result.alignment == Alignment.SOFT_CONFLICT:
                     reasons_against.append(
-                        f"社区数据与算法存在分歧（差值 {cv_result.delta:.0%}），评分已折中处理"
+                        f"社区数据与算法存在分歧（差值 {cv_result.delta:.0%}），评分已折中处理" if zh
+                        else f"Community data diverges from algorithm (delta {cv_result.delta:.0%}); blended"
                     )
                 elif cv_result.alignment == Alignment.CONFLICT:
                     if algo_score / 100.0 > cv_result.community_score:
                         reasons_against.append(
-                            f"社区数据与算法显著分歧：算法评分偏高，但社区胜率 {wr} 较低，建议参考套路情况"
+                            f"社区数据与算法显著分歧：社区胜率 {wr} 较低，建议参考套路情况" if zh
+                            else f"Significant conflict: community win rate {wr} is low vs algorithm score"
                         )
                     else:
                         reasons_for.append(
-                            f"社区数据提示潜力被低估：胜率 {wr} 较高，算法评分偏低"
+                            f"社区数据提示潜力被低估：胜率 {wr} 较高，算法评分偏低" if zh
+                            else f"Community data suggests undervalued: win rate {wr} exceeds algorithm score"
                         )
             elif not cv_result.has_community_data and 40 <= algo_score <= 65:
-                reasons_against.append("缺少社区统计数据，评分仅基于算法判断")
+                reasons_against.append(
+                    "缺少社区统计数据，评分仅基于算法判断" if zh
+                    else "No community data; score is algorithm-only"
+                )
 
         return reasons_for, reasons_against
 
     @staticmethod
-    def _make_recommendation(total_score: float, role: CardRole) -> str:
+    def _make_recommendation(total_score: float, role: CardRole, language: str = "zh") -> str:
         """根据分数和角色生成推荐语（与 scoring.py 分档对应）"""
+        zh = (language == "zh")
         if role == CardRole.POLLUTION:
-            return "跳过"
+            return "跳过" if zh else "Skip"
         if total_score >= 80:
-            return "强烈推荐"
+            return "强烈推荐" if zh else "Highly Recommended"
         elif total_score >= 65:
-            return "推荐"
+            return "推荐" if zh else "Recommended"
         elif total_score >= 50:
-            return "可选"
+            return "可选" if zh else "Viable"
         elif total_score >= 30:
-            return "谨慎"
+            return "谨慎" if zh else "Caution"
         else:
-            return "跳过"
+            return "跳过" if zh else "Skip"
 
     @staticmethod
     def _build_relic_synergy(

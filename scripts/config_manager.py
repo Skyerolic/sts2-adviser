@@ -84,3 +84,33 @@ def get_log_path() -> Optional[str]:
 def set_log_path(path: str) -> bool:
     """设置日志路径配置"""
     return set_config_value("log_path", path)
+
+
+def get_font_scale() -> float:
+    """获取字体缩放比例，默认 1.2（120%）"""
+    return float(get_config_value("font_scale", "1.0") or "1.0")
+
+
+def set_font_scale(scale: float) -> bool:
+    """设置字体缩放比例"""
+    return set_config_value("font_scale", str(scale))
+
+
+def get_hotkey() -> str:
+    """获取全局快捷键，默认 ctrl+shift+s"""
+    return get_config_value("hotkey", "ctrl+shift+s") or "ctrl+shift+s"
+
+
+def set_hotkey(key: str) -> bool:
+    """设置全局快捷键"""
+    return set_config_value("hotkey", key)
+
+
+def get_opacity() -> float:
+    """获取窗口不透明度，默认 0.95（95%）"""
+    return float(get_config_value("opacity", "0.95") or "0.95")
+
+
+def set_opacity(val: float) -> bool:
+    """设置窗口不透明度（0.0–1.0）"""
+    return set_config_value("opacity", str(val))

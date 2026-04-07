@@ -290,6 +290,7 @@ COMMUNITY_DB: "dict[str, CommunityStats]" = _load_community_db()
 
 class EvaluateRequest(BaseModel):
     run_state: RunState
+    language: str = "zh"   # "zh" 或 "en"
 
 
 class EvaluateResponse(BaseModel):
@@ -476,7 +477,7 @@ async def evaluate_cards(request: EvaluateRequest):
 
     try:
         detected = evaluator.detect_archetypes(run_state)
-        results = evaluator.rank_cards(run_state)
+        results = evaluator.rank_cards(run_state, language=request.language)
     except Exception as exc:
         raise HTTPException(status_code=500, detail=f"评估失败: {exc}") from exc
 

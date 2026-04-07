@@ -66,6 +66,8 @@ class CardRole(str, Enum):
     FILLER      = "filler"      # 补件（有用但可替换）
     POLLUTION   = "pollution"   # 污染（降低 deck 质量）
     UNKNOWN     = "unknown"     # 尚未判断
+    ANCIENT     = "ancient"     # 先古之民（超出评分体系）
+    CURSE       = "curse"       # 诅咒（超出评分体系）
 
 
 class GamePhase(str, Enum):

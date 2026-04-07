@@ -5,7 +5,7 @@
 
 /* ── 全局字体 ── */
 * {
-    font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+    font-family: "Segoe UI", "Microsoft YaHei UI", "Microsoft YaHei", sans-serif;
     font-size: 18px;
     color: #D4C5A9;
 }
@@ -33,6 +33,24 @@
     letter-spacing: 0.5px;
 }
 
+#MinimizeButton {
+    background-color: transparent;
+    border: 1px solid #5A4530;
+    border-radius: 4px;
+    color: #8A7560;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 0;
+    min-width: 28px;
+    min-height: 28px;
+}
+
+#MinimizeButton:hover {
+    background-color: #1A3A5A;
+    border-color: #2A6A9A;
+    color: #64B5F6;
+}
+
 #CloseButton {
     background-color: transparent;
     border: 1px solid #5A4530;
@@ -51,13 +69,31 @@
     color: #FF6B6B;
 }
 
+#UpdateButton {
+    background-color: rgba(60, 100, 20, 0.85);
+    border: 1px solid #7AAA3E;
+    border-radius: 4px;
+    color: #C8F090;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 0;
+    min-width: 28px;
+    min-height: 28px;
+}
+
+#UpdateButton:hover {
+    background-color: rgba(80, 130, 30, 0.95);
+    border-color: #A8D870;
+    color: #E8FF90;
+}
+
 /* ── 工具栏 ── */
 #Toolbar {
     background-color: rgba(30, 24, 16, 0.85);
     border-bottom: 1px solid #2E2416;
 }
 
-#RefreshButton, #RefreshDetectButton, #SettingsButton {
+#RefreshButton, #RefreshDetectButton, #SettingsButton, #AboutButton {
     background-color: #3A2E1E;
     border: 1px solid #5A4A2E;
     border-radius: 4px;
@@ -67,13 +103,13 @@
     min-height: 30px;
 }
 
-#RefreshButton:hover, #RefreshDetectButton:hover, #SettingsButton:hover {
+#RefreshButton:hover, #RefreshDetectButton:hover, #SettingsButton:hover, #AboutButton:hover {
     background-color: #4A3C26;
     border-color: #8A6A3E;
     color: #E8C98E;
 }
 
-#RefreshButton:pressed, #RefreshDetectButton:pressed, #SettingsButton:pressed {
+#RefreshButton:pressed, #RefreshDetectButton:pressed, #SettingsButton:pressed, #AboutButton:pressed {
     background-color: #2A1E10;
 }
 
@@ -219,9 +255,27 @@
 
 #CardPickerSectionHeader {
     color: #7A6A52;
+    font-size: 13px;
+    font-weight: bold;
+    padding: 2px 2px 1px 8px;
+}
+
+/* 大类折叠按钮 */
+#CardTypeGroupHeader {
+    background-color: rgba(40, 32, 20, 0.75);
+    border: none;
+    border-bottom: 1px solid #3A2E1E;
+    border-radius: 0px;
+    color: #C8A96E;
     font-size: 14px;
     font-weight: bold;
-    padding: 3px 2px 1px 2px;
+    padding: 4px 6px;
+    text-align: left;
+}
+
+#CardTypeGroupHeader:hover {
+    background-color: rgba(60, 48, 28, 0.85);
+    color: #E8C98E;
 }
 
 /* 未选中的卡片 */
@@ -291,15 +345,15 @@
 
 /* ── 缩放手柄 ── */
 #ResizeGrip {
-    background-color: rgba(180, 160, 80, 0.35);
-    border-top: 2px solid rgba(220, 200, 100, 0.7);
-    border-left: 2px solid rgba(220, 200, 100, 0.7);
-    border-bottom-right-radius: 6px;
-    width: 24px;
-    height: 24px;
+    background-color: rgba(40, 32, 20, 0.6);
+    border-bottom-right-radius: 8px;
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    min-height: 32px;
 }
 #ResizeGrip:hover {
-    background-color: rgba(220, 200, 100, 0.55);
+    background-color: rgba(60, 48, 24, 0.8);
 }
 
 /* ── OCR 识别按钮 ── */
@@ -373,4 +427,23 @@
     font-weight: bold;
     color: #9A8A6A;
     padding: 4px 8px;
+}
+
+/* ── 卡牌搜索框 ── */
+#CardSearchBox {
+    background-color: rgba(20, 16, 10, 0.85);
+    border: 1px solid #4A3C28;
+    border-radius: 4px;
+    color: #C8A96E;
+    font-size: 14px;
+    padding: 3px 8px;
+    selection-background-color: #5A4A2E;
+}
+
+#CardSearchBox:focus {
+    border-color: #8A6A3E;
+}
+
+#CardSearchBox::placeholder {
+    color: #5A4A36;
 }

@@ -36,3 +36,6 @@ winrt-Windows.Foundation.Collections
 
 # Fuzzy card name matching (vision module)
 rapidfuzz
+
+# Global hotkey support
+keyboard

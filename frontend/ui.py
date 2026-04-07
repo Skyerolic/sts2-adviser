@@ -29,6 +29,7 @@ import json
 import requests
 import subprocess
 import os
+import re
 import websocket
 import threading
 import time
@@ -40,16 +41,159 @@ log = logging.getLogger(__name__)
 from PyQt6.QtCore import (
     Qt, QPoint, QThread, pyqtSignal, QTimer,
 )
-from PyQt6.QtGui import QFont, QColor, QPixmap
+from PyQt6.QtGui import QFont, QColor, QPixmap, QIcon, QPainter, QAction
 from PyQt6.QtWidgets import (
     QApplication, QWidget, QVBoxLayout, QHBoxLayout,
     QLabel, QPushButton, QScrollArea, QFrame,
     QSizePolicy, QDialog, QLineEdit, QFileDialog, QGroupBox,
-    QGridLayout, QComboBox, QSizeGrip,
+    QGridLayout, QComboBox, QSizeGrip, QSlider, QSystemTrayIcon, QMenu,
 )
 
 _port = os.environ.get("STS2_BACKEND_PORT", "8000")
 BACKEND_URL = f"http://127.0.0.1:{_port}"
+
+VERSION = "1.2.0"
+_GITHUB_REPO = "Skyerolic/sts2-adviser"
+
+
+# ---------------------------------------------------------------------------
+# UI 翻译字典
+# ---------------------------------------------------------------------------
+
+_UI_STRINGS: dict[str, dict[str, str]] = {
+    # 标题栏
+    "title":                  {"zh": "⚔ STS2 Adviser",         "en": "⚔ STS2 Adviser"},
+    "minimize_tip":           {"zh": "最小化到托盘",              "en": "Minimize to tray"},
+    # 工具栏按钮
+    "btn_detect":             {"zh": "🔄 检测",                  "en": "🔄 Detect"},
+    "btn_ocr":                {"zh": "📷 截图识别",               "en": "📷 OCR Capture"},
+    "btn_settings":           {"zh": "⚙ 设置",                  "en": "⚙ Settings"},
+    "btn_ocr_tip":            {"zh": "手动截一次图做OCR识别",      "en": "Manually trigger OCR capture"},
+    "btn_detect_tip":         {"zh": "重新检测游戏和日志",          "en": "Re-detect game and log files"},
+    "btn_settings_tip":       {"zh": "路径设置",                  "en": "Path settings"},
+    # 指示器
+    "indicator_backend":      {"zh": "● 后端",                   "en": "● Backend"},
+    "indicator_game":         {"zh": "● 游戏",                   "en": "● Game"},
+    "indicator_log":          {"zh": "● 日志",                   "en": "● Log"},
+    "indicator_ocr":          {"zh": "● 视觉",                   "en": "● Vision"},
+    "game_waiting":           {"zh": "等待游戏数据...",            "en": "Waiting for game data..."},
+    "game_not_detected":      {"zh": "未检测到游戏运行",           "en": "Game not detected"},
+    # 列表头
+    "list_header":            {"zh": "候选卡评估",                "en": "Card Evaluation"},
+    # OCR 面板
+    "ocr_title":              {"zh": "📷 视觉识别",               "en": "📷 Vision OCR"},
+    "ocr_recognizing":        {"zh": "识别中...",                 "en": "Recognizing..."},
+    "ocr_locked":             {"zh": "已锁定 ✓",                 "en": "Locked ✓"},
+    "ocr_hint_stable":        {"zh": "识别稳定，已自动填入候选卡并触发评估", "en": "Stable — auto-filled candidates and triggered evaluation"},
+    "ocr_hint_waiting":       {"zh": "正在等待多帧稳定以确认卡名...", "en": "Waiting for multi-frame confirmation..."},
+    "ocr_card_placeholder":   {"zh": "— 卡 {i} —",              "en": "— Card {i} —"},
+    # 状态栏
+    "status_ready":           {"zh": "就绪 — 等待游戏数据",        "en": "Ready — waiting for game data"},
+    "status_evaluating":      {"zh": "评估中...",                 "en": "Evaluating..."},
+    "status_loaded":          {"zh": "已加载 {n} 张卡牌，请选择候选卡", "en": "Loaded {n} cards — select candidates"},
+    "status_loading":         {"zh": "加载 {char} 卡牌中...",     "en": "Loading {char} cards..."},
+    "status_load_fail":       {"zh": "加载卡牌失败: {e}",         "en": "Failed to load cards: {e}"},
+    # 侧边抽屉
+    "drawer_title":           {"zh": "手动选牌",                  "en": "Manual Pick"},
+    "drawer_toggle_tip":      {"zh": "展开/收起手动选牌面板",       "en": "Expand/collapse card picker"},
+    "search_placeholder":     {"zh": "搜索卡牌...",               "en": "Search cards..."},
+    "tray_prefix":            {"zh": "候选:",                    "en": "Pick:"},
+    "btn_evaluate":           {"zh": "⟳ 评估",                   "en": "⟳ Evaluate"},
+    "tray_deselect_tip":      {"zh": "点击取消选中",               "en": "Click to deselect"},
+    # 占位符
+    "placeholder":            {"zh": "点击「刷新」加载评估结果",    "en": "Click Detect to load results"},
+    # 设置对话框
+    "settings_title":         {"zh": "路径设置",                  "en": "Settings"},
+    "settings_help":          {"zh": "设置游戏文件所在的文件夹。\n• 存档文件夹：应包含 current_run.save 等存档文件\n• 日志文件夹：应包含 godot.log 等日志文件",
+                               "en": "Set the folders where game files are located.\n• Save folder: should contain current_run.save\n• Log folder: should contain godot.log"},
+    "settings_lang":          {"zh": "🌐 卡牌显示语言:",           "en": "🌐 Card display language:"},
+    "settings_font":          {"zh": "🔡 字体大小:",              "en": "🔡 Font size:"},
+    "settings_hotkey":        {"zh": "⌨ 呼出快捷键:",             "en": "⌨ Show/hide hotkey:"},
+    "settings_hotkey_ph":     {"zh": "例如: ctrl+shift+s",       "en": "e.g. ctrl+shift+s"},
+    "settings_opacity":       {"zh": "🪟 窗口透明度:",             "en": "🪟 Opacity:"},
+    "settings_save_folder":   {"zh": "📂 存档文件夹:",             "en": "📂 Save folder:"},
+    "settings_log_folder":    {"zh": "📋 日志文件夹:",             "en": "📋 Log folder:"},
+    "settings_browse":        {"zh": "浏览...",                   "en": "Browse..."},
+    "settings_save_btn":      {"zh": "保存配置",                  "en": "Save"},
+    "settings_cancel_btn":    {"zh": "取消",                      "en": "Cancel"},
+    "settings_save_ph":       {"zh": "选择存档文件所在的文件夹...",  "en": "Select save folder..."},
+    "settings_log_ph":        {"zh": "选择日志文件所在的文件夹...",  "en": "Select log folder..."},
+    "settings_save_dialog":   {"zh": "选择存档文件所在的文件夹",    "en": "Select save folder"},
+    "settings_log_dialog":    {"zh": "选择日志文件所在的文件夹",    "en": "Select log folder"},
+    # 系统托盘
+    "tray_show":              {"zh": "显示窗口",                  "en": "Show window"},
+    "tray_quit":              {"zh": "退出",                      "en": "Quit"},
+    # 检查更新
+    "update_available":       {"zh": "🆕 发现新版本 {ver}，点击下载", "en": "🆕 New version {ver} available — click to download"},
+    "update_checking":        {"zh": "检查更新中...",              "en": "Checking for updates..."},
+    "update_latest":          {"zh": "已是最新版本 {ver}",         "en": "Already up to date ({ver})"},
+    "update_failed":          {"zh": "检查更新失败",               "en": "Update check failed"},
+    "update_btn_tip":         {"zh": "点击前往下载页",             "en": "Click to open download page"},
+    # 关于菜单
+    "btn_about":              {"zh": "?",                         "en": "?"},
+    "btn_about_tip":          {"zh": "关于 / 帮助",               "en": "About / Help"},
+    "about_github":           {"zh": "📦 GitHub 项目页",          "en": "📦 GitHub Repository"},
+    "about_steam":            {"zh": "🎮 Steam 创意工坊页",        "en": "🎮 Steam Workshop Page"},
+}
+
+
+def _t(key: str, lang: str, **kwargs) -> str:
+    """获取翻译字符串，支持 format 参数"""
+    s = _UI_STRINGS.get(key, {}).get(lang) or _UI_STRINGS.get(key, {}).get("zh", key)
+    return s.format(**kwargs) if kwargs else s
+
+
+# ---------------------------------------------------------------------------
+# 检查更新线程
+# ---------------------------------------------------------------------------
+
+class UpdateChecker(QThread):
+    """
+    后台查询 GitHub Releases API，比较版本号。
+    update_found(latest_ver, url)  — 有新版本
+    up_to_date(current_ver)        — 已是最新
+    check_failed()                 — 网络错误 / 解析失败（静默）
+    """
+    update_found = pyqtSignal(str, str)   # (latest_version, release_url)
+    up_to_date   = pyqtSignal(str)        # (current_version)
+    check_failed = pyqtSignal()
+
+    def __init__(self, repo: str, current_ver: str) -> None:
+        super().__init__()
+        self._repo = repo
+        self._current_ver = current_ver
+
+    @staticmethod
+    def _parse_ver(ver: str) -> tuple[int, ...]:
+        """'v1.2.3' or '1.2.3' → (1, 2, 3)"""
+        ver = ver.lstrip("vV").strip()
+        try:
+            return tuple(int(x) for x in ver.split("."))
+        except ValueError:
+            return (0,)
+
+    def run(self) -> None:
+        try:
+            api_url = f"https://api.github.com/repos/{self._repo}/releases/latest"
+            resp = requests.get(api_url, timeout=8,
+                                headers={"Accept": "application/vnd.github+json",
+                                         "X-GitHub-Api-Version": "2022-11-28"})
+            if resp.status_code != 200:
+                self.check_failed.emit()
+                return
+            data = resp.json()
+            latest_tag = data.get("tag_name", "")
+            html_url   = data.get("html_url", f"https://github.com/{self._repo}/releases")
+            if not latest_tag:
+                self.check_failed.emit()
+                return
+            if self._parse_ver(latest_tag) > self._parse_ver(self._current_ver):
+                self.update_found.emit(latest_tag.lstrip("vV"), html_url)
+            else:
+                self.up_to_date.emit(self._current_ver)
+        except Exception as e:
+            log.debug(f"检查更新失败: {e}")
+            self.check_failed.emit()
 
 
 # ---------------------------------------------------------------------------
@@ -64,23 +208,30 @@ class EvaluateWorker(QThread):
     result_ready = pyqtSignal(dict)
     error_occurred = pyqtSignal(str)
 
-    def __init__(self, run_state: dict) -> None:
+    def __init__(self, run_state: dict, language: str = "zh") -> None:
         super().__init__()
         self.run_state = run_state
+        self.language = language
 
     def run(self) -> None:
         try:
             resp = requests.post(
                 f"{BACKEND_URL}/api/evaluate",
-                json={"run_state": self.run_state},
+                json={"run_state": self.run_state, "language": self.language},
                 timeout=5,
             )
             resp.raise_for_status()
             self.result_ready.emit(resp.json())
         except requests.exceptions.ConnectionError:
-            self.error_occurred.emit("无法连接后端服务（请先启动 main.py）")
+            self.error_occurred.emit(
+                "无法连接后端服务（请先启动 main.py）"
+                if self.language == "zh"
+                else "Cannot connect to backend (start main.py first)"
+            )
         except requests.exceptions.Timeout:
-            self.error_occurred.emit("请求超时")
+            self.error_occurred.emit(
+                "请求超时" if self.language == "zh" else "Request timed out"
+            )
         except Exception as exc:
             self.error_occurred.emit(str(exc))
 
@@ -212,24 +363,18 @@ class CardsFetchWorker(QThread):
 # 卡牌选择器组件
 # ---------------------------------------------------------------------------
 
-_RARITY_CHIP_STYLE = {
-    "common": {
-        "normal":   "background:rgba(35,28,18,0.8);border:1px solid #3A2E1E;border-radius:3px;color:#9A8A6A;font-size:13px;padding:3px 6px;text-align:left;",
-        "selected": "background:rgba(50,80,30,0.85);border:1px solid #5A8A2E;border-radius:3px;color:#A8D870;font-size:13px;padding:3px 6px;text-align:left;",
-    },
-    "uncommon": {
-        "normal":   "background:rgba(20,35,50,0.8);border:1px solid #2E5A8A;border-radius:3px;color:#64B5F6;font-size:13px;padding:3px 6px;text-align:left;",
-        "selected": "background:rgba(20,55,90,0.9);border:1px solid #4A8ABA;border-radius:3px;color:#90CAF9;font-size:13px;padding:3px 6px;text-align:left;",
-    },
-    "rare": {
-        "normal":   "background:rgba(50,30,10,0.8);border:1px solid #8A5A1E;border-radius:3px;color:#FFD54F;font-size:13px;padding:3px 6px;text-align:left;",
-        "selected": "background:rgba(80,50,10,0.9);border:1px solid #C8901E;border-radius:3px;color:#FFE082;font-size:13px;padding:3px 6px;text-align:left;",
-    },
-    "basic": {
-        "normal":   "background:rgba(30,30,30,0.8);border:1px solid #444;border-radius:3px;color:#888;font-size:13px;padding:3px 6px;text-align:left;",
-        "selected": "background:rgba(50,50,50,0.9);border:1px solid #666;border-radius:3px;color:#bbb;font-size:13px;padding:3px 6px;text-align:left;",
-    },
+_RARITY_CHIP_PARAMS = {
+    "common":   ("rgba(35,28,18,0.8)",  "#3A2E1E", "#9A8A6A", "rgba(50,80,30,0.85)",  "#5A8A2E", "#A8D870"),
+    "uncommon": ("rgba(20,35,50,0.8)",  "#2E5A8A", "#64B5F6", "rgba(20,55,90,0.9)",   "#4A8ABA", "#90CAF9"),
+    "rare":     ("rgba(50,30,10,0.8)",  "#8A5A1E", "#FFD54F", "rgba(80,50,10,0.9)",   "#C8901E", "#FFE082"),
+    "basic":    ("rgba(30,30,30,0.8)",  "#444",    "#888",    "rgba(50,50,50,0.9)",   "#666",    "#bbb"),
+    "ancient":  ("rgba(40,20,50,0.8)",  "#7A3A9A", "#CC88FF", "rgba(70,30,90,0.9)",   "#AA60CC", "#EEB8FF"),
 }
+
+
+def _get_rarity_chip_style(rarity: str, scale: float) -> dict:
+    params = _RARITY_CHIP_PARAMS.get(rarity, _RARITY_CHIP_PARAMS["common"])
+    return _build_chip_style(*params, scale=scale)
 
 
 class CardChipButton(QPushButton):
@@ -242,7 +387,7 @@ class CardChipButton(QPushButton):
         self._selected = False
         self._display_name = display_name or card.get("name", "")
         rarity_raw = card.get("rarity", "common").lower()
-        self._rarity = rarity_raw if rarity_raw in _RARITY_CHIP_STYLE else "common"
+        self._rarity = rarity_raw if rarity_raw in _RARITY_CHIP_PARAMS else "common"
 
         cost = card.get("cost", 0)
         cost_str = "X" if cost == -1 else str(cost)
@@ -255,7 +400,7 @@ class CardChipButton(QPushButton):
 
     def _apply_style(self) -> None:
         key = "selected" if self._selected else "normal"
-        self.setStyleSheet(_RARITY_CHIP_STYLE[self._rarity][key])
+        self.setStyleSheet(_get_rarity_chip_style(self._rarity, _get_ui_scale())[key])
 
     @property
     def card(self) -> dict:
@@ -270,12 +415,18 @@ class CardChipButton(QPushButton):
         if emit:
             self.toggled_card.emit(self._card, value)
 
+    def mousePressEvent(self, event) -> None:
+        if event.button() == Qt.MouseButton.RightButton and self._selected:
+            self.set_selected(False)
+        else:
+            super().mousePressEvent(event)
+
     def _on_click(self) -> None:
         self.set_selected(not self._selected)
 
 
 class CardPickerPanel(QScrollArea):
-    """按费用+类型分组显示的卡牌选择面板"""
+    """按大类（可折叠）+ 费用分段显示的卡牌选择面板"""
     selection_changed = pyqtSignal(list, list)  # (已选卡列表, 显示名列表)
 
     _TYPE_ORDER = ["attack", "skill", "power"]
@@ -301,13 +452,17 @@ class CardPickerPanel(QScrollArea):
         self.setWidget(self._content)
 
         self._chips: list[CardChipButton] = []
+        # 平铺列表，供 filter_cards 使用：每项 (header_or_btn, container, chips_in_section)
+        self._sections: list[tuple[QWidget, QWidget, list[CardChipButton]]] = []
+        # 大类折叠状态：大类标签 → 其下所有子 section 的 container 列表
+        self._group_bodies: list[tuple[QPushButton, list[QWidget]]] = []
         self._language: str = "en"
 
     def set_language(self, lang: str) -> None:
         self._language = lang
 
     def populate(self, cards: list[dict]) -> None:
-        """按类型分组、按费用排序填充卡牌"""
+        """按大类（可折叠）+ 费用子分段填充卡牌"""
         self.clear_cards()
 
         # 加载中文名映射（仅中文模式）
@@ -325,69 +480,142 @@ class CardPickerPanel(QScrollArea):
 
         type_labels = self._TYPE_LABELS_ZH if self._language == "zh" else self._TYPE_LABELS_EN
 
-        # 按类型分组
-        groups: dict[str, list[dict]] = {t: [] for t in self._TYPE_ORDER}
-        for card in cards:
-            ct = card.get("card_type", "").lower()
-            if ct in groups:
-                groups[ct].append(card)
-
-        # 每组按费用排序（X费排最后）
         def cost_key(c):
             cost = c.get("cost", 0)
             return 99 if cost == -1 else cost
 
-        # 无色卡牌单独一组（character == colorless，不按 type 拆分）
+        def cost_label(cost: int) -> str:
+            if cost == -1:
+                return "X"
+            if cost >= 3:
+                return "3+" if self._language == "en" else "3费+"
+            return str(cost)
+
+        cols = 3
+
+        def _make_cost_sections(group_cards: list[dict]) -> list[tuple[int, list[dict]]]:
+            """按费用分桶：0, 1, 2, 3+（-1归入3+）"""
+            buckets: dict[int, list[dict]] = {0: [], 1: [], 2: [], 3: []}
+            for c in group_cards:
+                cost = c.get("cost", 0)
+                key = min(cost, 3) if cost >= 0 else 3
+                buckets[key].append(c)
+            return [(k, v) for k, v in buckets.items() if v]
+
+        def _add_type_group(type_label: str, group_cards: list[dict]) -> None:
+            """添加一个大类折叠块（含费用子分段）"""
+            cost_sections = _make_cost_sections(sorted(group_cards, key=cost_key))
+            if not cost_sections:
+                return
+
+            # 折叠按钮（大类标题）
+            btn = QPushButton(f"▼  {type_label}  ({len(group_cards)})")
+            btn.setObjectName("CardTypeGroupHeader")
+            btn.setCheckable(False)
+            btn.setFlat(True)
+            self._layout.insertWidget(self._layout.count() - 1, btn)
+
+            # 大类下所有子容器
+            group_body_widgets: list[QWidget] = []
+
+            for cost_val, section_cards in cost_sections:
+                # 费用子标题 + 卡片网格打包进 sub_body（直接构建，不经过 _layout 中转）
+                sub_body = QWidget()
+                sub_vbox = QVBoxLayout(sub_body)
+                sub_vbox.setContentsMargins(0, 0, 0, 0)
+                sub_vbox.setSpacing(1)
+
+                cost_lbl_text = cost_label(cost_val)
+                cost_header = QLabel(f"  {cost_lbl_text}")
+                cost_header.setObjectName("CardPickerSectionHeader")
+                sub_vbox.addWidget(cost_header)
+
+                grid = QGridLayout()
+                grid.setSpacing(3)
+                section_chips: list[CardChipButton] = []
+                for i, card in enumerate(section_cards):
+                    card_id = card.get("id", "")
+                    display = (locale_map.get(card_id) or card.get("name", "")
+                               if self._language == "zh" else card.get("name", ""))
+                    chip = CardChipButton(card, display_name=display)
+                    chip.toggled_card.connect(self._on_chip_toggled)
+                    self._chips.append(chip)
+                    section_chips.append(chip)
+                    grid.addWidget(chip, i // cols, i % cols)
+
+                grid_container = QWidget()
+                grid_container.setLayout(grid)
+                sub_vbox.addWidget(grid_container)
+
+                self._layout.insertWidget(self._layout.count() - 1, sub_body)
+                group_body_widgets.append(sub_body)
+                self._sections.append((cost_header, grid_container, section_chips))
+
+            # 折叠逻辑
+            def _toggle(checked, b=btn, widgets=group_body_widgets, lbl=type_label, n=len(group_cards)):
+                collapsed = b.text().startswith("▶")
+                if collapsed:
+                    b.setText(f"▼  {lbl}  ({n})")
+                    for w in widgets:
+                        w.setVisible(True)
+                else:
+                    b.setText(f"▶  {lbl}  ({n})")
+                    for w in widgets:
+                        w.setVisible(False)
+
+            btn.clicked.connect(_toggle)
+            self._group_bodies.append((btn, group_body_widgets))
+
+        def _add_flat_group(label_text: str, group_cards: list[dict]) -> None:
+            """无色/先古：不按费用分段，直接平铺（无折叠）"""
+            if not group_cards:
+                return
+            header = QLabel(label_text)
+            header.setObjectName("CardPickerSectionHeader")
+            self._layout.insertWidget(self._layout.count() - 1, header)
+
+            grid = QGridLayout()
+            grid.setSpacing(3)
+            section_chips: list[CardChipButton] = []
+            for i, card in enumerate(group_cards):
+                card_id = card.get("id", "")
+                display = (locale_map.get(card_id) or card.get("name", "")
+                           if self._language == "zh" else card.get("name", ""))
+                chip = CardChipButton(card, display_name=display)
+                chip.toggled_card.connect(self._on_chip_toggled)
+                self._chips.append(chip)
+                section_chips.append(chip)
+                grid.addWidget(chip, i // cols, i % cols)
+
+            grid_container = QWidget()
+            grid_container.setLayout(grid)
+            self._layout.insertWidget(self._layout.count() - 1, grid_container)
+            self._sections.append((header, grid_container, section_chips))
+
+        # 按类型分组（排除无色和先古）
+        groups: dict[str, list[dict]] = {t: [] for t in self._TYPE_ORDER}
+        for card in cards:
+            ct = card.get("card_type", "").lower()
+            if ct in groups and card.get("character", "").lower() != "colorless":
+                groups[ct].append(card)
+
+        for type_key in self._TYPE_ORDER:
+            if groups[type_key]:
+                _add_type_group(type_labels.get(type_key, type_key), groups[type_key])
+
         colorless_cards = sorted(
             [c for c in cards if c.get("character", "").lower() == "colorless"],
             key=cost_key
         )
-
-        cols = 3
-        for type_key in self._TYPE_ORDER:
-            group = sorted(groups[type_key], key=cost_key)
-            if not group:
-                continue
-
-            # 章节标题
-            header = QLabel(type_labels.get(type_key, type_key))
-            header.setObjectName("CardPickerSectionHeader")
-            self._layout.insertWidget(self._layout.count() - 1, header)
-
-            # 卡片网格
-            grid = QGridLayout()
-            grid.setSpacing(3)
-            for i, card in enumerate(group):
-                card_id = card.get("id", "")
-                display = locale_map.get(card_id) or card.get("name", "") if self._language == "zh" else card.get("name", "")
-                chip = CardChipButton(card, display_name=display)
-                chip.toggled_card.connect(self._on_chip_toggled)
-                self._chips.append(chip)
-                grid.addWidget(chip, i // cols, i % cols)
-
-            grid_container = QWidget()
-            grid_container.setLayout(grid)
-            self._layout.insertWidget(self._layout.count() - 1, grid_container)
-
-        # 无色卡牌分组
         if colorless_cards:
-            header = QLabel(type_labels.get("colorless", "Colorless"))
-            header.setObjectName("CardPickerSectionHeader")
-            self._layout.insertWidget(self._layout.count() - 1, header)
+            _add_flat_group(type_labels.get("colorless", "Colorless"), colorless_cards)
 
-            grid = QGridLayout()
-            grid.setSpacing(3)
-            for i, card in enumerate(colorless_cards):
-                card_id = card.get("id", "")
-                display = locale_map.get(card_id) or card.get("name", "") if self._language == "zh" else card.get("name", "")
-                chip = CardChipButton(card, display_name=display)
-                chip.toggled_card.connect(self._on_chip_toggled)
-                self._chips.append(chip)
-                grid.addWidget(chip, i // cols, i % cols)
-
-            grid_container = QWidget()
-            grid_container.setLayout(grid)
-            self._layout.insertWidget(self._layout.count() - 1, grid_container)
+        ancient_cards = sorted(
+            [c for c in cards if c.get("rarity", "").lower() == "ancient"],
+            key=lambda c: c.get("name", "")
+        )
+        if ancient_cards:
+            _add_flat_group("先古" if self._language == "zh" else "Ancient", ancient_cards)
 
     def clear_cards(self) -> None:
         """清除所有卡片和标题"""
@@ -396,6 +624,43 @@ class CardPickerPanel(QScrollArea):
             if item.widget():
                 item.widget().deleteLater()
         self._chips.clear()
+        self._sections.clear()
+        self._group_bodies.clear()
+
+    def filter_cards(self, query: str) -> None:
+        """按名称实时过滤卡牌，隐藏不匹配的 chip 和空分组"""
+        q = query.strip().lower()
+
+        # 搜索时展开所有大类（便于看到结果）
+        if q:
+            for btn, widgets in self._group_bodies:
+                for w in widgets:
+                    w.setVisible(True)
+                if btn.text().startswith("▶"):
+                    btn.setText(btn.text().replace("▶", "▼", 1))
+
+        # 先按卡片匹配更新每个费用分段的可见性
+        sub_body_visible: dict[int, bool] = {}  # id(sub_body) → any visible
+        for cost_header, grid_container, chips in self._sections:
+            any_visible = False
+            for chip in chips:
+                visible = not q or q in chip._display_name.lower() or q in chip.card.get("id", "").lower()
+                chip.setVisible(visible)
+                if visible:
+                    any_visible = True
+            cost_header.setVisible(any_visible)
+            grid_container.setVisible(any_visible)
+            sub_body = cost_header.parent()
+            if sub_body and sub_body is not self._content:
+                prev = sub_body_visible.get(id(sub_body), False)
+                sub_body_visible[id(sub_body)] = prev or any_visible
+                sub_body.setVisible(sub_body_visible[id(sub_body)])
+
+    def deselect_by_id(self, card_id: str) -> None:
+        """根据 card id 取消对应 chip 的选中状态"""
+        for chip in self._chips:
+            if chip.card.get("id", "") == card_id and chip.is_selected():
+                chip.set_selected(False)
 
     def clear_selection(self) -> None:
         """取消所有选中（不触发信号）"""
@@ -415,18 +680,20 @@ class CardPickerPanel(QScrollArea):
 class SelectionTrayWidget(QWidget):
     """显示已选卡牌的托盘 + 评估按钮"""
     evaluate_requested = pyqtSignal(list)
+    deselect_requested = pyqtSignal(str)  # card_id
 
-    def __init__(self, parent=None) -> None:
+    def __init__(self, parent=None, language: str = "zh") -> None:
         super().__init__(parent)
         self.setObjectName("SelectionTray")
         self._selected_cards: list[dict] = []
+        self._language = language
 
         layout = QHBoxLayout(self)
         layout.setContentsMargins(6, 4, 6, 4)
         layout.setSpacing(6)
 
-        self._prefix_label = QLabel("候选:")
-        self._prefix_label.setStyleSheet("color: #888; font-size: 12pt;")
+        self._prefix_label = QLabel(_t("tray_prefix", self._language))
+        self._prefix_label.setStyleSheet("color: #888;")
         layout.addWidget(self._prefix_label)
 
         # 动态卡名区域
@@ -437,16 +704,21 @@ class SelectionTrayWidget(QWidget):
         layout.addWidget(self._chips_widget, 1)
 
         self._count_label = QLabel("0/4")
-        self._count_label.setStyleSheet("color: #666; font-size: 12pt;")
+        self._count_label.setStyleSheet("color: #666;")
         layout.addWidget(self._count_label)
 
-        self._evaluate_btn = QPushButton("⟳ 评估")
+        self._evaluate_btn = QPushButton(_t("btn_evaluate", self._language))
         self._evaluate_btn.setObjectName("EvaluateButton")
         self._evaluate_btn.setEnabled(False)
         self._evaluate_btn.clicked.connect(
             lambda: self.evaluate_requested.emit(self._selected_cards)
         )
         layout.addWidget(self._evaluate_btn)
+
+    def set_language(self, language: str) -> None:
+        self._language = language
+        self._prefix_label.setText(_t("tray_prefix", self._language))
+        self._evaluate_btn.setText(_t("btn_evaluate", self._language))
 
     def update_selection(self, cards: list[dict], display_names: list[str] | None = None) -> None:
         self._selected_cards = cards
@@ -458,7 +730,7 @@ class SelectionTrayWidget(QWidget):
                 item.widget().deleteLater()
 
         names = display_names if display_names else [c.get("name", "?") for c in cards]
-        for name in names:
+        for card, name in zip(cards, names):
             if len(name) > 12:
                 name = name[:11] + "…"
             lbl = QLabel(name)
@@ -466,8 +738,12 @@ class SelectionTrayWidget(QWidget):
             lbl.setStyleSheet(
                 "color: #A8D870; background: rgba(60,90,40,0.7); "
                 "border: 1px solid #6A9A3E; border-radius: 3px; "
-                "padding: 1px 5px; font-size: 12pt;"
+                f"padding: 1px 5px; font-size: {_fs(13)}px;"
             )
+            lbl.setToolTip(_t("tray_deselect_tip", self._language))
+            lbl.setCursor(Qt.CursorShape.PointingHandCursor)
+            card_id = card.get("id", "")
+            lbl.mousePressEvent = lambda event, cid=card_id: self.deselect_requested.emit(cid)
             self._chips_layout.addWidget(lbl)
 
         self._count_label.setText(f"{len(cards)}/4")
@@ -595,9 +871,21 @@ class PathSettingsDialog(QDialog):
     def __init__(self, parent: QWidget | None = None, backend_url: str = "") -> None:
         super().__init__(parent)
         self.backend_url = backend_url
-        self.setWindowTitle("路径设置")
+        # inherit language from parent window if available
+        self._language = getattr(parent, "_language", "zh")
+        self.setWindowTitle(_t("settings_title", self._language))
         self.setModal(True)
         self.setMinimumWidth(500)
+        # 记录打开时的初始值，供取消时还原
+        try:
+            from scripts.config_manager import get_font_scale, get_opacity, get_language
+            self._orig_font_scale = get_font_scale()
+            self._orig_opacity = get_opacity()
+            self._orig_language = get_language()
+        except Exception:
+            self._orig_font_scale = 1.0
+            self._orig_opacity = 0.95
+            self._orig_language = self._language
         self._build_ui()
 
     def _build_ui(self) -> None:
@@ -605,18 +893,14 @@ class PathSettingsDialog(QDialog):
         layout.setSpacing(12)
 
         # 帮助信息
-        help_text = QLabel(
-            "设置游戏文件所在的文件夹。系统会自动在文件夹内搜索对应的文件。\n"
-            "• 存档文件夹：应包含 current_run.save 等存档文件\n"
-            "• 日志文件夹：应包含 godot.log 等日志文件"
-        )
+        help_text = QLabel(_t("settings_help", self._language))
         help_text.setStyleSheet("color: #666; font-size: 12pt; padding: 8px;")
         help_text.setWordWrap(True)
         layout.addWidget(help_text)
 
         # ===== 语言设置 =====
         lang_layout = QHBoxLayout()
-        lang_label = QLabel("🌐 卡牌显示语言:")
+        lang_label = QLabel(_t("settings_lang", self._language))
         lang_label.setStyleSheet("font-weight: bold; font-size: 11pt;")
         lang_layout.addWidget(lang_label)
 
@@ -632,9 +916,102 @@ class PathSettingsDialog(QDialog):
         except Exception:
             pass
         self._lang_combo.setMaximumWidth(150)
+        def _on_lang_changed(idx: int) -> None:
+            new_lang = self._lang_combo.currentData()
+            if not new_lang:
+                return
+            parent = self.parent()
+            if parent and hasattr(parent, '_reload_ui_language'):
+                from scripts.config_manager import set_language
+                set_language(new_lang)
+                parent._language = new_lang
+                parent._reload_ui_language()
+        self._lang_combo.currentIndexChanged.connect(_on_lang_changed)
         lang_layout.addWidget(self._lang_combo)
         lang_layout.addStretch()
         layout.addLayout(lang_layout)
+
+        # ===== 字体缩放 =====
+        scale_layout = QHBoxLayout()
+        scale_label = QLabel(_t("settings_font", self._language))
+        scale_label.setStyleSheet("font-weight: bold; font-size: 11pt;")
+        scale_layout.addWidget(scale_label)
+
+        self._scale_slider = QSlider(Qt.Orientation.Horizontal)
+        self._scale_slider.setRange(80, 160)
+        self._scale_slider.setSingleStep(5)
+        self._scale_slider.setMaximumWidth(160)
+        try:
+            from scripts.config_manager import get_font_scale
+            self._scale_slider.setValue(int(get_font_scale() * 100))
+        except Exception:
+            self._scale_slider.setValue(100)
+
+        current_pct = self._scale_slider.value()
+        self._scale_value_label = QLabel(f"{current_pct}%")
+        self._scale_value_label.setMinimumWidth(40)
+        def _on_scale_changed(v: int) -> None:
+            self._scale_value_label.setText(f"{v}%")
+            # 实时预览：直接更新父窗口字体
+            parent = self.parent()
+            if parent and hasattr(parent, '_load_stylesheet'):
+                from scripts.config_manager import set_font_scale
+                set_font_scale(v / 100.0)
+                parent._load_stylesheet()
+        self._scale_slider.valueChanged.connect(_on_scale_changed)
+        scale_layout.addWidget(self._scale_slider)
+        scale_layout.addWidget(self._scale_value_label)
+        scale_layout.addStretch()
+        layout.addLayout(scale_layout)
+
+        # ===== 全局快捷键 =====
+        hotkey_layout = QHBoxLayout()
+        hotkey_label = QLabel(_t("settings_hotkey", self._language))
+        hotkey_label.setStyleSheet("font-weight: bold; font-size: 11pt;")
+        hotkey_layout.addWidget(hotkey_label)
+
+        self._hotkey_input = QLineEdit()
+        self._hotkey_input.setMaximumWidth(200)
+        self._hotkey_input.setPlaceholderText(_t("settings_hotkey_ph", self._language))
+        try:
+            from scripts.config_manager import get_hotkey
+            self._hotkey_input.setText(get_hotkey())
+        except Exception:
+            self._hotkey_input.setText("ctrl+shift+s")
+        hotkey_layout.addWidget(self._hotkey_input)
+        hotkey_layout.addStretch()
+        layout.addLayout(hotkey_layout)
+
+        # ===== 窗口透明度 =====
+        opacity_layout = QHBoxLayout()
+        opacity_label = QLabel(_t("settings_opacity", self._language))
+        opacity_label.setStyleSheet("font-weight: bold; font-size: 11pt;")
+        opacity_layout.addWidget(opacity_label)
+
+        self._opacity_slider = QSlider(Qt.Orientation.Horizontal)
+        self._opacity_slider.setRange(40, 100)
+        self._opacity_slider.setSingleStep(5)
+        self._opacity_slider.setMaximumWidth(160)
+        try:
+            from scripts.config_manager import get_opacity
+            self._opacity_slider.setValue(int(get_opacity() * 100))
+        except Exception:
+            self._opacity_slider.setValue(95)
+
+        current_opacity_pct = self._opacity_slider.value()
+        self._opacity_value_label = QLabel(f"{current_opacity_pct}%")
+        self._opacity_value_label.setMinimumWidth(40)
+        def _on_opacity_changed(v: int) -> None:
+            self._opacity_value_label.setText(f"{v}%")
+            # 实时预览：直接更新父窗口透明度
+            parent = self.parent()
+            if parent and hasattr(parent, 'setWindowOpacity'):
+                parent.setWindowOpacity(v / 100.0)
+        self._opacity_slider.valueChanged.connect(_on_opacity_changed)
+        opacity_layout.addWidget(self._opacity_slider)
+        opacity_layout.addWidget(self._opacity_value_label)
+        opacity_layout.addStretch()
+        layout.addLayout(opacity_layout)
 
         # 分隔线
         separator1 = QFrame()
@@ -644,7 +1021,7 @@ class PathSettingsDialog(QDialog):
 
         # ===== 存档路径 =====
         save_header_layout = QHBoxLayout()
-        save_label = QLabel("📂 存档文件夹:")
+        save_label = QLabel(_t("settings_save_folder", self._language))
         save_label.setStyleSheet("font-weight: bold; font-size: 11pt;")
         save_header_layout.addWidget(save_label)
 
@@ -656,10 +1033,10 @@ class PathSettingsDialog(QDialog):
 
         save_input_layout = QHBoxLayout()
         self._save_path_input = QLineEdit()
-        self._save_path_input.setPlaceholderText("选择存档文件所在的文件夹...")
+        self._save_path_input.setPlaceholderText(_t("settings_save_ph", self._language))
         self._save_path_input.setMinimumHeight(32)
         self._save_path_input.textChanged.connect(self._validate_save_path)
-        save_browse_btn = QPushButton("浏览...")
+        save_browse_btn = QPushButton(_t("settings_browse", self._language))
         save_browse_btn.setMaximumWidth(80)
         save_browse_btn.clicked.connect(self._browse_save_path)
         save_input_layout.addWidget(self._save_path_input)
@@ -681,7 +1058,7 @@ class PathSettingsDialog(QDialog):
 
         # ===== 日志路径 =====
         log_header_layout = QHBoxLayout()
-        log_label = QLabel("📋 日志文件夹:")
+        log_label = QLabel(_t("settings_log_folder", self._language))
         log_label.setStyleSheet("font-weight: bold; font-size: 11pt;")
         log_header_layout.addWidget(log_label)
 
@@ -693,10 +1070,10 @@ class PathSettingsDialog(QDialog):
 
         log_input_layout = QHBoxLayout()
         self._log_path_input = QLineEdit()
-        self._log_path_input.setPlaceholderText("选择日志文件所在的文件夹...")
+        self._log_path_input.setPlaceholderText(_t("settings_log_ph", self._language))
         self._log_path_input.setMinimumHeight(32)
         self._log_path_input.textChanged.connect(self._validate_log_path)
-        log_browse_btn = QPushButton("浏览...")
+        log_browse_btn = QPushButton(_t("settings_browse", self._language))
         log_browse_btn.setMaximumWidth(80)
         log_browse_btn.clicked.connect(self._browse_log_path)
         log_input_layout.addWidget(self._log_path_input)
@@ -716,12 +1093,12 @@ class PathSettingsDialog(QDialog):
         button_layout = QHBoxLayout()
         button_layout.addStretch()
 
-        save_btn = QPushButton("保存配置")
+        save_btn = QPushButton(_t("settings_save_btn", self._language))
         save_btn.setMinimumWidth(100)
         save_btn.clicked.connect(self._save_settings)
         button_layout.addWidget(save_btn)
 
-        cancel_btn = QPushButton("取消")
+        cancel_btn = QPushButton(_t("settings_cancel_btn", self._language))
         cancel_btn.setMinimumWidth(100)
         cancel_btn.clicked.connect(self.reject)
         button_layout.addWidget(cancel_btn)
@@ -744,19 +1121,25 @@ class PathSettingsDialog(QDialog):
 
         if not path_text:
             self._save_indicator.setStyleSheet("color: #aaa;")
-            self._save_status.setText("未设置")
+            self._save_status.setText("未设置" if self._language == "zh" else "Not set")
             return False
 
         try:
             folder = Path(path_text)
             if not folder.exists():
                 self._save_indicator.setStyleSheet("color: #F44336;")
-                self._save_status.setText(f"❌ 文件夹不存在: {path_text}")
+                self._save_status.setText(
+                    f"❌ 文件夹不存在: {path_text}" if self._language == "zh"
+                    else f"❌ Folder not found: {path_text}"
+                )
                 return False
 
             if not folder.is_dir():
                 self._save_indicator.setStyleSheet("color: #F44336;")
-                self._save_status.setText(f"❌ 不是文件夹: {path_text}")
+                self._save_status.setText(
+                    f"❌ 不是文件夹: {path_text}" if self._language == "zh"
+                    else f"❌ Not a folder: {path_text}"
+                )
                 return False
 
             # 搜索合适的存档文件
@@ -764,16 +1147,24 @@ class PathSettingsDialog(QDialog):
             if save_files:
                 found_file = save_files[0]
                 self._save_indicator.setStyleSheet("color: #4CAF50;")
-                self._save_status.setText(f"✓ 找到存档文件: {found_file.name}")
+                self._save_status.setText(
+                    f"✓ 找到存档文件: {found_file.name}" if self._language == "zh"
+                    else f"✓ Save file found: {found_file.name}"
+                )
                 return True
             else:
                 self._save_indicator.setStyleSheet("color: #FFC107;")
-                self._save_status.setText(f"⚠ 文件夹存在但未找到 *.save 文件")
+                self._save_status.setText(
+                    "⚠ 文件夹存在但未找到 *.save 文件" if self._language == "zh"
+                    else "⚠ Folder exists but no *.save file found"
+                )
                 return False
 
         except Exception as e:
             self._save_indicator.setStyleSheet("color: #F44336;")
-            self._save_status.setText(f"❌ 检查失败: {e}")
+            self._save_status.setText(
+                f"❌ 检查失败: {e}" if self._language == "zh" else f"❌ Check failed: {e}"
+            )
             return False
 
     def _check_log_folder(self, path_text: str) -> bool:
@@ -782,19 +1173,25 @@ class PathSettingsDialog(QDialog):
 
         if not path_text:
             self._log_indicator.setStyleSheet("color: #aaa;")
-            self._log_status.setText("未设置")
+            self._log_status.setText("未设置" if self._language == "zh" else "Not set")
             return False
 
         try:
             folder = Path(path_text)
             if not folder.exists():
                 self._log_indicator.setStyleSheet("color: #F44336;")
-                self._log_status.setText(f"❌ 文件夹不存在: {path_text}")
+                self._log_status.setText(
+                    f"❌ 文件夹不存在: {path_text}" if self._language == "zh"
+                    else f"❌ Folder not found: {path_text}"
+                )
                 return False
 
             if not folder.is_dir():
                 self._log_indicator.setStyleSheet("color: #F44336;")
-                self._log_status.setText(f"❌ 不是文件夹: {path_text}")
+                self._log_status.setText(
+                    f"❌ 不是文件夹: {path_text}" if self._language == "zh"
+                    else f"❌ Not a folder: {path_text}"
+                )
                 return False
 
             # 搜索合适的日志文件
@@ -803,16 +1200,24 @@ class PathSettingsDialog(QDialog):
                 # 找最新的日志文件
                 latest = max(log_files, key=lambda p: p.stat().st_mtime)
                 self._log_indicator.setStyleSheet("color: #4CAF50;")
-                self._log_status.setText(f"✓ 找到日志文件: {latest.name}")
+                self._log_status.setText(
+                    f"✓ 找到日志文件: {latest.name}" if self._language == "zh"
+                    else f"✓ Log file found: {latest.name}"
+                )
                 return True
             else:
                 self._log_indicator.setStyleSheet("color: #FFC107;")
-                self._log_status.setText(f"⚠ 文件夹存在但未找到 *.log 或 *.txt 文件")
+                self._log_status.setText(
+                    "⚠ 文件夹存在但未找到 *.log 或 *.txt 文件" if self._language == "zh"
+                    else "⚠ Folder exists but no *.log or *.txt file found"
+                )
                 return False
 
         except Exception as e:
             self._log_indicator.setStyleSheet("color: #F44336;")
-            self._log_status.setText(f"❌ 检查失败: {e}")
+            self._log_status.setText(
+                f"❌ 检查失败: {e}" if self._language == "zh" else f"❌ Check failed: {e}"
+            )
             return False
 
     def _update_save_hint(self) -> None:
@@ -823,7 +1228,8 @@ class PathSettingsDialog(QDialog):
             if steam_path.exists():
                 for save_dir in steam_path.glob("*/profile*/saves"):
                     if save_dir.is_dir():
-                        self._save_path_input.setPlaceholderText(f"默认位置: {save_dir}")
+                        _def = "默认位置" if self._language == "zh" else "Default"
+                        self._save_path_input.setPlaceholderText(f"{_def}: {save_dir}")
                         self._check_save_folder(str(save_dir))
                         return
         except Exception:
@@ -835,7 +1241,8 @@ class PathSettingsDialog(QDialog):
             from pathlib import Path
             log_path = Path.home() / "AppData" / "Roaming" / "SlayTheSpire2" / "logs"
             if log_path.exists():
-                self._log_path_input.setPlaceholderText(f"默认位置: {log_path}")
+                _def = "默认位置" if self._language == "zh" else "Default"
+                self._log_path_input.setPlaceholderText(f"{_def}: {log_path}")
                 self._check_log_folder(str(log_path))
                 return
         except Exception:
@@ -849,7 +1256,7 @@ class PathSettingsDialog(QDialog):
 
         path = QFileDialog.getExistingDirectory(
             self,
-            "选择存档文件所在的文件夹",
+            _t("settings_save_dialog", self._language),
             default_dir,
             QFileDialog.Option.ShowDirsOnly
         )
@@ -864,36 +1271,72 @@ class PathSettingsDialog(QDialog):
 
         path = QFileDialog.getExistingDirectory(
             self,
-            "选择日志文件所在的文件夹",
+            _t("settings_log_dialog", self._language),
             default_dir,
             QFileDialog.Option.ShowDirsOnly
         )
         if path:
             self._log_path_input.setText(path)
 
+    def reject(self) -> None:
+        """取消时还原实时预览已应用的设置"""
+        parent = self.parent()
+        try:
+            from scripts.config_manager import set_font_scale, set_opacity, set_language
+            set_font_scale(self._orig_font_scale)
+            set_opacity(self._orig_opacity)
+            set_language(self._orig_language)
+            if parent:
+                if hasattr(parent, '_load_stylesheet'):
+                    parent._load_stylesheet()
+                if hasattr(parent, 'setWindowOpacity'):
+                    parent.setWindowOpacity(self._orig_opacity)
+                if hasattr(parent, '_language') and parent._language != self._orig_language:
+                    parent._language = self._orig_language
+                    if hasattr(parent, '_reload_ui_language'):
+                        parent._reload_ui_language()
+        except Exception:
+            pass
+        super().reject()
+
     def _save_settings(self) -> None:
         try:
             # 保存语言设置
-            lang = self._lang_combo.currentData()
-            from scripts.config_manager import set_language
-            set_language(lang)
+            self._saved_lang = self._lang_combo.currentData()
+            from scripts.config_manager import set_language, set_font_scale, set_hotkey, set_opacity
+            set_language(self._saved_lang)
 
+            # 保存字体缩放
+            self._saved_font_scale = self._scale_slider.value() / 100.0
+            set_font_scale(self._saved_font_scale)
+
+            # 保存快捷键
+            self._saved_hotkey = self._hotkey_input.text().strip()
+            if self._saved_hotkey:
+                set_hotkey(self._saved_hotkey)
+
+            # 保存透明度
+            self._saved_opacity = self._opacity_slider.value() / 100.0
+            set_opacity(self._saved_opacity)
+
+            # 尝试通知后端更新路径（失败不阻止关闭）
             save_path = self._save_path_input.text().strip()
             log_path = self._log_path_input.text().strip()
-
             payload = {}
             if save_path:
                 payload["save_path"] = save_path
             if log_path:
                 payload["log_path"] = log_path
-
             if payload:
-                resp = requests.post(
-                    f"{self.backend_url}/api/config",
-                    json=payload,
-                    timeout=5,
-                )
-                resp.raise_for_status()
+                try:
+                    resp = requests.post(
+                        f"{self.backend_url}/api/config",
+                        json=payload,
+                        timeout=5,
+                    )
+                    resp.raise_for_status()
+                except Exception as e:
+                    log.warning(f"后端路径更新失败（不影响其他设置）: {e}")
 
             log.info("✓ 设置已保存")
             self.accept()
@@ -912,7 +1355,11 @@ _ROLE_ZH = {
     "filler":     "补件",
     "pollution":  "污染",
     "unknown":    "未知",
+    "ancient":    "先古之民",
+    "curse":      "诅咒",
 }
+
+_BEYOND_SCORING_ROLES = {"ancient", "curse"}
 
 _REC_COLORS = {
     "强烈推荐": "#A8D870", "Highly Recommended": "#A8D870",
@@ -957,22 +1404,23 @@ class CardResultWidget(QFrame):
         outer.setContentsMargins(10, 6, 10, 6)
         outer.setSpacing(3)
 
-        # ── 行1：卡牌名（中文） ──────────────────────────────────────────
+        # ── 行1：卡牌名 ──────────────────────────────────────────────────
         raw_name = result.get("card_name", "?")
         card_id = result.get("card_id", "")
-        try:
+        if self._language == "zh":
             try:
-                from frontend.card_locale import get_card_locale
-            except ImportError:
-                from card_locale import get_card_locale
-            zh_name = get_card_locale().get_chinese_name(card_id)
-            raw_name = zh_name or raw_name
-        except Exception:
-            pass
+                try:
+                    from frontend.card_locale import get_card_locale
+                except ImportError:
+                    from card_locale import get_card_locale
+                zh_name = get_card_locale().get_chinese_name(card_id)
+                raw_name = zh_name or raw_name
+            except Exception:
+                pass
 
         name_label = QLabel(raw_name)
         name_label.setObjectName("cardName")
-        name_label.setStyleSheet("font-weight:bold;font-size:17px;")
+        name_label.setStyleSheet("font-weight:bold;")
         outer.addWidget(name_label)
 
         # ── 行2：定位 | 分数 | 推荐 ─────────────────────────────────────
@@ -980,28 +1428,34 @@ class CardResultWidget(QFrame):
         meta_row.setSpacing(6)
 
         role_en = result.get("role", "unknown")
-        role_zh = _ROLE_ZH.get(role_en, role_en)
-        role_label = QLabel(role_zh)
+        _ROLE_EN = {
+            "core": "Core", "enabler": "Enabler", "transition": "Transition",
+            "filler": "Filler", "pollution": "Pollution", "unknown": "Unknown",
+            "ancient": "Ancient", "curse": "Curse",
+        }
+        role_display = _ROLE_ZH.get(role_en, role_en) if self._language == "zh" else _ROLE_EN.get(role_en, role_en)
+        role_label = QLabel(role_display)
         role_label.setObjectName("cardRole")
-        role_label.setStyleSheet("color:#A09070;font-size:14px;")
+        role_label.setStyleSheet("color:#A09070;")
         meta_row.addWidget(role_label)
 
         meta_row.addStretch()
 
         grade = result.get("grade", "")
         score = result.get("total_score", 0)
+        is_beyond = result.get("role", "") in _BEYOND_SCORING_ROLES
         grade_text = grade if grade else f"{score:.0f}"
-        grade_color = _GRADE_COLORS.get(grade, "#C8A96E")
+        grade_color = "#7A6A8A" if is_beyond else _GRADE_COLORS.get(grade, "#C8A96E")
         score_label = QLabel(grade_text)
         score_label.setObjectName("cardScore")
-        score_label.setStyleSheet(f"color:{grade_color};font-size:15px;font-weight:bold;")
+        score_label.setStyleSheet(f"color:{grade_color};font-weight:bold;")
         meta_row.addWidget(score_label)
 
         rec = result.get("recommendation", "")
-        rec_color = _REC_COLORS.get(rec, "#9A8A6A")
+        rec_color = "#7A6A8A" if is_beyond else _REC_COLORS.get(rec, "#9A8A6A")
         rec_label = QLabel(rec)
         rec_label.setObjectName("cardRecommendation")
-        rec_label.setStyleSheet(f"color:{rec_color};font-weight:bold;font-size:14px;")
+        rec_label.setStyleSheet(f"color:{rec_color};font-weight:bold;")
         meta_row.addWidget(rec_label)
 
         outer.addLayout(meta_row)
@@ -1010,19 +1464,85 @@ class CardResultWidget(QFrame):
         reasons_for     = result.get("reasons_for", [])
         reasons_against = result.get("reasons_against", [])
 
+        _sep = "；" if self._language == "zh" else " · "
         if reasons_for:
-            lbl = QLabel("▸ " + "；".join(reasons_for))
+            lbl = QLabel("▸ " + _sep.join(reasons_for))
             lbl.setObjectName("cardReasonFor")
             lbl.setWordWrap(True)
-            lbl.setStyleSheet("color:#8BC34A;font-size:12px;padding-top:1px;")
+            lbl.setStyleSheet("color:#8BC34A;padding-top:1px;")
             outer.addWidget(lbl)
 
         if reasons_against:
-            lbl = QLabel("▸ " + "；".join(reasons_against))
+            text = _sep.join(reasons_against)
+            lbl = QLabel(text)
             lbl.setObjectName("cardReasonAgainst")
             lbl.setWordWrap(True)
-            lbl.setStyleSheet("color:#FF8A65;font-size:12px;padding-top:1px;")
+            # 超出评分体系时用暗紫色提示色，而非警告红
+            if is_beyond:
+                lbl.setStyleSheet("color:#9A80AA;padding-top:1px;font-style:italic;")
+            else:
+                lbl.setStyleSheet("color:#FF8A65;padding-top:1px;")
             outer.addWidget(lbl)
+
+
+# ---------------------------------------------------------------------------
+# 字体缩放辅助函数
+# ---------------------------------------------------------------------------
+
+def _get_ui_scale() -> float:
+    """
+    读取用户配置的字体缩放，并叠加系统 DPI 缩放。
+    - 配置值是用户在 100% DPI 下的期望比例（默认 1.2）
+    - devicePixelRatio > 1 时（高 DPI 屏）额外乘以该比例，避免文字过小
+    """
+    try:
+        from scripts.config_manager import get_font_scale
+        user_scale = get_font_scale()
+    except Exception:
+        user_scale = 1.2  # 默认 120%
+    try:
+        app = QApplication.instance()
+        if app:
+            dpr = app.primaryScreen().devicePixelRatio()
+            # 只在逻辑 DPI 真正放大时才叠加（Qt 在高 DPI 屏通常已自动处理，
+            # 这里仅对 dpr > 1.25 的情况做轻微补偿，避免双重放大）
+            if dpr > 1.25:
+                user_scale = user_scale * min(dpr / 1.25, 1.3)
+    except Exception:
+        pass
+    return user_scale
+
+
+def _scale_px(px: int, scale: float) -> int:
+    return max(9, round(px * scale))
+
+
+def _fs(px: int) -> int:
+    """快捷方式：将基础 px 按当前 UI 缩放比例换算（用于动态 setStyleSheet）"""
+    return _scale_px(px, _get_ui_scale())
+
+
+def _build_scaled_stylesheet(base_qss: str, scale: float) -> str:
+    """将 QSS 中所有 font-size: Npx 乘以 scale 并取整（最小 9px）"""
+    def replacer(m: re.Match) -> str:
+        orig = int(m.group(1))
+        return f"font-size: {_scale_px(orig, scale)}px"
+    return re.sub(r'font-size:\s*(\d+)px', replacer, base_qss)
+
+
+def _build_chip_style(bg_normal: str, border_normal: str, color_normal: str,
+                      bg_selected: str, border_selected: str, color_selected: str,
+                      scale: float) -> dict:
+    """动态生成 chip 的内联样式（字体随缩放）"""
+    fs = _scale_px(13, scale)
+    tpl = (
+        "background:{bg};border:1px solid {bd};border-radius:3px;"
+        "color:{col};font-size:{fs}px;padding:3px 6px;text-align:left;"
+    )
+    return {
+        "normal":   tpl.format(bg=bg_normal,   bd=border_normal,   col=color_normal,   fs=fs),
+        "selected": tpl.format(bg=bg_selected, bd=border_selected, col=color_selected, fs=fs),
+    }
 
 
 # ---------------------------------------------------------------------------
@@ -1034,6 +1554,8 @@ class CardAdviserWindow(QWidget):
     永远置顶的浮窗主窗口。
     支持鼠标拖拽移动（无边框模式）。
     """
+
+    _toggle_visibility_sig = pyqtSignal()
 
     def __init__(self) -> None:
         super().__init__()
@@ -1054,6 +1576,9 @@ class CardAdviserWindow(QWidget):
         except Exception:
             self._language = "en"
 
+        self._hotkey_str: str = ""
+        self._hotkey_active: bool = False
+
         self._init_window()
         self._build_ui()
         self._load_stylesheet()
@@ -1065,6 +1590,22 @@ class CardAdviserWindow(QWidget):
 
         # 启动游戏状态监视
         QTimer.singleShot(1000, self._start_game_watcher)
+
+        # 系统托盘 + 全局快捷键
+        self._setup_tray_icon()
+        self._toggle_visibility_sig.connect(self._toggle_visibility)
+        self._setup_hotkey()
+
+        # 读取并应用窗口透明度
+        try:
+            from scripts.config_manager import get_opacity
+            self.setWindowOpacity(get_opacity())
+        except Exception:
+            pass
+
+        # 启动时静默检查更新（延迟 3s，不影响启动速度）
+        self._release_url: str = ""
+        QTimer.singleShot(3000, self._check_for_updates)
 
     # ------------------------------------------------------------------
     # 窗口初始化
@@ -1160,7 +1701,7 @@ class CardAdviserWindow(QWidget):
         self._archetype_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self._archetype_label.setWordWrap(True)
         self._archetype_label.setStyleSheet(
-            "color:#C8A96E;font-size:18px;font-weight:bold;padding:2px 0px;"
+            f"color:#C8A96E;font-size:{_fs(18)}px;font-weight:bold;padding:2px 0px;"
         )
         self._archetype_label.setVisible(False)
         bottom_layout.addWidget(self._archetype_label)
@@ -1169,14 +1710,27 @@ class CardAdviserWindow(QWidget):
         status_row.setContentsMargins(0, 0, 0, 0)
         status_row.setSpacing(0)
 
-        self._status_label = QLabel("就绪 — 等待游戏数据")
+        self._status_label = QLabel(_t("status_ready", self._language))
         self._status_label.setObjectName("StatusBar")
         self._status_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         status_row.addWidget(self._status_label, 1)
 
-        grip = QSizeGrip(self)
+        grip_wrap = QWidget()
+        grip_wrap.setFixedSize(32, 32)
+        grip = QSizeGrip(grip_wrap)
         grip.setObjectName("ResizeGrip")
-        status_row.addWidget(grip, 0, Qt.AlignmentFlag.AlignBottom | Qt.AlignmentFlag.AlignRight)
+        grip.setFixedSize(32, 32)
+        grip.move(0, 0)
+        self._grip_sym_label = QLabel("⤡", grip_wrap)
+        self._grip_sym_label.setStyleSheet(
+            f"color: rgba(220,200,100,0.9); font-size: {_fs(16)}px; "
+            "font-weight: bold; background: transparent;"
+        )
+        self._grip_sym_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self._grip_sym_label.setFixedSize(32, 32)
+        self._grip_sym_label.move(0, 0)
+        self._grip_sym_label.setAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents)
+        status_row.addWidget(grip_wrap, 0, Qt.AlignmentFlag.AlignBottom | Qt.AlignmentFlag.AlignRight)
         bottom_layout.addLayout(status_row)
 
         main_layout.addWidget(bottom_bar)
@@ -1184,7 +1738,7 @@ class CardAdviserWindow(QWidget):
         # ── 拨片按钮（主面板右侧，始终可见）───────────────────────────
         self._drawer_toggle_btn = QPushButton("◀")
         self._drawer_toggle_btn.setObjectName("DrawerToggleBtn")
-        self._drawer_toggle_btn.setToolTip("展开/收起手动选牌面板")
+        self._drawer_toggle_btn.setToolTip(_t("drawer_toggle_tip", self._language))
         self._drawer_toggle_btn.setCursor(Qt.CursorShape.PointingHandCursor)
         self._drawer_toggle_btn.clicked.connect(self._toggle_side_drawer)
         self._drawer_toggle_btn.setSizePolicy(
@@ -1211,10 +1765,26 @@ class CardAdviserWindow(QWidget):
         layout = QHBoxLayout(bar)
         layout.setContentsMargins(10, 0, 6, 0)
 
-        title = QLabel("⚔ STS2 Adviser")
-        title.setObjectName("TitleLabel")
-        layout.addWidget(title)
+        self._title_label = QLabel(_t("title", self._language))
+        self._title_label.setObjectName("TitleLabel")
+        layout.addWidget(self._title_label)
         layout.addStretch()
+
+        # 更新提示按钮（默认隐藏，检测到新版本时显示）
+        self._update_btn = QPushButton("🆕")
+        self._update_btn.setObjectName("UpdateButton")
+        self._update_btn.setFixedSize(26, 26)
+        self._update_btn.setCursor(Qt.CursorShape.PointingHandCursor)
+        self._update_btn.setVisible(False)
+        self._update_btn.clicked.connect(self._open_release_page)
+        layout.addWidget(self._update_btn)
+
+        minimize_btn = QPushButton("−")
+        minimize_btn.setObjectName("MinimizeButton")
+        minimize_btn.setFixedSize(26, 26)
+        minimize_btn.setToolTip(_t("minimize_tip", self._language))
+        minimize_btn.clicked.connect(self.hide)
+        layout.addWidget(minimize_btn)
 
         close_btn = QPushButton("×")
         close_btn.setObjectName("CloseButton")
@@ -1237,25 +1807,32 @@ class CardAdviserWindow(QWidget):
         btn_layout.setSpacing(4)
 
         # 刷新检测按钮
-        refresh_detect_btn = QPushButton("🔄 检测")
-        refresh_detect_btn.setObjectName("RefreshDetectButton")
-        refresh_detect_btn.setToolTip("重新检测游戏和日志")
-        refresh_detect_btn.clicked.connect(self._on_refresh_detect)
-        btn_layout.addWidget(refresh_detect_btn)
+        self._detect_btn = QPushButton(_t("btn_detect", self._language))
+        self._detect_btn.setObjectName("RefreshDetectButton")
+        self._detect_btn.setToolTip(_t("btn_detect_tip", self._language))
+        self._detect_btn.clicked.connect(self._on_refresh_detect)
+        btn_layout.addWidget(self._detect_btn)
 
         # 手动截图识别按钮（单次触发，与后台自动轮询独立）
-        self._ocr_btn = QPushButton("📷 截图识别")
+        self._ocr_btn = QPushButton(_t("btn_ocr", self._language))
         self._ocr_btn.setObjectName("OcrButton")
-        self._ocr_btn.setToolTip("手动截一次图做OCR识别（后台也在自动轮询，此按钮用于即时触发）")
+        self._ocr_btn.setToolTip(_t("btn_ocr_tip", self._language))
         self._ocr_btn.clicked.connect(self._on_ocr_snapshot)
         btn_layout.addWidget(self._ocr_btn)
 
         # 设置按钮
-        settings_btn = QPushButton("⚙ 设置")
-        settings_btn.setObjectName("SettingsButton")
-        settings_btn.setToolTip("路径设置")
-        settings_btn.clicked.connect(self._on_settings)
-        btn_layout.addWidget(settings_btn)
+        self._settings_btn = QPushButton(_t("btn_settings", self._language))
+        self._settings_btn.setObjectName("SettingsButton")
+        self._settings_btn.setToolTip(_t("btn_settings_tip", self._language))
+        self._settings_btn.clicked.connect(self._on_settings)
+        btn_layout.addWidget(self._settings_btn)
+
+        # 关于按钮（弹出菜单）
+        self._about_btn = QPushButton(_t("btn_about", self._language))
+        self._about_btn.setObjectName("AboutButton")
+        self._about_btn.setToolTip(_t("btn_about_tip", self._language))
+        self._about_btn.clicked.connect(self._show_about_menu)
+        btn_layout.addWidget(self._about_btn)
 
         btn_layout.addStretch()
         main_layout.addLayout(btn_layout)
@@ -1264,9 +1841,11 @@ class CardAdviserWindow(QWidget):
         info_layout = QHBoxLayout()
         info_layout.setSpacing(8)
 
-        self._game_info_label = QLabel("等待游戏数据...")
+        self._game_info_label = QLabel(
+            f"<span style='color:#999'>{_t('game_waiting', self._language)}</span>"
+        )
         self._game_info_label.setObjectName("GameInfoLabel")
-        self._game_info_label.setStyleSheet("font-size: 12pt; color: #666;")
+        self._game_info_label.setStyleSheet(f"font-size: {_fs(14)}px;")
         self._game_info_label.setTextFormat(Qt.TextFormat.RichText)
         info_layout.addWidget(self._game_info_label)
 
@@ -1280,7 +1859,7 @@ class CardAdviserWindow(QWidget):
         # 后端连接指示器
         backend_box = QVBoxLayout()
         backend_box.setSpacing(2)
-        self._backend_indicator = QLabel("● 后端")
+        self._backend_indicator = QLabel(_t("indicator_backend", self._language))
         self._backend_indicator.setObjectName("BackendIndicator")
         self._backend_indicator.setStyleSheet("color: #aaa; font-weight: bold;")
         backend_box.addWidget(self._backend_indicator)
@@ -1289,7 +1868,7 @@ class CardAdviserWindow(QWidget):
         # 游戏存档指示器
         game_box = QVBoxLayout()
         game_box.setSpacing(2)
-        self._game_indicator = QLabel("● 游戏")
+        self._game_indicator = QLabel(_t("indicator_game", self._language))
         self._game_indicator.setObjectName("GameIndicator")
         self._game_indicator.setStyleSheet("color: #F44336; font-weight: bold;")
         game_box.addWidget(self._game_indicator)
@@ -1298,7 +1877,7 @@ class CardAdviserWindow(QWidget):
         # 日志监视指示器
         log_box = QVBoxLayout()
         log_box.setSpacing(2)
-        self._log_indicator = QLabel("● 日志")
+        self._log_indicator = QLabel(_t("indicator_log", self._language))
         self._log_indicator.setObjectName("LogIndicator")
         self._log_indicator.setStyleSheet("color: #F44336; font-weight: bold;")
         log_box.addWidget(self._log_indicator)
@@ -1307,16 +1886,19 @@ class CardAdviserWindow(QWidget):
         # 视觉自动轮询指示器（后台 VisionBridge 状态）
         ocr_box = QHBoxLayout()
         ocr_box.setSpacing(4)
-        self._ocr_indicator = QLabel("● 视觉")
+        self._ocr_indicator = QLabel(_t("indicator_ocr", self._language))
         self._ocr_indicator.setObjectName("OcrIndicator")
         self._ocr_indicator.setStyleSheet("color: #aaa; font-weight: bold;")
-        self._ocr_indicator.setToolTip("后台自动视觉识别状态（每秒轮询截图）")
+        self._ocr_indicator.setToolTip(
+            "后台自动视觉识别状态（每秒轮询截图）" if self._language == "zh"
+            else "Vision OCR status (auto screenshot every second)"
+        )
         ocr_box.addWidget(self._ocr_indicator)
         # 轮询状态小字（监视中 / 识别中 / 已锁定）
-        self._ocr_state_badge = QLabel("监视中")
+        self._ocr_state_badge = QLabel("监视中" if self._language == "zh" else "Watching")
         self._ocr_state_badge.setObjectName("OcrStateBadge")
         self._ocr_state_badge.setStyleSheet(
-            "color: #555; font-size: 10px; "
+            f"color: #555; font-size: {_fs(10)}px; "
             "border: 1px solid #333; border-radius: 3px; padding: 0px 4px;"
         )
         ocr_box.addWidget(self._ocr_state_badge)
@@ -1329,7 +1911,7 @@ class CardAdviserWindow(QWidget):
         self._ocr_screen_label = QLabel("")
         self._ocr_screen_label.setObjectName("OcrScreenLabel")
         self._ocr_screen_label.setStyleSheet(
-            "color: #888; font-size: 11pt; padding: 2px 0px;"
+            f"color: #888; font-size: {_fs(14)}px; padding: 2px 0px;"
         )
         self._ocr_screen_label.setVisible(False)
         main_layout.addWidget(self._ocr_screen_label)
@@ -1363,13 +1945,13 @@ class CardAdviserWindow(QWidget):
 
         # 标题行：图标 + "视觉识别" + 状态
         title_row = QHBoxLayout()
-        lbl_title = QLabel("📷 视觉识别")
-        lbl_title.setStyleSheet("color:#64B5F6;font-size:12px;font-weight:bold;")
+        lbl_title = QLabel(_t("ocr_title", self._language))
+        lbl_title.setStyleSheet(f"color:#64B5F6;font-size:{_fs(12)}px;font-weight:bold;")
         title_row.addWidget(lbl_title)
         title_row.addStretch()
 
-        self._ocr_preview_status = QLabel("识别中...")
-        self._ocr_preview_status.setStyleSheet("color:#888;font-size:11px;")
+        self._ocr_preview_status = QLabel(_t("ocr_recognizing", self._language))
+        self._ocr_preview_status.setStyleSheet(f"color:#888;font-size:{_fs(11)}px;")
         title_row.addWidget(self._ocr_preview_status)
         layout.addLayout(title_row)
 
@@ -1378,11 +1960,11 @@ class CardAdviserWindow(QWidget):
         cards_row.setSpacing(6)
         self._ocr_preview_cards: list[QLabel] = []
         for i in range(3):
-            card_lbl = QLabel(f"— 卡 {i+1} —")
+            card_lbl = QLabel(_t("ocr_card_placeholder", self._language, i=i + 1))
             card_lbl.setObjectName(f"OcrPreviewCard{i}")
             card_lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
             card_lbl.setStyleSheet(
-                "color:#555;font-size:13px;"
+                f"color:#555;font-size:{_fs(13)}px;"
                 "border:1px solid #1E3A5A;border-radius:4px;"
                 "padding:4px 6px;background:#0d1520;"
             )
@@ -1392,8 +1974,8 @@ class CardAdviserWindow(QWidget):
         layout.addLayout(cards_row)
 
         # 提示文字（解释性）
-        self._ocr_hint_label = QLabel("识别到选卡界面，正在评估候选卡...")
-        self._ocr_hint_label.setStyleSheet("color:#556672;font-size:11px;padding-top:2px;")
+        self._ocr_hint_label = QLabel(_t("ocr_hint_waiting", self._language))
+        self._ocr_hint_label.setStyleSheet(f"color:#556672;font-size:{_fs(11)}px;padding-top:2px;")
         self._ocr_hint_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(self._ocr_hint_label)
 
@@ -1405,10 +1987,9 @@ class CardAdviserWindow(QWidget):
         layout = QHBoxLayout(header)
         layout.setContentsMargins(10, 2, 10, 2)
 
-        lbl = QLabel("候选卡评估")
-        lbl.setObjectName("HeaderLabel")
-        lbl.setStyleSheet("color:#8A7A5A;font-size:11px;")
-        layout.addWidget(lbl)
+        self._list_header_label = QLabel(_t("list_header", self._language))
+        self._list_header_label.setObjectName("HeaderLabel")
+        layout.addWidget(self._list_header_label)
         layout.addStretch()
 
         return header
@@ -1429,10 +2010,14 @@ class CardAdviserWindow(QWidget):
 
     def _set_backend_connected(self, connected: bool) -> None:
         if connected:
-            self._backend_indicator.setText("● 后端已连接")
+            self._backend_indicator.setText(
+                "● 后端已连接" if self._language == "zh" else "● Backend connected"
+            )
             self._backend_indicator.setStyleSheet("color: #4CAF50;")
         else:
-            self._backend_indicator.setText("● 后端未连接")
+            self._backend_indicator.setText(
+                "● 后端未连接" if self._language == "zh" else "● Backend offline"
+            )
             self._backend_indicator.setStyleSheet("color: #F44336;")
 
     def _start_game_watcher(self) -> None:
@@ -1483,7 +2068,7 @@ class CardAdviserWindow(QWidget):
         floor = state.get("floor", 0)
 
         if character and floor > 0:
-            self._game_indicator.setText("● 游戏")
+            self._game_indicator.setText(_t("indicator_game", self._language))
             self._game_indicator.setStyleSheet("color: #4CAF50; font-weight: bold;")
 
             # 显示游戏信息
@@ -1504,10 +2089,13 @@ class CardAdviserWindow(QWidget):
 
             asc_text = f" <span style='color:#9C27B0'>A{ascension}</span>" if ascension > 0 else ""
             game_mode = state.get("mode", "single")
+            _mode_fs = _fs(12)
             if game_mode == "coop":
-                mode_text = "  <span style='color:#26C6DA;font-size:10pt'>👥 协作</span>"
+                _coop_label = "协作" if self._language == "zh" else "Co-op"
+                mode_text = f"  <span style='color:#26C6DA;font-size:{_mode_fs}px'>👥 {_coop_label}</span>"
             else:
-                mode_text = "  <span style='color:#81C784;font-size:10pt'>🧍 单人</span>"
+                _solo_label = "单人" if self._language == "zh" else "Solo"
+                mode_text = f"  <span style='color:#81C784;font-size:{_mode_fs}px'>🧍 {_solo_label}</span>"
             info_html = (
                 f"<span style='color:#64B5F6;font-weight:bold'>{character}</span>"
                 f"{asc_text}"
@@ -1518,18 +2106,26 @@ class CardAdviserWindow(QWidget):
                 f"{mode_text}"
             )
             self._game_info_label.setText(info_html)
-            self._game_info_label.setStyleSheet("font-size: 12pt;")
+            self._game_info_label.setStyleSheet(f"font-size: {_fs(14)}px;")
         else:
-            self._game_indicator.setText("● 游戏")
+            self._game_indicator.setText(_t("indicator_game", self._language))
             self._game_indicator.setStyleSheet("color: #F44336; font-weight: bold;")
-            self._game_info_label.setText("<span style='color:#999'>未检测到游戏运行</span>")
-            self._game_info_label.setStyleSheet("font-size: 12pt;")
+            self._game_info_label.setText(
+                f"<span style='color:#999'>{_t('game_not_detected', self._language)}</span>"
+            )
+            self._game_info_label.setStyleSheet(f"font-size: {_fs(14)}px;")
 
         # 更新底部状态栏
         if state.get("hand"):
-            self._status_label.setText(f"当前手牌: {len(state.get('hand', []))} 张")
+            n = len(state.get("hand", []))
+            self._status_label.setText(
+                f"手牌: {n} 张" if self._language == "zh" else f"Hand: {n} cards"
+            )
         elif character and floor > 0:
-            self._status_label.setText(f"就绪 — 选择候选卡后点击评估")
+            self._status_label.setText(
+                "就绪 — 选择候选卡后点击评估" if self._language == "zh"
+                else "Ready — select candidates and evaluate"
+            )
 
         # 检测到角色时加载对应卡牌
         if norm_char and norm_char != self._current_character:
@@ -1546,11 +2142,11 @@ class CardAdviserWindow(QWidget):
         """处理日志监视状态更新"""
         active = status.get("active", False)
         if active:
-            self._log_indicator.setText("● 日志")
+            self._log_indicator.setText(_t("indicator_log", self._language))
             self._log_indicator.setStyleSheet("color: #4CAF50;")
             log.info(f"日志正在监视: {status.get('path')}")
         else:
-            self._log_indicator.setText("● 日志")
+            self._log_indicator.setText(_t("indicator_log", self._language))
             self._log_indicator.setStyleSheet("color: #F44336;")
             log.warning("日志未被监视")
 
@@ -1565,49 +2161,69 @@ class CardAdviserWindow(QWidget):
         # 更新视觉轮询指示灯 + badge
         if screen_type == "card_reward":
             if all_reliable:
-                self._ocr_indicator.setText("● 视觉")
+                self._ocr_indicator.setText(_t("indicator_ocr", self._language))
                 self._ocr_indicator.setStyleSheet("color: #4CAF50; font-weight: bold;")
-                self._ocr_indicator.setToolTip("后台视觉识别：已锁定选卡界面（自动轮询）")
-                self._ocr_state_badge.setText("已锁定")
+                self._ocr_indicator.setToolTip(
+                    "后台视觉识别：已锁定选卡界面（自动轮询）" if self._language == "zh"
+                    else "Vision OCR: locked on card reward screen (auto-polling)"
+                )
+                self._ocr_state_badge.setText(_t("ocr_locked", self._language))
                 self._ocr_state_badge.setStyleSheet(
-                    "color: #4CAF50; font-size: 10px; "
+                    f"color: #4CAF50; font-size: {_fs(10)}px; "
                     "border: 1px solid #2E7D32; border-radius: 3px; padding: 0px 4px;"
                 )
             else:
-                self._ocr_indicator.setText("● 视觉")
+                self._ocr_indicator.setText(_t("indicator_ocr", self._language))
                 self._ocr_indicator.setStyleSheet("color: #FF9800; font-weight: bold;")
-                self._ocr_indicator.setToolTip("后台视觉识别：识别中（等待多帧稳定）")
-                self._ocr_state_badge.setText("识别中")
+                self._ocr_indicator.setToolTip(
+                    "后台视觉识别：识别中（等待多帧稳定）" if self._language == "zh"
+                    else "Vision OCR: recognizing (waiting for multi-frame stability)"
+                )
+                self._ocr_state_badge.setText(_t("ocr_recognizing", self._language))
                 self._ocr_state_badge.setStyleSheet(
-                    "color: #FF9800; font-size: 10px; "
+                    f"color: #FF9800; font-size: {_fs(10)}px; "
                     "border: 1px solid #E65100; border-radius: 3px; padding: 0px 4px;"
                 )
         elif screen_type == "shop":
-            self._ocr_indicator.setText("● 视觉")
+            self._ocr_indicator.setText(_t("indicator_ocr", self._language))
             self._ocr_indicator.setStyleSheet("color: #64B5F6; font-weight: bold;")
-            self._ocr_indicator.setToolTip("后台视觉识别：检测到商店界面")
-            self._ocr_state_badge.setText("商店")
+            self._ocr_indicator.setToolTip(
+                "后台视觉识别：检测到商店界面" if self._language == "zh"
+                else "Vision OCR: shop screen detected"
+            )
+            self._ocr_state_badge.setText("商店" if self._language == "zh" else "Shop")
             self._ocr_state_badge.setStyleSheet(
-                "color: #64B5F6; font-size: 10px; "
+                f"color: #64B5F6; font-size: {_fs(10)}px; "
                 "border: 1px solid #1565C0; border-radius: 3px; padding: 0px 4px;"
             )
         else:
-            self._ocr_indicator.setText("● 视觉")
+            self._ocr_indicator.setText(_t("indicator_ocr", self._language))
             self._ocr_indicator.setStyleSheet("color: #aaa; font-weight: bold;")
-            self._ocr_indicator.setToolTip("后台视觉识别：监视中（每秒自动截图）")
-            self._ocr_state_badge.setText("监视中")
+            self._ocr_indicator.setToolTip(
+                "后台视觉识别：监视中（每秒自动截图）" if self._language == "zh"
+                else "Vision OCR: watching (auto screenshot every second)"
+            )
+            self._ocr_state_badge.setText("监视中" if self._language == "zh" else "Watching")
             self._ocr_state_badge.setStyleSheet(
-                "color: #555; font-size: 10px; "
+                f"color: #555; font-size: {_fs(10)}px; "
                 "border: 1px solid #333; border-radius: 3px; padding: 0px 4px;"
             )
 
         # 更新 OCR 界面提示文字
-        _SCREEN_ICONS = {
-            "card_reward": "🃏 选卡界面",
-            "shop":        "🛒 商店界面",
-            "other":       "🗺 其他界面",
-            "unknown":     "",
-        }
+        if self._language == "zh":
+            _SCREEN_ICONS = {
+                "card_reward": "🃏 选卡界面",
+                "shop":        "🛒 商店界面",
+                "other":       "🗺 其他界面",
+                "unknown":     "",
+            }
+        else:
+            _SCREEN_ICONS = {
+                "card_reward": "🃏 Card Reward",
+                "shop":        "🛒 Shop",
+                "other":       "🗺 Other Screen",
+                "unknown":     "",
+            }
         screen_label = _SCREEN_ICONS.get(screen_type, "")
 
         if screen_type == "card_reward" and card_names:
@@ -1659,46 +2275,47 @@ class CardAdviserWindow(QWidget):
         self._ocr_preview_panel.setVisible(True)
 
         # 状态文字
+        _ocr_fs = _fs(11)
         if all_reliable:
-            self._ocr_preview_status.setText("已锁定 ✓")
-            self._ocr_preview_status.setStyleSheet("color:#4CAF50;font-size:11px;")
-            self._ocr_hint_label.setText("识别稳定，已自动填入候选卡并触发评估")
-            self._ocr_hint_label.setStyleSheet("color:#4A7A40;font-size:11px;padding-top:2px;")
+            self._ocr_preview_status.setText(_t("ocr_locked", self._language))
+            self._ocr_preview_status.setStyleSheet(f"color:#4CAF50;font-size:{_ocr_fs}px;")
+            self._ocr_hint_label.setText(_t("ocr_hint_stable", self._language))
+            self._ocr_hint_label.setStyleSheet(f"color:#4A7A40;font-size:{_ocr_fs}px;padding-top:2px;")
         else:
-            self._ocr_preview_status.setText("识别中...")
-            self._ocr_preview_status.setStyleSheet("color:#FF9800;font-size:11px;")
-            self._ocr_hint_label.setText("正在等待多帧稳定以确认卡名...")
-            self._ocr_hint_label.setStyleSheet("color:#7A6030;font-size:11px;padding-top:2px;")
+            self._ocr_preview_status.setText(_t("ocr_recognizing", self._language))
+            self._ocr_preview_status.setStyleSheet(f"color:#FF9800;font-size:{_ocr_fs}px;")
+            self._ocr_hint_label.setText(_t("ocr_hint_waiting", self._language))
+            self._ocr_hint_label.setStyleSheet(f"color:#7A6030;font-size:{_ocr_fs}px;padding-top:2px;")
 
         # 三张卡名标签
         for i, lbl in enumerate(self._ocr_preview_cards):
             name = card_names[i] if i < len(card_names) else ""
             conf = confidences[i] if i < len(confidences) else 0.0
             if not name:
-                lbl.setText(f"卡 {i+1}")
+                lbl.setText(_t("ocr_card_placeholder", self._language, i=i + 1))
                 lbl.setStyleSheet(
-                    "color: #555; font-size: 11px; "
+                    f"color: #555; font-size: {_ocr_fs}px; "
                     "border: 1px solid #333; border-radius: 4px; "
                     "padding: 2px 6px; background: #1a1a1a;"
                 )
             elif conf >= 0.8:
                 lbl.setText(name)
                 lbl.setStyleSheet(
-                    "color: #A8D870; font-size: 11px; font-weight: bold; "
+                    f"color: #A8D870; font-size: {_ocr_fs}px; font-weight: bold; "
                     "border: 1px solid #4CAF50; border-radius: 4px; "
                     "padding: 2px 6px; background: #0d1a0d;"
                 )
             elif conf >= 0.55:
                 lbl.setText(name)
                 lbl.setStyleSheet(
-                    "color: #FFD54F; font-size: 11px; "
+                    f"color: #FFD54F; font-size: {_ocr_fs}px; "
                     "border: 1px solid #FF9800; border-radius: 4px; "
                     "padding: 2px 6px; background: #1a1200;"
                 )
             else:
                 lbl.setText(f"{name}?")
                 lbl.setStyleSheet(
-                    "color: #FF7043; font-size: 11px; "
+                    f"color: #FF7043; font-size: {_ocr_fs}px; "
                     "border: 1px solid #BF360C; border-radius: 4px; "
                     "padding: 2px 6px; background: #1a0800;"
                 )
@@ -1706,15 +2323,19 @@ class CardAdviserWindow(QWidget):
     def _on_ocr_snapshot(self) -> None:
         """手动触发一次截图识别（独立于后台自动轮询）"""
         self._ocr_btn.setEnabled(False)
-        self._ocr_btn.setText("📷 识别中...")
-        self._status_label.setText("手动截图识别中...")
+        self._ocr_btn.setText(
+            "📷 识别中..." if self._language == "zh" else "📷 Capturing..."
+        )
+        self._status_label.setText(
+            "手动截图识别中..." if self._language == "zh" else "Manual OCR capture in progress..."
+        )
 
         # 在后台线程执行，避免冻结 UI
         worker = _OcrSnapshotWorker(BACKEND_URL)
         worker.result_ready.connect(self._on_ocr_snapshot_result)
         def _restore_btn():
             self._ocr_btn.setEnabled(True)
-            self._ocr_btn.setText("📷 截图识别")
+            self._ocr_btn.setText(_t("btn_ocr", self._language))
         worker.finished.connect(_restore_btn)
         worker.start()
         # 保持引用避免被 GC
@@ -1724,14 +2345,25 @@ class CardAdviserWindow(QWidget):
         """处理手动 OCR 截图的结果"""
         self._on_vision_state_update(data)
         screen_type = data.get("screen_type", "unknown")
-        if screen_type == "card_reward":
-            self._status_label.setText("OCR 识别完成：选卡界面")
-        elif screen_type == "shop":
-            self._status_label.setText("OCR 识别完成：商店界面")
-        elif screen_type == "other":
-            self._status_label.setText("OCR 识别完成：其他界面")
-        else:
-            self._status_label.setText("OCR 识别完成：未识别到特定界面")
+        _ocr_done = {
+            "zh": {
+                "card_reward": "OCR 识别完成：选卡界面",
+                "shop":        "OCR 识别完成：商店界面",
+                "other":       "OCR 识别完成：其他界面",
+                "unknown":     "OCR 识别完成：未识别到特定界面",
+            },
+            "en": {
+                "card_reward": "OCR complete: card reward screen",
+                "shop":        "OCR complete: shop screen",
+                "other":       "OCR complete: other screen",
+                "unknown":     "OCR complete: no specific screen detected",
+            },
+        }
+        self._status_label.setText(
+            _ocr_done.get(self._language, _ocr_done["zh"]).get(
+                screen_type, _ocr_done.get(self._language, _ocr_done["zh"])["unknown"]
+            )
+        )
 
     def _auto_fill_vision_cards(self, card_ids: list) -> None:
         """OCR 识别稳定后，自动填入候选卡到当前 run_state 并触发评估"""
@@ -1740,14 +2372,20 @@ class CardAdviserWindow(QWidget):
         normalized = [cid.lower() for cid in card_ids]
         # 构造虚拟 card dict 列表（只需 id 字段供评估器使用）
         fake_cards = [{"id": cid} for cid in normalized]
-        self._status_label.setText(f"OCR 自动识别到 {len(normalized)} 张候选卡，正在评估...")
+        self._status_label.setText(
+            f"OCR 自动识别到 {len(normalized)} 张候选卡，正在评估..."
+            if self._language == "zh"
+            else f"OCR detected {len(normalized)} candidate cards — evaluating..."
+        )
         log.info(f"OCR 自动填入候选卡: {normalized}")
         self._on_evaluate_from_picker(fake_cards)
 
     def _on_refresh_detect(self) -> None:
         """刷新检测：重新初始化游戏和日志检测"""
         try:
-            self._status_label.setText("正在重新检测...")
+            self._status_label.setText(
+                "正在重新检测..." if self._language == "zh" else "Re-detecting..."
+            )
 
             # 通过调用配置端点来触发后端重新初始化 GameWatcher
             resp = requests.post(
@@ -1758,33 +2396,89 @@ class CardAdviserWindow(QWidget):
 
             if resp.status_code == 200:
                 log.info("✓ 已触发重新检测")
-                self._status_label.setText("检测中... 稍候")
-                # 延迟1秒后查看指示灯更新
-                QTimer.singleShot(1000, lambda: self._status_label.setText("检测完成"))
+                self._status_label.setText(
+                    "检测中... 稍候" if self._language == "zh" else "Detecting... please wait"
+                )
+                done_text = "检测完成" if self._language == "zh" else "Detection complete"
+                QTimer.singleShot(1000, lambda: self._status_label.setText(done_text))
             else:
-                self._status_label.setText(f"检测失败: {resp.status_code}")
+                self._status_label.setText(
+                    f"检测失败: {resp.status_code}" if self._language == "zh"
+                    else f"Detection failed: {resp.status_code}"
+                )
 
         except Exception as e:
             log.error(f"重新检测失败: {e}")
-            self._status_label.setText(f"错误: {e}")
+            prefix = "错误: " if self._language == "zh" else "Error: "
+            self._status_label.setText(f"{prefix}{e}")
 
     def _on_settings(self) -> None:
         """打开设置对话框"""
         dialog = PathSettingsDialog(self, BACKEND_URL)
         dialog.exec()
-        # 重新读取语言配置，如有变化则刷新卡牌
+        # 对话框关闭后：若用户点了保存，重新注册快捷键（hotkey 没有实时预览）
+        saved_hotkey = getattr(dialog, '_saved_hotkey', '')
+        if saved_hotkey:
+            self._reload_hotkey()
+        # 确保最终状态与 config 一致（兜底，实时预览可能已应用）
+        self._load_stylesheet()
         try:
-            from scripts.config_manager import get_language
-            new_lang = get_language()
+            from scripts.config_manager import get_opacity, get_language
+            self.setWindowOpacity(get_opacity())
+            final_lang = get_language()
         except Exception:
-            new_lang = "en"
-        if new_lang != self._language:
-            self._language = new_lang
-            # 强制重新加载（重置 _current_character 使 _fetch 不被跳过）
-            char = self._current_character
-            self._current_character = ""
-            if char:
-                self._fetch_cards_for_character(char)
+            final_lang = self._language
+        if final_lang != self._language:
+            self._language = final_lang
+            self._reload_ui_language()
+
+    def _reload_ui_language(self) -> None:
+        """语言切换后立即更新所有静态标签文字（无需重启）"""
+        lang = self._language
+        # 标题栏
+        self._title_label.setText(_t("title", lang))
+        # 工具栏
+        self._detect_btn.setText(_t("btn_detect", lang))
+        self._detect_btn.setToolTip(_t("btn_detect_tip", lang))
+        self._ocr_btn.setText(_t("btn_ocr", lang))
+        self._ocr_btn.setToolTip(_t("btn_ocr_tip", lang))
+        self._settings_btn.setText(_t("btn_settings", lang))
+        self._settings_btn.setToolTip(_t("btn_settings_tip", lang))
+        self._about_btn.setToolTip(_t("btn_about_tip", lang))
+        # 指示器
+        self._backend_indicator.setText(_t("indicator_backend", lang))
+        self._game_indicator.setText(_t("indicator_game", lang))
+        self._log_indicator.setText(_t("indicator_log", lang))
+        self._ocr_indicator.setText(_t("indicator_ocr", lang))
+        self._ocr_indicator.setToolTip(
+            "后台自动视觉识别状态（每秒轮询截图）" if lang == "zh"
+            else "Vision OCR status (auto screenshot every second)"
+        )
+        # OCR badge 初始状态
+        self._ocr_state_badge.setText("监视中" if lang == "zh" else "Watching")
+        # 状态/游戏信息
+        self._status_label.setText(_t("status_ready", lang))
+        self._game_info_label.setText(f"<span style='color:#999'>{_t('game_waiting', lang)}</span>")
+        # OCR 预览面板内的文字（若面板不可见则更新占位符）
+        if not self._ocr_preview_panel.isVisible():
+            self._ocr_preview_status.setText(_t("ocr_recognizing", lang))
+            self._ocr_hint_label.setText(_t("ocr_hint_waiting", lang))
+            for i, lbl in enumerate(self._ocr_preview_cards):
+                lbl.setText(_t("ocr_card_placeholder", lang, i=i + 1))
+        # 列表头 + 侧边抽屉按钮
+        self._list_header_label.setText(_t("list_header", lang))
+        self._drawer_toggle_btn.setToolTip(_t("drawer_toggle_tip", lang))
+        # 侧边抽屉
+        self._drawer_title_label.setText(_t("drawer_title", lang))
+        self._search_box.setPlaceholderText(_t("search_placeholder", lang))
+        # 托盘标签
+        self._selection_tray.set_language(lang)
+        # 卡牌选择器语言 + 重新加载
+        self._card_picker.set_language(lang)
+        char = self._current_character
+        self._current_character = ""
+        if char:
+            self._fetch_cards_for_character(char)
 
     # ------------------------------------------------------------------
     # 卡牌选择器
@@ -1800,16 +2494,23 @@ class CardAdviserWindow(QWidget):
         layout.setContentsMargins(6, 8, 6, 8)
         layout.setSpacing(4)
 
-        title = QLabel("手动选牌")
-        title.setObjectName("DrawerTitle")
-        layout.addWidget(title)
+        self._drawer_title_label = QLabel(_t("drawer_title", self._language))
+        self._drawer_title_label.setObjectName("DrawerTitle")
+        layout.addWidget(self._drawer_title_label)
+
+        self._search_box = QLineEdit()
+        self._search_box.setPlaceholderText(_t("search_placeholder", self._language))
+        self._search_box.setObjectName("CardSearchBox")
+        layout.addWidget(self._search_box)
 
         self._card_picker = CardPickerPanel()
         self._card_picker.selection_changed.connect(self._on_card_selection_changed)
+        self._search_box.textChanged.connect(self._card_picker.filter_cards)
         layout.addWidget(self._card_picker, 1)
 
         self._selection_tray = SelectionTrayWidget()
         self._selection_tray.evaluate_requested.connect(self._on_evaluate_from_picker)
+        self._selection_tray.deselect_requested.connect(self._card_picker.deselect_by_id)
         layout.addWidget(self._selection_tray, 0)
 
         return drawer
@@ -1837,29 +2538,36 @@ class CardAdviserWindow(QWidget):
             self._cards_fetch_worker.terminate()
 
         self._card_picker.set_language(self._language)
+        self._selection_tray.set_language(self._language)
         self._card_picker.clear_cards()
         self._selection_tray.update_selection([])
-        self._status_label.setText(f"加载 {character.upper()} 卡牌中...")
+        self._status_label.setText(_t("status_loading", self._language, char=character.upper()))
 
         self._cards_fetch_worker = CardsFetchWorker(character)
         self._cards_fetch_worker.cards_ready.connect(self._on_cards_fetched)
         self._cards_fetch_worker.error_occurred.connect(
-            lambda e: self._status_label.setText(f"加载卡牌失败: {e}")
+            lambda e: self._status_label.setText(_t("status_load_fail", self._language, e=e))
         )
         self._cards_fetch_worker.start()
 
     def _on_cards_fetched(self, cards: list[dict]) -> None:
         playable_types = {"attack", "skill", "power"}
-        playable = [c for c in cards if c.get("card_type", "").lower() in playable_types]
+        playable = [
+            c for c in cards
+            if c.get("card_type", "").lower() in playable_types
+            or c.get("rarity", "").lower() == "ancient"
+        ]
         self._card_picker.populate(playable)
-        self._status_label.setText(f"已加载 {len(playable)} 张卡牌，请选择候选卡")
+        self._status_label.setText(_t("status_loaded", self._language, n=len(playable)))
 
     def _on_card_selection_changed(self, selected_cards: list[dict], display_names: list[str]) -> None:
         self._selection_tray.update_selection(selected_cards, display_names)
 
     def _on_evaluate_from_picker(self, selected_cards: list[dict]) -> None:
         if not selected_cards:
-            self._status_label.setText("请先选择候选卡")
+            self._status_label.setText(
+                "请先选择候选卡" if self._language == "zh" else "Select candidate cards first"
+            )
             return
 
         card_ids = [c["id"].lower() for c in selected_cards]
@@ -1886,10 +2594,10 @@ class CardAdviserWindow(QWidget):
             for r in run_state["relics"]
         ]
 
-        self._status_label.setText("评估中...")
+        self._status_label.setText(_t("status_evaluating", self._language))
         self._selection_tray._evaluate_btn.setEnabled(False)
 
-        self._worker = EvaluateWorker(run_state)
+        self._worker = EvaluateWorker(run_state, language=self._language)
         self._worker.result_ready.connect(self._on_result)
         self._worker.error_occurred.connect(self._on_error)
         self._worker.finished.connect(
@@ -1931,7 +2639,11 @@ class CardAdviserWindow(QWidget):
             run_state["deck"] = []
         if "card_choices" not in run_state or not run_state["card_choices"]:
             # 无法进行评估，因为没有选卡池
-            self._status_label.setText("等待选卡数据... (需要日志文件或游戏运行中)")
+            self._status_label.setText(
+                "等待选卡数据... (需要日志文件或游戏运行中)"
+                if self._language == "zh"
+                else "Waiting for card data... (requires log file or game running)"
+            )
             return
 
         # 规范化字段（去除游戏前缀）
@@ -1943,9 +2655,9 @@ class CardAdviserWindow(QWidget):
             if isinstance(r, str) else r
             for r in raw_relics
         ]
-        self._status_label.setText("评估中...")
+        self._status_label.setText(_t("status_evaluating", self._language))
 
-        self._worker = EvaluateWorker(run_state)
+        self._worker = EvaluateWorker(run_state, language=self._language)
         self._worker.result_ready.connect(self._on_result)
         self._worker.error_occurred.connect(self._on_error)
         self._worker.start()
@@ -1956,19 +2668,26 @@ class CardAdviserWindow(QWidget):
         self._render_results(results)
 
         if not results:
-            self._status_label.setText("❌ 未找到匹配的卡牌")
+            self._status_label.setText(
+                "❌ 未找到匹配的卡牌" if self._language == "zh" else "❌ No matching cards found"
+            )
             self._archetype_label.setVisible(False)
         else:
             if archetypes:
-                arch_text = "、".join(archetypes)
-                self._archetype_label.setText(f"⚔ 套路：{arch_text}")
+                sep = "、" if self._language == "zh" else " / "
+                arch_text = sep.join(archetypes)
+                prefix = "⚔ 套路：" if self._language == "zh" else "⚔ Archetype: "
+                self._archetype_label.setText(f"{prefix}{arch_text}")
                 self._archetype_label.setVisible(True)
             else:
                 self._archetype_label.setVisible(False)
-            self._status_label.setText("评估完成")
+            self._status_label.setText(
+                "评估完成" if self._language == "zh" else "Evaluation complete"
+            )
 
     def _on_error(self, message: str) -> None:
-        self._status_label.setText(f"错误：{message}")
+        prefix = "错误：" if self._language == "zh" else "Error: "
+        self._status_label.setText(f"{prefix}{message}")
 
     def _render_results(self, results: list[dict]) -> None:
         """清空列表并重新渲染评估结果"""
@@ -1984,7 +2703,7 @@ class CardAdviserWindow(QWidget):
 
     def _show_placeholder(self) -> None:
         """初始占位内容"""
-        placeholder = QLabel("点击「刷新」加载评估结果")
+        placeholder = QLabel(_t("placeholder", self._language))
         placeholder.setObjectName("Placeholder")
         placeholder.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self._list_layout.insertWidget(0, placeholder)
@@ -1997,7 +2716,181 @@ class CardAdviserWindow(QWidget):
         qss_path = get_app_root() / "frontend" / "styles.qss"
         if qss_path.exists():
             with open(qss_path, encoding="utf-8") as f:
-                self.setStyleSheet(f.read())
+                base = f.read()
+            self.setStyleSheet(_build_scaled_stylesheet(base, _get_ui_scale()))
+        self._refresh_inline_styles()
+
+    def _refresh_inline_styles(self) -> None:
+        """重新应用所有绕过 QSS 的 inline setStyleSheet（字体缩放后需调用）"""
+        # 底部状态栏缩放手柄符号
+        if hasattr(self, '_grip_sym_label'):
+            self._grip_sym_label.setStyleSheet(
+                f"color: rgba(220,200,100,0.9); font-size: {_fs(16)}px; "
+                "font-weight: bold; background: transparent;"
+            )
+        # 套路提示标签
+        if hasattr(self, '_archetype_label'):
+            self._archetype_label.setStyleSheet(
+                f"color:#C8A96E;font-size:{_fs(18)}px;font-weight:bold;padding:2px 0px;"
+            )
+        # 游戏信息标签
+        if hasattr(self, '_game_info_label'):
+            self._game_info_label.setStyleSheet(f"font-size: {_fs(14)}px;")
+        # OCR 监视状态 badge
+        if hasattr(self, '_ocr_state_badge'):
+            self._ocr_state_badge.setStyleSheet(
+                f"color: #555; font-size: {_fs(10)}px; "
+                "border: 1px solid #333; border-radius: 3px; padding: 0px 4px;"
+            )
+        # OCR 界面提示标签
+        if hasattr(self, '_ocr_screen_label'):
+            self._ocr_screen_label.setStyleSheet(
+                f"color: #888; font-size: {_fs(14)}px; padding: 2px 0px;"
+            )
+        # OCR 预览面板内的标签
+        if hasattr(self, '_ocr_preview_status'):
+            self._ocr_preview_status.setStyleSheet(f"color:#888;font-size:{_fs(11)}px;")
+        if hasattr(self, '_ocr_hint_label'):
+            self._ocr_hint_label.setStyleSheet(
+                f"color:#556672;font-size:{_fs(11)}px;padding-top:2px;"
+            )
+        if hasattr(self, '_ocr_preview_cards'):
+            for card_lbl in self._ocr_preview_cards:
+                card_lbl.setStyleSheet(
+                    f"color:#555;font-size:{_fs(13)}px;"
+                    "border:1px solid #1E3A5A;border-radius:4px;"
+                    "padding:4px 6px;background:#0d1520;"
+                )
+
+    # ------------------------------------------------------------------
+    # 系统托盘
+    # ------------------------------------------------------------------
+
+    def _setup_tray_icon(self) -> None:
+        px = QPixmap(16, 16)
+        px.fill(QColor(0, 0, 0, 0))
+        p = QPainter(px)
+        p.setPen(QColor("#C8A96E"))
+        p.setBrush(QColor("#C8A96E"))
+        p.drawRect(7, 2, 2, 10)
+        p.drawRect(3, 10, 10, 2)
+        p.end()
+
+        self._tray = QSystemTrayIcon(QIcon(px), self)
+        self._tray.setToolTip("STS2 Adviser")
+
+        tray_menu = QMenu()
+        show_act = QAction(_t("tray_show", self._language), self)
+        show_act.triggered.connect(self._restore_from_tray)
+        quit_act = QAction(_t("tray_quit", self._language), self)
+        quit_act.triggered.connect(QApplication.instance().quit)
+        tray_menu.addAction(show_act)
+        tray_menu.addSeparator()
+        tray_menu.addAction(quit_act)
+
+        self._tray.setContextMenu(tray_menu)
+        self._tray.activated.connect(self._on_tray_activated)
+        self._tray.show()
+
+    def _on_tray_activated(self, reason: QSystemTrayIcon.ActivationReason) -> None:
+        if reason == QSystemTrayIcon.ActivationReason.DoubleClick:
+            self._restore_from_tray()
+
+    def _restore_from_tray(self) -> None:
+        self.show()
+        self.activateWindow()
+        self.raise_()
+
+    # ------------------------------------------------------------------
+    # 检查更新
+    # ------------------------------------------------------------------
+
+    def _check_for_updates(self) -> None:
+        """启动后台更新检查线程（静默，仅有新版本时提示）"""
+        self._update_checker = UpdateChecker(_GITHUB_REPO, VERSION)
+        self._update_checker.update_found.connect(self._on_update_found)
+        self._update_checker.up_to_date.connect(lambda v: log.debug(f"已是最新版本 {v}"))
+        self._update_checker.check_failed.connect(lambda: log.debug("更新检查失败（网络）"))
+        self._update_checker.start()
+
+    def _on_update_found(self, latest_ver: str, url: str) -> None:
+        """有新版本时在标题栏显示提示按钮"""
+        self._release_url = url
+        tip = _t("update_available", self._language, ver=latest_ver)
+        self._update_btn.setToolTip(tip)
+        self._update_btn.setVisible(True)
+        # 同时在系统托盘发气泡通知
+        if hasattr(self, '_tray'):
+            self._tray.showMessage(
+                "STS2 Adviser",
+                _t("update_available", self._language, ver=latest_ver),
+                QSystemTrayIcon.MessageIcon.Information,
+                5000,
+            )
+        log.info(f"发现新版本: {latest_ver}  {url}")
+
+    def _open_release_page(self) -> None:
+        """用系统浏览器打开 GitHub Releases 页面"""
+        import webbrowser
+        url = self._release_url or f"https://github.com/{_GITHUB_REPO}/releases"
+        webbrowser.open(url)
+
+    def _show_about_menu(self) -> None:
+        """在「?」按钮下方弹出关于菜单"""
+        import webbrowser
+        menu = QMenu(self)
+        github_act = QAction(_t("about_github", self._language), self)
+        github_act.triggered.connect(
+            lambda: webbrowser.open(f"https://github.com/{_GITHUB_REPO}")
+        )
+        steam_act = QAction(_t("about_steam", self._language), self)
+        steam_act.triggered.connect(
+            lambda: webbrowser.open(
+                "https://steamcommunity.com/sharedfiles/filedetails/?id=3696131100"
+            )
+        )
+        menu.addAction(github_act)
+        menu.addAction(steam_act)
+        # 在按钮正下方弹出
+        pos = self._about_btn.mapToGlobal(
+            self._about_btn.rect().bottomLeft()
+        )
+        menu.exec(pos)
+
+    # ------------------------------------------------------------------
+    # 全局快捷键
+    # ------------------------------------------------------------------
+
+    def _setup_hotkey(self) -> None:
+        try:
+            import keyboard
+            from scripts.config_manager import get_hotkey
+            self._hotkey_str = get_hotkey()
+            keyboard.add_hotkey(self._hotkey_str, self._emit_toggle_visibility)
+            self._hotkey_active = True
+            log.info(f"全局快捷键已注册: {self._hotkey_str}")
+        except Exception as e:
+            log.warning(f"全局快捷键注册失败: {e}")
+            self._hotkey_active = False
+
+    def _reload_hotkey(self) -> None:
+        if self._hotkey_active and self._hotkey_str:
+            try:
+                import keyboard
+                keyboard.remove_hotkey(self._hotkey_str)
+            except Exception:
+                pass
+        self._setup_hotkey()
+
+    def _emit_toggle_visibility(self) -> None:
+        """keyboard 回调在后台线程，通过信号转到 Qt 主线程"""
+        self._toggle_visibility_sig.emit()
+
+    def _toggle_visibility(self) -> None:
+        if self.isVisible():
+            self.hide()
+        else:
+            self._restore_from_tray()
 
     # ------------------------------------------------------------------
     # 拖拽移动（无边框窗口）
