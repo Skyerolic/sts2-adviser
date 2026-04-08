@@ -52,7 +52,7 @@ from PyQt6.QtWidgets import (
 _port = os.environ.get("STS2_BACKEND_PORT", "8000")
 BACKEND_URL = f"http://127.0.0.1:{_port}"
 
-VERSION = "1.2.0"
+VERSION = "1.2.1"
 _GITHUB_REPO = "Skyerolic/sts2-adviser"
 
 
