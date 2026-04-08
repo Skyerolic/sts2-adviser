@@ -3,7 +3,7 @@
 <p align="right"><a href="README_EN.md">English</a></p>
 
 <p align="center">
-  <img src="assets/preview.png" width="220" alt="STS2 Adviser 预览"/>
+  <img src="assets/Preview_chz.png" width="220" alt="STS2 Adviser 预览"/>
 </p>
 
 进入选卡界面时自动截图识别候选卡，读取游戏存档和日志，综合套路契合度、固有价值、阶段适配、完成度贡献、遗物协同五个维度评分，并与社区胜率/选取率数据交叉验证，以置顶浮窗形式给出推荐评分和理由。

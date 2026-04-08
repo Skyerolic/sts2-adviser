@@ -3,7 +3,7 @@
 <p align="right"><a href="README.md">中文</a></p>
 
 <p align="center">
-  <img src="assets/preview.png" width="220" alt="STS2 Adviser Preview"/>
+  <img src="assets/preview_en.png" width="220" alt="STS2 Adviser Preview"/>
 </p>
 
 Automatically captures the card reward screen via screenshot, reads your save file and game log, scores each candidate card across five dimensions — archetype fit, inherent value, phase adaptation, completion contribution, and relic synergy — then cross-validates against community win-rate/pick-rate data. Results are displayed as a pinned overlay on top of the game window.
