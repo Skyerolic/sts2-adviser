@@ -180,13 +180,16 @@ def cross_validate(
 # ---------------------------------------------------------------------------
 
 WEIGHTS: dict[str, float] = {
-    "archetype":   0.40,   # 套路契合：最重要
-    "value":       0.25,   # 卡牌固有价值（稀有度+费用）
+    "archetype":   0.35,   # 套路契合：最重要
+    "value":       0.30,   # 卡牌固有价值（稀有度+费用）
     "phase":       0.15,   # 阶段适配
     "completion":  0.15,   # 完成度贡献
     "synergy":     0.05,   # 协同加成
 }
 # 合计 = 1.00
+
+# 无套路命中时对非污染牌的地板加成（防止有用牌因 archetype_score=0 而过低）
+_NO_ARCHETYPE_FLOOR: float = 0.08
 
 # ---------------------------------------------------------------------------
 # 维度1：套路契合度
@@ -271,7 +274,7 @@ def score_phase_dimension(
     if card_role == CardRole.TRANSITION:
         base = {
             GamePhase.EARLY: 0.85,
-            GamePhase.MID:   0.45,
+            GamePhase.MID:   0.60,
             GamePhase.LATE:  0.15,
         }[phase]
     elif card_role in (CardRole.CORE, CardRole.ENABLER):
@@ -442,7 +445,11 @@ def ascension_modifier(
 # 合并：加权求和 → 0~100 分
 # ---------------------------------------------------------------------------
 
-def combine_scores(breakdown: "ScoreBreakdown", bloat_penalty: float = 0.0) -> float:
+def combine_scores(
+    breakdown: "ScoreBreakdown",
+    bloat_penalty: float = 0.0,
+    role: "CardRole | None" = None,
+) -> float:
     """
     将 ScoreBreakdown 各维度加权合并，返回 0~100 的算法分（algo_score）。
 
@@ -454,12 +461,22 @@ def combine_scores(breakdown: "ScoreBreakdown", bloat_penalty: float = 0.0) -> f
       - bloat_penalty 改为显式参数（不再从 breakdown.rarity_score 读取）
       - breakdown.rarity_score 现存储 community_score（由 evaluator 写入）
     """
+    from .models import CardRole
+    # 无套路命中时对 FILLER/UNKNOWN 补地板分；TRANSITION 已有 phase_score 动态曲线，不叠加
+    no_archetype_floor = (
+        _NO_ARCHETYPE_FLOOR
+        if (breakdown.archetype_score < 0.05
+            and breakdown.pollution_penalty == 0.0
+            and role not in (CardRole.TRANSITION, CardRole.CORE, CardRole.ENABLER))
+        else 0.0
+    )
     raw = (
         breakdown.archetype_score    * WEIGHTS["archetype"]
         + breakdown.base_score       * WEIGHTS["value"]
         + breakdown.phase_score      * WEIGHTS["phase"]
         + breakdown.completion_score * WEIGHTS["completion"]
         + breakdown.synergy_bonus    * WEIGHTS["synergy"]
+        + no_archetype_floor
         - breakdown.pollution_penalty
         - bloat_penalty
     )

@@ -224,7 +224,14 @@ python -m uvicorn backend.main:app --port 8001
 
 ## Changelog
 
-### v1.2 (current)
+### v1.21 (current)
+- **Scoring system calibration**: Fixed systematically low scores
+  - Weight rebalance: archetype fit 0.40→0.35, inherent value 0.25→0.30 — reduces over-reliance on archetype matching
+  - Floor bonus: non-pollution cards with no archetype match receive +8 points, preventing useful generic cards from landing in the "Skip" tier
+  - Transition card recognition: in early game with small deck (≤15 cards), cheap cards (0/1 cost, Common/Uncommon) with no archetype match are identified as transition cards and receive phase-weighted scoring (0.85 early → 0.60 mid → 0.15 late)
+  - Tightened transition conditions: STATUS/CURSE types excluded; cards with any archetype match stay on the normal FILLER path to avoid interfering with archetype edge cards
+
+### v1.2
 - **Minimize to tray**: New `−` button in title bar hides the overlay to the system tray; double-click the tray icon or use the right-click menu to restore
 - **Ancient card support**: Manual picker now includes an "Ancient" group with distinct purple styling; fixes a bug where Ancient cards were filtered out. Evaluation returns an advisory note ("outside archetype scoring") rather than a misleading score; fixes 500 errors when evaluating Ancient/Curse cards. Ancient cards won't appear in actual card rewards, and the tool has no interest in steering player choices — but the manual picker lets you add them anyway and see what happens
 - **Click again to deselect**: Click a selected card chip again to deselect it; clicking a tag in the selection tray also deselects without scrolling back

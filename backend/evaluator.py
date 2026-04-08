@@ -235,7 +235,8 @@ class CardEvaluator:
         # 2. 确定卡牌角色
         # 推断层命中的卡最低为 FILLER，不判定为 POLLUTION（推断层设计上限 0.35 < 精确层最低 0.40）
         role = self._determine_role(card, detected_archetypes, archetype_weights,
-                                    inferred_only=not is_exact_match and bool(inferred_archetype_ids))
+                                    inferred_only=not is_exact_match and bool(inferred_archetype_ids),
+                                    deck_size=len(run_state.deck))
 
         # 3. 计算套路完成度贡献
         comp_before = 0.0
@@ -271,7 +272,7 @@ class CardEvaluator:
         )
 
         # algo_score（原有流程）
-        algo_score_100 = combine_scores(breakdown, bloat_penalty=bloat_pen)
+        algo_score_100 = combine_scores(breakdown, bloat_penalty=bloat_pen, role=role)
 
         # Ascension 修正（在社区交叉验证之前，基于算法分施加）
         asc_delta = ascension_modifier(role, run_state.ascension, breakdown.archetype_score)
@@ -346,26 +347,40 @@ class CardEvaluator:
         detected_archetypes: list[Archetype],
         archetype_weights: list[float],
         inferred_only: bool = False,
+        deck_size: int = 0,
     ) -> CardRole:
         """
         根据套路匹配结果推断卡牌在当前 run 中的角色。
 
         inferred_only: 若为 True，表示所有权重来自推断层（非手动定义），
                        最低角色保底为 FILLER，不判定为 POLLUTION。
+        deck_size: 当前牌库大小，用于过渡牌判断。
+
+        过渡牌规则（TRANSITION）：
+          - 费用 ≤ 1（廉价，早期实用）
+          - 仅 COMMON/UNCOMMON，排除 STATUS/CURSE 类型和套路有匹配的牌
+          - 无套路命中 + 牌库 ≤ 15 张 → TRANSITION
+          - 有套路匹配时一律 FILLER（不强行判过渡，避免伤害套路边缘牌）
         """
+        cost = card.cost if card.cost >= 0 else 3  # X费视为高费
+        is_cheap = cost <= 1
+
+        from .models import Rarity, CardType
+        is_transition_eligible = (
+            is_cheap
+            and card.rarity in (Rarity.COMMON, Rarity.UNCOMMON)
+            and card.card_type not in (CardType.STATUS, CardType.CURSE)
+        )
+
         if not detected_archetypes or not archetype_weights:
-            # 未匹配任何套路 → 按稀有度做保守判断
-            from .models import Rarity
-            if card.rarity in (Rarity.RARE, Rarity.ANCIENT):
-                return CardRole.FILLER
-            elif card.rarity in (Rarity.UNCOMMON, Rarity.COMMON):
-                return CardRole.FILLER
-            else:
-                return CardRole.UNKNOWN
+            # 未匹配任何套路
+            if is_transition_eligible and deck_size <= 15:
+                return CardRole.TRANSITION
+            return CardRole.FILLER
 
         max_weight = max(archetype_weights)
 
-        # 根据权重阈值映射角色
+        # 根据权重阈值映射角色（有套路匹配时不判 TRANSITION）
         if max_weight >= 0.85:
             return CardRole.CORE
         elif max_weight >= 0.60:
@@ -440,12 +455,18 @@ class CardEvaluator:
                 else "Synergizes with current relics or deck"
             )
 
-        # 阶段适配
-        if role == CardRole.TRANSITION and run_state.phase != GamePhase.EARLY:
-            reasons_against.append(
-                f"过渡卡在 {run_state.phase.value} 阶段价值下降" if zh
-                else f"Transitional card loses value in {run_state.phase.value} phase"
-            )
+        # 阶段适配（过渡牌）
+        if role == CardRole.TRANSITION:
+            if run_state.phase == GamePhase.EARLY:
+                reasons_for.append(
+                    "早期过渡牌：费用低、见效快，牌库尚小时性价比高" if zh
+                    else "Early transition card: cheap and effective while deck is small"
+                )
+            else:
+                reasons_against.append(
+                    "过渡牌：套路成型后价值下降，可考虑替换" if zh
+                    else "Transition card: value drops as archetype develops — consider replacing later"
+                )
 
         # 污染
         if role == CardRole.POLLUTION:
