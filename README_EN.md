@@ -164,8 +164,8 @@ Each candidate card is scored independently on five dimensions (all normalized t
 | Dimension | Weight | Logic |
 |-----------|--------|-------|
 | Archetype fit | **40%** | Highest weight across all matching archetypes; returns 0 if no match (inherent value acts as floor) |
-| Inherent value | **25%** | Rarity baseline (Rare 0.80 / Uncommon 0.60 / Common 0.45) + cost efficiency (0-cost +0.12, 3+ cost −0.05) |
-| Phase adaptation | **15%** | Core/enabler cards score higher late (early 0.75 → late 0.88); transitional cards stronger early (early 0.85 → late 0.15); curse fixed 0 |
+| Inherent value | **25%** | Rarity baseline (Ancient 0.95 / Rare 0.88 / Uncommon 0.62 / Common 0.38) + cost efficiency (0-cost +0.10, 3+ cost −0.06) |
+| Phase adaptation | **15%** | Core/enabler cards score higher late (early 0.75 → late 0.88); transitional cards stronger early (early 0.92 → late 0.12); curse fixed 0 |
 | Completion contribution | **15%** | Archetype completion delta after adding this card × 3 (amplified because a single card typically only adds 5–10%) |
 | Synergy bonus | **5%** | Tag overlap with current relics/deck; +0.20 per matching tag, capped at 1.0 |
 
@@ -227,7 +227,13 @@ python -m uvicorn backend.main:app --port 8001
 
 ## Changelog
 
-### v1.21 (current)
+### v1.25 (current)
+- **Archetype library: 17 → 27**: 10 new archetypes covering Ironclad (Block/Body Slam · Vulnerable Pressure · Strike Scaling), Silent (Dexterity Block · Retain Burst), Defect (Frost Block · Claw Cycle), Necrobinder (Soul Exhaust Engine · Osty Defense Buff), Regent (Retain Control); each confirmed by 2+ community sources with all card IDs verified in the database
+- **Score distribution fix**: Rarity baselines widened (Ancient 0.95 / Rare 0.88 / Uncommon 0.62 / Common 0.38); no-archetype TRANSITION early-game `phase_score` raised to 0.92; floor bonus now tiered by rarity — Rare receives less compensation, Common retains the full floor. Result: Rare transition cards B (51–57) · Uncommon B/B− (44–52) · Common C+ (~40)
+- **Card text summaries**: New `data/card_summaries.json` covering 84.9% (489/576) of scoreable cards; each entry combines card type, archetype fit, community win/pick rate, and usage tips; displayed as a grey italic line at the bottom of each card result in Chinese mode
+- `scripts/generate_card_summaries.py` included to regenerate locally after archetype or data updates
+
+### v1.21
 - **Scoring system calibration**: Fixed systematically low scores
   - Weight rebalance: archetype fit 0.40→0.35, inherent value 0.25→0.30 — reduces over-reliance on archetype matching
   - Floor bonus: non-pollution cards with no archetype match receive +8 points, preventing useful generic cards from landing in the "Skip" tier
