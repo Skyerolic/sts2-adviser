@@ -52,6 +52,10 @@ _DAMPENING: float             = 0.85   # 补丁滞后折扣（永久降低社区
 _AGREEMENT_THRESHOLD: float   = 0.15   # delta ≤ 此值 → AGREEMENT
 _CONFLICT_THRESHOLD: float    = 0.30   # delta > 此值 → CONFLICT
 
+# 过渡牌无套路时的额外社区权重上限（高于普通 _COMMUNITY_WEIGHT）
+# 社区数据最能反映"初期这张牌是否值得拿"，算法在无套路时没有额外信息
+_TRANSITION_COMMUNITY_WEIGHT: float = 0.45
+
 
 # ---------------------------------------------------------------------------
 # 社区交叉验证：数据结构
@@ -108,6 +112,7 @@ def cross_validate(
     community_score: Optional[float],
     community_weight: float = _COMMUNITY_WEIGHT,
     dampening: float = _DAMPENING,
+    is_transition_no_archetype: bool = False,
 ) -> CrossValidationResult:
     """
     将算法归一化分数（0-1）与社区归一化分数（0-1 或 None）交叉验证。
@@ -118,10 +123,18 @@ def cross_validate(
       - SOFT_CONFLICT (0.15 < delta ≤ 0.30)：社区权重打 75%，confidence=0.75
       - CONFLICT (delta > 0.30)：社区权重打 50%，confidence=0.50
 
+    is_transition_no_archetype: 过渡牌且无套路命中时设为 True。
+      此场景下算法没有额外的套路信息，社区数据最能反映
+      "初期这张牌是否值得拿"，因此提高社区权重上限至 _TRANSITION_COMMUNITY_WEIGHT。
+
     最终混合：
       effective_cw = community_weight * confidence * dampening
       blended = (1 - effective_cw) * algo_norm + effective_cw * adjusted_community
     """
+    # 过渡牌无套路时提高社区权重上限
+    if is_transition_no_archetype and community_score is not None:
+        community_weight = _TRANSITION_COMMUNITY_WEIGHT
+
     if community_score is None:
         return CrossValidationResult(
             blended_norm=algo_norm,
@@ -191,6 +204,11 @@ WEIGHTS: dict[str, float] = {
 # 无套路命中时对非污染牌的地板加成（防止有用牌因 archetype_score=0 而过低）
 _NO_ARCHETYPE_FLOOR: float = 0.08
 
+# 过渡牌无套路时的专属地板（修复：archetype×0.35 缺失导致分数崩塌）
+# 早期地板更高，中期退化到与 FILLER 相同（phase_score 曲线此时已自然下降）
+_TRANSITION_FLOOR_EARLY: float = 0.18   # 无套路早期 TRANSITION 地板
+_TRANSITION_FLOOR_MID: float   = 0.08   # 无套路中期 TRANSITION 地板（≈ FILLER 水平）
+
 # ---------------------------------------------------------------------------
 # 维度1：套路契合度
 # ---------------------------------------------------------------------------
@@ -223,26 +241,26 @@ def score_value_dimension(card: Card, phase: GamePhase) -> float:
       - 0 费牌有显著加成（灵活性价值）
     """
     rarity_base: dict[Rarity, float] = {
-        Rarity.ANCIENT:  0.90,
-        Rarity.RARE:     0.80,
-        Rarity.UNCOMMON: 0.60,
-        Rarity.COMMON:   0.45,
-        Rarity.BASIC:    0.35,
-        Rarity.STARTER:  0.20,
+        Rarity.ANCIENT:  0.95,
+        Rarity.RARE:     0.88,
+        Rarity.UNCOMMON: 0.62,
+        Rarity.COMMON:   0.38,
+        Rarity.BASIC:    0.30,
+        Rarity.STARTER:  0.18,
         Rarity.SPECIAL:  0.10,
         Rarity.CURSE:    0.00,
         Rarity.STATUS:   0.05,
     }
-    base = rarity_base.get(card.rarity, 0.45)
+    base = rarity_base.get(card.rarity, 0.38)
 
     # 费用效率
     cost_bonus = 0.0
     if card.cost == 0:
-        cost_bonus = 0.12
+        cost_bonus = 0.10
     elif card.cost == 1:
-        cost_bonus = 0.05
+        cost_bonus = 0.04
     elif card.cost >= 3:
-        cost_bonus = -0.05   # 高费用略微减分
+        cost_bonus = -0.06   # 高费用略微减分
 
     return min(1.0, max(0.0, base + cost_bonus))
 
@@ -273,9 +291,9 @@ def score_phase_dimension(
         return 0.0
     if card_role == CardRole.TRANSITION:
         base = {
-            GamePhase.EARLY: 0.85,
-            GamePhase.MID:   0.60,
-            GamePhase.LATE:  0.15,
+            GamePhase.EARLY: 0.92,
+            GamePhase.MID:   0.58,
+            GamePhase.LATE:  0.12,
         }[phase]
     elif card_role in (CardRole.CORE, CardRole.ENABLER):
         base = {
@@ -449,6 +467,7 @@ def combine_scores(
     breakdown: "ScoreBreakdown",
     bloat_penalty: float = 0.0,
     role: "CardRole | None" = None,
+    is_transition_early: bool = False,
 ) -> float:
     """
     将 ScoreBreakdown 各维度加权合并，返回 0~100 的算法分（algo_score）。
@@ -460,16 +479,36 @@ def combine_scores(
     v0.7 变更：
       - bloat_penalty 改为显式参数（不再从 breakdown.rarity_score 读取）
       - breakdown.rarity_score 现存储 community_score（由 evaluator 写入）
+
+    v0.8 变更：
+      - is_transition_early: TRANSITION 牌无套路命中时为 True。
+        给予专属地板（_TRANSITION_FLOOR_EARLY/_MID），避免 archetype×0.35
+        缺失导致分数崩塌到 D 级，而 phase_score 动态曲线本身不足以补偿。
     """
-    from .models import CardRole
-    # 无套路命中时对 FILLER/UNKNOWN 补地板分；TRANSITION 已有 phase_score 动态曲线，不叠加
-    no_archetype_floor = (
-        _NO_ARCHETYPE_FLOOR
-        if (breakdown.archetype_score < 0.05
-            and breakdown.pollution_penalty == 0.0
-            and role not in (CardRole.TRANSITION, CardRole.CORE, CardRole.ENABLER))
-        else 0.0
-    )
+    from .models import CardRole, Rarity
+    # 无套路命中时的补偿量（针对 archetype×0.35 缺失）
+    # 语义：补偿量直接叠加到 raw，模拟"如果套路正常检测，这张牌至少值多少分"
+    # Rare 牌 value_score 本身已经很高（0.75+），补偿量上限按 Rare 下调，
+    # 避免无套路 Rare 被人为拔得过高。
+    if breakdown.archetype_score < 0.05 and breakdown.pollution_penalty == 0.0:
+        if role == CardRole.TRANSITION:
+            # TRANSITION 专属补偿：早期高（补 archetype 缺失的主要部分），中期退化
+            floor_val = _TRANSITION_FLOOR_EARLY if is_transition_early else _TRANSITION_FLOOR_MID
+            # 按稀有度分层：Rare value_score 已高，补偿小；Common 需要更多补偿拉开差距
+            if breakdown.base_score >= 0.85:   # ANCIENT
+                floor_val = floor_val * 0.4
+            elif breakdown.base_score >= 0.75:  # RARE
+                floor_val = floor_val * 0.55
+            elif breakdown.base_score >= 0.55:  # UNCOMMON
+                floor_val = floor_val * 0.85
+            # COMMON 及以下：floor_val 不打折，保留完整补偿
+            no_archetype_floor = floor_val
+        elif role not in (CardRole.CORE, CardRole.ENABLER):
+            no_archetype_floor = _NO_ARCHETYPE_FLOOR
+        else:
+            no_archetype_floor = 0.0
+    else:
+        no_archetype_floor = 0.0
     raw = (
         breakdown.archetype_score    * WEIGHTS["archetype"]
         + breakdown.base_score       * WEIGHTS["value"]

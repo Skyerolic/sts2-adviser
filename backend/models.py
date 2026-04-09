@@ -237,3 +237,6 @@ class EvaluationResult(BaseModel):
     # 最终建议
     recommendation: str = ""   # e.g. "强烈推荐" / "可选" / "跳过"
     grade: str = ""             # 字母等级 e.g. "S" / "A+" / "B-" / "D"
+
+    # 卡牌文字总结（来自 card_summaries.json，auto_generated）
+    summary_zh: str = ""        # 中文总结句，直接显示给用户

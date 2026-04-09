@@ -1783,5 +1783,243 @@
         "note": "Forge方向，稀释无色套"
       }
     ]
+  },
+
+  {
+    "id": "ironclad_block_slam",
+    "name": "Ironclad: Block / Body Slam",
+    "character": "ironclad",
+    "key_tags": ["block", "body_slam", "barricade", "juggernaut", "defense_to_offense"],
+    "description": "Barricade 保留格挡过回合，Body Slam 将格挡值转化为伤害；Juggernaut 使格挡产生反伤被动。",
+    "target_card_count": 13,
+    "card_weights": [
+      {"card_id": "BODY_SLAM",      "role": "core",    "weight": 0.95, "note": "格挡值转伤害，核心输出手段"},
+      {"card_id": "BARRICADE",      "role": "core",    "weight": 0.92, "note": "格挡不归零，套路基础"},
+      {"card_id": "JUGGERNAUT",     "role": "core",    "weight": 0.88, "note": "获得格挡时对敌造成伤害"},
+      {"card_id": "IMPERVIOUS",     "role": "core",    "weight": 0.85, "note": "大量格挡Exhaust，Barricade下永久"},
+      {"card_id": "UNMOVABLE",      "role": "core",    "weight": 0.82, "note": "每回合自动叠格挡"},
+      {"card_id": "SHRUG_IT_OFF",   "role": "enabler", "weight": 0.75, "note": "低费防御+摸牌"},
+      {"card_id": "FLAME_BARRIER",  "role": "enabler", "weight": 0.70, "note": "格挡+Thorns反伤"},
+      {"card_id": "STONE_ARMOR",    "role": "enabler", "weight": 0.65, "note": "每回合被动格挡叠加"},
+      {"card_id": "CRIMSON_MANTLE", "role": "enabler", "weight": 0.62, "note": "格挡翻倍关键遗物型卡"},
+      {"card_id": "TRUE_GRIT",      "role": "filler",  "weight": 0.50, "note": "低费格挡+排除减薄"},
+      {"card_id": "BLOOD_WALL",     "role": "filler",  "weight": 0.45, "note": "HP转大量格挡过渡"},
+      {"card_id": "SECOND_WIND",    "role": "filler",  "weight": 0.42, "note": "排除非攻击牌换格挡"},
+      {"card_id": "DEMON_FORM",     "role": "pollution","weight": 0.12, "note": "力量路线，不提升格挡体系"},
+      {"card_id": "BLOODLETTING",   "role": "pollution","weight": 0.10, "note": "HP换费，破坏格挡存量"}
+    ]
+  },
+
+  {
+    "id": "ironclad_vulnerable",
+    "name": "Ironclad: Vulnerable",
+    "character": "ironclad",
+    "key_tags": ["vulnerable", "debuff", "damage_amplify", "consistent_pressure"],
+    "description": "持续对敌施加 Vulnerable（+50% 受伤），配合大单体攻击；Cruelty/Colossus 进一步提升每次攻击伤害上限。",
+    "target_card_count": 13,
+    "card_weights": [
+      {"card_id": "DOMINATE",       "role": "core",    "weight": 0.95, "note": "脆弱叠加转永久力量，核心"},
+      {"card_id": "CRUELTY",        "role": "core",    "weight": 0.90, "note": "每次攻击额外伤害，脆弱下翻倍"},
+      {"card_id": "TREMBLE",        "role": "core",    "weight": 0.88, "note": "0费施加Vulnerable，高效"},
+      {"card_id": "TAUNT",          "role": "core",    "weight": 0.85, "note": "嘲讽+格挡+Vulnerable"},
+      {"card_id": "UPPERCUT",       "role": "core",    "weight": 0.82, "note": "攻击+施弱+施Vulnerable"},
+      {"card_id": "COLOSSUS",       "role": "enabler", "weight": 0.75, "note": "固定大伤害，配合Vulnerable"},
+      {"card_id": "THUNDERCLAP",    "role": "enabler", "weight": 0.70, "note": "AoE+Vulnerable，群体施加"},
+      {"card_id": "MOLTEN_FIST",    "role": "enabler", "weight": 0.65, "note": "攻击+Exhaust增伤"},
+      {"card_id": "EVIL_EYE",       "role": "enabler", "weight": 0.62, "note": "每次打出都施加Vulnerable"},
+      {"card_id": "BASH",           "role": "filler",  "weight": 0.50, "note": "初始牌，基础Vulnerable来源"},
+      {"card_id": "DISMANTLE",      "role": "filler",  "weight": 0.45, "note": "攻击+排除，减薄牌库"},
+      {"card_id": "GRAPPLE",        "role": "filler",  "weight": 0.42, "note": "攻击+控场辅助"},
+      {"card_id": "CORRUPTION",     "role": "pollution","weight": 0.12, "note": "消耗Skill，破坏Vulnerable施加节奏"}
+    ]
+  },
+
+  {
+    "id": "ironclad_strike_scaling",
+    "name": "Ironclad: Strike Scaling",
+    "character": "ironclad",
+    "key_tags": ["strike", "perfected_strike", "scaling", "hellraiser", "basic_synergy"],
+    "description": "Perfected Strike 随牌组中 Strike 数量线性增伤；Pyre/Hellraiser 每回合提供被动增益，使 Strike 流在中期仍有竞争力。",
+    "target_card_count": 14,
+    "card_weights": [
+      {"card_id": "PERFECTED_STRIKE","role": "core",    "weight": 0.95, "note": "Strike数量倍化伤害，核心"},
+      {"card_id": "HELLRAISER",      "role": "core",    "weight": 0.90, "note": "每回合开始固定增加力量"},
+      {"card_id": "PYRE",            "role": "core",    "weight": 0.88, "note": "每打出攻击牌积累伤害"},
+      {"card_id": "COLOSSUS",        "role": "core",    "weight": 0.82, "note": "固定大伤配合Pyre累积"},
+      {"card_id": "TWIN_STRIKE",     "role": "enabler", "weight": 0.75, "note": "双段Strike，计入Perfected"},
+      {"card_id": "POMMEL_STRIKE",   "role": "enabler", "weight": 0.72, "note": "Strike+摸牌，循环辅助"},
+      {"card_id": "TREMBLE",         "role": "enabler", "weight": 0.65, "note": "0费Vulnerable，放大Strike"},
+      {"card_id": "TAUNT",           "role": "enabler", "weight": 0.60, "note": "嘲讽+格挡撑住面"},
+      {"card_id": "BREAKTHROUGH",    "role": "filler",  "weight": 0.50, "note": "攻击+格挡，全面过渡"},
+      {"card_id": "EXPECT_A_FIGHT",  "role": "filler",  "weight": 0.45, "note": "战斗开始获得能量"},
+      {"card_id": "STRIKE_IRONCLAD", "role": "filler",  "weight": 0.40, "note": "基础Strike，计入Perfected"},
+      {"card_id": "CORRUPTION",      "role": "pollution","weight": 0.10, "note": "消耗Skill，Strike流不需要"}
+    ]
+  },
+
+  {
+    "id": "silent_dexterity_block",
+    "name": "Silent: Dexterity / Block",
+    "character": "silent",
+    "key_tags": ["dexterity", "block", "blur", "footwork", "sustained_defense"],
+    "description": "通过 Footwork 永久叠加敏捷，格挡卡价值随之翻倍；Blur 保留格挡跨回合，形成稳定的防御滚雪球。",
+    "target_card_count": 13,
+    "card_weights": [
+      {"card_id": "FOOTWORK",        "role": "core",    "weight": 0.95, "note": "永久+2敏捷，核心引擎"},
+      {"card_id": "BLUR",            "role": "core",    "weight": 0.92, "note": "格挡不归零，防御储量"},
+      {"card_id": "DODGE_AND_ROLL",  "role": "core",    "weight": 0.88, "note": "本回合+下回合双格挡"},
+      {"card_id": "ANTICIPATE",      "role": "core",    "weight": 0.85, "note": "0费+1敏捷，快速叠加"},
+      {"card_id": "ABRASIVE",        "role": "enabler", "weight": 0.75, "note": "Thorns+敏捷，攻防兼备"},
+      {"card_id": "BACKFLIP",        "role": "enabler", "weight": 0.70, "note": "格挡+摸牌，循环辅助"},
+      {"card_id": "CLOAK_AND_DAGGER","role": "enabler", "weight": 0.65, "note": "格挡+生成Shiv过渡"},
+      {"card_id": "DEFLECT",         "role": "enabler", "weight": 0.60, "note": "0费格挡，极效"},
+      {"card_id": "ESCAPE_PLAN",     "role": "filler",  "weight": 0.50, "note": "0费摸牌/格挡二选一"},
+      {"card_id": "EXPERTISE",       "role": "filler",  "weight": 0.45, "note": "补充手牌密度"},
+      {"card_id": "SURVIVOR",        "role": "filler",  "weight": 0.40, "note": "格挡+弃牌，灵活过渡"},
+      {"card_id": "BLADE_DANCE",     "role": "pollution","weight": 0.12, "note": "Shiv方向，与格挡路线相斥"},
+      {"card_id": "ACCURACY",        "role": "pollution","weight": 0.10, "note": "仅强化Shiv，无助格挡体系"}
+    ]
+  },
+
+  {
+    "id": "silent_retain_setup",
+    "name": "Silent: Retain / Setup Burst",
+    "character": "silent",
+    "key_tags": ["retain", "setup", "burst", "well_laid_plans", "hand_management"],
+    "description": "Well-Laid Plans 保留手牌跨回合；配合 Hidden Daggers/Reflex 等高效弃牌触发牌，积累一轮后集中爆发。",
+    "target_card_count": 12,
+    "card_weights": [
+      {"card_id": "WELL_LAID_PLANS", "role": "core",    "weight": 0.95, "note": "Retain任意手牌，核心引擎"},
+      {"card_id": "HIDDEN_DAGGERS",  "role": "core",    "weight": 0.92, "note": "每弃一牌免费打Shiv，S级"},
+      {"card_id": "MASTER_PLANNER", "role": "core",    "weight": 0.88, "note": "弃牌时免费打出一张"},
+      {"card_id": "SNAKEBITE",       "role": "core",    "weight": 0.82, "note": "Retain攻击+叠毒"},
+      {"card_id": "BURST",           "role": "enabler", "weight": 0.75, "note": "下一张技能打两次，爆发核心"},
+      {"card_id": "REFLEX",          "role": "enabler", "weight": 0.72, "note": "Sly：弃牌时摸牌引擎"},
+      {"card_id": "TACTICIAN",       "role": "enabler", "weight": 0.68, "note": "Sly：弃牌时+1能量"},
+      {"card_id": "CALCULATED_GAMBLE","role":"enabler", "weight": 0.62, "note": "全弃后满摸，触发多Sly"},
+      {"card_id": "HAND_TRICK",      "role": "filler",  "weight": 0.50, "note": "手牌管理灵活过渡"},
+      {"card_id": "SHADOW_STEP",     "role": "filler",  "weight": 0.45, "note": "摸牌+格挡，低费过渡"},
+      {"card_id": "ACROBATICS",      "role": "filler",  "weight": 0.40, "note": "摸牌+弃牌循环"},
+      {"card_id": "NOXIOUS_FUMES",   "role": "pollution","weight": 0.12, "note": "毒方向，与爆发节奏冲突"}
+    ]
+  },
+
+  {
+    "id": "defect_frost_block",
+    "name": "Defect: Frost / Block",
+    "character": "defect",
+    "key_tags": ["frost", "block", "focus", "orb", "passive_defense"],
+    "description": "大量生成 Frost Orb，配合 Focus 叠加使每个冰球每回合被动提供大量格挡（2+Focus），形成可持续防御。",
+    "target_card_count": 13,
+    "card_weights": [
+      {"card_id": "DEFRAGMENT",      "role": "core",    "weight": 0.95, "note": "+1 Focus，核心放大冰球价值"},
+      {"card_id": "COOLHEADED",      "role": "core",    "weight": 0.92, "note": "生成Frost+摸牌，高效"},
+      {"card_id": "GLACIER",         "role": "core",    "weight": 0.88, "note": "生成2个Frost，批量格挡"},
+      {"card_id": "CHILL",           "role": "core",    "weight": 0.82, "note": "0费生成Frost，Exhaust"},
+      {"card_id": "COLD_SNAP",       "role": "enabler", "weight": 0.75, "note": "攻击+生成Frost"},
+      {"card_id": "SHADOW_SHIELD",   "role": "enabler", "weight": 0.70, "note": "有球时大量格挡"},
+      {"card_id": "LEAP",            "role": "enabler", "weight": 0.65, "note": "格挡+补充手牌"},
+      {"card_id": "CHARGE_BATTERY",  "role": "enabler", "weight": 0.60, "note": "格挡+明回合+1能量"},
+      {"card_id": "COMPACT",         "role": "filler",  "weight": 0.50, "note": "减少手牌上限换格挡"},
+      {"card_id": "SKIM",            "role": "filler",  "weight": 0.45, "note": "摸牌过渡"},
+      {"card_id": "BOOT_SEQUENCE",   "role": "filler",  "weight": 0.40, "note": "Innate格挡开局稳定"},
+      {"card_id": "CLAW",            "role": "pollution","weight": 0.12, "note": "0费攻击路线，与被动格挡思路相反"},
+      {"card_id": "DARKNESS",        "role": "pollution","weight": 0.10, "note": "Dark Orb伤害路线，占球位"}
+    ]
+  },
+
+  {
+    "id": "defect_claw_cycle",
+    "name": "Defect: Claw Cycle",
+    "character": "defect",
+    "key_tags": ["claw", "cycle", "all_for_one", "zero_cost", "scaling_damage"],
+    "description": "每打出一张 Claw 全局 +2 伤害；All for One 回收弃牌堆所有 Claw；Scrape/FTL 快速循环实现指数增伤。",
+    "target_card_count": 14,
+    "card_weights": [
+      {"card_id": "CLAW",            "role": "core",    "weight": 0.95, "note": "每打出全局+2伤，核心"},
+      {"card_id": "ALL_FOR_ONE",     "role": "core",    "weight": 0.92, "note": "回收弃牌堆所有Claw，循环核心"},
+      {"card_id": "SCRAPE",          "role": "core",    "weight": 0.88, "note": "攻击+摸牌，加速循环"},
+      {"card_id": "FTL",             "role": "core",    "weight": 0.85, "note": "0费攻击，手牌多时倍增"},
+      {"card_id": "GO_FOR_THE_EYES", "role": "enabler", "weight": 0.75, "note": "0费攻击+Weak，配合Claw"},
+      {"card_id": "TURBO",           "role": "enabler", "weight": 0.70, "note": "0费+2能量，加速循环"},
+      {"card_id": "OVERCLOCK",       "role": "enabler", "weight": 0.65, "note": "摸牌+Status代价，可接受"},
+      {"card_id": "BOOST_AWAY",      "role": "enabler", "weight": 0.60, "note": "0费摸牌辅助"},
+      {"card_id": "COMPILE_DRIVER",  "role": "filler",  "weight": 0.50, "note": "攻击+按球型摸牌"},
+      {"card_id": "HOLOGRAM",        "role": "filler",  "weight": 0.45, "note": "回收弃牌堆卡片"},
+      {"card_id": "SKIM",            "role": "filler",  "weight": 0.42, "note": "批量摸牌"},
+      {"card_id": "GLACIER",         "role": "pollution","weight": 0.12, "note": "冰球格挡路线，占球位影响ALL_FOR_ONE"},
+      {"card_id": "RAINBOW",         "role": "pollution","weight": 0.10, "note": "乱序球，分散Claw增益节奏"}
+    ]
+  },
+
+  {
+    "id": "necrobinder_soul_exhaust",
+    "name": "Necrobinder: Soul / Exhaust Engine",
+    "character": "necrobinder",
+    "key_tags": ["soul", "exhaust", "cycle", "haunt", "passive_damage"],
+    "description": "Soul 牌（0费摸牌+排除）快速循环；Haunt 在每次打出 Soul 类牌时造成被动伤害；Devour Life 兼顾回血与输出。",
+    "target_card_count": 13,
+    "card_weights": [
+      {"card_id": "HAUNT",           "role": "core",    "weight": 0.95, "note": "每打Soul被动伤害，核心引擎"},
+      {"card_id": "GRAVE_WARDEN",    "role": "core",    "weight": 0.92, "note": "生成Soul/摸牌，循环核心"},
+      {"card_id": "NEUROSURGE",      "role": "core",    "weight": 0.88, "note": "0费排除+增强，S级"},
+      {"card_id": "DEVOUR_LIFE",     "role": "core",    "weight": 0.85, "note": "Soul触发回血+伤害，终结"},
+      {"card_id": "SOUL_STORM",      "role": "core",    "weight": 0.82, "note": "消耗Soul打出大伤"},
+      {"card_id": "DIRGE",           "role": "enabler", "weight": 0.75, "note": "0费摸牌引擎"},
+      {"card_id": "GRAVEBLAST",      "role": "enabler", "weight": 0.70, "note": "攻击+Exhaust，减薄触发"},
+      {"card_id": "REAVE",           "role": "enabler", "weight": 0.65, "note": "攻击+摸牌循环"},
+      {"card_id": "CAPTURE_SPIRIT",  "role": "enabler", "weight": 0.60, "note": "排除+摸牌"},
+      {"card_id": "WISP",            "role": "filler",  "weight": 0.50, "note": "0费Exhaust，Soul类触发"},
+      {"card_id": "DREDGE",          "role": "filler",  "weight": 0.45, "note": "排除牌回收循环"},
+      {"card_id": "SLEIGHT_OF_FLESH","role": "filler",  "weight": 0.42, "note": "弃牌时回收，循环稳定性"},
+      {"card_id": "END_OF_DAYS",     "role": "pollution","weight": 0.12, "note": "Doom路线高费牌，破坏快速循环节奏"}
+    ]
+  },
+
+  {
+    "id": "necrobinder_osty_buff",
+    "name": "Necrobinder: Osty Buff / Tank",
+    "character": "necrobinder",
+    "key_tags": ["osty", "buff", "companion_tank", "sic_em", "spur"],
+    "description": "侧重强化 Osty 使其吸收更多伤害并产生输出；Sic'Em 指挥 Osty 攻击，Spur/Fetch 持续强化其属性，Necro Mastery 永久提升。",
+    "target_card_count": 13,
+    "card_weights": [
+      {"card_id": "SIC_EM",          "role": "core",    "weight": 0.95, "note": "指挥Osty攻击，核心输出"},
+      {"card_id": "SPUR",            "role": "core",    "weight": 0.92, "note": "Retain+强化Osty属性"},
+      {"card_id": "NECRO_MASTERY",   "role": "core",    "weight": 0.88, "note": "永久强化Osty，游戏内长期价值"},
+      {"card_id": "FETCH",           "role": "core",    "weight": 0.85, "note": "0费，Osty附加效果触发"},
+      {"card_id": "RATTLE",          "role": "enabler", "weight": 0.75, "note": "攻击+Osty联动"},
+      {"card_id": "FLATTEN",         "role": "enabler", "weight": 0.70, "note": "攻击+Osty衔接"},
+      {"card_id": "BODYGUARD",       "role": "enabler", "weight": 0.65, "note": "使Osty承受更多伤害"},
+      {"card_id": "AFTERLIFE",       "role": "enabler", "weight": 0.60, "note": "Exhaust回血，Osty存活保障"},
+      {"card_id": "FRIENDSHIP",      "role": "filler",  "weight": 0.50, "note": "永久+1力量，Osty伤害提升"},
+      {"card_id": "BONE_SHARDS",     "role": "filler",  "weight": 0.45, "note": "攻击+伤害输出补充"},
+      {"card_id": "HIGH_FIVE",       "role": "filler",  "weight": 0.42, "note": "Osty协同攻击"},
+      {"card_id": "OBLIVION",        "role": "pollution","weight": 0.12, "note": "Doom路线，不强化Osty"},
+      {"card_id": "SEANCE",          "role": "pollution","weight": 0.10, "note": "Ethereal路线，浪费牌库位置"}
+    ]
+  },
+
+  {
+    "id": "regent_retain_control",
+    "name": "Regent: Retain / Control",
+    "character": "regent",
+    "key_tags": ["retain", "control", "particle_wall", "reflect", "convergence"],
+    "description": "低费防御牌配合 Particle Wall/Reflect 构建稳定防线；Convergence 整合多重效果；Foregone Conclusion 加速节奏，逐步消耗敌人。",
+    "target_card_count": 13,
+    "card_weights": [
+      {"card_id": "PARTICLE_WALL",   "role": "core",    "weight": 0.95, "note": "0费格挡，控制路线基础"},
+      {"card_id": "REFLECT",         "role": "core",    "weight": 0.92, "note": "摸牌+格挡，循环控制"},
+      {"card_id": "CONVERGENCE",     "role": "core",    "weight": 0.88, "note": "整合多效果，控制终结"},
+      {"card_id": "FOREGONE_CONCLUSION","role":"core",  "weight": 0.85, "note": "节奏加速，控制节拍器"},
+      {"card_id": "GLOW",            "role": "enabler", "weight": 0.75, "note": "格挡+增益，通用辅助"},
+      {"card_id": "BULWARK",         "role": "enabler", "weight": 0.70, "note": "大量格挡稳定防线"},
+      {"card_id": "ALIGNMENT",       "role": "enabler", "weight": 0.65, "note": "0费多功能控制"},
+      {"card_id": "ROYAL_GAMBLE",    "role": "enabler", "weight": 0.60, "note": "Exhaust换资源，节奏调整"},
+      {"card_id": "GLIMMER",         "role": "filler",  "weight": 0.50, "note": "摸牌+微控制"},
+      {"card_id": "CONQUEROR",       "role": "filler",  "weight": 0.45, "note": "格挡+战斗后获益"},
+      {"card_id": "MONOLOGUE",       "role": "filler",  "weight": 0.42, "note": "0费控制工具"},
+      {"card_id": "HAMMER_TIME",     "role": "pollution","weight": 0.12, "note": "Forge路线，与控制节奏不匹配"}
+    ]
   }
 ]

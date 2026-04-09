@@ -80,17 +80,20 @@ class CardEvaluator:
         library: Optional[ArchetypeLibrary] = None,
         raw_card_db: Optional[dict[str, dict]] = None,
         community_db: Optional[dict] = None,
+        summaries_db: Optional[dict[str, dict]] = None,
     ) -> None:
         """
         card_db:      card_id -> Card（全卡库）
         library:      套路库（默认使用模块级单例）
         raw_card_db:  card_id -> 原始 JSON dict（含 powers_applied / keywords_key）
         community_db: card_id -> CommunityStats（社区统计数据，可选）
+        summaries_db: card_id (大写) -> {summary_zh, tier, ...}（来自 card_summaries.json）
         """
         self.card_db = card_db
         self.library = library or archetype_library
         self.raw_card_db: dict[str, dict] = raw_card_db or {}
         self.community_db: dict = community_db or {}
+        self.summaries_db: dict[str, dict] = summaries_db or {}
 
     # ------------------------------------------------------------------
     # 公开接口
@@ -271,8 +274,21 @@ class CardEvaluator:
             pollution_penalty=pollution_penalty(card, len(run_state.deck), role),
         )
 
+        # 判断是否为"无套路早期过渡牌"场景（用于专属地板和社区权重提升）
+        _is_transition_no_arch = (
+            role == CardRole.TRANSITION
+            and not matched_archetype_ids
+        )
+        _is_transition_early = (
+            _is_transition_no_arch
+            and run_state.phase.value == "early"
+        )
+
         # algo_score（原有流程）
-        algo_score_100 = combine_scores(breakdown, bloat_penalty=bloat_pen, role=role)
+        algo_score_100 = combine_scores(
+            breakdown, bloat_penalty=bloat_pen, role=role,
+            is_transition_early=_is_transition_early,
+        )
 
         # Ascension 修正（在社区交叉验证之前，基于算法分施加）
         asc_delta = ascension_modifier(role, run_state.ascension, breakdown.archetype_score)
@@ -280,7 +296,10 @@ class CardEvaluator:
 
         # 社区交叉验证（post-processing）
         algo_norm = algo_score_100 / 100.0
-        cv_result = cross_validate(algo_norm, community_norm)
+        cv_result = cross_validate(
+            algo_norm, community_norm,
+            is_transition_no_archetype=_is_transition_no_arch,
+        )
         total = round(cv_result.blended_norm * 100, 1)
 
         # 5. 生成解释
@@ -295,6 +314,9 @@ class CardEvaluator:
 
         recommendation = self._make_recommendation(total, role, language=language)
 
+        summary_entry = self.summaries_db.get(card.id.upper(), {})
+        summary_zh = summary_entry.get("summary_zh", "")
+
         return EvaluationResult(
             card_id=card.id,
             card_name=card.name,
@@ -307,6 +329,7 @@ class CardEvaluator:
             reasons_against=reasons_against,
             recommendation=recommendation,
             grade=score_to_grade(total),
+            summary_zh=summary_zh,
         )
 
     # ------------------------------------------------------------------
@@ -362,13 +385,13 @@ class CardEvaluator:
           - 无套路命中 + 牌库 ≤ 15 张 → TRANSITION
           - 有套路匹配时一律 FILLER（不强行判过渡，避免伤害套路边缘牌）
         """
-        cost = card.cost if card.cost >= 0 else 3  # X费视为高费
-        is_cheap = cost <= 1
-
         from .models import Rarity, CardType
+
+        # 过渡牌判断：不限费用——高费过渡牌（3费 Common Skill 等）同样有前期过渡价值。
+        # 费用影响的是该牌在过渡期间的分数（phase_score + value_score 已处理），
+        # 不应影响是否被识别为 TRANSITION。
         is_transition_eligible = (
-            is_cheap
-            and card.rarity in (Rarity.COMMON, Rarity.UNCOMMON)
+            card.rarity in (Rarity.COMMON, Rarity.UNCOMMON, Rarity.RARE)
             and card.card_type not in (CardType.STATUS, CardType.CURSE)
         )
 

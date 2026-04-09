@@ -52,7 +52,7 @@ from PyQt6.QtWidgets import (
 _port = os.environ.get("STS2_BACKEND_PORT", "8000")
 BACKEND_URL = f"http://127.0.0.1:{_port}"
 
-VERSION = "1.2.1"
+VERSION = "1.2.5"
 _GITHUB_REPO = "Skyerolic/sts2-adviser"
 
 
@@ -1483,6 +1483,21 @@ class CardResultWidget(QFrame):
             else:
                 lbl.setStyleSheet("color:#FF8A65;padding-top:1px;")
             outer.addWidget(lbl)
+
+        # ── 卡牌文字总结（来自 card_summaries.json）─────────────────────
+        summary_zh = result.get("summary_zh", "")
+        if summary_zh and self._language == "zh":
+            sep_line = QFrame()
+            sep_line.setFrameShape(QFrame.Shape.HLine)
+            sep_line.setStyleSheet("color:#3A3030;margin-top:3px;margin-bottom:2px;")
+            outer.addWidget(sep_line)
+            summary_lbl = QLabel(summary_zh)
+            summary_lbl.setObjectName("cardSummary")
+            summary_lbl.setWordWrap(True)
+            summary_lbl.setStyleSheet(
+                "color:#7A7070;font-size:10px;padding-top:1px;font-style:italic;"
+            )
+            outer.addWidget(summary_lbl)
 
 
 # ---------------------------------------------------------------------------

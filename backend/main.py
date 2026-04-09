@@ -284,6 +284,25 @@ def _load_community_db() -> "dict[str, CommunityStats]":
 COMMUNITY_DB: "dict[str, CommunityStats]" = _load_community_db()
 
 
+def _load_summaries_db() -> "dict[str, dict]":
+    """从 data/card_summaries.json 加载卡牌文字总结（card_id 大写 -> dict）。"""
+    json_path = get_app_root() / "data" / "card_summaries.json"
+    if not json_path.exists():
+        print(f"[SummariesDB] card_summaries.json not found at {json_path}")
+        return {}
+    try:
+        with open(json_path, "r", encoding="utf-8") as f:
+            raw = json.load(f)
+        print(f"[SummariesDB] Loaded {len(raw)} card summaries")
+        return raw  # key 已是大写 card_id
+    except Exception as e:
+        print(f"[SummariesDB] Error loading summaries: {e}")
+        return {}
+
+
+SUMMARIES_DB: "dict[str, dict]" = _load_summaries_db()
+
+
 # ---------------------------------------------------------------------------
 # 请求 / 响应模型
 # ---------------------------------------------------------------------------
@@ -473,7 +492,8 @@ async def evaluate_cards(request: EvaluateRequest):
 
     evaluator = CardEvaluator(CARD_DB, archetype_library,
                               raw_card_db=RAW_CARD_DB,
-                              community_db=COMMUNITY_DB)
+                              community_db=COMMUNITY_DB,
+                              summaries_db=SUMMARIES_DB)
 
     try:
         detected = evaluator.detect_archetypes(run_state)
