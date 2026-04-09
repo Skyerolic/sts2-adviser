@@ -118,15 +118,18 @@ sts2-adviser/
 │   ├── screen_detector.py      # 判断当前界面类型（选卡 / 商店 / 其他）
 │   └── card_normalizer.py      # OCR 结果后处理：误读修正 + fuzzy 白名单匹配
 │
-├── scripts/
-│   ├── game_watcher.py         # 监视游戏日志文件，解析角色 / 楼层 / 牌组 / 遗物
-│   └── config_manager.py       # 读写 ~/.sts2-adviser/config.json（日志路径、语言等）
-│
 ├── data/
 │   ├── cards.json              # 卡牌库：费用、稀有度、类型等元数据
 │   ├── card_library.json       # 社区统计：每张卡的胜率和选取率
+│   ├── archetypes.json         # 套路定义：27 个套路的卡牌权重与角色分类
+│   ├── card_summaries.json     # 自动生成的卡牌文字总结（覆盖率 ~85%）
 │   ├── card_locale_zh.json     # 中文本地化：英文 ID → 中文卡名
 │   └── card_names_zh.json      # 中文卡名索引（OCR 匹配用）
+│
+├── scripts/
+│   ├── game_watcher.py         # 监视游戏日志文件，解析角色 / 楼层 / 牌组 / 遗物
+│   ├── config_manager.py       # 读写 ~/.sts2-adviser/config.json（日志路径、语言等）
+│   └── generate_card_summaries.py  # 离线生成 card_summaries.json
 │
 ├── diagnose_ocr.py             # 诊断工具：截图并输出 OCR 分段结果，排查识别问题
 └── diagnose_save_path.py       # 诊断工具：自动搜索游戏存档和日志路径

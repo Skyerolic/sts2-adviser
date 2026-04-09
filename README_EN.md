@@ -119,15 +119,18 @@ sts2-adviser/
 │   ├── screen_detector.py      # Detects current game screen type (card reward / shop / other)
 │   └── card_normalizer.py      # OCR post-processing: misread correction + fuzzy whitelist matching
 │
-├── scripts/
-│   ├── game_watcher.py         # Monitors game log file, parses character / floor / deck / relics
-│   └── config_manager.py       # Read/write ~/.sts2-adviser/config.json (paths, language, font scale, hotkey)
-│
 ├── data/
 │   ├── cards.json              # Card database: cost, rarity, type metadata
 │   ├── card_library.json       # Community stats: win rate and pick rate per card
+│   ├── archetypes.json         # Archetype definitions: 27 archetypes with card weights per character
+│   ├── card_summaries.json     # Auto-generated card text summaries (~85% coverage)
 │   ├── card_locale_zh.json     # Localization: English ID → Chinese card name
 │   └── card_names_zh.json      # Chinese card name index (used for OCR matching)
+│
+├── scripts/
+│   ├── game_watcher.py         # Monitors game log file, parses character / floor / deck / relics
+│   ├── config_manager.py       # Read/write ~/.sts2-adviser/config.json (paths, language, font scale, hotkey)
+│   └── generate_card_summaries.py  # Offline script to regenerate card_summaries.json
 │
 ├── diagnose_ocr.py             # Diagnostic: capture screenshot and print OCR segmentation output
 └── diagnose_save_path.py       # Diagnostic: auto-search for game save and log paths
