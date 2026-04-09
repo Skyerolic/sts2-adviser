@@ -1,0 +1,572 @@
+{
+  "BURNING_BLOOD": [
+    {
+      "archetype_id": "ironclad_self_damage",
+      "boost": 0.72
+    }
+  ],
+  "BLACK_BLOOD": [
+    {
+      "archetype_id": "ironclad_self_damage",
+      "boost": 0.84
+    }
+  ],
+  "VAJRA": [
+    {
+      "archetype_id": "ironclad_strength",
+      "boost": 0.5
+    }
+  ],
+  "RED_SKULL": [
+    {
+      "archetype_id": "ironclad_self_damage",
+      "boost": 0.9
+    },
+    {
+      "archetype_id": "ironclad_strength",
+      "boost": 0.78
+    }
+  ],
+  "PAPER_PHROG": [
+    {
+      "archetype_id": "ironclad_strength",
+      "boost": 0.82
+    },
+    {
+      "archetype_id": "ironclad_self_damage",
+      "boost": 0.36
+    }
+  ],
+  "SELF_FORMING_CLAY": [
+    {
+      "archetype_id": "ironclad_self_damage",
+      "boost": 0.92
+    }
+  ],
+  "BEATING_REMNANT": [
+    {
+      "archetype_id": "ironclad_self_damage",
+      "boost": 0.4
+    }
+  ],
+  "GIRYA": [
+    {
+      "archetype_id": "ironclad_strength",
+      "boost": 0.7
+    }
+  ],
+  "LIZARD_TAIL": [
+    {
+      "archetype_id": "ironclad_self_damage",
+      "boost": 0.3
+    }
+  ],
+  "MEAT_ON_THE_BONE": [
+    {
+      "archetype_id": "ironclad_self_damage",
+      "boost": 0.5
+    }
+  ],
+  "SHURIKEN": [
+    {
+      "archetype_id": "ironclad_strength",
+      "boost": 0.55
+    }
+  ],
+  "CHARONS_ASHES": [
+    {
+      "archetype_id": "ironclad_exhaust",
+      "boost": 0.97
+    }
+  ],
+  "DEMON_TONGUE": [
+    {
+      "archetype_id": "ironclad_self_damage",
+      "boost": 0.99
+    }
+  ],
+  "RUINED_HELMET": [
+    {
+      "archetype_id": "ironclad_strength",
+      "boost": 0.98
+    },
+    {
+      "archetype_id": "ironclad_self_damage",
+      "boost": 0.63
+    }
+  ],
+  "BRIMSTONE": [
+    {
+      "archetype_id": "ironclad_strength",
+      "boost": 0.96
+    },
+    {
+      "archetype_id": "ironclad_self_damage",
+      "boost": 0.46
+    }
+  ],
+  "BURNING_STICKS": [
+    {
+      "archetype_id": "ironclad_exhaust",
+      "boost": 0.65
+    }
+  ],
+  "SLING_OF_COURAGE": [
+    {
+      "archetype_id": "ironclad_strength",
+      "boost": 0.45
+    }
+  ],
+  "SWORD_OF_JADE": [
+    {
+      "archetype_id": "ironclad_strength",
+      "boost": 0.55
+    }
+  ],
+  "FORGOTTEN_SOUL": [
+    {
+      "archetype_id": "ironclad_exhaust",
+      "boost": 0.5
+    }
+  ],
+  "TOASTY_MITTENS": [
+    {
+      "archetype_id": "ironclad_strength",
+      "boost": 0.6
+    },
+    {
+      "archetype_id": "ironclad_exhaust",
+      "boost": 0.55
+    }
+  ],
+  "EMBER_TEA": [
+    {
+      "archetype_id": "ironclad_strength",
+      "boost": 0.45
+    }
+  ],
+  "SNECKO_SKULL": [
+    {
+      "archetype_id": "silent_poison",
+      "boost": 0.99
+    }
+  ],
+  "TWISTED_FUNNEL": [
+    {
+      "archetype_id": "silent_poison",
+      "boost": 0.95
+    }
+  ],
+  "NINJA_SCROLL": [
+    {
+      "archetype_id": "silent_shiv",
+      "boost": 0.98
+    }
+  ],
+  "HELICAL_DART": [
+    {
+      "archetype_id": "silent_shiv",
+      "boost": 0.94
+    }
+  ],
+  "TINGSHA": [
+    {
+      "archetype_id": "silent_sly_discard",
+      "boost": 0.97
+    }
+  ],
+  "TOUGH_BANDAGES": [
+    {
+      "archetype_id": "silent_sly_discard",
+      "boost": 0.96
+    }
+  ],
+  "PAPER_KRANE": [
+    {
+      "archetype_id": "silent_poison",
+      "boost": 0.45
+    },
+    {
+      "archetype_id": "silent_sly_discard",
+      "boost": 0.35
+    }
+  ],
+  "KUNAI": [
+    {
+      "archetype_id": "silent_shiv",
+      "boost": 0.45
+    }
+  ],
+  "GAMBLING_CHIP": [
+    {
+      "archetype_id": "silent_sly_discard",
+      "boost": 0.4
+    }
+  ],
+  "UNSETTLING_LAMP": [
+    {
+      "archetype_id": "silent_poison",
+      "boost": 0.5
+    }
+  ],
+  "UNCEASING_TOP": [
+    {
+      "archetype_id": "silent_sly_discard",
+      "boost": 0.4
+    }
+  ],
+  "INFUSED_CORE": [
+    {
+      "archetype_id": "defect_orb_focus",
+      "boost": 0.92
+    }
+  ],
+  "DATA_DISK": [
+    {
+      "archetype_id": "defect_orb_focus",
+      "boost": 0.99
+    },
+    {
+      "archetype_id": "defect_dark_evoke",
+      "boost": 0.62
+    }
+  ],
+  "GOLD_PLATED_CABLES": [
+    {
+      "archetype_id": "defect_orb_focus",
+      "boost": 0.93
+    },
+    {
+      "archetype_id": "defect_dark_evoke",
+      "boost": 0.66
+    }
+  ],
+  "SYMBIOTIC_VIRUS": [
+    {
+      "archetype_id": "defect_dark_evoke",
+      "boost": 0.98
+    },
+    {
+      "archetype_id": "defect_orb_focus",
+      "boost": 0.48
+    }
+  ],
+  "EMOTION_CHIP": [
+    {
+      "archetype_id": "defect_orb_focus",
+      "boost": 0.9
+    },
+    {
+      "archetype_id": "defect_dark_evoke",
+      "boost": 0.7
+    }
+  ],
+  "METRONOME": [
+    {
+      "archetype_id": "defect_orb_focus",
+      "boost": 0.87
+    },
+    {
+      "archetype_id": "defect_dark_evoke",
+      "boost": 0.58
+    }
+  ],
+  "POWER_CELL": [
+    {
+      "archetype_id": "defect_zero_cost_cycle",
+      "boost": 0.99
+    }
+  ],
+  "RUNIC_CAPACITOR": [
+    {
+      "archetype_id": "defect_orb_focus",
+      "boost": 0.96
+    },
+    {
+      "archetype_id": "defect_dark_evoke",
+      "boost": 0.72
+    }
+  ],
+  "CRACKED_CORE": [
+    {
+      "archetype_id": "defect_orb_focus",
+      "boost": 0.55
+    },
+    {
+      "archetype_id": "defect_dark_evoke",
+      "boost": 0.35
+    }
+  ],
+  "ICE_CREAM": [
+    {
+      "archetype_id": "defect_zero_cost_cycle",
+      "boost": 0.6
+    },
+    {
+      "archetype_id": "defect_orb_focus",
+      "boost": 0.45
+    }
+  ],
+  "SCREAMING_FLAGON": [
+    {
+      "archetype_id": "defect_orb_focus",
+      "boost": 0.5
+    }
+  ],
+  "PHYLACTERY_UNBOUND": [
+    {
+      "archetype_id": "necrobinder_osty_attack",
+      "boost": 0.97
+    },
+    {
+      "archetype_id": "necrobinder_doom_execute",
+      "boost": 0.4
+    }
+  ],
+  "BONE_FLUTE": [
+    {
+      "archetype_id": "necrobinder_osty_attack",
+      "boost": 0.95
+    }
+  ],
+  "BOOK_REPAIR_KNIFE": [
+    {
+      "archetype_id": "necrobinder_doom_execute",
+      "boost": 0.98
+    }
+  ],
+  "FUNERARY_MASK": [
+    {
+      "archetype_id": "necrobinder_soul_engine",
+      "boost": 0.99
+    }
+  ],
+  "BIG_HAT": [
+    {
+      "archetype_id": "necrobinder_ethereal_engine",
+      "boost": 0.98
+    }
+  ],
+  "UNDYING_SIGIL": [
+    {
+      "archetype_id": "necrobinder_doom_execute",
+      "boost": 0.99
+    }
+  ],
+  "BOUND_PHYLACTERY": [
+    {
+      "archetype_id": "necrobinder_osty_attack",
+      "boost": 0.86
+    }
+  ],
+  "BOOKMARK": [
+    {
+      "archetype_id": "necrobinder_soul_engine",
+      "boost": 0.55
+    },
+    {
+      "archetype_id": "necrobinder_ethereal_engine",
+      "boost": 0.5
+    }
+  ],
+  "IVORY_TILE": [
+    {
+      "archetype_id": "necrobinder_doom_execute",
+      "boost": 0.6
+    }
+  ],
+  "DIVINE_DESTINY": [
+    {
+      "archetype_id": "regent_star_engine",
+      "boost": 0.98
+    },
+    {
+      "archetype_id": "regent_sovereign_blade_forge",
+      "boost": 0.48
+    }
+  ],
+  "FENCING_MANUAL": [
+    {
+      "archetype_id": "regent_sovereign_blade_forge",
+      "boost": 0.99
+    }
+  ],
+  "GALACTIC_DUST": [
+    {
+      "archetype_id": "regent_star_engine",
+      "boost": 0.96
+    }
+  ],
+  "REGALITE": [
+    {
+      "archetype_id": "regent_colorless_create",
+      "boost": 0.98
+    }
+  ],
+  "LUNAR_PASTRY": [
+    {
+      "archetype_id": "regent_star_engine",
+      "boost": 0.92
+    }
+  ],
+  "MINI_REGENT": [
+    {
+      "archetype_id": "regent_star_engine",
+      "boost": 0.88
+    },
+    {
+      "archetype_id": "regent_sovereign_blade_forge",
+      "boost": 0.62
+    }
+  ],
+  "DIVINE_RIGHT": [
+    {
+      "archetype_id": "regent_star_engine",
+      "boost": 0.65
+    },
+    {
+      "archetype_id": "regent_sovereign_blade_forge",
+      "boost": 0.55
+    }
+  ],
+  "ORANGE_DOUGH": [
+    {
+      "archetype_id": "regent_colorless_create",
+      "boost": 0.7
+    }
+  ],
+  "VITRUVIAN_MINION": [
+    {
+      "archetype_id": "regent_sovereign_blade_forge",
+      "boost": 0.95
+    }
+  ],
+  "TOOLBOX": [
+    {
+      "archetype_id": "regent_colorless_create",
+      "boost": 0.6
+    }
+  ],
+  "DINGY_RUG": [
+    {
+      "archetype_id": "regent_star_engine",
+      "boost": 0.72
+    }
+  ],
+  "VEXING_PUZZLEBOX": [
+    {
+      "archetype_id": "regent_colorless_create",
+      "boost": 0.5
+    }
+  ],
+  "JOSS_PAPER": [
+    {
+      "archetype_id": "necrobinder_doom_execute",
+      "boost": 0.45
+    }
+  ],
+  "GAME_PIECE": [
+    {
+      "archetype_id": "regent_colorless_create",
+      "boost": 0.4
+    },
+    {
+      "archetype_id": "defect_zero_cost_cycle",
+      "boost": 0.35
+    }
+  ],
+  "FROZEN_EGG": [
+    {
+      "archetype_id": "ironclad_strength",
+      "boost": 0.5
+    },
+    {
+      "archetype_id": "defect_orb_focus",
+      "boost": 0.5
+    }
+  ],
+  "MUMMIFIED_HAND": [
+    {
+      "archetype_id": "ironclad_strength",
+      "boost": 0.45
+    },
+    {
+      "archetype_id": "defect_orb_focus",
+      "boost": 0.45
+    }
+  ],
+  "REPTILE_TRINKET": [
+    {
+      "archetype_id": "silent_shiv",
+      "boost": 0.3
+    },
+    {
+      "archetype_id": "ironclad_self_damage",
+      "boost": 0.25
+    }
+  ],
+  "SPARKLING_ROUGE": [
+    {
+      "archetype_id": "ironclad_exhaust",
+      "boost": 0.4
+    },
+    {
+      "archetype_id": "defect_orb_focus",
+      "boost": 0.4
+    }
+  ],
+  "RAINBOW_RING": [
+    {
+      "archetype_id": "defect_orb_focus",
+      "boost": 0.85
+    },
+    {
+      "archetype_id": "defect_dark_evoke",
+      "boost": 0.7
+    }
+  ],
+  "PAELS_BLOOD": [
+    {
+      "archetype_id": "ironclad_strength",
+      "boost": 0.55
+    },
+    {
+      "archetype_id": "ironclad_self_damage",
+      "boost": 0.45
+    }
+  ],
+  "PAELS_TEARS": [
+    {
+      "archetype_id": "ironclad_self_damage",
+      "boost": 0.5
+    }
+  ],
+  "PHILOSOPHERS_STONE": [
+    {
+      "archetype_id": "ironclad_strength",
+      "boost": 0.6
+    },
+    {
+      "archetype_id": "defect_orb_focus",
+      "boost": 0.6
+    },
+    {
+      "archetype_id": "regent_star_engine",
+      "boost": 0.55
+    }
+  ],
+  "ECTOPLASM": [
+    {
+      "archetype_id": "ironclad_exhaust",
+      "boost": 0.5
+    },
+    {
+      "archetype_id": "defect_zero_cost_cycle",
+      "boost": 0.5
+    },
+    {
+      "archetype_id": "defect_orb_focus",
+      "boost": 0.45
+    }
+  ]
+}
