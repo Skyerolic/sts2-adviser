@@ -220,6 +220,12 @@
         "role": "enabler",
         "weight": 0.72,
         "note": "自伤触发多次攻击，配合Rupture/Bloodletting"
+      },
+      {
+        "card_id": "TEAR_ASUNDER",
+        "role": "core",
+        "weight": 0.88,
+        "note": "每次失去HP额外命中一次，自伤直接payoff"
       }
     ]
   },
@@ -456,6 +462,24 @@
         "role": "pollution",
         "weight": 0.15,
         "note": "Shiv专用，稀释毒套"
+      },
+      {
+        "card_id": "ACCELERANT",
+        "role": "core",
+        "weight": 0.92,
+        "note": "中毒额外触发N次，毒素引擎核心"
+      },
+      {
+        "card_id": "CORROSIVE_WAVE",
+        "role": "core",
+        "weight": 0.9,
+        "note": "本回合每抽一张牌给所有敌人中毒"
+      },
+      {
+        "card_id": "MALAISE",
+        "role": "enabler",
+        "weight": 0.7,
+        "note": "X虚弱+X力量剥夺，毒素放大"
       }
     ]
   },
@@ -580,6 +604,24 @@
         "role": "filler",
         "weight": 0.55,
         "note": "手牌充足时双击，Shiv流次选"
+      },
+      {
+        "card_id": "FAN_OF_KNIVES",
+        "role": "core",
+        "weight": 0.9,
+        "note": "小刀命中全体+生成小刀"
+      },
+      {
+        "card_id": "KNIFE_TRAP",
+        "role": "core",
+        "weight": 0.88,
+        "note": "消耗牌堆所有小刀打出，爆发收尾"
+      },
+      {
+        "card_id": "STORM_OF_STEEL",
+        "role": "core",
+        "weight": 0.85,
+        "note": "丢弃手牌每张变小刀"
       }
     ]
   },
@@ -706,6 +748,12 @@
         "role": "enabler",
         "weight": 0.68,
         "note": "5张手牌阈值与奇巧手牌循环契合"
+      },
+      {
+        "card_id": "STORM_OF_STEEL",
+        "role": "enabler",
+        "weight": 0.65,
+        "note": "大量弃牌触发奇巧/弃牌效果"
       }
     ]
   },
@@ -855,6 +903,30 @@
         "role": "pollution",
         "weight": 0.15,
         "note": "0费方向分散资源"
+      },
+      {
+        "card_id": "ECHO_FORM",
+        "role": "core",
+        "weight": 0.92,
+        "note": "第一张牌打出两次，所有法球套路通用引擎"
+      },
+      {
+        "card_id": "VOLTAIC",
+        "role": "core",
+        "weight": 0.9,
+        "note": "生成等量本战已生成闪电球，后期爆炸"
+      },
+      {
+        "card_id": "MODDED",
+        "role": "core",
+        "weight": 0.85,
+        "note": "增加充能球栏位，直接扩容"
+      },
+      {
+        "card_id": "SIGNAL_BOOST",
+        "role": "enabler",
+        "weight": 0.72,
+        "note": "下一张能力牌打出两次"
       }
     ]
   },
@@ -1175,6 +1247,18 @@
         "role": "pollution",
         "weight": 0.15,
         "note": "0费方向与状态方向冲突"
+      },
+      {
+        "card_id": "FLAK_CANNON",
+        "role": "core",
+        "weight": 0.9,
+        "note": "消耗所有状态牌→伤害，状态燃料核心payoff"
+      },
+      {
+        "card_id": "TRASH_TO_TREASURE",
+        "role": "core",
+        "weight": 0.88,
+        "note": "每生成状态牌随机生成充能球"
       }
     ]
   },
@@ -1381,6 +1465,12 @@
         "role": "enabler",
         "weight": 0.7,
         "note": "能量加速为Soul重压提供节奏爆发"
+      },
+      {
+        "card_id": "REANIMATE",
+        "role": "core",
+        "weight": 0.88,
+        "note": "召唤随从，灵魂引擎核心机制"
       }
     ]
   },
@@ -1481,6 +1571,24 @@
         "role": "pollution",
         "weight": 0.15,
         "note": "Osty方向，稀释Doom套"
+      },
+      {
+        "card_id": "HANG",
+        "role": "core",
+        "weight": 0.88,
+        "note": "自我叠加伤害翻倍，多拷贝雪球"
+      },
+      {
+        "card_id": "DEBILITATE",
+        "role": "core",
+        "weight": 0.85,
+        "note": "易伤/虚弱效率翻倍N回合"
+      },
+      {
+        "card_id": "PUTREFY",
+        "role": "enabler",
+        "weight": 0.68,
+        "note": "虚弱+易伤setup"
       }
     ]
   },
@@ -1569,6 +1677,12 @@
         "role": "pollution",
         "weight": 0.15,
         "note": "纯防御，稀释Ethereal引擎"
+      },
+      {
+        "card_id": "BANSHEES_CRY",
+        "role": "enabler",
+        "weight": 0.72,
+        "note": "每张以太牌减费，以太引擎减费链"
       }
     ]
   },
@@ -1657,6 +1771,12 @@
         "role": "pollution",
         "weight": 0.15,
         "note": "无色方向，稀释星引擎"
+      },
+      {
+        "card_id": "BIG_BANG",
+        "role": "core",
+        "weight": 0.92,
+        "note": "抽牌+能量+星星+铸造，多维度驱动"
       }
     ]
   },
@@ -1751,6 +1871,18 @@
         "role": "pollution",
         "weight": 0.15,
         "note": "无色方向，稀释Forge套"
+      },
+      {
+        "card_id": "DECISIONS_DECISIONS",
+        "role": "core",
+        "weight": 0.85,
+        "note": "选一张技能打出N次，主权锻造核心combo"
+      },
+      {
+        "card_id": "LUNAR_BLAST",
+        "role": "enabler",
+        "weight": 0.72,
+        "note": "本回合每打过一张技能额外伤害"
       }
     ]
   },
@@ -1828,6 +1960,12 @@
         "role": "pollution",
         "weight": 0.15,
         "note": "Forge方向，稀释无色套"
+      },
+      {
+        "card_id": "VOID_FORM",
+        "role": "core",
+        "weight": 0.88,
+        "note": "前N张牌免费，创造流每回合免费打出"
       }
     ]
   },
@@ -2207,6 +2345,18 @@
         "role": "pollution",
         "weight": 0.1,
         "note": "仅强化Shiv，无助格挡体系"
+      },
+      {
+        "card_id": "AFTERIMAGE",
+        "role": "core",
+        "weight": 0.92,
+        "note": "每打出一张牌获得格挡，敏捷格挡核心"
+      },
+      {
+        "card_id": "SHADOWMELD",
+        "role": "core",
+        "weight": 0.85,
+        "note": "本回合格挡翻倍"
       }
     ]
   },
@@ -2391,6 +2541,18 @@
         "role": "pollution",
         "weight": 0.1,
         "note": "Dark Orb伤害路线，占球位"
+      },
+      {
+        "card_id": "BUFFER",
+        "role": "core",
+        "weight": 0.88,
+        "note": "阻止N次HP损伤，纯防御核心"
+      },
+      {
+        "card_id": "ICE_LANCE",
+        "role": "enabler",
+        "weight": 0.7,
+        "note": "伤害+生成冰霜球，供球"
       }
     ]
   },
