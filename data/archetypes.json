@@ -2,6 +2,7 @@
   {
     "id": "ironclad_strength",
     "name": "Ironclad: Strength",
+    "name_zh": "铁甲战士_力量",
     "character": "ironclad",
     "key_tags": [
       "strength",
@@ -33,8 +34,8 @@
       {
         "card_id": "DOMINATE",
         "role": "core",
-        "weight": 0.85,
-        "note": "脆弱叠加转力量"
+        "weight": 0.88,
+        "note": "施加易伤+每层易伤获得力量，直接力量来源"
       },
       {
         "card_id": "BATTLE_TRANCE",
@@ -113,6 +114,7 @@
   {
     "id": "ironclad_self_damage",
     "name": "Ironclad: Self Damage",
+    "name_zh": "铁甲战士_自伤",
     "character": "ironclad",
     "key_tags": [
       "self_damage",
@@ -212,12 +214,19 @@
         "role": "pollution",
         "weight": 0.1,
         "note": "阻止HP损耗触发"
+      },
+      {
+        "card_id": "SPITE",
+        "role": "enabler",
+        "weight": 0.72,
+        "note": "自伤触发多次攻击，配合Rupture/Bloodletting"
       }
     ]
   },
   {
     "id": "ironclad_exhaust",
     "name": "Ironclad: Exhaust Engine",
+    "name_zh": "铁甲战士_排除引擎",
     "character": "ironclad",
     "key_tags": [
       "exhaust",
@@ -278,9 +287,9 @@
       },
       {
         "card_id": "STOKE",
-        "role": "enabler",
-        "weight": 0.62,
-        "note": "排除引擎辅助"
+        "role": "core",
+        "weight": 0.78,
+        "note": "排除手牌生成升级牌，引擎核心"
       },
       {
         "card_id": "DRUM_OF_BATTLE",
@@ -329,12 +338,19 @@
         "role": "pollution",
         "weight": 0.15,
         "note": "与Corruption核心机制冲突"
+      },
+      {
+        "card_id": "NOT_YET",
+        "role": "enabler",
+        "weight": 0.68,
+        "note": "Exhaust+恢复HP，Corruption循环的生存保障"
       }
     ]
   },
   {
     "id": "silent_poison",
     "name": "Silent: Poison",
+    "name_zh": "静默猎手_毒素",
     "character": "silent",
     "key_tags": [
       "poison",
@@ -446,6 +462,7 @@
   {
     "id": "silent_shiv",
     "name": "Silent: Shiv",
+    "name_zh": "静默猎手_飞刃",
     "character": "silent",
     "key_tags": [
       "shiv",
@@ -483,8 +500,8 @@
       {
         "card_id": "BLADE_OF_INK",
         "role": "enabler",
-        "weight": 0.75,
-        "note": "Shiv增强辅助"
+        "weight": 0.80,
+        "note": "生成Inky Shiv（+2伤+1虚弱），Shiv流量产核心"
       },
       {
         "card_id": "BACKFLIP",
@@ -557,12 +574,19 @@
         "role": "pollution",
         "weight": 0.15,
         "note": "毒方向分散资源"
+      },
+      {
+        "card_id": "FOLLOW_THROUGH",
+        "role": "filler",
+        "weight": 0.55,
+        "note": "手牌充足时双击，Shiv流次选"
       }
     ]
   },
   {
     "id": "silent_sly_discard",
     "name": "Silent: Sly / Discard",
+    "name_zh": "静默猎手_奇巧弃牌",
     "character": "silent",
     "key_tags": [
       "sly",
@@ -676,12 +700,19 @@
         "role": "pollution",
         "weight": 0.15,
         "note": "毒套方向，分散资源"
+      },
+      {
+        "card_id": "FOLLOW_THROUGH",
+        "role": "enabler",
+        "weight": 0.68,
+        "note": "5张手牌阈值与奇巧手牌循环契合"
       }
     ]
   },
   {
     "id": "defect_orb_focus",
     "name": "Defect: Orb / Focus",
+    "name_zh": "故障机器人_法球专注",
     "character": "defect",
     "key_tags": [
       "orb",
@@ -830,6 +861,7 @@
   {
     "id": "defect_dark_evoke",
     "name": "Defect: Dark / Evoke Burst",
+    "name_zh": "故障机器人_黑暗唤醒",
     "character": "defect",
     "key_tags": [
       "dark",
@@ -954,6 +986,7 @@
   {
     "id": "defect_zero_cost_cycle",
     "name": "Defect: 0 Cost / Cycle",
+    "name_zh": "故障机器人_零费循环",
     "character": "defect",
     "key_tags": [
       "claw",
@@ -1072,6 +1105,7 @@
   {
     "id": "defect_status_fuel",
     "name": "Defect: Status / Fuel",
+    "name_zh": "故障机器人_状态燃料",
     "character": "defect",
     "key_tags": [
       "status",
@@ -1147,6 +1181,7 @@
   {
     "id": "necrobinder_osty_attack",
     "name": "Necrobinder: Osty Attack",
+    "name_zh": "亡灵契约师_骸手攻击",
     "character": "necrobinder",
     "key_tags": [
       "osty",
@@ -1258,6 +1293,7 @@
   {
     "id": "necrobinder_soul_engine",
     "name": "Necrobinder: Soul Engine",
+    "name_zh": "亡灵契约师_灵魂引擎",
     "character": "necrobinder",
     "key_tags": [
       "soul",
@@ -1339,12 +1375,19 @@
         "role": "pollution",
         "weight": 0.15,
         "note": "纯防御，稀释Soul引擎"
+      },
+      {
+        "card_id": "BORROWED_TIME",
+        "role": "enabler",
+        "weight": 0.70,
+        "note": "能量加速为Soul重压提供节奏爆发"
       }
     ]
   },
   {
     "id": "necrobinder_doom_execute",
     "name": "Necrobinder: Doom / Execute",
+    "name_zh": "亡灵契约师_厄运处决",
     "character": "necrobinder",
     "key_tags": [
       "doom",
@@ -1444,6 +1487,7 @@
   {
     "id": "necrobinder_ethereal_engine",
     "name": "Necrobinder: Ethereal Engine",
+    "name_zh": "亡灵契约师_以太引擎",
     "character": "necrobinder",
     "key_tags": [
       "ethereal",
@@ -1531,6 +1575,7 @@
   {
     "id": "regent_star_engine",
     "name": "Regent: Star Engine",
+    "name_zh": "储君_星尘引擎",
     "character": "regent",
     "key_tags": [
       "stars",
@@ -1618,6 +1663,7 @@
   {
     "id": "regent_sovereign_blade_forge",
     "name": "Regent: Sovereign Blade / Forge",
+    "name_zh": "储君_主权锻造",
     "character": "regent",
     "key_tags": [
       "forge",
@@ -1711,6 +1757,7 @@
   {
     "id": "regent_colorless_create",
     "name": "Regent: Colorless / Create",
+    "name_zh": "储君_创造流",
     "character": "regent",
     "key_tags": [
       "colorless",
@@ -1725,8 +1772,8 @@
       {
         "card_id": "ARSENAL",
         "role": "core",
-        "weight": 0.95,
-        "note": "每次创建无色牌触发"
+        "weight": 0.96,
+        "note": "Innate+任意创造触发力量，创造流核心"
       },
       {
         "card_id": "PILLAR_OF_CREATION",
@@ -1788,6 +1835,7 @@
   {
     "id": "ironclad_block_slam",
     "name": "Ironclad: Block / Body Slam",
+    "name_zh": "铁甲战士_格挡强攻",
     "character": "ironclad",
     "key_tags": ["block", "body_slam", "barricade", "juggernaut", "defense_to_offense"],
     "description": "Barricade 保留格挡过回合，Body Slam 将格挡值转化为伤害；Juggernaut 使格挡产生反伤被动。",
@@ -1813,6 +1861,7 @@
   {
     "id": "ironclad_vulnerable",
     "name": "Ironclad: Vulnerable",
+    "name_zh": "铁甲战士_易伤",
     "character": "ironclad",
     "key_tags": ["vulnerable", "debuff", "damage_amplify", "consistent_pressure"],
     "description": "持续对敌施加 Vulnerable（+50% 受伤），配合大单体攻击；Cruelty/Colossus 进一步提升每次攻击伤害上限。",
@@ -1837,6 +1886,7 @@
   {
     "id": "ironclad_strike_scaling",
     "name": "Ironclad: Strike Scaling",
+    "name_zh": "铁甲战士_打击强化",
     "character": "ironclad",
     "key_tags": ["strike", "perfected_strike", "scaling", "hellraiser", "basic_synergy"],
     "description": "Perfected Strike 随牌组中 Strike 数量线性增伤；Pyre/Hellraiser 每回合提供被动增益，使 Strike 流在中期仍有竞争力。",
@@ -1860,6 +1910,7 @@
   {
     "id": "silent_dexterity_block",
     "name": "Silent: Dexterity / Block",
+    "name_zh": "静默猎手_敏捷格挡",
     "character": "silent",
     "key_tags": ["dexterity", "block", "blur", "footwork", "sustained_defense"],
     "description": "通过 Footwork 永久叠加敏捷，格挡卡价值随之翻倍；Blur 保留格挡跨回合，形成稳定的防御滚雪球。",
@@ -1884,6 +1935,7 @@
   {
     "id": "silent_retain_setup",
     "name": "Silent: Retain / Setup Burst",
+    "name_zh": "静默猎手_保留布局",
     "character": "silent",
     "key_tags": ["retain", "setup", "burst", "well_laid_plans", "hand_management"],
     "description": "Well-Laid Plans 保留手牌跨回合；配合 Hidden Daggers/Reflex 等高效弃牌触发牌，积累一轮后集中爆发。",
@@ -1907,6 +1959,7 @@
   {
     "id": "defect_frost_block",
     "name": "Defect: Frost / Block",
+    "name_zh": "故障机器人_冰霜格挡",
     "character": "defect",
     "key_tags": ["frost", "block", "focus", "orb", "passive_defense"],
     "description": "大量生成 Frost Orb，配合 Focus 叠加使每个冰球每回合被动提供大量格挡（2+Focus），形成可持续防御。",
@@ -1931,6 +1984,7 @@
   {
     "id": "defect_claw_cycle",
     "name": "Defect: Claw Cycle",
+    "name_zh": "故障机器人_爪子循环",
     "character": "defect",
     "key_tags": ["claw", "cycle", "all_for_one", "zero_cost", "scaling_damage"],
     "description": "每打出一张 Claw 全局 +2 伤害；All for One 回收弃牌堆所有 Claw；Scrape/FTL 快速循环实现指数增伤。",
@@ -1955,6 +2009,7 @@
   {
     "id": "necrobinder_soul_exhaust",
     "name": "Necrobinder: Soul / Exhaust Engine",
+    "name_zh": "亡灵契约师_灵魂排除",
     "character": "necrobinder",
     "key_tags": ["soul", "exhaust", "cycle", "haunt", "passive_damage"],
     "description": "Soul 牌（0费摸牌+排除）快速循环；Haunt 在每次打出 Soul 类牌时造成被动伤害；Devour Life 兼顾回血与输出。",
@@ -1979,6 +2034,7 @@
   {
     "id": "necrobinder_osty_buff",
     "name": "Necrobinder: Osty Buff / Tank",
+    "name_zh": "亡灵契约师_骸手增益",
     "character": "necrobinder",
     "key_tags": ["osty", "buff", "companion_tank", "sic_em", "spur"],
     "description": "侧重强化 Osty 使其吸收更多伤害并产生输出；Sic'Em 指挥 Osty 攻击，Spur/Fetch 持续强化其属性，Necro Mastery 永久提升。",
@@ -2003,6 +2059,7 @@
   {
     "id": "regent_retain_control",
     "name": "Regent: Retain / Control",
+    "name_zh": "储君_保留控制",
     "character": "regent",
     "key_tags": ["retain", "control", "particle_wall", "reflect", "convergence"],
     "description": "低费防御牌配合 Particle Wall/Reflect 构建稳定防线；Convergence 整合多重效果；Foregone Conclusion 加速节奏，逐步消耗敌人。",

@@ -105,6 +105,8 @@ class WindowsOcrEngine:
         self._language_tag: str = ""
         self._initialized = False
         self._available = False
+        import threading
+        self._lock = threading.Lock()
 
     # ------------------------------------------------------------------
     # 公开接口
@@ -194,13 +196,14 @@ class WindowsOcrEngine:
         # 预处理：放大小图像（Windows OCR 对小尺寸识别效果差）
         pil_img = self._preprocess(pil_img)
 
-        # 执行 OCR（同步封装异步调用）
-        try:
-            result = self._run_ocr_sync(pil_img)
-            return result
-        except Exception as e:
-            log.warning(f"OCR 识别失败: {e}")
-            return OcrResult(full_text="", success=False, error=str(e))
+        # 执行 OCR（同步封装异步调用，加锁防止并发 RecognizeAsync 冲突）
+        with self._lock:
+            try:
+                result = self._run_ocr_sync(pil_img)
+                return result
+            except Exception as e:
+                log.warning(f"OCR 识别失败: {e}")
+                return OcrResult(full_text="", success=False, error=str(e))
 
     def is_available(self) -> bool:
         if not self._initialized:
@@ -393,13 +396,13 @@ class WindowsOcrEngine:
         if h >= 300:
             return img
 
-        target_h = 200
+        target_h = 300
 
         if _check_cv2():
             return WindowsOcrEngine._preprocess_cv(img, target_h)
 
         # PIL 回退路径
-        if h < 80:
+        if h < target_h:
             scale = target_h / max(h, 1)
             new_w = int(w * scale)
             new_h = int(h * scale)

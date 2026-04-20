@@ -568,5 +568,25 @@
       "archetype_id": "defect_orb_focus",
       "boost": 0.45
     }
+  ],
+  "CENTENNIAL_PUZZLE": [
+    {
+      "archetype_id": "ironclad_self_damage",
+      "boost": 0.78
+    }
+  ],
+  "NUNCHAKU": [
+    {
+      "archetype_id": "ironclad_strength",
+      "boost": 0.55
+    },
+    {
+      "archetype_id": "silent_shiv",
+      "boost": 0.62
+    },
+    {
+      "archetype_id": "necrobinder_osty_attack",
+      "boost": 0.50
+    }
   ]
 }

@@ -148,8 +148,8 @@
     "star_cost": null,
     "type": "Skill",
     "type_key": "Skill",
-    "rarity": "Common",
-    "rarity_key": "Common",
+    "rarity": "Uncommon",
+    "rarity_key": "Uncommon",
     "target": "Self",
     "color": "silent",
     "damage": null,
@@ -738,8 +738,8 @@
   {
     "id": "ARSENAL",
     "name": "Arsenal",
-    "description": "Whenever you play a Colorless card, gain 1 [gold]Strength[/gold].",
-    "description_raw": "Whenever you play a Colorless card, gain {ArsenalPower:diff()} [gold]Strength[/gold].",
+    "description": "[gold]Innate[/gold]. Whenever you create a card, gain 1 [gold]Strength[/gold].",
+    "description_raw": "[gold]Innate[/gold]. Whenever you create a card, gain {ArsenalPower:diff()} [gold]Strength[/gold].",
     "cost": 1,
     "is_x_cost": null,
     "is_x_star_cost": null,
@@ -763,8 +763,12 @@
     "cards_draw": null,
     "energy_gain": null,
     "hp_loss": null,
-    "keywords": null,
-    "keywords_key": null,
+    "keywords": [
+      "Innate"
+    ],
+    "keywords_key": [
+      "Innate"
+    ],
     "tags": null,
     "spawns_cards": null,
     "vars": {
@@ -1798,8 +1802,8 @@
   {
     "id": "BLADE_OF_INK",
     "name": "Blade of Ink",
-    "description": "This turn, whenever you play an Attack, gain 2 [gold]Strength[/gold] this turn.",
-    "description_raw": "This turn, whenever you play an Attack, gain {StrengthPower:diff()} [gold]Strength[/gold] this turn.",
+    "description": "Add 2 [gold]Inky Shiv[/gold]s into your [gold]Hand[/gold].\n([gold]Inky Shiv[/gold]: Deal 4 damage. Apply 1 [gold]Weak[/gold].)",
+    "description_raw": "Add {Cards:diff()} [gold]Inky Shiv[/gold]s into your [gold]Hand[/gold].\n([gold]Inky Shiv[/gold]: Deal 4 damage. Apply 1 [gold]Weak[/gold].)",
     "cost": 1,
     "is_x_cost": null,
     "is_x_star_cost": null,
@@ -1813,26 +1817,25 @@
     "damage": null,
     "block": null,
     "hit_count": null,
-    "powers_applied": [
-      {
-        "power": "Strength",
-        "power_key": "Strength",
-        "amount": 2
-      }
-    ],
+    "powers_applied": null,
     "cards_draw": null,
     "energy_gain": null,
     "hp_loss": null,
-    "keywords": null,
-    "keywords_key": null,
+    "keywords": [
+      "Sly"
+    ],
+    "keywords_key": [
+      "Sly"
+    ],
     "tags": null,
-    "spawns_cards": null,
+    "spawns_cards": [
+      "INKY_SHIV"
+    ],
     "vars": {
-      "StrengthPower": 2,
-      "Strength": 2
+      "Cards": 2
     },
     "upgrade": {
-      "strength": "+1"
+      "cards": "+1"
     },
     "image_url": "/static/images/cards/blade_of_ink.png",
     "beta_image_url": "/static/images/cards/beta/blade_of_ink.png",
@@ -2311,9 +2314,9 @@
   {
     "id": "BORROWED_TIME",
     "name": "Borrowed Time",
-    "description": "Apply 3 [gold]Doom[/gold] to yourself.\nGain [energy:1].",
-    "description_raw": "Apply {DoomPower:diff()} [gold]Doom[/gold] to yourself.\nGain {Energy:energyIcons()}.",
-    "cost": 0,
+    "description": "Gain 4 [energy:1].\nCards cost 1 additional [energy:1] this turn.",
+    "description_raw": "Gain {Energy:energyIcons()} [energy:1].\nCards cost 1 additional [energy:1] this turn.",
+    "cost": 1,
     "is_x_cost": null,
     "is_x_star_cost": null,
     "star_cost": null,
@@ -2326,27 +2329,19 @@
     "damage": null,
     "block": null,
     "hit_count": null,
-    "powers_applied": [
-      {
-        "power": "Doom",
-        "power_key": "Doom",
-        "amount": 3
-      }
-    ],
+    "powers_applied": null,
     "cards_draw": null,
-    "energy_gain": 1,
+    "energy_gain": 4,
     "hp_loss": null,
     "keywords": null,
     "keywords_key": null,
     "tags": null,
     "spawns_cards": null,
     "vars": {
-      "Energy": 1,
-      "DoomPower": 3,
-      "Doom": 3
+      "Energy": 4
     },
     "upgrade": {
-      "energy": "+1"
+      "energy": "+2"
     },
     "image_url": "/static/images/cards/borrowed_time.png",
     "beta_image_url": null,
@@ -6436,8 +6431,8 @@
   {
     "id": "DOMINATE",
     "name": "Dominate",
-    "description": "Gain 1 [gold]Strength[/gold] for each [gold]Vulnerable[/gold] on the enemy.",
-    "description_raw": "Gain {StrengthPerVulnerable:diff()} [gold]Strength[/gold] for each [gold]Vulnerable[/gold] on the enemy.",
+    "description": "Apply 1 [gold]Vulnerable[/gold]. Gain 1 [gold]Strength[/gold] for each [gold]Vulnerable[/gold] on the enemy. [gold]Exhaust[/gold].",
+    "description_raw": "Apply {VulnerablePower:diff()} [gold]Vulnerable[/gold]. Gain {StrengthPerVulnerable:diff()} [gold]Strength[/gold] for each [gold]Vulnerable[/gold] on the enemy. [gold]Exhaust[/gold].",
     "cost": 1,
     "is_x_cost": null,
     "is_x_star_cost": null,
@@ -6451,7 +6446,13 @@
     "damage": null,
     "block": null,
     "hit_count": null,
-    "powers_applied": null,
+    "powers_applied": [
+      {
+        "power": "Vulnerable",
+        "power_key": "Vulnerable",
+        "amount": 1
+      }
+    ],
     "cards_draw": null,
     "energy_gain": null,
     "hp_loss": null,
@@ -6464,10 +6465,11 @@
     "tags": null,
     "spawns_cards": null,
     "vars": {
+      "VulnerablePower": 1,
       "StrengthPerVulnerable": 1
     },
     "upgrade": {
-      "remove_exhaust": 1
+      "vulnerablepower": "+1"
     },
     "image_url": "/static/images/cards/dominate.png",
     "beta_image_url": null,
@@ -7474,8 +7476,8 @@
   {
     "id": "EXPECT_A_FIGHT",
     "name": "Expect a Fight",
-    "description": "Gain [energy:1] for each Attack in your [gold]Hand[/gold].",
-    "description_raw": "Gain {energyPrefix:energyIcons(1)} for each Attack in your [gold]Hand[/gold].{InCombat:\n(Gain {CalculatedEnergy:energyIcons()}.)|}",
+    "description": "Gain [energy:1] for each Attack in your [gold]Hand[/gold].\nYou cannot gain additional [energy:1] this turn.",
+    "description_raw": "Gain {energyPrefix:energyIcons(1)} for each Attack in your [gold]Hand[/gold].\nYou cannot gain additional {energyPrefix:energyIcons(1)} this turn.{InCombat:\n(Gain {CalculatedEnergy:energyIcons()}.)|}",
     "cost": 2,
     "is_x_cost": null,
     "is_x_star_cost": null,
@@ -8622,28 +8624,22 @@
   {
     "id": "FOLLOW_THROUGH",
     "name": "Follow Through",
-    "description": "Deal 6 damage to ALL enemies.\nIf the last card you played this turn was a Skill, apply 1 [gold]Weak[/gold] to ALL enemies.",
-    "description_raw": "Deal {Damage:diff()} damage to ALL enemies.\nIf the last card you played this turn was a Skill, apply {WeakPower:diff()} [gold]Weak[/gold] to ALL enemies.",
+    "description": "Deal 7 damage.\nIf you have 5 or more other cards in your [gold]Hand[/gold], hits an additional time.",
+    "description_raw": "Deal {Damage:diff()} damage.\nIf you have {HandThreshold:diff()} or more other cards in your [gold]Hand[/gold], hits an additional time.",
     "cost": 1,
     "is_x_cost": null,
     "is_x_star_cost": null,
     "star_cost": null,
     "type": "Attack",
     "type_key": "Attack",
-    "rarity": "Uncommon",
-    "rarity_key": "Uncommon",
-    "target": "AllEnemies",
+    "rarity": "Common",
+    "rarity_key": "Common",
+    "target": "AnyEnemy",
     "color": "silent",
-    "damage": 6,
+    "damage": 7,
     "block": null,
     "hit_count": null,
-    "powers_applied": [
-      {
-        "power": "Weak",
-        "power_key": "Weak",
-        "amount": 1
-      }
-    ],
+    "powers_applied": null,
     "cards_draw": null,
     "energy_gain": null,
     "hp_loss": null,
@@ -8652,13 +8648,11 @@
     "tags": null,
     "spawns_cards": null,
     "vars": {
-      "Damage": 6,
-      "WeakPower": 1,
-      "Weak": 1
+      "Damage": 7,
+      "HandThreshold": 5
     },
     "upgrade": {
-      "damage": "+2",
-      "weak": "+1"
+      "damage": "+2"
     },
     "image_url": "/static/images/cards/follow_through.png",
     "beta_image_url": null,
@@ -9694,52 +9688,6 @@
     "beta_image_url": null,
     "type_variants": null,
     "compendium_order": 159
-  },
-  {
-    "id": "GRAPPLE",
-    "name": "Grapple",
-    "description": "Deal 7 damage.\nWhenever you gain [gold]Block[/gold] this turn, deal 5 damage to the enemy.",
-    "description_raw": "Deal {Damage:diff()} damage.\nWhenever you gain [gold]Block[/gold] this turn, deal {GrapplePower:diff()} damage to the enemy.",
-    "cost": 1,
-    "is_x_cost": null,
-    "is_x_star_cost": null,
-    "star_cost": null,
-    "type": "Attack",
-    "type_key": "Attack",
-    "rarity": "Uncommon",
-    "rarity_key": "Uncommon",
-    "target": "AnyEnemy",
-    "color": "ironclad",
-    "damage": 7,
-    "block": null,
-    "hit_count": null,
-    "powers_applied": [
-      {
-        "power": "Grapple",
-        "power_key": "Grapple",
-        "amount": 5
-      }
-    ],
-    "cards_draw": null,
-    "energy_gain": null,
-    "hp_loss": null,
-    "keywords": null,
-    "keywords_key": null,
-    "tags": null,
-    "spawns_cards": null,
-    "vars": {
-      "Damage": 7,
-      "GrapplePower": 5,
-      "Grapple": 5
-    },
-    "upgrade": {
-      "damage": "+2",
-      "grapplepower": "+2"
-    },
-    "image_url": "/static/images/cards/grapple.png",
-    "beta_image_url": null,
-    "type_variants": null,
-    "compendium_order": 38
   },
   {
     "id": "GRAVE_WARDEN",
@@ -19350,8 +19298,8 @@
   {
     "id": "SPITE",
     "name": "Spite",
-    "description": "Deal 6 damage.\nIf you lost HP this turn, draw 1 card.",
-    "description_raw": "Deal {Damage:diff()} damage.\nIf you lost HP this turn, draw {Cards:diff()} {Cards:plural:card|cards}.",
+    "description": "Deal 5 damage.\nIf you lost HP this turn, hits 2 times.",
+    "description_raw": "Deal {Damage:diff()} damage.\nIf you lost HP this turn, hits {HitCount:diff()} times.",
     "cost": 0,
     "is_x_cost": null,
     "is_x_star_cost": null,
@@ -19362,11 +19310,11 @@
     "rarity_key": "Uncommon",
     "target": "AnyEnemy",
     "color": "ironclad",
-    "damage": 6,
+    "damage": 5,
     "block": null,
-    "hit_count": null,
+    "hit_count": 2,
     "powers_applied": null,
-    "cards_draw": 1,
+    "cards_draw": null,
     "energy_gain": null,
     "hp_loss": null,
     "keywords": null,
@@ -19374,11 +19322,11 @@
     "tags": null,
     "spawns_cards": null,
     "vars": {
-      "Damage": 6,
-      "Cards": 1
+      "Damage": 5,
+      "HitCount": 2
     },
     "upgrade": {
-      "damage": "+3"
+      "hitcount": "+1"
     },
     "image_url": "/static/images/cards/spite.png",
     "beta_image_url": "/static/images/cards/beta/spite.png",
@@ -19778,8 +19726,8 @@
   {
     "id": "STOKE",
     "name": "Stoke",
-    "description": "[gold]Exhaust[/gold] your [gold]Hand[/gold].\nDraw a card for each card [gold]Exhausted[/gold].",
-    "description_raw": "[gold]Exhaust[/gold] your [gold]Hand[/gold].\nDraw a card for each card [gold]Exhausted[/gold].",
+    "description": "[gold]Exhaust[/gold] your [gold]Hand[/gold].\nAdd 1 random [gold]Upgraded[/gold] card into your [gold]Hand[/gold] for each card [gold]Exhausted[/gold]. [gold]Exhaust[/gold].",
+    "description_raw": "[gold]Exhaust[/gold] your [gold]Hand[/gold].\nAdd 1 random [gold]Upgraded[/gold] card into your [gold]Hand[/gold] for each card [gold]Exhausted[/gold]. [gold]Exhaust[/gold].",
     "cost": 1,
     "is_x_cost": null,
     "is_x_star_cost": null,
@@ -23173,5 +23121,46 @@
     "beta_image_url": null,
     "type_variants": null,
     "compendium_order": 354
+  },
+  {
+    "id": "NOT_YET",
+    "name": "Not Yet",
+    "description": "Heal 10 HP. [gold]Exhaust[/gold].",
+    "description_raw": "Heal {HealAmount:diff()} HP. [gold]Exhaust[/gold].",
+    "cost": 2,
+    "is_x_cost": null,
+    "is_x_star_cost": null,
+    "star_cost": null,
+    "type": "Skill",
+    "type_key": "Skill",
+    "rarity": "Rare",
+    "rarity_key": "Rare",
+    "target": "Self",
+    "color": "ironclad",
+    "damage": null,
+    "block": null,
+    "hit_count": null,
+    "powers_applied": null,
+    "cards_draw": null,
+    "energy_gain": null,
+    "hp_loss": null,
+    "keywords": [
+      "Exhaust"
+    ],
+    "keywords_key": [
+      "Exhaust"
+    ],
+    "tags": null,
+    "spawns_cards": null,
+    "vars": {
+      "HealAmount": 10
+    },
+    "upgrade": {
+      "healamount": "+3"
+    },
+    "image_url": "/static/images/cards/not_yet.png",
+    "beta_image_url": null,
+    "type_variants": null,
+    "compendium_order": 400
   }
 ]

@@ -38,7 +38,7 @@ _BUILTIN_ARCHETYPES: list[dict] = [
             {"card_id": "INFLAME",          "role": "core",    "weight": 0.95, "note": "即时+2力量，核心来源"},
             {"card_id": "DEMON_FORM",       "role": "core",    "weight": 0.92, "note": "每回合+2力量，后期引擎"},
             {"card_id": "RUPTURE",          "role": "core",    "weight": 0.88, "note": "HP损耗转永久力量"},
-            {"card_id": "DOMINATE",         "role": "core",    "weight": 0.85, "note": "脆弱叠加转力量"},
+            {"card_id": "DOMINATE",         "role": "core",    "weight": 0.88, "note": "施加易伤+每层易伤获得力量，直接力量来源"},
             # support
             {"card_id": "BATTLE_TRANCE",    "role": "enabler", "weight": 0.75, "note": "摸牌引擎"},
             {"card_id": "OFFERING",         "role": "enabler", "weight": 0.72, "note": "HP换费用+摸牌"},
@@ -73,6 +73,7 @@ _BUILTIN_ARCHETYPES: list[dict] = [
             # support
             {"card_id": "BRAND",            "role": "enabler", "weight": 0.78, "note": "减薄+Rupture触发"},
             {"card_id": "CRIMSON_MANTLE",   "role": "enabler", "weight": 0.75, "note": "两张Rupture指数叠加"},
+            {"card_id": "SPITE",            "role": "enabler", "weight": 0.72, "note": "自伤触发多次攻击，配合Rupture/Bloodletting"},
             {"card_id": "DEMONIC_SHIELD",   "role": "enabler", "weight": 0.68, "note": "格挡辅助存活"},
             {"card_id": "BATTLE_TRANCE",    "role": "enabler", "weight": 0.65, "note": "摸牌引擎"},
             {"card_id": "SHRUG_IT_OFF",     "role": "enabler", "weight": 0.60, "note": "防御+摸牌"},
@@ -105,7 +106,8 @@ _BUILTIN_ARCHETYPES: list[dict] = [
             # support
             {"card_id": "HAVOC",            "role": "enabler", "weight": 0.70, "note": "排除顶牌获取效果"},
             {"card_id": "FORGOTTEN_RITUAL", "role": "enabler", "weight": 0.65, "note": "排除触发生成"},
-            {"card_id": "STOKE",            "role": "enabler", "weight": 0.62, "note": "排除引擎辅助"},
+            {"card_id": "STOKE",            "role": "core",    "weight": 0.78, "note": "排除手牌生成升级牌，引擎核心"},
+            {"card_id": "NOT_YET",          "role": "enabler", "weight": 0.68, "note": "Exhaust+恢复HP，Corruption流存活保障"},
             {"card_id": "DRUM_OF_BATTLE",   "role": "enabler", "weight": 0.60, "note": "多段攻击辅助"},
             {"card_id": "SHRUG_IT_OFF",     "role": "enabler", "weight": 0.58, "note": "技能牌，Corruption下0费"},
             # bridge
@@ -168,7 +170,8 @@ _BUILTIN_ARCHETYPES: list[dict] = [
             {"card_id": "INFINITE_BLADES",  "role": "core",    "weight": 0.90, "note": "每回合生成1 Shiv"},
             {"card_id": "PHANTOM_BLADES",   "role": "core",    "weight": 0.85, "note": "Shiv打全体"},
             # support
-            {"card_id": "BLADE_OF_INK",     "role": "enabler", "weight": 0.75, "note": "Shiv增强辅助"},
+            {"card_id": "BLADE_OF_INK",     "role": "enabler", "weight": 0.80, "note": "生成Inky Shiv（+2伤+1虚弱），Shiv流量产核心"},
+            {"card_id": "FOLLOW_THROUGH",   "role": "filler",  "weight": 0.55, "note": "5张手牌阈值触发追击，Shiv流次选"},
             {"card_id": "BACKFLIP",         "role": "enabler", "weight": 0.70, "note": "防御+摸牌"},
             {"card_id": "PREPARED",         "role": "enabler", "weight": 0.68, "note": "0费循环"},
             {"card_id": "ADRENALINE",       "role": "enabler", "weight": 0.65, "note": "摸牌+费用"},
@@ -207,6 +210,7 @@ _BUILTIN_ARCHETYPES: list[dict] = [
             {"card_id": "PINPOINT",         "role": "enabler", "weight": 0.62, "note": "弃牌触发加成"},
             {"card_id": "POUNCE",           "role": "enabler", "weight": 0.58, "note": "轻量攻击补充"},
             {"card_id": "MEMENTO_MORI",     "role": "enabler", "weight": 0.55, "note": "弃牌终结"},
+            {"card_id": "FOLLOW_THROUGH",   "role": "enabler", "weight": 0.68, "note": "5张手牌阈值与Sly/弃牌手牌循环契合"},
             # bridge
             {"card_id": "BLADE_DANCE",      "role": "filler",  "weight": 0.45, "note": "攻击补充"},
             {"card_id": "LEG_SWEEP",        "role": "filler",  "weight": 0.42, "note": "削弱过渡"},
@@ -399,6 +403,7 @@ _BUILTIN_ARCHETYPES: list[dict] = [
             {"card_id": "DEVOUR_LIFE",      "role": "core",    "weight": 0.85, "note": "Soul消耗+吸血"},
             {"card_id": "HAUNT",            "role": "core",    "weight": 0.95, "note": "每打出Soul对随机敌伤害"},
             # support
+            {"card_id": "BORROWED_TIME",    "role": "enabler", "weight": 0.70, "note": "能量加速为Soul重压提供节奏爆发"},
             {"card_id": "GRAVEBLAST",       "role": "enabler", "weight": 0.72, "note": "伤害+Soul"},
             {"card_id": "INVOKE",           "role": "enabler", "weight": 0.68, "note": "Summon触发辅助"},
             {"card_id": "LEGION_OF_BONE",   "role": "enabler", "weight": 0.65, "note": "群体Summon"},
@@ -535,7 +540,7 @@ _BUILTIN_ARCHETYPES: list[dict] = [
         "target_card_count": 11,
         "card_weights": [
             # core
-            {"card_id": "ARSENAL",          "role": "core",    "weight": 0.95, "note": "每次创建无色牌触发"},
+            {"card_id": "ARSENAL",          "role": "core",    "weight": 0.96, "note": "Innate+任意创造触发力量，创造流核心"},
             {"card_id": "PILLAR_OF_CREATION","role": "core",   "weight": 0.90, "note": "批量创建无色牌"},
             # support
             {"card_id": "GUARDS",           "role": "enabler", "weight": 0.75, "note": "创建无色牌"},
@@ -607,6 +612,7 @@ class ArchetypeLibrary:
         return Archetype(
             id=raw["id"],
             name=raw["name"],
+            name_zh=raw.get("name_zh", ""),
             character=Character(raw["character"]),
             key_tags=raw.get("key_tags", []),
             description=raw.get("description", ""),

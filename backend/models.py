@@ -140,6 +140,7 @@ class Archetype(BaseModel):
     """
     id:          str            # e.g. "silent_shiv"
     name:        str            # e.g. "Silent Shiv"
+    name_zh:     str = ""       # e.g. "静默猎手_飞刃"
     character:   Character
 
     # 套路核心标签（用于快速匹配）

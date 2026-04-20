@@ -125,6 +125,8 @@ class VisionBridge:
         self._ocr_votes: list[deque[Optional[str]]] = [
             deque(maxlen=vote_frames) for _ in range(3)
         ]
+        # 已锁定的槽位：一旦某槽位识别成功，锁定后不再覆盖（直到界面消失重置）
+        self._slot_locks: list[Optional[str]] = [None, None, None]
 
         # 线程控制
         self._thread: Optional[threading.Thread] = None
@@ -268,36 +270,39 @@ class VisionBridge:
             self._ocr_running = False
 
     def _try_recognize_inner(self, screenshot: np.ndarray, det_ocr_result=None) -> None:
+        # 已全部锁定则无需再识别
+        if all(cid is not None for cid in self._slot_locks):
+            return
+
         # 综合全图OCR行坐标 + 区域补全，提取三张卡名
         title_y_rel = VisionBridge._find_title_y(det_ocr_result)
         ocr_texts = VisionBridge._extract_card_names_combined(
-            screenshot, self._ocr, det_ocr_result, title_y_rel
+            screenshot, self._ocr, det_ocr_result, title_y_rel,
+            skip_slots=[i for i, cid in enumerate(self._slot_locks) if cid is not None],
         )
         log.debug(f"OCR 结果: {ocr_texts}")
 
         # 规范化
         normalize_result = self._normalizer.normalize(ocr_texts)
 
-        # 更新 OCR 投票缓冲
-        for i, match in enumerate(normalize_result.cards):
-            cid = match.card_id if match and match.is_reliable else None
-            self._ocr_votes[i].append(cid)
-
-        # 检查投票稳定性
-        stable_ids: list[Optional[str]] = []
-        for vote_buf in self._ocr_votes:
-            stable_ids.append(self._vote_winner(vote_buf))
-
-        # 构建识别结果
+        # 构建识别结果，已锁定槽位用锁定值，新识别槽位尝试锁定
         card_names: list[str] = []
         confidences: list[float] = []
+        stable_ids: list[Optional[str]] = list(self._slot_locks)
+
         for i, match in enumerate(normalize_result.cards):
-            if match:
-                card_names.append(match.matched_name)
-                confidences.append(match.confidence)
-            else:
-                card_names.append("")
-                confidences.append(0.0)
+            if self._slot_locks[i] is not None:
+                # 槽位已锁定，沿用锁定值
+                card_names.append(match.matched_name if match else "")
+                confidences.append(match.confidence if match else 1.0)
+                continue
+            # 未锁定槽位：尝试锁定
+            if match and match.is_reliable:
+                self._slot_locks[i] = match.card_id
+                stable_ids[i] = match.card_id
+                log.info(f"槽位 {i} 锁定: {match.card_id} (conf={match.confidence:.2f})")
+            card_names.append(match.matched_name if match else "")
+            confidences.append(match.confidence if match else 0.0)
 
         recognized = RecognizedCards(
             card_ids=stable_ids,
@@ -309,15 +314,15 @@ class VisionBridge:
 
         self._last_cards = recognized
 
-        # 若三张卡全部稳定，触发通知
         if recognized.all_reliable and self._state != BridgeState.CONFIRMED:
-            log.info(f"选卡识别稳定: {stable_ids}")
+            log.info(f"选卡识别完成: {stable_ids}")
             self._confirmed_cards = recognized
             self._set_state(BridgeState.CONFIRMED)
             self._save_ocr_snapshot(screenshot, recognized)
             self._emit_cards(recognized)
-        elif not recognized.all_reliable:
-            log.debug(f"投票未稳定: {stable_ids}")
+        else:
+            locked = [i for i, cid in enumerate(stable_ids) if cid is not None]
+            log.debug(f"已锁定槽位: {locked} / 3")
 
     # ------------------------------------------------------------------
     # 卡名提取（全图 OCR + 区域补全双策略）
@@ -329,11 +334,13 @@ class VisionBridge:
         ocr_engine: WindowsOcrEngine,
         ocr_result,
         title_y_rel: Optional[float],
+        skip_slots: Optional[list[int]] = None,
     ) -> list[str]:
         """
         综合两种策略提取三张卡名：
           1. 先从全图 OCR 行坐标（按X聚类）取名称
           2. 对识别失败的槽位，用区域 OCR 补全
+        skip_slots: 已锁定槽位索引，跳过不识别
         """
         import re
 
@@ -412,11 +419,11 @@ class VisionBridge:
         # ── 步骤2：推算三张卡的 X 中心（用已知坐标推算缺失的）──────────
         h_px, w_px = screenshot.shape[:2]
         if title_y_rel is not None:
-            card_y_top = title_y_rel + 0.14
-            card_y_bot = title_y_rel + 0.25  # 只取卡名横幅，不含描述文字
+            card_y_top = title_y_rel + 0.12
+            card_y_bot = title_y_rel + 0.28  # 扩展卡名带以提升小窗口识别率
         else:
-            card_y_top = 0.40
-            card_y_bot = 0.50
+            card_y_top = 0.38
+            card_y_bot = 0.53
 
         # 默认三列X中心（基于 2273x1202 实测：左≈0.21, 中≈0.50, 右≈0.79）
         default_centers = [0.21, 0.50, 0.79]
@@ -455,9 +462,12 @@ class VisionBridge:
         log.debug(f"最终X中心: {resolved_centers}")
 
         # ── 步骤3：对空槽位做区域 OCR ──────────────────────────────────
-        half_w = 0.16
+        half_w = 0.22  # 扩宽搜索范围，适配不同分辨率下卡牌偏移
+        _skip = set(skip_slots or [])
         result = list(full_ocr_names)
         for i, cx in enumerate(resolved_centers[:3]):
+            if i in _skip:  # 已锁定，跳过
+                continue
             if result[i]:  # 已从全图OCR获得，跳过
                 continue
             x0 = max(0, int((cx - half_w) * w_px))
@@ -469,12 +479,16 @@ class VisionBridge:
                 continue
             res = ocr_engine.recognize(region)
             if not res.success or not res.full_text.strip():
+                log.debug(f"区域OCR slot{i} 无结果: success={res.success} text={repr(res.full_text[:50] if res.full_text else '')}")
                 continue
             cands = []
+            all_lines = []
             for line in res.lines:
                 txt = normalize_zh(line.text).strip()
+                all_lines.append(txt)
                 if not is_noise(txt):
                     cands.append(txt)
+            log.debug(f"区域OCR slot{i} cx={cx:.2f} 原始行: {all_lines} → 候选: {cands}")
             if cands:
                 result[i] = min(cands, key=len)
                 log.debug(f"区域OCR补全 slot{i} cx={cx:.2f}: {result[i]}")
@@ -527,6 +541,7 @@ class VisionBridge:
     def _reset_ocr_votes(self) -> None:
         for buf in self._ocr_votes:
             buf.clear()
+        self._slot_locks = [None, None, None]
 
     # ------------------------------------------------------------------
     # 状态与回调

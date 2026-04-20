@@ -258,7 +258,6 @@
   "撕碎": "Rend",
   "撕裂": "Rupture",
   "播种": "Sow",
-  "擒拿": "Grapple",
   "收割": "Reap",
   "收集光辉": "Gather Light",
   "放松": "Relax",
@@ -566,5 +565,6 @@
   "黏液": "Slimed",
   "黑暗之拥": "Dark Embrace",
   "黑暗镣铐": "Dark Shackles",
-  "黑洞": "Black Hole"
+  "黑洞": "Black Hole",
+  "尚未": "Not Yet"
 }

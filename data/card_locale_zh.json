@@ -490,8 +490,6 @@
   "GO_FOR_THE_EYES.title": "眼部攻击",
   "GRAND_FINALE.description": "只有当你的[gold]抽牌堆[gold]中没有牌时才能打出。对所有敌人造成{Damagediff()}点伤害。",
   "GRAND_FINALE.title": "华丽收场",
-  "GRAPPLE.description": "造成{Damagediff()}点伤害。n当你在本回合获得[gold]格挡[gold]时，对该敌人造成{GrapplePowerdiff()}点伤害。",
-  "GRAPPLE.title": "擒拿",
   "GRAVEBLAST.description": "造成{Damagediff()}点伤害。n将[gold]弃牌堆[gold]中的一张牌放入你的[gold]手牌[gold]。",
   "GRAVEBLAST.selectionScreenPrompt": "选择一张牌放入你的手牌。",
   "GRAVEBLAST.title": "坟冢爆射",
@@ -1215,5 +1213,7 @@
   "WROUGHT_IN_WAR.description": "造成{Damagediff()}点伤害。n[gold]铸造[gold]{Forgediff()}。",
   "WROUGHT_IN_WAR.title": "战火铸就",
   "ZAP.description": "[gold]生成[gold]1个[gold]闪电[gold]充能球。",
-  "ZAP.title": "电击"
+  "ZAP.title": "电击",
+  "NOT_YET.description": "恢复{HealAmountdiff()}点生命值。[gold]消耗[gold]。",
+  "NOT_YET.title": "尚未"
 }

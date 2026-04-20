@@ -503,7 +503,7 @@ async def evaluate_cards(request: EvaluateRequest):
 
     return EvaluateResponse(
         results=results,
-        detected_archetypes=[a.id for a in detected],
+        detected_archetypes=[a.name_zh or a.id for a in detected],
     )
 
 

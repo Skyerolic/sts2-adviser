@@ -55,7 +55,7 @@
     "name_zh": "杂技",
     "color": "silent",
     "type": "Skill",
-    "rarity": "Common",
+    "rarity": "Uncommon",
     "cost": 1,
     "win_rate": "54.9%",
     "pick_rate": "56.1%",
@@ -314,9 +314,11 @@
     "win_rate": "57.7%",
     "pick_rate": "19.2%",
     "skip_rate": "80.8%",
-    "description_en": "Whenever you play a Colorless card, gain 1 [gold]Strength[/gold].",
-    "description_zh": "你每打出一张无色牌，都获得{ArsenalPowerdiff()}点[gold]力量[gold]。",
-    "keywords": null,
+    "description_en": "Innate. Whenever you create a card, gain 1 [gold]Strength[/gold].",
+    "description_zh": "[gold]天赋[gold]。每次你创造一张牌，获得{ArsenalPowerdiff()}点[gold]力量[gold]。",
+    "keywords": [
+      "Innate"
+    ],
     "is_x_cost": null
   },
   {
@@ -747,9 +749,11 @@
     "win_rate": "57.1%",
     "pick_rate": "17.2%",
     "skip_rate": "82.8%",
-    "description_en": "This turn, whenever you play an Attack, gain 2 [gold]Strength[/gold] this turn.",
-    "description_zh": "每当你在本回合打出一张攻击牌时，本回合获得{StrengthPowerdiff()}点[gold]力量[gold]。",
-    "keywords": null,
+    "description_en": "Add 2 Inky Shivs into your Hand. (Inky Shiv: Deal 4 damage. Apply 1 Weak.)",
+    "description_zh": "将2张[gold]墨飞刃[gold]加入手牌。（墨飞刃：造成4点伤害，施加1层[gold]虚弱[gold]。）",
+    "keywords": [
+      "Sly"
+    ],
     "is_x_cost": null
   },
   {
@@ -956,12 +960,12 @@
     "color": "necrobinder",
     "type": "Skill",
     "rarity": "Uncommon",
-    "cost": 0,
+    "cost": 1,
     "win_rate": "57.6%",
     "pick_rate": "48.3%",
     "skip_rate": "51.7%",
-    "description_en": "Apply 3 [gold]Doom[/gold] to yourself.\nGain [energy:1].",
-    "description_zh": "给予自身{DoomPowerdiff()}层[gold]灾厄[gold]。n获得{EnergyenergyIcons()}。",
+    "description_en": "Gain 4 Energy. Cards cost 1 additional Energy this turn.",
+    "description_zh": "获得4点能量。本回合所有牌额外消耗1点能量。",
     "keywords": null,
     "is_x_cost": null
   },
@@ -2649,8 +2653,8 @@
     "win_rate": "46.1%",
     "pick_rate": "20.1%",
     "skip_rate": "79.9%",
-    "description_en": "Gain 1 [gold]Strength[/gold] for each [gold]Vulnerable[/gold] on the enemy.",
-    "description_zh": "敌人身上每有一层[gold]易伤[gold]，就获得{StrengthPerVulnerablediff()}点[gold]力量[gold]。",
+    "description_en": "Apply 1 Vulnerable. Gain 1 Strength for each Vulnerable on the enemy. Exhaust.",
+    "description_zh": "施加1层[gold]易伤[gold]。敌人每有一层易伤，获得1点[gold]力量[gold]。[gold]消耗[gold]。",
     "keywords": [
       "Exhaust"
     ],
@@ -3090,8 +3094,8 @@
     "win_rate": "46.0%",
     "pick_rate": "25.1%",
     "skip_rate": "74.9%",
-    "description_en": "Gain [energy:1] for each Attack in your [gold]Hand[/gold].",
-    "description_zh": "你的[gold]手牌[gold]中每有一张攻击牌，就会获得{energyPrefixenergyIcons(1)}。{InCombatn（获得{CalculatedEnergyenergyIcons()}。）}",
+    "description_en": "Gain 1 Energy for each Attack in your Hand. You cannot gain additional Energy this turn.",
+    "description_zh": "手牌中每有一张攻击牌，获得1点能量。本回合不能再获得额外能量。",
     "keywords": null,
     "is_x_cost": null
   },
@@ -3543,13 +3547,13 @@
     "name_zh": "跟进",
     "color": "silent",
     "type": "Attack",
-    "rarity": "Uncommon",
+    "rarity": "Common",
     "cost": 1,
     "win_rate": "45.1%",
     "pick_rate": "8.9%",
     "skip_rate": "91.1%",
-    "description_en": "Deal 6 damage to ALL enemies.\nIf the last card you played this turn was a Skill, apply 1 [gold]Weak[/gold] to ALL enemies.",
-    "description_zh": "对所有敌人造成{Damagediff()}点伤害。n如果在本回合，你打出的上一张牌是技能牌，则给予所有敌人{WeakPowerdiff()}层[gold]虚弱[gold]。",
+    "description_en": "Deal 7 damage. If you have 5 or more other cards in your Hand, hits an additional time.",
+    "description_zh": "造成7点伤害。若手牌中有5张以上其他牌，再次攻击。",
     "keywords": null,
     "is_x_cost": null
   },
@@ -3980,22 +3984,6 @@
     "skip_rate": "84.2%",
     "description_en": "Can only be played if there are no cards in your [gold]Draw Pile[/gold]. Deal 50 damage to ALL enemies.",
     "description_zh": "只有当你的[gold]抽牌堆[gold]中没有牌时才能打出。对所有敌人造成{Damagediff()}点伤害。",
-    "keywords": null,
-    "is_x_cost": null
-  },
-  {
-    "id": "GRAPPLE",
-    "name_en": "Grapple",
-    "name_zh": "擒拿",
-    "color": "ironclad",
-    "type": "Attack",
-    "rarity": "Uncommon",
-    "cost": 1,
-    "win_rate": "35.2%",
-    "pick_rate": "7.2%",
-    "skip_rate": "92.8%",
-    "description_en": "Deal 7 damage.\nWhenever you gain [gold]Block[/gold] this turn, deal 5 damage to the enemy.",
-    "description_zh": "造成{Damagediff()}点伤害。n当你在本回合获得[gold]格挡[gold]时，对该敌人造成{GrapplePowerdiff()}点伤害。",
     "keywords": null,
     "is_x_cost": null
   },
@@ -7936,8 +7924,8 @@
     "win_rate": "49.3%",
     "pick_rate": "23.4%",
     "skip_rate": "76.6%",
-    "description_en": "Deal 6 damage.\nIf you lost HP this turn, draw 1 card.",
-    "description_zh": "造成{Damagediff()}点伤害。n如果你在本回合失去过生命值，则抽{Cardsdiff()}张牌。",
+    "description_en": "Deal 5 damage. If you lost HP this turn, hits 2 times.",
+    "description_zh": "造成5点伤害。若本回合失去过生命值，攻击2次。",
     "keywords": null,
     "is_x_cost": null
   },
@@ -8118,8 +8106,8 @@
     "win_rate": "57.6%",
     "pick_rate": "37.9%",
     "skip_rate": "62.1%",
-    "description_en": "[gold]Exhaust[/gold] your [gold]Hand[/gold].\nDraw a card for each card [gold]Exhausted[/gold].",
-    "description_zh": "[gold]消耗[gold]所有[gold]手牌[gold]。n然后抽相同数量张牌。",
+    "description_en": "Exhaust your Hand. Add 1 random Upgraded card into your Hand for each card Exhausted. Exhaust.",
+    "description_zh": "消耗所有手牌。每消耗1张牌，将1张随机升级牌加入手牌。消耗。",
     "keywords": [
       "Exhaust"
     ],
@@ -9528,6 +9516,24 @@
     "description_en": "[gold]Channel[/gold] 1 [gold]Lightning[/gold].",
     "description_zh": "[gold]生成[gold]1个[gold]闪电[gold]充能球。",
     "keywords": null,
+    "is_x_cost": null
+  },
+  {
+    "id": "NOT_YET",
+    "name_en": "Not Yet",
+    "name_zh": "尚未",
+    "color": "ironclad",
+    "type": "Skill",
+    "rarity": "Rare",
+    "cost": 2,
+    "win_rate": null,
+    "pick_rate": null,
+    "skip_rate": null,
+    "description_en": "Heal 10 HP. Exhaust.",
+    "description_zh": "恢复10点生命值。消耗。",
+    "keywords": [
+      "Exhaust"
+    ],
     "is_x_cost": null
   }
 ]
