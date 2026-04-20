@@ -227,7 +227,15 @@ python -m uvicorn backend.main:app --port 8001
 
 ## Changelog
 
-### v1.25 (current)
+### v1.6 (current)
+- **Game Major Update #1 (v0.103.2) data sync**: Updated card database (additions/removals/modifications), Chinese localization, relic data, and relic-archetype mappings; added archetype weights for DOMINATE / STOKE / BLADE_OF_INK / ARSENAL / NOT_YET / SPITE / FOLLOW_THROUGH / BORROWED_TIME and other new cards
+- **Path impact visualization (Issue #4)**: Colored archetype tags now appear next to each candidate card name, showing compatibility with **all** current character archetypes (✦ core / ● enabler / · filler / ✗ pollution); visible from game start — no archetype lock required
+- **Community data algorithm overhaul**: Win rate / pick rate now displayed as sigmoid-normalized deviation values (±integer) instead of raw percentages; skip rate added as a factor; divergence (win deviation − pick deviation) beyond threshold shows "hidden gem" / "overhyped" tags
+- **Language-aware archetype names**: Archetype names in reason text and bottom detection label now follow the language setting — Chinese shows `name_zh` (e.g. "毒素"), English shows `name` (e.g. "Silent: Poison"); removed hardcoded split logic
+- **UI consolidation and font DPI scaling**: Card summary + reasons merged into a single colored rich text line; font now uses `QFont.setPixelSize()` for proper DPI scaling; grade colors updated (S=gold, A=green, B=blue); archetype tags moved to the same row as card name
+- **Log cleanup**: All `print()` calls in backend replaced with `logging`, unified into log file output
+
+### v1.25
 - **Archetype library: 17 → 27**: 10 new archetypes covering Ironclad (Block/Body Slam · Vulnerable Pressure · Strike Scaling), Silent (Dexterity Block · Retain Burst), Defect (Frost Block · Claw Cycle), Necrobinder (Soul Exhaust Engine · Osty Defense Buff), Regent (Retain Control); each confirmed by 2+ community sources with all card IDs verified in the database
 - **Score distribution fix**: Rarity baselines widened (Ancient 0.95 / Rare 0.88 / Uncommon 0.62 / Common 0.38); no-archetype TRANSITION early-game `phase_score` raised to 0.92; floor bonus now tiered by rarity — Rare receives less compensation, Common retains the full floor. Result: Rare transition cards B (51–57) · Uncommon B/B− (44–52) · Common C+ (~40)
 - **Card text summaries**: New `data/card_summaries.json` covering 84.9% (489/576) of scoreable cards; each entry combines card type, archetype fit, community win/pick rate, and usage tips; displayed as a grey italic line at the bottom of each card result in Chinese mode

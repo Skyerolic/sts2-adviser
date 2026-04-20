@@ -118,7 +118,7 @@ def _load_card_db_from_json() -> dict[str, Card]:
     """
     json_path = get_app_root() / "data" / "cards.json"
     if not json_path.exists():
-        print(f"Warning: Card database not found at {json_path}")
+        log.warning("Card database not found at %s", json_path)
         return {}
 
     try:
@@ -151,7 +151,7 @@ def _load_card_db_from_json() -> dict[str, Card]:
                     }
                     character = fallback_map.get(color, Character.ANY)
                     if character == Character.ANY:
-                        print(f"[WARN] Unknown character color: {color} for card {r.get('id', '?')}")
+                        log.warning("Unknown character color: %s for card %s", color, r.get('id', '?'))
 
                 rarity_key = r.get("rarity_key", "common").lower()
                 if rarity_key in Rarity.__members__.values() or rarity_key in [c.value for c in Rarity]:
@@ -172,7 +172,7 @@ def _load_card_db_from_json() -> dict[str, Card]:
                     }
                     rarity = fallback_map.get(rarity_key, Rarity.COMMON)
                     if rarity == Rarity.COMMON:
-                        print(f"[WARN] Unknown rarity: {rarity_key} for card {r.get('id', '?')}")
+                        log.warning("Unknown rarity: %s for card %s", rarity_key, r.get('id', '?'))
 
                 type_key = r.get("type_key", "skill").lower()
                 if type_key in CardType.__members__.values() or type_key in [c.value for c in CardType]:
@@ -188,7 +188,7 @@ def _load_card_db_from_json() -> dict[str, Card]:
                     }
                     card_type = fallback_map.get(type_key, CardType.SKILL)
                     if card_type == CardType.SKILL:
-                        print(f"[WARN] Unknown card type: {type_key} for card {r.get('id', '?')}")
+                        log.warning("Unknown card type: %s for card %s", type_key, r.get('id', '?'))
 
                 card = Card(
                     id=r["id"].lower(),  # 统一小写
@@ -206,12 +206,12 @@ def _load_card_db_from_json() -> dict[str, Card]:
                 db[card.id] = card
             except Exception as e:
                 # 跳过无法映射的卡牌
-                print(f"[ERROR] Skipping card {r.get('id', 'unknown')}: {e}")
+                log.error("Skipping card %s: %s", r.get('id', 'unknown'), e)
                 continue
-        print(f"Loaded {len(db)} cards from {json_path}")
+        log.info("Loaded %d cards from %s", len(db), json_path)
         return db
     except Exception as e:
-        print(f"Error loading card database: {e}")
+        log.error("Error loading card database: %s", e)
         return {}
 
 
@@ -225,7 +225,7 @@ def _load_raw_card_db() -> dict[str, dict]:
             raw_cards = json.load(f)
         return {r["id"].lower(): r for r in raw_cards if "id" in r}
     except Exception as e:
-        print(f"Error loading raw card db: {e}")
+        log.error("Error loading raw card db: %s", e)
         return {}
 
 
@@ -258,7 +258,7 @@ def _load_community_db() -> "dict[str, CommunityStats]":
     from .scoring import community_score_from_raw
     json_path = get_app_root() / "data" / "card_library.json"
     if not json_path.exists():
-        print(f"[CommunityDB] card_library.json not found at {json_path}")
+        log.warning("card_library.json not found at %s", json_path)
         return {}
     try:
         with open(json_path, "r", encoding="utf-8") as f:
@@ -278,10 +278,10 @@ def _load_community_db() -> "dict[str, CommunityStats]":
             sr = float(str(sr_str).rstrip("%")) if sr_str is not None else round(100.0 - pr, 1)
             cs, div = community_score_from_raw(wr, pr, sr)
             db[cid] = CommunityStats(cid, wr, pr, sr, cs, div)
-        print(f"[CommunityDB] Loaded {len(db)} community records from card_library.json")
+        log.info("Loaded %d community records from card_library.json", len(db))
         return db
     except Exception as e:
-        print(f"[CommunityDB] Error loading community db: {e}")
+        log.error("Error loading community db: %s", e)
         return {}
 
 
@@ -292,15 +292,15 @@ def _load_summaries_db() -> "dict[str, dict]":
     """从 data/card_summaries.json 加载卡牌文字总结（card_id 大写 -> dict）。"""
     json_path = get_app_root() / "data" / "card_summaries.json"
     if not json_path.exists():
-        print(f"[SummariesDB] card_summaries.json not found at {json_path}")
+        log.warning("card_summaries.json not found at %s", json_path)
         return {}
     try:
         with open(json_path, "r", encoding="utf-8") as f:
             raw = json.load(f)
-        print(f"[SummariesDB] Loaded {len(raw)} card summaries")
-        return raw  # key 已是大写 card_id
+        log.info("Loaded %d card summaries", len(raw))
+        return raw
     except Exception as e:
-        print(f"[SummariesDB] Error loading summaries: {e}")
+        log.error("Error loading summaries: %s", e)
         return {}
 
 

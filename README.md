@@ -226,7 +226,15 @@ python -m uvicorn backend.main:app --port 8001
 
 ## 版本历史
 
-### v1.25（当前）
+### v1.6（当前）
+- **游戏本体 Major Update #1（v0.103.2）数据同步**：卡牌库更新（新增/删除/修改）、中文本地化、遗物数据、遗物-套路映射全面更新；套路权重补充 DOMINATE / STOKE / BLADE_OF_INK / ARSENAL / NOT_YET / SPITE / FOLLOW_THROUGH / BORROWED_TIME 等多张新卡
+- **套路路径影响可视化（Issue #4）**：每张候选牌旁新增彩色套路标签，显示对当前角色**全部套路**的兼容性（✦核心 / ●辅助 / ·填充 / ✗污染）；无需先锁定套路，游戏早期即可看到"这张牌会走哪条路"
+- **社区数据算法重构**：胜率/选取率改用 sigmoid 归一化偏差值（±偏差整数）替代原始百分比；新增放弃率权重；divergence（胜率偏差 − 选取偏差）超阈值时展示"潜力股"/"高估风险"标签
+- **套路名语言跟随**：套路名称（理由文字、底部检测标签）现在完全跟随语言设置；中文显示 `name_zh`（如"毒素"），英文显示 `name`（如"Silent: Poison"）；移除硬编码 split 逻辑
+- **UI 整合与字体自适应**：卡牌摘要 + 推荐理由 + 不推荐理由合并为单行彩色富文本；字体改用 `QFont.setPixelSize()` 跟随系统 DPI；评分颜色调整（S=金色、A=绿色、B=蓝色）；套路标签移至卡名同行
+- **日志规范化**：backend 全部 `print()` 调用改为 `logging`，统一写入日志文件
+
+### v1.25
 - **套路库扩充（17 → 27）**：新增 10 个套路，覆盖 Ironclad（Block/Body Slam · Vulnerable 压制 · Strike 增幅）、Silent（敏捷格挡 · Retain 爆发）、Defect（冰球格挡 · Claw 循环）、Necrobinder（Soul 排除引擎 · Osty 防御强化）、Regent（Retain 控制）；所有套路经 2 个以上社区来源确认，卡牌 ID 均在数据库中验证
 - **评分分布优化**：稀有度基线拉开（Ancient 0.95 / Rare 0.88 / Uncommon 0.62 / Common 0.38），无套路早期 TRANSITION `phase_score` 提升至 0.92；地板补偿按稀有度三档分级，Rare 补偿较小，Common 保留完整补偿。实际效果：Rare 过渡牌 B（51~57）· Uncommon B/B-（44~52）· Common C+（~40），分层清晰
 - **卡牌文字总结**：新增 `data/card_summaries.json`，覆盖 84.9%（489/576 张）可评分卡；每条总结自动组合卡牌定位、套路归属、社区胜率/选取率和使用建议；中文模式下评分结果底部以灰色斜体显示
