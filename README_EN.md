@@ -234,6 +234,7 @@ python -m uvicorn backend.main:app --port 8001
 - **Language-aware archetype names**: Archetype names in reason text and bottom detection label now follow the language setting — Chinese shows `name_zh` (e.g. "毒素"), English shows `name` (e.g. "Silent: Poison"); removed hardcoded split logic
 - **UI consolidation and font DPI scaling**: Card summary + reasons merged into a single colored rich text line; font now uses `QFont.setPixelSize()` for proper DPI scaling; grade colors updated (S=gold, A=green, B=blue); archetype tags moved to the same row as card name
 - **Log cleanup**: All `print()` calls in backend replaced with `logging`, unified into log file output
+- **Archetype weight coverage (+27 entries)**: Added missing core/enabler weights for high win-rate cards — Silent (ACCELERANT/CORROSIVE_WAVE/FAN_OF_KNIVES/KNIFE_TRAP/STORM_OF_STEEL/AFTERIMAGE/SHADOWMELD/MALAISE), Ironclad (TEAR_ASUNDER), Defect (ECHO_FORM/VOLTAIC/MODDED/FLAK_CANNON/TRASH_TO_TREASURE/BUFFER etc.), Necrobinder (REANIMATE/HANG/DEBILITATE/BANSHEES_CRY etc.), Regent (BIG_BANG/VOID_FORM/DECISIONS_DECISIONS etc.)
 
 ### v1.25
 - **Archetype library: 17 → 27**: 10 new archetypes covering Ironclad (Block/Body Slam · Vulnerable Pressure · Strike Scaling), Silent (Dexterity Block · Retain Burst), Defect (Frost Block · Claw Cycle), Necrobinder (Soul Exhaust Engine · Osty Defense Buff), Regent (Retain Control); each confirmed by 2+ community sources with all card IDs verified in the database
