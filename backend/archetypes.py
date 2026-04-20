@@ -572,6 +572,14 @@ class ArchetypeLibrary:
     def __init__(self) -> None:
         self._archetypes: dict[str, Archetype] = {}
         self._load_builtin()
+        # 用 archetypes.json 覆盖更新（补充 name_zh 等字段），文件不存在时静默跳过
+        try:
+            from utils.paths import get_app_root
+            json_path = get_app_root() / "data" / "archetypes.json"
+            if json_path.exists():
+                self.load_from_json(json_path)
+        except Exception:
+            pass
 
     # ------------------------------------------------------------------
     # 加载

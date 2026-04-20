@@ -246,9 +246,8 @@ class VisionBridge:
                 return
             self._try_recognize(screenshot, det_ocr_result=det.ocr_result)
         else:
-            # 不是选卡界面
-            if self._state == BridgeState.CONFIRMED:
-                # 界面已消失，重置
+            # 不是选卡界面：只要曾经进入识别/确认状态就重置
+            if self._state in (BridgeState.CONFIRMED, BridgeState.RECOGNIZING):
                 log.debug("选卡界面消失，重置状态")
                 self._confirmed_cards = None
                 self._reset_ocr_votes()
@@ -462,7 +461,15 @@ class VisionBridge:
         log.debug(f"最终X中心: {resolved_centers}")
 
         # ── 步骤3：对空槽位做区域 OCR ──────────────────────────────────
-        half_w = 0.22  # 扩宽搜索范围，适配不同分辨率下卡牌偏移
+        # 动态分区：基于已推算的 resolved_centers 计算两个中点，无需窗口尺寸阈值
+        _margin = 0.06
+        mid01 = (resolved_centers[0] + resolved_centers[1]) / 2
+        mid12 = (resolved_centers[1] + resolved_centers[2]) / 2
+        _slot_bands = [
+            (0.0,             mid01 + _margin),
+            (mid01 - _margin, mid12 + _margin),
+            (mid12 - _margin, 1.0),
+        ]
         _skip = set(skip_slots or [])
         result = list(full_ocr_names)
         for i, cx in enumerate(resolved_centers[:3]):
@@ -470,8 +477,9 @@ class VisionBridge:
                 continue
             if result[i]:  # 已从全图OCR获得，跳过
                 continue
-            x0 = max(0, int((cx - half_w) * w_px))
-            x1 = min(w_px, int((cx + half_w) * w_px))
+            x_lo, x_hi = _slot_bands[i]
+            x0 = max(0, int(x_lo * w_px))
+            x1 = min(w_px, int(x_hi * w_px))
             y0 = max(0, int(card_y_top * h_px))
             y1 = min(h_px, int(card_y_bot * h_px))
             region = screenshot[y0:y1, x0:x1]
@@ -481,17 +489,22 @@ class VisionBridge:
             if not res.success or not res.full_text.strip():
                 log.debug(f"区域OCR slot{i} 无结果: success={res.success} text={repr(res.full_text[:50] if res.full_text else '')}")
                 continue
-            cands = []
+            cands: list[tuple[str, float]] = []  # (text, x_center_in_crop)
             all_lines = []
             for line in res.lines:
                 txt = normalize_zh(line.text).strip()
                 all_lines.append(txt)
                 if not is_noise(txt):
-                    cands.append(txt)
-            log.debug(f"区域OCR slot{i} cx={cx:.2f} 原始行: {all_lines} → 候选: {cands}")
+                    if line.bbox is not None:
+                        line_cx = (line.bbox[0] + line.bbox[2]) / 2
+                    else:
+                        line_cx = 0.5
+                    cands.append((txt, line_cx))
+            log.debug(f"区域OCR slot{i} cx={cx:.2f} 原始行: {all_lines} → 候选: {[(t, f'{lx:.2f}') for t, lx in cands]}")
             if cands:
-                result[i] = min(cands, key=len)
-                log.debug(f"区域OCR补全 slot{i} cx={cx:.2f}: {result[i]}")
+                best_txt, best_cx = min(cands, key=lambda tc: abs(tc[1] - 0.5))
+                result[i] = best_txt
+                log.debug(f"区域OCR补全 slot{i} cx={cx:.2f}: {result[i]} (line_cx={best_cx:.2f})")
 
         log.debug(f"最终卡名: {result}")
         return result

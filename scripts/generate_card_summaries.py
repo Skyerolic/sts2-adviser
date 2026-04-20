@@ -229,25 +229,48 @@ def build_archetype_sentence(archs: list[dict], card_id: str) -> tuple[str, list
     return sentence, best_ids
 
 
+def _sigmoid(x: float, center: float, steepness: float) -> float:
+    return 1.0 / (1.0 + math.exp(-steepness * (x - center)))
+
+
 def build_community_sentence(wr: float | None, pr: float | None) -> str:
     """
-    生成社区数据句，例如：
-    "社区胜率 61.4%，选取率 34.1%，属于强力稳定选择。"
+    用 sigmoid 偏差值替代原始百分比，加入分歧标签（潜力股/高估风险）。
+    格式：社区{分级}（{偏差值}{分歧标签}）。
     """
     if wr is None:
         return ""
 
-    if wr >= 60:
-        verdict = "属于强力稳定选择"
-    elif wr >= 55:
-        verdict = "社区整体评价中上"
-    elif wr >= 51:
-        verdict = "属于情景牌，视套路而定"
-    else:
-        verdict = "玩家普遍倾向跳过"
+    win_norm  = _sigmoid(wr, center=50.0, steepness=0.12)
+    pick_norm = _sigmoid(pr, center=18.0, steepness=0.08) if pr is not None else 0.5
+    community_score = 0.65 * win_norm + 0.35 * pick_norm + 0.08 * (win_norm - pick_norm)
+    divergence = win_norm - pick_norm
 
-    pr_str = f"，选取率 {pr:.1f}%" if pr is not None else ""
-    return f"社区胜率 {wr:.1f}%{pr_str}，{verdict}。"
+    # 分级标签
+    if community_score >= 0.75:
+        tier = "社区热门"
+    elif community_score >= 0.60:
+        tier = "社区认可"
+    elif community_score >= 0.45:
+        tier = "社区中性"
+    elif community_score >= 0.30:
+        tier = "社区冷淡"
+    else:
+        tier = "社区跳过"
+
+    # sigmoid 偏差值（以 0.5 为中性基准）
+    dev = round((community_score - 0.5) * 100)
+    dev_str = f"{dev:+d}"
+
+    # 分歧标签（放弃率/选取率与胜率背离时显示）
+    if divergence >= 0.15:
+        div_tag = " · 潜力股"
+    elif divergence <= -0.15:
+        div_tag = " · 高估风险"
+    else:
+        div_tag = ""
+
+    return f"{tier}（{dev_str}{div_tag}）。"
 
 
 def build_usage_tip(card: dict, archs: list[dict], tier: str) -> str:

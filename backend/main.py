@@ -245,7 +245,9 @@ class CommunityStats:
     card_id:          str
     win_rate_pct:     float   # 原始胜率百分比，e.g. 61.4
     pick_rate_pct:    float   # 原始选取率百分比，e.g. 34.1
-    community_score:  float   # 归一化评分 0~1（sigmoid 转换后）
+    skip_rate_pct:    float   # 原始放弃率百分比，e.g. 65.9
+    community_score:  float   # 归一化综合评分 0~1
+    divergence:       float   # win_norm - pick_norm；正=潜力股，负=高估风险
 
 
 def _load_community_db() -> "dict[str, CommunityStats]":
@@ -272,8 +274,10 @@ def _load_community_db() -> "dict[str, CommunityStats]":
                 continue
             wr = float(str(wr_str).rstrip("%"))
             pr = float(str(pr_str).rstrip("%"))
-            cs = community_score_from_raw(wr, pr)
-            db[cid] = CommunityStats(cid, wr, pr, cs)
+            sr_str = entry.get("skip_rate")
+            sr = float(str(sr_str).rstrip("%")) if sr_str is not None else round(100.0 - pr, 1)
+            cs, div = community_score_from_raw(wr, pr, sr)
+            db[cid] = CommunityStats(cid, wr, pr, sr, cs, div)
         print(f"[CommunityDB] Loaded {len(db)} community records from card_library.json")
         return db
     except Exception as e:
@@ -503,7 +507,10 @@ async def evaluate_cards(request: EvaluateRequest):
 
     return EvaluateResponse(
         results=results,
-        detected_archetypes=[a.name_zh or a.id for a in detected],
+        detected_archetypes=[
+            (a.name_zh or a.name) if request.language == "zh" else (a.name or a.id)
+            for a in detected
+        ],
     )
 
 

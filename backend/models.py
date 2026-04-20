@@ -241,3 +241,7 @@ class EvaluationResult(BaseModel):
 
     # 卡牌文字总结（来自 card_summaries.json，auto_generated）
     summary_zh: str = ""        # 中文总结句，直接显示给用户
+
+    # 路径影响：当前角色所有套路对该牌的兼容性（archetype_id → "core"/"enabler"/"filler"/"pollution"）
+    # 仅包含有精确权重定义的套路，中性/未定义套路不写入
+    path_impact: dict[str, str] = Field(default_factory=dict)

@@ -86,21 +86,31 @@ def _sigmoid(x: float, center: float, steepness: float) -> float:
     return 1.0 / (1.0 + math.exp(-steepness * (x - center)))
 
 
-def community_score_from_raw(win_rate_pct: float, pick_rate_pct: float) -> float:
+def community_score_from_raw(
+    win_rate_pct: float,
+    pick_rate_pct: float,
+    skip_rate_pct: float = 0.0,
+) -> tuple[float, float]:
     """
-    将社区统计（百分比）转换为归一化评分 0~1。
+    将社区统计转换为归一化评分与分歧值。
 
-    win_rate_pct : 胜率百分比，e.g. 61.4
-    pick_rate_pct: 选取率百分比，e.g. 34.1
+    返回 (community_score, divergence)：
+      community_score : 综合评分 0~1
+      divergence      : win_norm - pick_norm，正值=潜力股，负值=高估风险
 
-    sigmoid 中心：
-      win_rate  → 50%（中性基线）
-      pick_rate → 18%（经验均值）
-    权重：win_rate 65%，pick_rate 35%
+    算法：
+      win_norm  = sigmoid(win_rate,  center=50,  steepness=0.12)  实际表现
+      pick_norm = sigmoid(pick_rate, center=18,  steepness=0.08)  玩家共识
+      divergence = win_norm - pick_norm
+      score = 0.65·win_norm + 0.35·pick_norm + 0.08·divergence
+        → 分歧项轻微奖励"低调强牌"，惩罚"高热度弱牌"
+    skip_rate_pct 当前仅用于透传存储，计算已由 pick_norm 隐含。
     """
     norm_win  = _sigmoid(win_rate_pct,  center=50.0, steepness=0.12)
     norm_pick = _sigmoid(pick_rate_pct, center=18.0, steepness=0.08)
-    return round(0.65 * norm_win + 0.35 * norm_pick, 4)
+    divergence = round(norm_win - norm_pick, 4)
+    score = round(0.65 * norm_win + 0.35 * norm_pick + 0.08 * divergence, 4)
+    return score, divergence
 
 
 # ---------------------------------------------------------------------------

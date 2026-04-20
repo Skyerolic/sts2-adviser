@@ -317,6 +317,21 @@ class CardEvaluator:
         summary_entry = self.summaries_db.get(card.id.upper(), {})
         summary_zh = summary_entry.get("summary_zh", "")
 
+        # 路径影响：对当前角色所有套路做一次精确层映射（不依赖 detected_archetypes）
+        path_impact: dict[str, str] = {}
+        for arch in self.library.get_by_character(run_state.character):
+            weight_info = self.library.get_card_weight(arch.id, card.id)
+            if weight_info:
+                w = weight_info.weight
+                if w >= 0.85:
+                    path_impact[arch.id] = "core"
+                elif w >= 0.60:
+                    path_impact[arch.id] = "enabler"
+                elif w >= 0.30:
+                    path_impact[arch.id] = "filler"
+                else:
+                    path_impact[arch.id] = "pollution"
+
         return EvaluationResult(
             card_id=card.id,
             card_name=card.name,
@@ -330,6 +345,7 @@ class CardEvaluator:
             recommendation=recommendation,
             grade=score_to_grade(total),
             summary_zh=summary_zh,
+            path_impact=path_impact,
         )
 
     # ------------------------------------------------------------------
@@ -438,19 +454,17 @@ class CardEvaluator:
 
         # 套路契合：区分精确层和推断层
         exact_ids = [aid for aid in matched_archetypes if aid not in inferred_ids]
+        def _arch_label(aid: str) -> str:
+            a = self.library.get_archetype(aid)
+            if a is None:
+                return aid
+            return (a.name_zh or a.name) if zh else (a.name or aid)
+
         if exact_ids:
-            archetype_names = [
-                a.name for a in [self.library.get_archetype(aid) for aid in exact_ids]
-                if a is not None
-            ]
-            names = ", ".join(archetype_names)
+            names = ", ".join(_arch_label(aid) for aid in exact_ids)
             reasons_for.append(f"契合套路：{names}" if zh else f"Fits archetype: {names}")
         if inferred_ids:
-            inferred_names = [
-                a.name for a in [self.library.get_archetype(aid) for aid in inferred_ids]
-                if a is not None
-            ]
-            names = ", ".join(inferred_names)
+            names = ", ".join(_arch_label(aid) for aid in inferred_ids)
             reasons_for.append(
                 f"推断与套路相关（关键词匹配）：{names}" if zh
                 else f"Inferred archetype match (keyword): {names}"
@@ -515,36 +529,69 @@ class CardEvaluator:
         # 社区数据理由
         if cv_result is not None:
             if cv_result.has_community_data and community_stats is not None:
-                wr = f"{community_stats.win_rate_pct:.1f}%"
-                pr = f"{community_stats.pick_rate_pct:.1f}%"
                 cs = cv_result.community_score
 
+                # 定性分级标签
+                if cs >= 0.75:
+                    tier_zh, tier_en = "社区热门", "community favorite"
+                elif cs >= 0.60:
+                    tier_zh, tier_en = "社区认可", "well-regarded"
+                elif cs >= 0.45:
+                    tier_zh, tier_en = "社区中性", "mixed reception"
+                elif cs >= 0.30:
+                    tier_zh, tier_en = "社区冷淡", "underplayed"
+                else:
+                    tier_zh, tier_en = "社区跳过", "widely skipped"
+
+                # sigmoid 偏差值：以 0.5 为中性基准，乘以 100 显示整数带符号
+                dev = round((cs - 0.5) * 100)
+                dev_str = f"{dev:+d}"
+
+                # 分歧标签：win_norm vs pick_norm 显著差异时附加
+                div = community_stats.divergence
+                if div >= 0.15:
+                    div_tag_zh, div_tag_en = " · 潜力股", " · hidden gem"
+                elif div <= -0.15:
+                    div_tag_zh, div_tag_en = " · 高估风险", " · overhyped"
+                else:
+                    div_tag_zh = div_tag_en = ""
+
+                hint_zh = f"{dev_str}{div_tag_zh}"
+                hint_en = f"{dev_str}{div_tag_en}"
+
                 if cv_result.alignment == Alignment.AGREEMENT:
-                    if cs >= 0.70:
+                    if cs >= 0.60:
                         reasons_for.append(
-                            f"社区数据支持：胜率 {wr}，选取率 {pr}，与算法评估一致" if zh
-                            else f"Community data agrees: win rate {wr}, pick rate {pr}"
+                            f"{tier_zh}（{hint_zh}），评分加成" if zh
+                            else f"{tier_en} ({hint_en}), score boosted"
                         )
-                    elif cs <= 0.35:
+                    elif cs <= 0.40:
                         reasons_against.append(
-                            f"社区数据警示：胜率 {wr}，选取率 {pr}，玩家普遍跳过此卡" if zh
-                            else f"Community warning: win rate {wr}, pick rate {pr} — widely skipped"
+                            f"{tier_zh}（{hint_zh}），评分下调" if zh
+                            else f"{tier_en} ({hint_en}), score reduced"
                         )
+                    # 中性区间不额外输出，避免信息噪声
                 elif cv_result.alignment == Alignment.SOFT_CONFLICT:
-                    reasons_against.append(
-                        f"社区数据与算法存在分歧（差值 {cv_result.delta:.0%}），评分已折中处理" if zh
-                        else f"Community data diverges from algorithm (delta {cv_result.delta:.0%}); blended"
-                    )
+                    if cs >= 0.55:
+                        reasons_for.append(
+                            f"{tier_zh}（{hint_zh}），略高于算法预测，已折中" if zh
+                            else f"{tier_en} ({hint_en}), slightly above algo, blended"
+                        )
+                    else:
+                        reasons_against.append(
+                            f"{tier_zh}（{hint_zh}），略低于算法预测，已折中" if zh
+                            else f"{tier_en} ({hint_en}), slightly below algo, blended"
+                        )
                 elif cv_result.alignment == Alignment.CONFLICT:
                     if algo_score / 100.0 > cv_result.community_score:
                         reasons_against.append(
-                            f"社区数据与算法显著分歧：社区胜率 {wr} 较低，建议参考套路情况" if zh
-                            else f"Significant conflict: community win rate {wr} is low vs algorithm score"
+                            f"{tier_zh}（{hint_zh}），视套路而定" if zh
+                            else f"community lukewarm ({hint_en}); context-dependent"
                         )
                     else:
                         reasons_for.append(
-                            f"社区数据提示潜力被低估：胜率 {wr} 较高，算法评分偏低" if zh
-                            else f"Community data suggests undervalued: win rate {wr} exceeds algorithm score"
+                            f"{tier_zh}（{hint_zh}），可能被算法低估" if zh
+                            else f"{tier_en} ({hint_en}), may be underrated by algo"
                         )
             elif not cv_result.has_community_data and 40 <= algo_score <= 65:
                 reasons_against.append(

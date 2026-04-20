@@ -52,7 +52,10 @@ from PyQt6.QtWidgets import (
 _port = os.environ.get("STS2_BACKEND_PORT", "8000")
 BACKEND_URL = f"http://127.0.0.1:{_port}"
 
-VERSION = "1.2.5"
+VERSION = "1.6.0"
+
+# 套路名映射（archetype_id → name_zh），后端连通后懒加载
+_ARCHETYPE_NAME_MAP: dict[str, str] = {}
 _GITHUB_REPO = "Skyerolic/sts2-adviser"
 
 
@@ -1371,14 +1374,14 @@ _REC_COLORS = {
 }
 
 _GRADE_COLORS = {
-    "S":  "#FFD700",  # 金色
-    "A+": "#A8D870",  # 亮绿
-    "A":  "#A8D870",
-    "A-": "#64B5F6",  # 蓝色
-    "B+": "#64B5F6",
-    "B":  "#FFD54F",  # 黄色
-    "B-": "#FFB74D",  # 橙色
-    "C+": "#FFB74D",
+    "S":  "#FFD700",  # 黄金色
+    "A+": "#66BB6A",  # 亮绿
+    "A":  "#66BB6A",  # 绿色
+    "A-": "#43A047",  # 深绿
+    "B+": "#42A5F5",  # 亮蓝
+    "B":  "#42A5F5",  # 蓝色
+    "B-": "#1E88E5",  # 深蓝
+    "C+": "#FFB74D",  # 橙色
     "C":  "#FF7043",  # 红橙
     "D":  "#EF5350",  # 红色
 }
@@ -1393,10 +1396,18 @@ class CardResultWidget(QFrame):
       不推荐理由（橙红色小字）
     """
 
-    def __init__(self, result: dict, language: str = "en", parent: QWidget | None = None) -> None:
+    def __init__(
+        self,
+        result: dict,
+        language: str = "en",
+        archetype_name_map: dict[str, str] | None = None,
+        parent: QWidget | None = None,
+    ) -> None:
         super().__init__(parent)
         self.setObjectName("CardResultWidget")
         self._language = language
+        self._archetype_name_map: dict[str, str] = archetype_name_map or {}
+        self._fs = _fs   # 字体缩放快捷引用
         self._build_ui(result)
 
     def _build_ui(self, result: dict) -> None:
@@ -1404,7 +1415,7 @@ class CardResultWidget(QFrame):
         outer.setContentsMargins(10, 6, 10, 6)
         outer.setSpacing(3)
 
-        # ── 行1：卡牌名 ──────────────────────────────────────────────────
+        # ── 行1：卡牌名 + 路径影响标签 ───────────────────────────────────
         raw_name = result.get("card_name", "?")
         card_id = result.get("card_id", "")
         if self._language == "zh":
@@ -1418,10 +1429,28 @@ class CardResultWidget(QFrame):
             except Exception:
                 pass
 
+        name_row = QHBoxLayout()
+        name_row.setSpacing(6)
+        name_row.setContentsMargins(0, 0, 0, 0)
+
         name_label = QLabel(raw_name)
         name_label.setObjectName("cardName")
         name_label.setStyleSheet("font-weight:bold;")
-        outer.addWidget(name_label)
+        name_label.setSizePolicy(
+            name_label.sizePolicy().horizontalPolicy(),
+            name_label.sizePolicy().verticalPolicy(),
+        )
+        name_row.addWidget(name_label, 0, Qt.AlignmentFlag.AlignVCenter)
+
+        path_impact: dict = result.get("path_impact", {})
+        if path_impact and self._archetype_name_map:
+            path_widget = self._build_path_impact_row(path_impact)
+            if path_widget:
+                name_row.addWidget(path_widget, 1, Qt.AlignmentFlag.AlignVCenter)
+        else:
+            name_row.addStretch()
+
+        outer.addLayout(name_row)
 
         # ── 行2：定位 | 分数 | 推荐 ─────────────────────────────────────
         meta_row = QHBoxLayout()
@@ -1460,44 +1489,88 @@ class CardResultWidget(QFrame):
 
         outer.addLayout(meta_row)
 
-        # ── 行3+：推荐 / 不推荐理由 ─────────────────────────────────────
+        # ── 行3：融合文字块（总结 + 推荐理由 + 不推荐理由）────────────────
+        summary_zh      = result.get("summary_zh", "") if self._language == "zh" else ""
         reasons_for     = result.get("reasons_for", [])
         reasons_against = result.get("reasons_against", [])
 
+        beyond_color = "#9A80AA"
+
+        parts: list[str] = []
+
+        if summary_zh:
+            escaped = summary_zh.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+            parts.append(f'<span style="color:#C8BAA0;">{escaped}</span>')
+
         _sep = "；" if self._language == "zh" else " · "
         if reasons_for:
-            lbl = QLabel("▸ " + _sep.join(reasons_for))
-            lbl.setObjectName("cardReasonFor")
-            lbl.setWordWrap(True)
-            lbl.setStyleSheet("color:#8BC34A;padding-top:1px;")
-            outer.addWidget(lbl)
+            text = ("▸ " + _sep.join(reasons_for)).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+            parts.append(f'<span style="color:#8BC34A;font-size:85%;"> {text}</span>')
 
         if reasons_against:
-            text = _sep.join(reasons_against)
-            lbl = QLabel(text)
-            lbl.setObjectName("cardReasonAgainst")
+            text = _sep.join(reasons_against).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+            color = beyond_color if is_beyond else "#FF8A65"
+            italic = "font-style:italic;" if is_beyond else ""
+            parts.append(f'<span style="color:{color};font-size:85%;{italic}"> {text}</span>')
+
+        if parts:
+            lbl = QLabel()
+            lbl.setObjectName("cardBody")
             lbl.setWordWrap(True)
-            # 超出评分体系时用暗紫色提示色，而非警告红
-            if is_beyond:
-                lbl.setStyleSheet("color:#9A80AA;padding-top:1px;font-style:italic;")
-            else:
-                lbl.setStyleSheet("color:#FF8A65;padding-top:1px;")
+            lbl.setTextFormat(Qt.TextFormat.RichText)
+            lbl.setText("".join(parts))
+            lbl.setStyleSheet("padding-top:3px;")
+            font = lbl.font()
+            font.setPixelSize(_fs(20))
+            lbl.setFont(font)
             outer.addWidget(lbl)
 
-        # ── 卡牌文字总结（来自 card_summaries.json）─────────────────────
-        summary_zh = result.get("summary_zh", "")
-        if summary_zh and self._language == "zh":
-            sep_line = QFrame()
-            sep_line.setFrameShape(QFrame.Shape.HLine)
-            sep_line.setStyleSheet("color:#3A3030;margin-top:3px;margin-bottom:2px;")
-            outer.addWidget(sep_line)
-            summary_lbl = QLabel(summary_zh)
-            summary_lbl.setObjectName("cardSummary")
-            summary_lbl.setWordWrap(True)
-            summary_lbl.setStyleSheet(
-                "color:#7A7070;font-size:10px;padding-top:1px;font-style:italic;"
+    def _build_path_impact_row(self, path_impact: dict[str, str]) -> QWidget | None:
+        """
+        构建套路路径影响标签行。
+        按 core→enabler→filler→pollution 顺序排列，各角色用颜色区分。
+        """
+        _ROLE_ORDER = {"core": 0, "enabler": 1, "filler": 2, "pollution": 3}
+        _ROLE_STYLE = {
+            "core":     ("✦", "#C8A96E", "rgba(60,45,20,0.6)"),
+            "enabler":  ("●", "#6EB8C8", "rgba(20,45,60,0.6)"),
+            "filler":   ("·", "#888888", "rgba(30,30,30,0.5)"),
+            "pollution":("✗", "#C86E6E", "rgba(60,20,20,0.6)"),
+        }
+
+        sorted_items = sorted(
+            path_impact.items(),
+            key=lambda kv: _ROLE_ORDER.get(kv[1], 99)
+        )
+
+        container = QWidget()
+        layout = QHBoxLayout(container)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(4)
+        layout.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)
+
+        added = 0
+        for arch_id, role in sorted_items:
+            style = _ROLE_STYLE.get(role)
+            if not style:
+                continue
+            prefix, fg, bg = style
+            short_name = self._archetype_name_map.get(arch_id, arch_id)
+            short_name = short_name[:6] if len(short_name) > 6 else short_name
+
+            tag = QLabel(f"{prefix} {short_name}")
+            tag.setStyleSheet(
+                f"color:{fg};background:{bg};border:1px solid {fg}66;"
+                f"border-radius:4px;padding:2px 7px;font-size:{_fs(13)}px;font-weight:bold;"
             )
-            outer.addWidget(summary_lbl)
+            layout.addWidget(tag)
+            added += 1
+
+        layout.addStretch()
+
+        if added == 0:
+            return None
+        return container
 
 
 # ---------------------------------------------------------------------------
@@ -2029,11 +2102,25 @@ class CardAdviserWindow(QWidget):
                 "● 后端已连接" if self._language == "zh" else "● Backend connected"
             )
             self._backend_indicator.setStyleSheet("color: #4CAF50;")
+            self._load_archetype_names()
         else:
             self._backend_indicator.setText(
                 "● 后端未连接" if self._language == "zh" else "● Backend offline"
             )
             self._backend_indicator.setStyleSheet("color: #F44336;")
+
+    def _load_archetype_names(self) -> None:
+        """从后端拉取套路名映射（id → name_zh），仅需调用一次"""
+        global _ARCHETYPE_NAME_MAP
+        if _ARCHETYPE_NAME_MAP:
+            return
+        try:
+            resp = requests.get(f"{BACKEND_URL}/api/archetypes", timeout=4)
+            if resp.status_code == 200:
+                for arch in resp.json().get("archetypes", []):
+                    _ARCHETYPE_NAME_MAP[arch["id"]] = arch.get("name_zh") or arch.get("name", arch["id"])
+        except Exception:
+            pass
 
     def _start_game_watcher(self) -> None:
         """启动游戏状态实时监视"""
@@ -2713,7 +2800,7 @@ class CardAdviserWindow(QWidget):
                 item.widget().deleteLater()
 
         for result in results:
-            widget = CardResultWidget(result, language=self._language)
+            widget = CardResultWidget(result, language=self._language, archetype_name_map=_ARCHETYPE_NAME_MAP)
             self._list_layout.insertWidget(self._list_layout.count() - 1, widget)
 
     def _show_placeholder(self) -> None:

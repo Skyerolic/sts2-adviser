@@ -15,14 +15,14 @@
     "source": "auto_generated"
   },
   "ACCELERANT": {
-    "summary_zh": "这是一张1费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区胜率 61.4%，选取率 34.1%，属于强力稳定选择。",
+    "summary_zh": "这是一张1费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区热门（+29）。",
     "tier": "A",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "ACCURACY": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Silent: Shiv 套路的核心牌（每张Shiv+伤害，倍化器）。社区胜率 56.0%，选取率 23.5%，社区整体评价中上。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Silent: Shiv 套路的核心牌（每张Shiv+伤害，倍化器）。社区认可（+16）。",
     "tier": "B",
     "best_archetypes": [
       "silent_shiv"
@@ -37,7 +37,7 @@
     "source": "auto_generated"
   },
   "ACROBATICS": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Silent: Sly / Discard 套路的核心牌（摸牌循环引擎）。社区胜率 54.9%，选取率 56.1%，属于情景牌，视套路而定。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Silent: Sly / Discard 套路的核心牌（摸牌循环引擎）。社区认可（+23 · 高估风险）。",
     "tier": "C",
     "best_archetypes": [
       "silent_sly_discard"
@@ -52,14 +52,14 @@
     "source": "auto_generated"
   },
   "ADAPTIVE_STRIKE": {
-    "summary_zh": "这是一张2费的 Rare 稀有 攻击牌。社区胜率 49.3%，选取率 15.6%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张2费的 Rare 稀有 攻击牌。社区中性（-3）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "ADRENALINE": {
-    "summary_zh": "这是一张0费的 Rare 稀有 技能牌。它是 Silent: Sly / Discard 套路的关键辅助牌（摸牌+费用），同时兼顾其他相关方向。社区胜率 69.7%，选取率 74.1%，属于强力稳定选择。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
+    "summary_zh": "这是一张0费的 Rare 稀有 技能牌。它是 Silent: Sly / Discard 套路的关键辅助牌（摸牌+费用），同时兼顾其他相关方向。社区热门（+43）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
     "tier": "S",
     "best_archetypes": [
       "silent_sly_discard",
@@ -75,14 +75,14 @@
     "source": "auto_generated"
   },
   "AFTERIMAGE": {
-    "summary_zh": "这是一张1费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区胜率 69.7%，选取率 54.7%，属于强力稳定选择。暂无套路精确定义，但社区数据显示此牌强度极高，通常值得考虑。",
+    "summary_zh": "这是一张1费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区热门（+42）。暂无套路精确定义，但社区数据显示此牌强度极高，通常值得考虑。",
     "tier": "S",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "AFTERLIFE": {
-    "summary_zh": "这是一张1费的 Common 普通 技能牌。它是 Necrobinder: Osty Buff / Tank 套路的关键辅助牌（Exhaust回血，Osty存活保障）。社区胜率 52.0%，选取率 9.7%，属于情景牌，视套路而定。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
+    "summary_zh": "这是一张1费的 Common 普通 技能牌。它是 Necrobinder: Osty Buff / Tank 套路的关键辅助牌（Exhaust回血，Osty存活保障）。社区中性（+0 · 潜力股）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
     "tier": "C",
     "best_archetypes": [
       "necrobinder_osty_buff"
@@ -97,21 +97,21 @@
     "source": "auto_generated"
   },
   "AGGRESSION": {
-    "summary_zh": "这是一张1费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区胜率 51.0%，选取率 26.3%，属于情景牌，视套路而定。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区中性（+7）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "C",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "ALCHEMIZE": {
-    "summary_zh": "这是一张1费的 Rare 稀有 技能牌。社区胜率 67.4%，选取率 0.6%，属于强力稳定选择。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
+    "summary_zh": "这是一张1费的 Rare 稀有 技能牌。社区认可（+20 · 潜力股）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "ALIGNMENT": {
-    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。它是 Regent: Retain / Control 套路的关键辅助牌（0费多功能控制）。社区胜率 51.7%，选取率 61.5%，属于情景牌，视套路而定。",
+    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。它是 Regent: Retain / Control 套路的关键辅助牌（0费多功能控制）。社区认可（+16 · 高估风险）。",
     "tier": "C",
     "best_archetypes": [
       "regent_retain_control"
@@ -126,7 +126,7 @@
     "source": "auto_generated"
   },
   "ALL_FOR_ONE": {
-    "summary_zh": "这是一张X费的 Rare 稀有 攻击牌。它是 Defect: 0 Cost / Cycle 套路的核心牌（0费牌全回手爆发），同时兼顾其他相关方向。社区胜率 61.7%，选取率 31.3%，属于强力稳定选择。费用为 X，输出随投入能量线性增长；能量遗物或充能类支持可显著提升价值。",
+    "summary_zh": "这是一张X费的 Rare 稀有 攻击牌。它是 Defect: 0 Cost / Cycle 套路的核心牌（0费牌全回手爆发），同时兼顾其他相关方向。社区热门（+29）。费用为 X，输出随投入能量线性增长；能量遗物或充能类支持可显著提升价值。",
     "tier": "A",
     "best_archetypes": [
       "defect_zero_cost_cycle",
@@ -142,21 +142,21 @@
     "source": "auto_generated"
   },
   "ANGER": {
-    "summary_zh": "这是一张0费的 Common 普通 攻击牌。社区胜率 34.3%，选取率 12.4%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张0费的 Common 普通 攻击牌。社区跳过（-30 · 高估风险）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "ANOINTED": {
-    "summary_zh": "这是一张1费的 Rare 稀有 技能牌。社区胜率 77.1%，选取率 0.2%，属于强力稳定选择。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
+    "summary_zh": "这是一张1费的 Rare 稀有 技能牌。社区热门（+26 · 潜力股）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "ANTICIPATE": {
-    "summary_zh": "这是一张0费的 Common 普通 技能牌。它是 Silent: Dexterity / Block 套路的核心牌（0费+1敏捷，快速叠加）。社区胜率 47.9%，选取率 18.3%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张0费的 Common 普通 技能牌。它是 Silent: Dexterity / Block 套路的核心牌（0费+1敏捷，快速叠加）。社区中性（-4）。",
     "tier": "D",
     "best_archetypes": [
       "silent_dexterity_block"
@@ -185,7 +185,7 @@
     "source": "auto_generated"
   },
   "ARMAMENTS": {
-    "summary_zh": "这是一张1费的 Common 普通 技能牌。它是 Ironclad: Exhaust Engine 套路的补充牌（升级手牌）。社区胜率 39.2%，选取率 19.3%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Common 普通 技能牌。它是 Ironclad: Exhaust Engine 套路的补充牌（升级手牌）。社区跳过（-20 · 高估风险）。",
     "tier": "D",
     "best_archetypes": [
       "ironclad_exhaust",
@@ -195,7 +195,7 @@
     "source": "auto_generated"
   },
   "ARSENAL": {
-    "summary_zh": "这是一张1费的 Rare 稀有 能力牌，永久效果持续整个战斗。它是 Regent: Colorless / Create 套路的核心牌（Innate+任意创造触发力量，创造流核心）。社区胜率 57.7%，选取率 19.2%，社区整体评价中上。为天赋牌（Innate），每次战斗开局必抽到；需确认此牌值得占用开局手牌位置。",
+    "summary_zh": "这是一张1费的 Rare 稀有 能力牌，永久效果持续整个战斗。它是 Regent: Colorless / Create 套路的核心牌（Innate+任意创造触发力量，创造流核心）。社区认可（+16 · 潜力股）。为天赋牌（Innate），每次战斗开局必抽到；需确认此牌值得占用开局手牌位置。",
     "tier": "B",
     "best_archetypes": [
       "regent_colorless_create"
@@ -217,35 +217,35 @@
     "source": "auto_generated"
   },
   "ASHEN_STRIKE": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。社区胜率 45.9%，选取率 18.0%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。社区冷淡（-9）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "ASSASSINATE": {
-    "summary_zh": "这是一张0费的 Rare 稀有 攻击牌。社区胜率 60.8%，选取率 27.0%，属于强力稳定选择。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。 为天赋牌（Innate），每次战斗开局必抽到；需确认此牌值得占用开局手牌位置。",
+    "summary_zh": "这是一张0费的 Rare 稀有 攻击牌。社区热门（+25）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。 为天赋牌（Innate），每次战斗开局必抽到；需确认此牌值得占用开局手牌位置。",
     "tier": "A",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "ASTRAL_PULSE": {
-    "summary_zh": "这是一张0费的 Common 普通 攻击牌。社区胜率 36.7%，选取率 13.2%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张0费的 Common 普通 攻击牌。社区跳过（-27 · 高估风险）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "AUTOMATION": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。社区胜率 63.6%，选取率 6.2%，属于强力稳定选择。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。社区认可（+19 · 潜力股）。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "BACKFLIP": {
-    "summary_zh": "这是一张1费的 Common 普通 技能牌。它是 Silent: Shiv 套路的关键辅助牌（防御+摸牌），同时兼顾其他相关方向。社区胜率 54.4%，选取率 26.7%，属于情景牌，视套路而定。",
+    "summary_zh": "这是一张1费的 Common 普通 技能牌。它是 Silent: Shiv 套路的关键辅助牌（防御+摸牌），同时兼顾其他相关方向。社区认可（+14）。",
     "tier": "C",
     "best_archetypes": [
       "silent_shiv",
@@ -261,7 +261,7 @@
     "source": "auto_generated"
   },
   "BACKSTAB": {
-    "summary_zh": "这是一张0费的 Uncommon 非凡 攻击牌。社区胜率 47.1%，选取率 20.7%，玩家普遍倾向跳过。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。 为天赋牌（Innate），每次战斗开局必抽到；需确认此牌值得占用开局手牌位置。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张0费的 Uncommon 非凡 攻击牌。社区中性（-5）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。 为天赋牌（Innate），每次战斗开局必抽到；需确认此牌值得占用开局手牌位置。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
@@ -275,7 +275,7 @@
     "source": "auto_generated"
   },
   "BALL_LIGHTNING": {
-    "summary_zh": "这是一张1费的 Common 普通 攻击牌。它是 Defect: Orb / Focus 套路的关键辅助牌（通道Lightning+伤害）。社区胜率 41.6%，选取率 16.9%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Common 普通 攻击牌。它是 Defect: Orb / Focus 套路的关键辅助牌（通道Lightning+伤害）。社区冷淡（-18 · 高估风险）。",
     "tier": "D",
     "best_archetypes": [
       "defect_orb_focus"
@@ -290,21 +290,21 @@
     "source": "auto_generated"
   },
   "BANSHEES_CRY": {
-    "summary_zh": "这是一张6费的 Rare 稀有 攻击牌。社区胜率 70.4%，选取率 25.4%，属于强力稳定选择。暂无套路精确定义，但社区数据显示此牌强度极高，通常值得考虑。",
+    "summary_zh": "这是一张6费的 Rare 稀有 攻击牌。社区热门（+35 · 潜力股）。暂无套路精确定义，但社区数据显示此牌强度极高，通常值得考虑。",
     "tier": "S",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "BARRAGE": {
-    "summary_zh": "这是一张1费的 Common 普通 攻击牌。社区胜率 45.6%，选取率 4.0%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Common 普通 攻击牌。社区冷淡（-16）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "BARRICADE": {
-    "summary_zh": "这是一张3费的 Rare 稀有 能力牌，永久效果持续整个战斗。它是 Ironclad: Block / Body Slam 套路的核心牌（格挡不归零，套路基础）。社区胜率 55.2%，选取率 31.4%，社区整体评价中上。",
+    "summary_zh": "这是一张3费的 Rare 稀有 能力牌，永久效果持续整个战斗。它是 Ironclad: Block / Body Slam 套路的核心牌（格挡不归零，套路基础）。社区认可（+18）。",
     "tier": "B",
     "best_archetypes": [
       "ironclad_block_slam"
@@ -319,7 +319,7 @@
     "source": "auto_generated"
   },
   "BASH": {
-    "summary_zh": "这是一张2费的 Basic 基础 攻击牌。它是 Ironclad: Vulnerable 套路的补充牌（初始牌，基础Vulnerable来源）。社区胜率 26.7%，选取率 0.8%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张2费的 Basic 基础 攻击牌。它是 Ironclad: Vulnerable 套路的补充牌（初始牌，基础Vulnerable来源）。社区跳过（-40）。",
     "tier": "D",
     "best_archetypes": [
       "ironclad_vulnerable"
@@ -328,7 +328,7 @@
     "source": "auto_generated"
   },
   "BATTLE_TRANCE": {
-    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。它是 Ironclad: Strength 套路的关键辅助牌（摸牌引擎），同时兼顾其他相关方向。社区胜率 51.6%，选取率 37.5%，属于情景牌，视套路而定。",
+    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。它是 Ironclad: Strength 套路的关键辅助牌（摸牌引擎），同时兼顾其他相关方向。社区认可（+12 · 高估风险）。",
     "tier": "C",
     "best_archetypes": [
       "ironclad_strength",
@@ -344,14 +344,14 @@
     "source": "auto_generated"
   },
   "BEACON_OF_HOPE": {
-    "summary_zh": "这是一张1费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区胜率 77.6%，选取率 4.1%，属于强力稳定选择。",
+    "summary_zh": "这是一张1费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区热门（+27 · 潜力股）。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "BEAM_CELL": {
-    "summary_zh": "这是一张0费的 Common 普通 攻击牌。它是 Defect: 0 Cost / Cycle 套路的核心牌（0费攻击+易伤）。社区胜率 46.1%，选取率 11.9%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张0费的 Common 普通 攻击牌。它是 Defect: 0 Cost / Cycle 套路的核心牌（0费攻击+易伤）。社区冷淡（-12）。",
     "tier": "D",
     "best_archetypes": [
       "defect_zero_cost_cycle"
@@ -366,14 +366,14 @@
     "source": "auto_generated"
   },
   "BEAT_DOWN": {
-    "summary_zh": "这是一张3费的 Rare 稀有 技能牌。社区胜率 70.1%，选取率 0.1%，属于强力稳定选择。",
+    "summary_zh": "这是一张3费的 Rare 稀有 技能牌。社区认可（+22 · 潜力股）。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "BEAT_INTO_SHAPE": {
-    "summary_zh": "这是一张1费的 Rare 稀有 攻击牌。社区胜率 48.1%，选取率 23.4%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Rare 稀有 攻击牌。社区中性（-1 · 高估风险）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
@@ -387,21 +387,21 @@
     "source": "auto_generated"
   },
   "BEGONE": {
-    "summary_zh": "这是一张1费的 Common 普通 攻击牌。社区胜率 44.9%，选取率 7.1%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Common 普通 攻击牌。社区冷淡（-16）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "BELIEVE_IN_YOU": {
-    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。社区胜率 61.8%，选取率 13.6%，属于强力稳定选择。",
+    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。社区认可（+20 · 潜力股）。",
     "tier": "A",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "BIASED_COGNITION": {
-    "summary_zh": "这是一张1费的 Ancient 先古 能力牌，永久效果持续整个战斗。它是 Defect: Orb / Focus 套路的核心牌（大量Focus，后期关键）。社区胜率 61.1%，选取率 3.6%，属于强力稳定选择。",
+    "summary_zh": "这是一张1费的 Ancient 先古 能力牌，永久效果持续整个战斗。它是 Defect: Orb / Focus 套路的核心牌（大量Focus，后期关键）。社区认可（+14 · 潜力股）。",
     "tier": "B",
     "best_archetypes": [
       "defect_orb_focus"
@@ -416,14 +416,14 @@
     "source": "auto_generated"
   },
   "BIG_BANG": {
-    "summary_zh": "这是一张0费的 Rare 稀有 技能牌。社区胜率 64.0%，选取率 68.8%，属于强力稳定选择。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。 暂无套路精确定义，但社区数据显示此牌强度极高，通常值得考虑。",
+    "summary_zh": "这是一张0费的 Rare 稀有 技能牌。社区热门（+38）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。 暂无套路精确定义，但社区数据显示此牌强度极高，通常值得考虑。",
     "tier": "S",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "BLACK_HOLE": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Regent: Star Engine 套路的核心牌（星消耗高爆发）。社区胜率 50.7%，选取率 27.2%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Regent: Star Engine 套路的核心牌（星消耗高爆发）。社区中性（+6 · 高估风险）。",
     "tier": "D",
     "best_archetypes": [
       "regent_star_engine"
@@ -438,7 +438,7 @@
     "source": "auto_generated"
   },
   "BLADE_DANCE": {
-    "summary_zh": "这是一张1费的 Common 普通 技能牌。它是 Silent: Shiv 套路的核心牌（批量生成3 Shiv）。社区胜率 47.6%，选取率 24.4%，玩家普遍倾向跳过。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
+    "summary_zh": "这是一张1费的 Common 普通 技能牌。它是 Silent: Shiv 套路的核心牌（批量生成3 Shiv）。社区中性（-2 · 高估风险）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
     "tier": "D",
     "best_archetypes": [
       "silent_shiv"
@@ -453,7 +453,7 @@
     "source": "auto_generated"
   },
   "BLADE_OF_INK": {
-    "summary_zh": "这是一张1费的 Rare 稀有 技能牌。它是 Silent: Shiv 套路的关键辅助牌（生成Inky Shiv（+2伤+1虚弱），Shiv流量产核心）。社区胜率 57.1%，选取率 17.2%，社区整体评价中上。",
+    "summary_zh": "这是一张1费的 Rare 稀有 技能牌。它是 Silent: Shiv 套路的关键辅助牌（生成Inky Shiv（+2伤+1虚弱），Shiv流量产核心）。社区认可（+14 · 潜力股）。",
     "tier": "B",
     "best_archetypes": [
       "silent_shiv"
@@ -468,14 +468,14 @@
     "source": "auto_generated"
   },
   "BLIGHT_STRIKE": {
-    "summary_zh": "这是一张1费的 Common 普通 攻击牌。社区胜率 33.8%，选取率 9.8%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Common 普通 攻击牌。社区跳过（-32 · 高估风险）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "BLOODLETTING": {
-    "summary_zh": "这是一张0费的 Common 普通 技能牌。它是 Ironclad: Self Damage 套路的核心牌（主动HP损耗+费用）。社区胜率 44.4%，选取率 32.9%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张0费的 Common 普通 技能牌。它是 Ironclad: Self Damage 套路的核心牌（主动HP损耗+费用）。社区中性（-5 · 高估风险）。",
     "tier": "D",
     "best_archetypes": [
       "ironclad_self_damage"
@@ -490,7 +490,7 @@
     "source": "auto_generated"
   },
   "BLOOD_WALL": {
-    "summary_zh": "这是一张2费的 Common 普通 技能牌。它是 Ironclad: Self Damage 套路的补充牌（HP转格挡过渡）。社区胜率 41.6%，选取率 9.8%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张2费的 Common 普通 技能牌。它是 Ironclad: Self Damage 套路的补充牌（HP转格挡过渡）。社区跳过（-21）。",
     "tier": "D",
     "best_archetypes": [
       "ironclad_self_damage",
@@ -500,14 +500,14 @@
     "source": "auto_generated"
   },
   "BLUDGEON": {
-    "summary_zh": "这是一张3费的 Uncommon 非凡 攻击牌。社区胜率 41.0%，选取率 13.2%，玩家普遍倾向跳过。费用较高，游戏早期使用受限；建议在有能量遗物时才优先考虑。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张3费的 Uncommon 非凡 攻击牌。社区跳过（-21 · 高估风险）。费用较高，游戏早期使用受限；建议在有能量遗物时才优先考虑。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "BLUR": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Silent: Dexterity / Block 套路的核心牌（格挡不归零，防御储量）。社区胜率 54.8%，选取率 17.4%，属于情景牌，视套路而定。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Silent: Dexterity / Block 套路的核心牌（格挡不归零，防御储量）。社区中性（+10 · 潜力股）。",
     "tier": "C",
     "best_archetypes": [
       "silent_dexterity_block"
@@ -522,7 +522,7 @@
     "source": "auto_generated"
   },
   "BODYGUARD": {
-    "summary_zh": "这是一张1费的 Basic 基础 技能牌。它是 Necrobinder: Osty Buff / Tank 套路的关键辅助牌（使Osty承受更多伤害）。社区胜率 31.4%，选取率 5.9%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Basic 基础 技能牌。它是 Necrobinder: Osty Buff / Tank 套路的关键辅助牌（使Osty承受更多伤害）。社区跳过（-35 · 高估风险）。",
     "tier": "D",
     "best_archetypes": [
       "necrobinder_osty_buff"
@@ -537,7 +537,7 @@
     "source": "auto_generated"
   },
   "BODY_SLAM": {
-    "summary_zh": "这是一张1费的 Common 普通 攻击牌。它是 Ironclad: Block / Body Slam 套路的核心牌（格挡值转伤害，核心输出手段）。社区胜率 47.8%，选取率 13.8%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Common 普通 攻击牌。它是 Ironclad: Block / Body Slam 套路的核心牌（格挡值转伤害，核心输出手段）。社区冷淡（-7）。",
     "tier": "D",
     "best_archetypes": [
       "ironclad_block_slam"
@@ -552,21 +552,21 @@
     "source": "auto_generated"
   },
   "BOLAS": {
-    "summary_zh": "这是一张0费的 Rare 稀有 攻击牌。社区胜率 59.2%，选取率 0.3%，社区整体评价中上。",
+    "summary_zh": "这是一张0费的 Rare 稀有 攻击牌。社区认可（+10 · 潜力股）。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "BOMBARDMENT": {
-    "summary_zh": "这是一张3费的 Rare 稀有 攻击牌。社区胜率 52.8%，选取率 19.5%，属于情景牌，视套路而定。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张3费的 Rare 稀有 攻击牌。社区中性（+7）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "C",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "BONE_SHARDS": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。它是 Necrobinder: Osty Buff / Tank 套路的补充牌（攻击+伤害输出补充）。社区胜率 42.5%，选取率 12.4%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。它是 Necrobinder: Osty Buff / Tank 套路的补充牌（攻击+伤害输出补充）。社区冷淡（-18）。",
     "tier": "D",
     "best_archetypes": [
       "necrobinder_osty_buff"
@@ -575,7 +575,7 @@
     "source": "auto_generated"
   },
   "BOOST_AWAY": {
-    "summary_zh": "这是一张0费的 Common 普通 技能牌。它是 Defect: Status / Fuel 套路的关键辅助牌（状态牌转化增强），同时兼顾其他相关方向。社区胜率 48.9%，选取率 12.8%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张0费的 Common 普通 技能牌。它是 Defect: Status / Fuel 套路的关键辅助牌（状态牌转化增强），同时兼顾其他相关方向。社区冷淡（-5）。",
     "tier": "D",
     "best_archetypes": [
       "defect_status_fuel",
@@ -591,7 +591,7 @@
     "source": "auto_generated"
   },
   "BOOT_SEQUENCE": {
-    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。它是 Defect: Orb / Focus 套路的补充牌（前期格挡过渡）。社区胜率 50.7%，选取率 31.0%，玩家普遍倾向跳过。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。 为天赋牌（Innate），每次战斗开局必抽到；需确认此牌值得占用开局手牌位置。",
+    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。它是 Defect: Orb / Focus 套路的补充牌（前期格挡过渡）。社区中性（+8 · 高估风险）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。 为天赋牌（Innate），每次战斗开局必抽到；需确认此牌值得占用开局手牌位置。",
     "tier": "D",
     "best_archetypes": [
       "defect_orb_focus",
@@ -601,7 +601,7 @@
     "source": "auto_generated"
   },
   "BORROWED_TIME": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Necrobinder: Soul Engine 套路的关键辅助牌（能量加速为Soul重压提供节奏爆发）。社区胜率 57.6%，选取率 48.3%，社区整体评价中上。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Necrobinder: Soul Engine 套路的关键辅助牌（能量加速为Soul重压提供节奏爆发）。社区热门（+27 · 高估风险）。",
     "tier": "B",
     "best_archetypes": [
       "necrobinder_soul_engine"
@@ -616,14 +616,14 @@
     "source": "auto_generated"
   },
   "BOUNCING_FLASK": {
-    "summary_zh": "这是一张2费的 Uncommon 非凡 技能牌。社区胜率 46.0%，选取率 14.5%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张2费的 Uncommon 非凡 技能牌。社区冷淡（-10）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "BRAND": {
-    "summary_zh": "这是一张0费的 Rare 稀有 技能牌。它是 Ironclad: Self Damage 套路的关键辅助牌（减薄+Rupture触发）。社区胜率 53.9%，选取率 39.7%，属于情景牌，视套路而定。",
+    "summary_zh": "这是一张0费的 Rare 稀有 技能牌。它是 Ironclad: Self Damage 套路的关键辅助牌（减薄+Rupture触发）。社区认可（+18 · 高估风险）。",
     "tier": "C",
     "best_archetypes": [
       "ironclad_self_damage"
@@ -638,14 +638,14 @@
     "source": "auto_generated"
   },
   "BREAK": {
-    "summary_zh": "这是一张2费的 Ancient 先古 攻击牌。社区胜率 47.3%，选取率 2.0%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张2费的 Ancient 先古 攻击牌。社区冷淡（-13 · 潜力股）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "BREAKTHROUGH": {
-    "summary_zh": "这是一张1费的 Common 普通 攻击牌。它是 Ironclad: Strike Scaling 套路的补充牌（攻击+格挡，全面过渡）。社区胜率 34.1%，选取率 14.5%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Common 普通 攻击牌。它是 Ironclad: Strike Scaling 套路的补充牌（攻击+格挡，全面过渡）。社区跳过（-29 · 高估风险）。",
     "tier": "D",
     "best_archetypes": [
       "ironclad_strike_scaling"
@@ -654,35 +654,35 @@
     "source": "auto_generated"
   },
   "BRIGHTEST_FLAME": {
-    "summary_zh": "这是一张0费的 Ancient 先古 技能牌。社区胜率 61.2%，选取率 0.4%，属于强力稳定选择。",
+    "summary_zh": "这是一张0费的 Ancient 先古 技能牌。社区认可（+13 · 潜力股）。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "BUBBLE_BUBBLE": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。社区胜率 50.5%，选取率 17.8%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。社区中性（+1）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "BUFFER": {
-    "summary_zh": "这是一张2费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区胜率 60.3%，选取率 32.3%，属于强力稳定选择。",
+    "summary_zh": "这是一张2费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区热门（+27）。",
     "tier": "A",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "BULK_UP": {
-    "summary_zh": "这是一张2费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。社区胜率 52.7%，选取率 8.5%，属于情景牌，视套路而定。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张2费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。社区中性（+1 · 潜力股）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "C",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "BULLET_TIME": {
-    "summary_zh": "这是一张X费的 Rare 稀有 技能牌。社区胜率 49.5%，选取率 15.7%，玩家普遍倾向跳过。费用为 X，输出随投入能量线性增长；能量遗物或充能类支持可显著提升价值。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张X费的 Rare 稀有 技能牌。社区中性（-2）。费用为 X，输出随投入能量线性增长；能量遗物或充能类支持可显著提升价值。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
@@ -711,7 +711,7 @@
     "source": "auto_generated"
   },
   "BUNDLE_OF_JOY": {
-    "summary_zh": "这是一张2费的 Rare 稀有 技能牌。社区胜率 41.8%，选取率 8.9%，玩家普遍倾向跳过。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张2费的 Rare 稀有 技能牌。社区跳过（-21）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
@@ -725,7 +725,7 @@
     "source": "auto_generated"
   },
   "BURNING_PACT": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Ironclad: Exhaust Engine 套路的核心牌（排除换摸牌）。社区胜率 52.9%，选取率 40.8%，属于情景牌，视套路而定。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Ironclad: Exhaust Engine 套路的核心牌（排除换摸牌）。社区认可（+16 · 高估风险）。",
     "tier": "C",
     "best_archetypes": [
       "ironclad_exhaust"
@@ -740,7 +740,7 @@
     "source": "auto_generated"
   },
   "BURST": {
-    "summary_zh": "这是一张1费的 Rare 稀有 技能牌。它是 Silent: Retain / Setup Burst 套路的关键辅助牌（下一张技能打两次，爆发核心）。社区胜率 58.1%，选取率 30.8%，社区整体评价中上。",
+    "summary_zh": "这是一张1费的 Rare 稀有 技能牌。它是 Silent: Retain / Setup Burst 套路的关键辅助牌（下一张技能打两次，爆发核心）。社区认可（+23）。",
     "tier": "B",
     "best_archetypes": [
       "silent_retain_setup"
@@ -755,7 +755,7 @@
     "source": "auto_generated"
   },
   "BURY": {
-    "summary_zh": "这是一张4费的 Uncommon 非凡 攻击牌。社区胜率 43.1%，选取率 4.5%，玩家普遍倾向跳过。费用较高，游戏早期使用受限；建议在有能量遗物时才优先考虑。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张4费的 Uncommon 非凡 攻击牌。社区跳过（-21）。费用较高，游戏早期使用受限；建议在有能量遗物时才优先考虑。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
@@ -776,14 +776,14 @@
     "source": "auto_generated"
   },
   "CALAMITY": {
-    "summary_zh": "这是一张3费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区胜率 68.9%，选取率 0.1%，属于强力稳定选择。",
+    "summary_zh": "这是一张3费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区认可（+21 · 潜力股）。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "CALCIFY": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Necrobinder: Osty Attack 套路的核心牌（格挡核心）。社区胜率 51.7%，选取率 8.9%，属于情景牌，视套路而定。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Necrobinder: Osty Attack 套路的核心牌（格挡核心）。社区中性（-1 · 潜力股）。",
     "tier": "C",
     "best_archetypes": [
       "necrobinder_osty_attack"
@@ -798,7 +798,7 @@
     "source": "auto_generated"
   },
   "CALCULATED_GAMBLE": {
-    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。它是 Silent: Retain / Setup Burst 套路的关键辅助牌（全弃后满摸，触发多Sly）。社区胜率 61.1%，选取率 51.4%，属于强力稳定选择。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
+    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。它是 Silent: Retain / Setup Burst 套路的关键辅助牌（全弃后满摸，触发多Sly）。社区热门（+33）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
     "tier": "A",
     "best_archetypes": [
       "silent_retain_setup"
@@ -813,7 +813,7 @@
     "source": "auto_generated"
   },
   "CALL_OF_THE_VOID": {
-    "summary_zh": "这是一张1费的 Rare 稀有 能力牌，永久效果持续整个战斗。它是 Necrobinder: Ethereal Engine 套路的关键辅助牌（Ethereal辅助）。社区胜率 54.5%，选取率 29.8%，属于情景牌，视套路而定。",
+    "summary_zh": "这是一张1费的 Rare 稀有 能力牌，永久效果持续整个战斗。它是 Necrobinder: Ethereal Engine 套路的关键辅助牌（Ethereal辅助）。社区认可（+16）。",
     "tier": "C",
     "best_archetypes": [
       "necrobinder_ethereal_engine"
@@ -835,7 +835,7 @@
     "source": "auto_generated"
   },
   "CAPACITOR": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Defect: Orb / Focus 套路的核心牌（增加Orb槽位），同时兼顾其他相关方向。社区胜率 50.0%，选取率 33.2%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Defect: Orb / Focus 套路的核心牌（增加Orb槽位），同时兼顾其他相关方向。社区中性（+7 · 高估风险）。",
     "tier": "D",
     "best_archetypes": [
       "defect_orb_focus"
@@ -850,7 +850,7 @@
     "source": "auto_generated"
   },
   "CAPTURE_SPIRIT": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Necrobinder: Soul / Exhaust Engine 套路的关键辅助牌（排除+摸牌）。社区胜率 55.5%，选取率 44.3%，社区整体评价中上。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Necrobinder: Soul / Exhaust Engine 套路的关键辅助牌（排除+摸牌）。社区认可（+22 · 高估风险）。",
     "tier": "B",
     "best_archetypes": [
       "necrobinder_soul_exhaust"
@@ -865,7 +865,7 @@
     "source": "auto_generated"
   },
   "CASCADE": {
-    "summary_zh": "这是一张X费的 Rare 稀有 技能牌。社区胜率 55.5%，选取率 22.4%，社区整体评价中上。费用为 X，输出随投入能量线性增长；能量遗物或充能类支持可显著提升价值。",
+    "summary_zh": "这是一张X费的 Rare 稀有 技能牌。社区认可（+14）。费用为 X，输出随投入能量线性增长；能量遗物或充能类支持可显著提升价值。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
@@ -879,14 +879,14 @@
     "source": "auto_generated"
   },
   "CELESTIAL_MIGHT": {
-    "summary_zh": "这是一张2费的 Common 普通 攻击牌。社区胜率 34.6%，选取率 2.9%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张2费的 Common 普通 攻击牌。社区跳过（-34）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "CHAOS": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Defect: Orb / Focus 套路的关键辅助牌（随机Orb通道）。社区胜率 46.8%，选取率 21.2%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Defect: Orb / Focus 套路的关键辅助牌（随机Orb通道）。社区冷淡（-5 · 高估风险）。",
     "tier": "D",
     "best_archetypes": [
       "defect_orb_focus"
@@ -901,14 +901,14 @@
     "source": "auto_generated"
   },
   "CHARGE": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。社区胜率 52.1%，选取率 35.6%，属于情景牌，视套路而定。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。社区认可（+13 · 高估风险）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "C",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "CHARGE_BATTERY": {
-    "summary_zh": "这是一张1费的 Common 普通 技能牌。它是 Defect: Orb / Focus 套路的关键辅助牌（通道Lightning+格挡），同时兼顾其他相关方向。社区胜率 43.9%，选取率 17.3%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Common 普通 技能牌。它是 Defect: Orb / Focus 套路的关键辅助牌（通道Lightning+格挡），同时兼顾其他相关方向。社区冷淡（-13 · 高估风险）。",
     "tier": "D",
     "best_archetypes": [
       "defect_orb_focus",
@@ -924,7 +924,7 @@
     "source": "auto_generated"
   },
   "CHILD_OF_THE_STARS": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Regent: Star Engine 套路的核心牌（星资源转化核心）。社区胜率 54.2%，选取率 34.5%，属于情景牌，视套路而定。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Regent: Star Engine 套路的核心牌（星资源转化核心）。社区认可（+17 · 高估风险）。",
     "tier": "C",
     "best_archetypes": [
       "regent_star_engine"
@@ -939,7 +939,7 @@
     "source": "auto_generated"
   },
   "CHILL": {
-    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。它是 Defect: Frost / Block 套路的核心牌（0费生成Frost，Exhaust）。社区胜率 53.0%，选取率 35.3%，属于情景牌，视套路而定。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
+    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。它是 Defect: Frost / Block 套路的核心牌（0费生成Frost，Exhaust）。社区认可（+15 · 高估风险）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
     "tier": "C",
     "best_archetypes": [
       "defect_frost_block"
@@ -954,7 +954,7 @@
     "source": "auto_generated"
   },
   "CINDER": {
-    "summary_zh": "这是一张2费的 Common 普通 攻击牌。社区胜率 32.3%，选取率 3.5%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张2费的 Common 普通 攻击牌。社区跳过（-36）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
@@ -968,7 +968,7 @@
     "source": "auto_generated"
   },
   "CLAW": {
-    "summary_zh": "这是一张0费的 Common 普通 攻击牌。它是 Defect: 0 Cost / Cycle 套路的核心牌（永久+2伤害核心），同时兼顾其他相关方向。社区胜率 43.8%，选取率 14.9%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张0费的 Common 普通 攻击牌。它是 Defect: 0 Cost / Cycle 套路的核心牌（永久+2伤害核心），同时兼顾其他相关方向。社区冷淡（-15）。",
     "tier": "D",
     "best_archetypes": [
       "defect_zero_cost_cycle",
@@ -984,14 +984,14 @@
     "source": "auto_generated"
   },
   "CLEANSE": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。社区胜率 52.6%，选取率 27.2%，属于情景牌，视套路而定。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。社区认可（+10）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "C",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "CLOAK_AND_DAGGER": {
-    "summary_zh": "这是一张1费的 Common 普通 技能牌。它是 Silent: Dexterity / Block 套路的关键辅助牌（格挡+生成Shiv过渡）。社区胜率 46.8%，选取率 14.3%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Common 普通 技能牌。它是 Silent: Dexterity / Block 套路的关键辅助牌（格挡+生成Shiv过渡）。社区冷淡（-9）。",
     "tier": "D",
     "best_archetypes": [
       "silent_dexterity_block"
@@ -1006,7 +1006,7 @@
     "source": "auto_generated"
   },
   "CLOAK_OF_STARS": {
-    "summary_zh": "这是一张0费的 Common 普通 技能牌。社区胜率 43.4%，选取率 16.5%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张0费的 Common 普通 技能牌。社区冷淡（-15 · 高估风险）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
@@ -1020,7 +1020,7 @@
     "source": "auto_generated"
   },
   "COLD_SNAP": {
-    "summary_zh": "这是一张1费的 Common 普通 攻击牌。它是 Defect: Frost / Block 套路的关键辅助牌（攻击+生成Frost），同时兼顾其他相关方向。社区胜率 42.9%，选取率 13.6%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Common 普通 攻击牌。它是 Defect: Frost / Block 套路的关键辅助牌（攻击+生成Frost），同时兼顾其他相关方向。社区冷淡（-17）。",
     "tier": "D",
     "best_archetypes": [
       "defect_frost_block",
@@ -1036,14 +1036,14 @@
     "source": "auto_generated"
   },
   "COLLISION_COURSE": {
-    "summary_zh": "这是一张0费的 Common 普通 攻击牌。社区胜率 35.3%，选取率 2.9%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张0费的 Common 普通 攻击牌。社区跳过（-33）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "COLOSSUS": {
-    "summary_zh": "这是一张1费的 Rare 稀有 技能牌。它是 Ironclad: Strike Scaling 套路的核心牌（固定大伤配合Pyre累积），同时兼顾其他相关方向。社区胜率 53.6%，选取率 30.0%，属于情景牌，视套路而定。",
+    "summary_zh": "这是一张1费的 Rare 稀有 技能牌。它是 Ironclad: Strike Scaling 套路的核心牌（固定大伤配合Pyre累积），同时兼顾其他相关方向。社区认可（+14）。",
     "tier": "C",
     "best_archetypes": [
       "ironclad_strike_scaling"
@@ -1058,14 +1058,14 @@
     "source": "auto_generated"
   },
   "COMET": {
-    "summary_zh": "这是一张0费的 Rare 稀有 攻击牌。社区胜率 59.2%，选取率 31.3%，社区整体评价中上。",
+    "summary_zh": "这是一张0费的 Rare 稀有 攻击牌。社区认可（+25）。",
     "tier": "A",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "COMPACT": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Defect: Status / Fuel 套路的核心牌（排除状态牌升级）。社区胜率 54.3%，选取率 40.7%，属于情景牌，视套路而定。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Defect: Status / Fuel 套路的核心牌（排除状态牌升级）。社区认可（+19 · 高估风险）。",
     "tier": "C",
     "best_archetypes": [
       "defect_status_fuel"
@@ -1080,7 +1080,7 @@
     "source": "auto_generated"
   },
   "COMPILE_DRIVER": {
-    "summary_zh": "这是一张1费的 Common 普通 攻击牌。它是 Defect: Orb / Focus 套路的关键辅助牌（根据Orb种类摸牌）。社区胜率 52.3%，选取率 12.1%，属于情景牌，视套路而定。",
+    "summary_zh": "这是一张1费的 Common 普通 攻击牌。它是 Defect: Orb / Focus 套路的关键辅助牌（根据Orb种类摸牌）。社区中性（+2 · 潜力股）。",
     "tier": "C",
     "best_archetypes": [
       "defect_orb_focus"
@@ -1095,14 +1095,14 @@
     "source": "auto_generated"
   },
   "CONFLAGRATION": {
-    "summary_zh": "这是一张1费的 Rare 稀有 攻击牌。社区胜率 45.0%，选取率 20.2%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Rare 稀有 攻击牌。社区冷淡（-9 · 高估风险）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "CONQUEROR": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Regent: Retain / Control 套路的补充牌（格挡+战斗后获益）。社区胜率 43.4%，选取率 22.5%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Regent: Retain / Control 套路的补充牌（格挡+战斗后获益）。社区冷淡（-11 · 高估风险）。",
     "tier": "D",
     "best_archetypes": [
       "regent_retain_control"
@@ -1111,7 +1111,7 @@
     "source": "auto_generated"
   },
   "CONSUMING_SHADOW": {
-    "summary_zh": "这是一张2费的 Rare 稀有 能力牌，永久效果持续整个战斗。它是 Defect: Dark / Evoke Burst 套路的核心牌（Dark Orb增强）。社区胜率 50.3%，选取率 20.8%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张2费的 Rare 稀有 能力牌，永久效果持续整个战斗。它是 Defect: Dark / Evoke Burst 套路的核心牌（Dark Orb增强）。社区中性（+2）。",
     "tier": "D",
     "best_archetypes": [
       "defect_dark_evoke"
@@ -1126,7 +1126,7 @@
     "source": "auto_generated"
   },
   "CONVERGENCE": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Regent: Retain / Control 套路的核心牌（整合多效果，控制终结）。社区胜率 52.2%，选取率 33.3%，属于情景牌，视套路而定。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Regent: Retain / Control 套路的核心牌（整合多效果，控制终结）。社区认可（+12 · 高估风险）。",
     "tier": "C",
     "best_archetypes": [
       "regent_retain_control"
@@ -1141,14 +1141,14 @@
     "source": "auto_generated"
   },
   "COOLANT": {
-    "summary_zh": "这是一张1费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区胜率 53.8%，选取率 19.3%，属于情景牌，视套路而定。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区中性（+9）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "C",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "COOLHEADED": {
-    "summary_zh": "这是一张1费的 Common 普通 技能牌。它是 Defect: Frost / Block 套路的核心牌（生成Frost+摸牌，高效），同时兼顾其他相关方向。社区胜率 50.8%，选取率 34.4%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Common 普通 技能牌。它是 Defect: Frost / Block 套路的核心牌（生成Frost+摸牌，高效），同时兼顾其他相关方向。社区中性（+10 · 高估风险）。",
     "tier": "D",
     "best_archetypes": [
       "defect_frost_block",
@@ -1164,21 +1164,21 @@
     "source": "auto_generated"
   },
   "COORDINATE": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。社区胜率 55.8%，选取率 2.2%，社区整体评价中上。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。社区中性（+5 · 潜力股）。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "CORROSIVE_WAVE": {
-    "summary_zh": "这是一张1费的 Rare 稀有 技能牌。社区胜率 67.7%，选取率 55.0%，属于强力稳定选择。暂无套路精确定义，但社区数据显示此牌强度极高，通常值得考虑。",
+    "summary_zh": "这是一张1费的 Rare 稀有 技能牌。社区热门（+41）。暂无套路精确定义，但社区数据显示此牌强度极高，通常值得考虑。",
     "tier": "S",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "CORRUPTION": {
-    "summary_zh": "这是一张3费的 Ancient 先古 能力牌，永久效果持续整个战斗。它是 Ironclad: Exhaust Engine 套路的核心牌（技能牌0费+排除，引擎核心）。社区胜率 56.0%，选取率 0.0%，社区整体评价中上。",
+    "summary_zh": "这是一张3费的 Ancient 先古 能力牌，永久效果持续整个战斗。它是 Ironclad: Exhaust Engine 套路的核心牌（技能牌0费+排除，引擎核心）。社区中性（+4 · 潜力股）。",
     "tier": "B",
     "best_archetypes": [
       "ironclad_exhaust"
@@ -1193,14 +1193,14 @@
     "source": "auto_generated"
   },
   "COSMIC_INDIFFERENCE": {
-    "summary_zh": "这是一张1费的 Common 普通 技能牌。社区胜率 46.5%，选取率 16.0%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Common 普通 技能牌。社区冷淡（-9）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "COUNTDOWN": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Necrobinder: Doom / Execute 套路的核心牌（持续叠Doom核心）。社区胜率 48.5%，选取率 17.2%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Necrobinder: Doom / Execute 套路的核心牌（持续叠Doom核心）。社区中性（-4）。",
     "tier": "D",
     "best_archetypes": [
       "necrobinder_doom_execute"
@@ -1215,14 +1215,14 @@
     "source": "auto_generated"
   },
   "CRASH_LANDING": {
-    "summary_zh": "这是一张1费的 Rare 稀有 攻击牌。社区胜率 39.2%，选取率 9.3%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Rare 稀有 攻击牌。社区跳过（-25）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "CREATIVE_AI": {
-    "summary_zh": "这是一张3费的 Rare 稀有 能力牌，永久效果持续整个战斗。它是 Defect: Status / Fuel 套路的核心牌（每回合生成随机能力）。社区胜率 56.4%，选取率 42.0%，社区整体评价中上。",
+    "summary_zh": "这是一张3费的 Rare 稀有 能力牌，永久效果持续整个战斗。它是 Defect: Status / Fuel 套路的核心牌（每回合生成随机能力）。社区认可（+23 · 高估风险）。",
     "tier": "B",
     "best_archetypes": [
       "defect_status_fuel"
@@ -1237,14 +1237,14 @@
     "source": "auto_generated"
   },
   "CRESCENT_SPEAR": {
-    "summary_zh": "这是一张1费的 Common 普通 攻击牌。社区胜率 37.5%，选取率 13.3%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Common 普通 攻击牌。社区跳过（-26 · 高估风险）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "CRIMSON_MANTLE": {
-    "summary_zh": "这是一张1费的 Rare 稀有 能力牌，永久效果持续整个战斗。它是 Ironclad: Self Damage 套路的关键辅助牌（两张Rupture指数叠加），同时兼顾其他相关方向。社区胜率 56.4%，选取率 39.7%，社区整体评价中上。",
+    "summary_zh": "这是一张1费的 Rare 稀有 能力牌，永久效果持续整个战斗。它是 Ironclad: Self Damage 套路的关键辅助牌（两张Rupture指数叠加），同时兼顾其他相关方向。社区认可（+23 · 高估风险）。",
     "tier": "B",
     "best_archetypes": [
       "ironclad_self_damage",
@@ -1260,7 +1260,7 @@
     "source": "auto_generated"
   },
   "CRUELTY": {
-    "summary_zh": "这是一张1费的 Rare 稀有 能力牌，永久效果持续整个战斗。它是 Ironclad: Vulnerable 套路的核心牌（每次攻击额外伤害，脆弱下翻倍）。社区胜率 53.0%，选取率 41.3%，属于情景牌，视套路而定。",
+    "summary_zh": "这是一张1费的 Rare 稀有 能力牌，永久效果持续整个战斗。它是 Ironclad: Vulnerable 套路的核心牌（每次攻击额外伤害，脆弱下翻倍）。社区认可（+16 · 高估风险）。",
     "tier": "C",
     "best_archetypes": [
       "ironclad_vulnerable"
@@ -1275,7 +1275,7 @@
     "source": "auto_generated"
   },
   "CRUSH_UNDER": {
-    "summary_zh": "这是一张1费的 Common 普通 攻击牌。它是 Regent: Sovereign Blade / Forge 套路的关键辅助牌（压制性终结）。社区胜率 35.9%，选取率 9.1%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Common 普通 攻击牌。它是 Regent: Sovereign Blade / Forge 套路的关键辅助牌（压制性终结）。社区跳过（-30 · 高估风险）。",
     "tier": "D",
     "best_archetypes": [
       "regent_sovereign_blade_forge"
@@ -1304,14 +1304,14 @@
     "source": "auto_generated"
   },
   "DAGGER_THROW": {
-    "summary_zh": "这是一张1费的 Common 普通 攻击牌。社区胜率 46.7%，选取率 17.9%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Common 普通 攻击牌。社区冷淡（-7）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "DANSE_MACABRE": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Necrobinder: Osty Attack 套路的关键辅助牌（Summon辅助）。社区胜率 44.7%，选取率 3.6%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Necrobinder: Osty Attack 套路的关键辅助牌（Summon辅助）。社区冷淡（-18）。",
     "tier": "D",
     "best_archetypes": [
       "necrobinder_osty_attack"
@@ -1326,7 +1326,7 @@
     "source": "auto_generated"
   },
   "DARKNESS": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Defect: Dark / Evoke Burst 套路的核心牌（Dark Orb充能核心）。社区胜率 47.6%，选取率 24.0%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Defect: Dark / Evoke Burst 套路的核心牌（Dark Orb充能核心）。社区中性（-2 · 高估风险）。",
     "tier": "D",
     "best_archetypes": [
       "defect_dark_evoke"
@@ -1341,7 +1341,7 @@
     "source": "auto_generated"
   },
   "DARK_EMBRACE": {
-    "summary_zh": "这是一张2费的 Rare 稀有 能力牌，永久效果持续整个战斗。它是 Ironclad: Exhaust Engine 套路的核心牌（每排除摸1张）。社区胜率 57.2%，选取率 34.9%，社区整体评价中上。",
+    "summary_zh": "这是一张2费的 Rare 稀有 能力牌，永久效果持续整个战斗。它是 Ironclad: Exhaust Engine 套路的核心牌（每排除摸1张）。社区认可（+23）。",
     "tier": "B",
     "best_archetypes": [
       "ironclad_exhaust"
@@ -1356,14 +1356,14 @@
     "source": "auto_generated"
   },
   "DARK_SHACKLES": {
-    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。社区胜率 57.7%，选取率 3.0%，社区整体评价中上。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
+    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。社区中性（+9 · 潜力股）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "DASH": {
-    "summary_zh": "这是一张2费的 Uncommon 非凡 攻击牌。社区胜率 41.8%，选取率 6.6%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张2费的 Uncommon 非凡 攻击牌。社区跳过（-22）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
@@ -1377,7 +1377,7 @@
     "source": "auto_generated"
   },
   "DEADLY_POISON": {
-    "summary_zh": "这是一张1费的 Common 普通 技能牌。它是 Silent: Poison 套路的核心牌（高效叠5毒）。社区胜率 40.9%，选取率 12.9%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Common 普通 技能牌。它是 Silent: Poison 套路的核心牌（高效叠5毒）。社区跳过（-21）。",
     "tier": "D",
     "best_archetypes": [
       "silent_poison"
@@ -1392,28 +1392,28 @@
     "source": "auto_generated"
   },
   "DEATHBRINGER": {
-    "summary_zh": "这是一张2费的 Uncommon 非凡 技能牌。社区胜率 46.2%，选取率 25.6%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张2费的 Uncommon 非凡 技能牌。社区中性（-4 · 高估风险）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "DEATHS_DOOR": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。社区胜率 50.0%，选取率 19.7%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。社区中性（+1）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "DEATH_MARCH": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。社区胜率 52.2%，选取率 17.7%，属于情景牌，视套路而定。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。社区中性（+5）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "C",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "DEBILITATE": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。社区胜率 55.4%，选取率 9.9%，社区整体评价中上。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。社区中性（+7 · 潜力股）。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
@@ -1441,56 +1441,56 @@
     "source": "auto_generated"
   },
   "DECISIONS_DECISIONS": {
-    "summary_zh": "这是一张0费的 Rare 稀有 技能牌。社区胜率 62.3%，选取率 52.7%，属于强力稳定选择。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
+    "summary_zh": "这是一张0费的 Rare 稀有 技能牌。社区热门（+35）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
     "tier": "A",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "DEFEND_DEFECT": {
-    "summary_zh": "这是一张1费的 Basic 基础 技能牌。社区胜率 31.0%，选取率 0.0%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Basic 基础 技能牌。社区跳过（-38）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "DEFEND_IRONCLAD": {
-    "summary_zh": "这是一张1费的 Basic 基础 技能牌。社区胜率 31.0%，选取率 0.0%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Basic 基础 技能牌。社区跳过（-38）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "DEFEND_NECROBINDER": {
-    "summary_zh": "这是一张1费的 Basic 基础 技能牌。社区胜率 31.0%，选取率 0.0%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Basic 基础 技能牌。社区跳过（-38）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "DEFEND_REGENT": {
-    "summary_zh": "这是一张1费的 Basic 基础 技能牌。社区胜率 31.0%，选取率 0.0%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Basic 基础 技能牌。社区跳过（-38）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "DEFEND_SILENT": {
-    "summary_zh": "这是一张1费的 Basic 基础 技能牌。社区胜率 31.0%，选取率 0.0%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Basic 基础 技能牌。社区跳过（-38）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "DEFILE": {
-    "summary_zh": "这是一张1费的 Common 普通 攻击牌。社区胜率 40.7%，选取率 7.2%，玩家普遍倾向跳过。带有以太属性（Ethereal），本回合未打出会被消耗；需确保本回合能使用，或避免在常规牌库中大量囤积。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Common 普通 攻击牌。社区跳过（-24）。带有以太属性（Ethereal），本回合未打出会被消耗；需确保本回合能使用，或避免在常规牌库中大量囤积。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "DEFLECT": {
-    "summary_zh": "这是一张0费的 Common 普通 技能牌。它是 Silent: Dexterity / Block 套路的关键辅助牌（0费格挡，极效）。社区胜率 47.6%，选取率 10.4%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张0费的 Common 普通 技能牌。它是 Silent: Dexterity / Block 套路的关键辅助牌（0费格挡，极效）。社区冷淡（-9）。",
     "tier": "D",
     "best_archetypes": [
       "silent_dexterity_block"
@@ -1505,7 +1505,7 @@
     "source": "auto_generated"
   },
   "DEFRAGMENT": {
-    "summary_zh": "这是一张1费的 Rare 稀有 能力牌，永久效果持续整个战斗。它是 Defect: Orb / Focus 套路的核心牌（永久Focus，Orb效果倍化），同时兼顾其他相关方向。社区胜率 62.6%，选取率 58.9%，属于强力稳定选择。",
+    "summary_zh": "这是一张1费的 Rare 稀有 能力牌，永久效果持续整个战斗。它是 Defect: Orb / Focus 套路的核心牌（永久Focus，Orb效果倍化），同时兼顾其他相关方向。社区热门（+36）。",
     "tier": "A",
     "best_archetypes": [
       "defect_orb_focus",
@@ -1521,21 +1521,21 @@
     "source": "auto_generated"
   },
   "DEFY": {
-    "summary_zh": "这是一张1费的 Common 普通 技能牌。社区胜率 51.9%，选取率 15.7%，属于情景牌，视套路而定。带有以太属性（Ethereal），本回合未打出会被消耗；需确保本回合能使用，或避免在常规牌库中大量囤积。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Common 普通 技能牌。社区中性（+3）。带有以太属性（Ethereal），本回合未打出会被消耗；需确保本回合能使用，或避免在常规牌库中大量囤积。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "C",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "DELAY": {
-    "summary_zh": "这是一张2费的 Uncommon 非凡 技能牌。社区胜率 49.5%，选取率 14.4%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张2费的 Uncommon 非凡 技能牌。社区中性（-3）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "DEMESNE": {
-    "summary_zh": "这是一张3费的 Rare 稀有 能力牌，永久效果持续整个战斗。它是 Necrobinder: Ethereal Engine 套路的关键辅助牌（Ethereal增强）。社区胜率 64.3%，选取率 50.3%，属于强力稳定选择。带有以太属性（Ethereal），本回合未打出会被消耗；需确保本回合能使用，或避免在常规牌库中大量囤积。",
+    "summary_zh": "这是一张3费的 Rare 稀有 能力牌，永久效果持续整个战斗。它是 Necrobinder: Ethereal Engine 套路的关键辅助牌（Ethereal增强）。社区热门（+37）。带有以太属性（Ethereal），本回合未打出会被消耗；需确保本回合能使用，或避免在常规牌库中大量囤积。",
     "tier": "S",
     "best_archetypes": [
       "necrobinder_ethereal_engine"
@@ -1550,7 +1550,7 @@
     "source": "auto_generated"
   },
   "DEMONIC_SHIELD": {
-    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。它是 Ironclad: Self Damage 套路的关键辅助牌（格挡辅助存活）。社区胜率 58.1%，选取率 20.0%，社区整体评价中上。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
+    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。它是 Ironclad: Self Damage 套路的关键辅助牌（格挡辅助存活）。社区认可（+18 · 潜力股）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
     "tier": "B",
     "best_archetypes": [
       "ironclad_self_damage"
@@ -1565,7 +1565,7 @@
     "source": "auto_generated"
   },
   "DEMON_FORM": {
-    "summary_zh": "这是一张3费的 Rare 稀有 能力牌，永久效果持续整个战斗。它是 Ironclad: Strength 套路的核心牌（每回合+2力量，后期引擎），同时兼顾其他相关方向。社区胜率 44.1%，选取率 24.3%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张3费的 Rare 稀有 能力牌，永久效果持续整个战斗。它是 Ironclad: Strength 套路的核心牌（每回合+2力量，后期引擎），同时兼顾其他相关方向。社区冷淡（-9 · 高估风险）。",
     "tier": "D",
     "best_archetypes": [
       "ironclad_strength",
@@ -1581,14 +1581,14 @@
     "source": "auto_generated"
   },
   "DEVASTATE": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。社区胜率 40.5%，选取率 14.2%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。社区跳过（-21 · 高估风险）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "DEVOUR_LIFE": {
-    "summary_zh": "这是一张1费的 Rare 稀有 能力牌，永久效果持续整个战斗。它是 Necrobinder: Soul Engine 套路的核心牌（Soul消耗+吸血），同时兼顾其他相关方向。社区胜率 59.5%，选取率 49.4%，社区整体评价中上。",
+    "summary_zh": "这是一张1费的 Rare 稀有 能力牌，永久效果持续整个战斗。它是 Necrobinder: Soul Engine 套路的核心牌（Soul消耗+吸血），同时兼顾其他相关方向。社区热门（+30 · 高估风险）。",
     "tier": "A",
     "best_archetypes": [
       "necrobinder_soul_engine",
@@ -1604,7 +1604,7 @@
     "source": "auto_generated"
   },
   "DIRGE": {
-    "summary_zh": "这是一张X费的 Uncommon 非凡 技能牌。它是 Necrobinder: Soul / Exhaust Engine 套路的关键辅助牌（0费摸牌引擎）。社区胜率 60.1%，选取率 43.7%，属于强力稳定选择。费用为 X，输出随投入能量线性增长；能量遗物或充能类支持可显著提升价值。",
+    "summary_zh": "这是一张X费的 Uncommon 非凡 技能牌。它是 Necrobinder: Soul / Exhaust Engine 套路的关键辅助牌（0费摸牌引擎）。社区热门（+30）。费用为 X，输出随投入能量线性增长；能量遗物或充能类支持可显著提升价值。",
     "tier": "A",
     "best_archetypes": [
       "necrobinder_soul_exhaust"
@@ -1619,7 +1619,7 @@
     "source": "auto_generated"
   },
   "DISCOVERY": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。社区胜率 51.9%，选取率 3.3%，属于情景牌，视套路而定。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。社区中性（-3 · 潜力股）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "C",
     "best_archetypes": [],
     "synergy_cards": [],
@@ -1633,7 +1633,7 @@
     "source": "auto_generated"
   },
   "DISMANTLE": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。它是 Ironclad: Vulnerable 套路的补充牌（攻击+排除，减薄牌库）。社区胜率 36.3%，选取率 24.0%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。它是 Ironclad: Vulnerable 套路的补充牌（攻击+排除，减薄牌库）。社区跳过（-22 · 高估风险）。",
     "tier": "D",
     "best_archetypes": [
       "ironclad_vulnerable"
@@ -1649,7 +1649,7 @@
     "source": "auto_generated"
   },
   "DODGE_AND_ROLL": {
-    "summary_zh": "这是一张1费的 Common 普通 技能牌。它是 Silent: Dexterity / Block 套路的核心牌（本回合+下回合双格挡）。社区胜率 42.6%，选取率 3.0%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Common 普通 技能牌。它是 Silent: Dexterity / Block 套路的核心牌（本回合+下回合双格挡）。社区跳过（-22）。",
     "tier": "D",
     "best_archetypes": [
       "silent_dexterity_block"
@@ -1664,7 +1664,7 @@
     "source": "auto_generated"
   },
   "DOMINATE": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Ironclad: Vulnerable 套路的核心牌（脆弱叠加转永久力量，核心），同时兼顾其他相关方向。社区胜率 46.1%，选取率 20.1%，玩家普遍倾向跳过。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Ironclad: Vulnerable 套路的核心牌（脆弱叠加转永久力量，核心），同时兼顾其他相关方向。社区冷淡（-7 · 高估风险）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
     "tier": "D",
     "best_archetypes": [
       "ironclad_vulnerable",
@@ -1680,7 +1680,7 @@
     "source": "auto_generated"
   },
   "DOUBLE_ENERGY": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Defect: 0 Cost / Cycle 套路的关键辅助牌（费用翻倍）。社区胜率 51.6%，选取率 37.2%，属于情景牌，视套路而定。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Defect: 0 Cost / Cycle 套路的关键辅助牌（费用翻倍）。社区认可（+12 · 高估风险）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
     "tier": "C",
     "best_archetypes": [
       "defect_zero_cost_cycle"
@@ -1702,21 +1702,21 @@
     "source": "auto_generated"
   },
   "DRAIN_POWER": {
-    "summary_zh": "这是一张1费的 Common 普通 攻击牌。社区胜率 36.6%，选取率 11.0%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Common 普通 攻击牌。社区跳过（-28 · 高估风险）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "DRAMATIC_ENTRANCE": {
-    "summary_zh": "这是一张0费的 Uncommon 非凡 攻击牌。社区胜率 46.2%，选取率 3.0%，玩家普遍倾向跳过。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。 为天赋牌（Innate），每次战斗开局必抽到；需确认此牌值得占用开局手牌位置。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张0费的 Uncommon 非凡 攻击牌。社区冷淡（-15 · 潜力股）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。 为天赋牌（Innate），每次战斗开局必抽到；需确认此牌值得占用开局手牌位置。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "DREDGE": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Necrobinder: Soul / Exhaust Engine 套路的补充牌（排除牌回收循环）。社区胜率 59.3%，选取率 22.4%，社区整体评价中上。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Necrobinder: Soul / Exhaust Engine 套路的补充牌（排除牌回收循环）。社区认可（+21 · 潜力股）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
     "tier": "A",
     "best_archetypes": [
       "necrobinder_soul_exhaust"
@@ -1725,7 +1725,7 @@
     "source": "auto_generated"
   },
   "DRUM_OF_BATTLE": {
-    "summary_zh": "这是一张0费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Ironclad: Exhaust Engine 套路的关键辅助牌（多段攻击辅助）。社区胜率 52.2%，选取率 8.0%，属于情景牌，视套路而定。",
+    "summary_zh": "这是一张0费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Ironclad: Exhaust Engine 套路的关键辅助牌（多段攻击辅助）。社区中性（+0 · 潜力股）。",
     "tier": "C",
     "best_archetypes": [
       "ironclad_exhaust"
@@ -1740,7 +1740,7 @@
     "source": "auto_generated"
   },
   "DUALCAST": {
-    "summary_zh": "这是一张1费的 Basic 基础 技能牌。它是 Defect: Dark / Evoke Burst 套路的核心牌（双次触发Orb爆发），同时兼顾其他相关方向。社区胜率 32.2%，选取率 0.0%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Basic 基础 技能牌。它是 Defect: Dark / Evoke Burst 套路的核心牌（双次触发Orb爆发），同时兼顾其他相关方向。社区跳过（-37）。",
     "tier": "D",
     "best_archetypes": [
       "defect_dark_evoke",
@@ -1770,28 +1770,28 @@
     "source": "auto_generated"
   },
   "ECHOING_SLASH": {
-    "summary_zh": "这是一张1费的 Rare 稀有 攻击牌。社区胜率 46.4%，选取率 16.1%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Rare 稀有 攻击牌。社区冷淡（-9）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "ECHO_FORM": {
-    "summary_zh": "这是一张3费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区胜率 62.0%，选取率 54.4%，属于强力稳定选择。带有以太属性（Ethereal），本回合未打出会被消耗；需确保本回合能使用，或避免在常规牌库中大量囤积。",
+    "summary_zh": "这是一张3费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区热门（+35）。带有以太属性（Ethereal），本回合未打出会被消耗；需确保本回合能使用，或避免在常规牌库中大量囤积。",
     "tier": "A",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "EIDOLON": {
-    "summary_zh": "这是一张2费的 Rare 稀有 技能牌。社区胜率 52.6%，选取率 13.3%，属于情景牌，视套路而定。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张2费的 Rare 稀有 技能牌。社区中性（+3 · 潜力股）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "C",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "END_OF_DAYS": {
-    "summary_zh": "这是一张3费的 Rare 稀有 技能牌。它是 Necrobinder: Doom / Execute 套路的核心牌（大范围Doom终结）。社区胜率 53.1%，选取率 31.0%，属于情景牌，视套路而定。",
+    "summary_zh": "这是一张3费的 Rare 稀有 技能牌。它是 Necrobinder: Doom / Execute 套路的核心牌（大范围Doom终结）。社区认可（+13）。",
     "tier": "C",
     "best_archetypes": [
       "necrobinder_doom_execute"
@@ -1806,14 +1806,14 @@
     "source": "auto_generated"
   },
   "ENERGY_SURGE": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。社区胜率 61.5%，选取率 56.2%，属于强力稳定选择。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。社区热门（+34 · 高估风险）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
     "tier": "A",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "ENFEEBLING_TOUCH": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Necrobinder: Ethereal Engine 套路的核心牌（Ethereal减益）。社区胜率 57.4%，选取率 27.4%，社区整体评价中上。带有以太属性（Ethereal），本回合未打出会被消耗；需确保本回合能使用，或避免在常规牌库中大量囤积。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Necrobinder: Ethereal Engine 套路的核心牌（Ethereal减益）。社区认可（+20）。带有以太属性（Ethereal），本回合未打出会被消耗；需确保本回合能使用，或避免在常规牌库中大量囤积。",
     "tier": "B",
     "best_archetypes": [
       "necrobinder_ethereal_engine"
@@ -1856,21 +1856,21 @@
     "source": "auto_generated"
   },
   "ENVENOM": {
-    "summary_zh": "这是一张2费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区胜率 54.4%，选取率 23.5%，属于情景牌，视套路而定。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张2费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区认可（+12）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "C",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "EQUILIBRIUM": {
-    "summary_zh": "这是一张2费的 Uncommon 非凡 技能牌。社区胜率 59.4%，选取率 1.4%，社区整体评价中上。",
+    "summary_zh": "这是一张2费的 Uncommon 非凡 技能牌。社区认可（+11 · 潜力股）。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "ERADICATE": {
-    "summary_zh": "这是一张X费的 Rare 稀有 攻击牌。它是 Necrobinder: Osty Attack 套路的关键辅助牌（攻击终结）。社区胜率 54.4%，选取率 13.6%，属于情景牌，视套路而定。带有保留效果（Retain），可以跨回合持有；适合需要特定组合的套路。 费用为 X，输出随投入能量线性增长；能量遗物或充能类支持可显著提升价值。",
+    "summary_zh": "这是一张X费的 Rare 稀有 攻击牌。它是 Necrobinder: Osty Attack 套路的关键辅助牌（攻击终结）。社区中性（+7 · 潜力股）。带有保留效果（Retain），可以跨回合持有；适合需要特定组合的套路。 费用为 X，输出随投入能量线性增长；能量遗物或充能类支持可显著提升价值。",
     "tier": "C",
     "best_archetypes": [
       "necrobinder_osty_attack"
@@ -1885,7 +1885,7 @@
     "source": "auto_generated"
   },
   "ESCAPE_PLAN": {
-    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。它是 Silent: Dexterity / Block 套路的补充牌（0费摸牌/格挡二选一）。社区胜率 59.4%，选取率 38.2%，社区整体评价中上。",
+    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。它是 Silent: Dexterity / Block 套路的补充牌（0费摸牌/格挡二选一）。社区热门（+28）。",
     "tier": "A",
     "best_archetypes": [
       "silent_dexterity_block"
@@ -1894,14 +1894,14 @@
     "source": "auto_generated"
   },
   "ETERNAL_ARMOR": {
-    "summary_zh": "这是一张3费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区胜率 68.2%，选取率 0.1%，属于强力稳定选择。",
+    "summary_zh": "这是一张3费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区认可（+21 · 潜力股）。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "EVIL_EYE": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Ironclad: Vulnerable 套路的关键辅助牌（每次打出都施加Vulnerable）。社区胜率 44.4%，选取率 13.9%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Ironclad: Vulnerable 套路的关键辅助牌（每次打出都施加Vulnerable）。社区冷淡（-14）。",
     "tier": "D",
     "best_archetypes": [
       "ironclad_vulnerable"
@@ -1916,7 +1916,7 @@
     "source": "auto_generated"
   },
   "EXPECT_A_FIGHT": {
-    "summary_zh": "这是一张2费的 Uncommon 非凡 技能牌。它是 Ironclad: Strike Scaling 套路的补充牌（战斗开始获得能量）。社区胜率 46.0%，选取率 25.1%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张2费的 Uncommon 非凡 技能牌。它是 Ironclad: Strike Scaling 套路的补充牌（战斗开始获得能量）。社区中性（-5 · 高估风险）。",
     "tier": "D",
     "best_archetypes": [
       "ironclad_strike_scaling"
@@ -1925,7 +1925,7 @@
     "source": "auto_generated"
   },
   "EXPERTISE": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Silent: Dexterity / Block 套路的补充牌（补充手牌密度）。社区胜率 57.4%，选取率 16.8%，社区整体评价中上。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Silent: Dexterity / Block 套路的补充牌（补充手牌密度）。社区认可（+15 · 潜力股）。",
     "tier": "B",
     "best_archetypes": [
       "silent_dexterity_block"
@@ -1934,7 +1934,7 @@
     "source": "auto_generated"
   },
   "EXPOSE": {
-    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。它是 Silent: Poison 套路的关键辅助牌（施加易伤放大毒伤）。社区胜率 57.1%，选取率 37.5%，社区整体评价中上。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
+    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。它是 Silent: Poison 套路的关键辅助牌（施加易伤放大毒伤）。社区认可（+23）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
     "tier": "B",
     "best_archetypes": [
       "silent_poison"
@@ -1949,35 +1949,35 @@
     "source": "auto_generated"
   },
   "EXTERMINATE": {
-    "summary_zh": "这是一张1费的 事件 攻击牌。社区胜率 50.8%，选取率 12.8%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 事件 攻击牌。社区中性（-1）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "FALLING_STAR": {
-    "summary_zh": "这是一张0费的 Basic 基础 攻击牌。社区胜率 28.7%，选取率 2.4%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张0费的 Basic 基础 攻击牌。社区跳过（-39 · 高估风险）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "FAN_OF_KNIVES": {
-    "summary_zh": "这是一张2费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区胜率 59.4%，选取率 34.9%，社区整体评价中上。",
+    "summary_zh": "这是一张2费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区热门（+27）。",
     "tier": "A",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "FASTEN": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。社区胜率 51.7%，选取率 2.4%，属于情景牌，视套路而定。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。社区中性（-4 · 潜力股）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "C",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "FEAR": {
-    "summary_zh": "这是一张1费的 Common 普通 攻击牌。它是 Necrobinder: Ethereal Engine 套路的关键辅助牌（Ethereal弱化辅助）。社区胜率 46.4%，选取率 8.8%，玩家普遍倾向跳过。带有以太属性（Ethereal），本回合未打出会被消耗；需确保本回合能使用，或避免在常规牌库中大量囤积。",
+    "summary_zh": "这是一张1费的 Common 普通 攻击牌。它是 Necrobinder: Ethereal Engine 套路的关键辅助牌（Ethereal弱化辅助）。社区冷淡（-13）。带有以太属性（Ethereal），本回合未打出会被消耗；需确保本回合能使用，或避免在常规牌库中大量囤积。",
     "tier": "D",
     "best_archetypes": [
       "necrobinder_ethereal_engine"
@@ -2006,7 +2006,7 @@
     "source": "auto_generated"
   },
   "FEEL_NO_PAIN": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Ironclad: Exhaust Engine 套路的核心牌（每排除获得格挡）。社区胜率 51.5%，选取率 16.5%，属于情景牌，视套路而定。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Ironclad: Exhaust Engine 套路的核心牌（每排除获得格挡）。社区中性（+2）。",
     "tier": "C",
     "best_archetypes": [
       "ironclad_exhaust"
@@ -2021,14 +2021,14 @@
     "source": "auto_generated"
   },
   "FERAL": {
-    "summary_zh": "这是一张2费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。社区胜率 51.1%，选取率 13.5%，属于情景牌，视套路而定。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张2费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。社区中性（+0）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "C",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "FETCH": {
-    "summary_zh": "这是一张0费的 Uncommon 非凡 攻击牌。它是 Necrobinder: Osty Attack 套路的核心牌（0费Osty攻击+摸牌），同时兼顾其他相关方向。社区胜率 49.6%，选取率 21.4%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张0费的 Uncommon 非凡 攻击牌。它是 Necrobinder: Osty Attack 套路的核心牌（0费Osty攻击+摸牌），同时兼顾其他相关方向。社区中性（+1）。",
     "tier": "D",
     "best_archetypes": [
       "necrobinder_osty_attack",
@@ -2044,21 +2044,21 @@
     "source": "auto_generated"
   },
   "FIEND_FIRE": {
-    "summary_zh": "这是一张2费的 Rare 稀有 攻击牌。社区胜率 52.4%，选取率 24.8%，属于情景牌，视套路而定。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张2费的 Rare 稀有 攻击牌。社区中性（+9）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "C",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "FIGHT_ME": {
-    "summary_zh": "这是一张2费的 Uncommon 非凡 攻击牌。社区胜率 39.1%，选取率 6.0%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张2费的 Uncommon 非凡 攻击牌。社区跳过（-27）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "FIGHT_THROUGH": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Defect: Status / Fuel 套路的关键辅助牌（状态牌配合攻击）。社区胜率 52.8%，选取率 22.0%，属于情景牌，视套路而定。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Defect: Status / Fuel 套路的关键辅助牌（状态牌配合攻击）。社区中性（+8）。",
     "tier": "C",
     "best_archetypes": [
       "defect_status_fuel"
@@ -2073,35 +2073,35 @@
     "source": "auto_generated"
   },
   "FINESSE": {
-    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。社区胜率 63.0%，选取率 6.6%，属于强力稳定选择。",
+    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。社区认可（+18 · 潜力股）。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "FINISHER": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。社区胜率 50.5%，选取率 14.6%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。社区中性（-1）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "FISTICUFFS": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。社区胜率 49.1%，选取率 1.2%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。社区冷淡（-10 · 潜力股）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "FLAK_CANNON": {
-    "summary_zh": "这是一张2费的 Rare 稀有 攻击牌。社区胜率 60.0%，选取率 27.7%，属于强力稳定选择。",
+    "summary_zh": "这是一张2费的 Rare 稀有 攻击牌。社区认可（+25）。",
     "tier": "A",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "FLAME_BARRIER": {
-    "summary_zh": "这是一张2费的 Uncommon 非凡 技能牌。它是 Ironclad: Block / Body Slam 套路的关键辅助牌（格挡+Thorns反伤）。社区胜率 42.3%，选取率 15.5%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张2费的 Uncommon 非凡 技能牌。它是 Ironclad: Block / Body Slam 套路的关键辅助牌（格挡+Thorns反伤）。社区冷淡（-17 · 高估风险）。",
     "tier": "D",
     "best_archetypes": [
       "ironclad_block_slam"
@@ -2116,21 +2116,21 @@
     "source": "auto_generated"
   },
   "FLANKING": {
-    "summary_zh": "这是一张2费的 Uncommon 非凡 技能牌。社区胜率 68.1%，选取率 21.4%，属于强力稳定选择。暂无套路精确定义，但社区数据显示此牌强度极高，通常值得考虑。",
+    "summary_zh": "这是一张2费的 Uncommon 非凡 技能牌。社区热门（+31 · 潜力股）。暂无套路精确定义，但社区数据显示此牌强度极高，通常值得考虑。",
     "tier": "S",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "FLASH_OF_STEEL": {
-    "summary_zh": "这是一张0费的 Uncommon 非凡 攻击牌。社区胜率 60.0%，选取率 5.4%，属于强力稳定选择。",
+    "summary_zh": "这是一张0费的 Uncommon 非凡 攻击牌。社区认可（+13 · 潜力股）。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "FLATTEN": {
-    "summary_zh": "这是一张2费的 Common 普通 攻击牌。它是 Necrobinder: Osty Attack 套路的核心牌（Osty攻击后0费高伤），同时兼顾其他相关方向。社区胜率 39.4%，选取率 15.8%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张2费的 Common 普通 攻击牌。它是 Necrobinder: Osty Attack 套路的核心牌（Osty攻击后0费高伤），同时兼顾其他相关方向。社区跳过（-22 · 高估风险）。",
     "tier": "D",
     "best_archetypes": [
       "necrobinder_osty_attack"
@@ -2145,28 +2145,28 @@
     "source": "auto_generated"
   },
   "FLECHETTES": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。社区胜率 46.6%，选取率 8.3%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。社区冷淡（-12）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "FLICK_FLACK": {
-    "summary_zh": "这是一张1费的 Common 普通 攻击牌。社区胜率 44.3%，选取率 14.6%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Common 普通 攻击牌。社区冷淡（-14）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "FOCUSED_STRIKE": {
-    "summary_zh": "这是一张1费的 Common 普通 攻击牌。社区胜率 41.6%，选取率 13.4%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Common 普通 攻击牌。社区冷淡（-19）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "FOLLOW_THROUGH": {
-    "summary_zh": "这是一张1费的 Common 普通 攻击牌。它是 Silent: Sly / Discard 套路的关键辅助牌（5张手牌阈值与奇巧手牌循环契合）。社区胜率 45.1%，选取率 8.9%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Common 普通 攻击牌。它是 Silent: Sly / Discard 套路的关键辅助牌（5张手牌阈值与奇巧手牌循环契合）。社区冷淡（-15）。",
     "tier": "D",
     "best_archetypes": [
       "silent_sly_discard"
@@ -2188,7 +2188,7 @@
     "source": "auto_generated"
   },
   "FOOTWORK": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Silent: Dexterity / Block 套路的核心牌（永久+2敏捷，核心引擎）。社区胜率 58.5%，选取率 21.6%，社区整体评价中上。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Silent: Dexterity / Block 套路的核心牌（永久+2敏捷，核心引擎）。社区认可（+19 · 潜力股）。",
     "tier": "B",
     "best_archetypes": [
       "silent_dexterity_block"
@@ -2203,14 +2203,14 @@
     "source": "auto_generated"
   },
   "FORBIDDEN_GRIMOIRE": {
-    "summary_zh": "这是一张2费的 Ancient 先古 能力牌，永久效果持续整个战斗。社区胜率 68.4%，选取率 6.1%，属于强力稳定选择。",
+    "summary_zh": "这是一张2费的 Ancient 先古 能力牌，永久效果持续整个战斗。社区认可（+23 · 潜力股）。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "FOREGONE_CONCLUSION": {
-    "summary_zh": "这是一张1费的 Rare 稀有 技能牌。它是 Regent: Retain / Control 套路的核心牌（节奏加速，控制节拍器），同时兼顾其他相关方向。社区胜率 52.1%，选取率 21.6%，属于情景牌，视套路而定。",
+    "summary_zh": "这是一张1费的 Rare 稀有 技能牌。它是 Regent: Retain / Control 套路的核心牌（节奏加速，控制节拍器），同时兼顾其他相关方向。社区中性（+7）。",
     "tier": "C",
     "best_archetypes": [
       "regent_retain_control"
@@ -2225,7 +2225,7 @@
     "source": "auto_generated"
   },
   "FORGOTTEN_RITUAL": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Ironclad: Exhaust Engine 套路的关键辅助牌（排除触发生成）。社区胜率 48.3%，选取率 25.9%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Ironclad: Exhaust Engine 套路的关键辅助牌（排除触发生成）。社区中性（+0 · 高估风险）。",
     "tier": "D",
     "best_archetypes": [
       "ironclad_exhaust"
@@ -2262,7 +2262,7 @@
     "source": "auto_generated"
   },
   "FTL": {
-    "summary_zh": "这是一张0费的 Uncommon 非凡 攻击牌。它是 Defect: Claw Cycle 套路的核心牌（0费攻击，手牌多时倍增）。社区胜率 50.3%，选取率 16.1%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张0费的 Uncommon 非凡 攻击牌。它是 Defect: Claw Cycle 套路的核心牌（0费攻击，手牌多时倍增）。社区中性（+0）。",
     "tier": "D",
     "best_archetypes": [
       "defect_claw_cycle"
@@ -2284,7 +2284,7 @@
     "source": "auto_generated"
   },
   "FURNACE": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Regent: Sovereign Blade / Forge 套路的核心牌（大量Forge）。社区胜率 44.6%，选取率 13.2%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Regent: Sovereign Blade / Forge 套路的核心牌（大量Forge）。社区冷淡（-14）。",
     "tier": "D",
     "best_archetypes": [
       "regent_sovereign_blade_forge"
@@ -2299,14 +2299,14 @@
     "source": "auto_generated"
   },
   "FUSION": {
-    "summary_zh": "这是一张2费的 Uncommon 非凡 技能牌。社区胜率 46.0%，选取率 16.1%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张2费的 Uncommon 非凡 技能牌。社区冷淡（-10）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "GAMMA_BLAST": {
-    "summary_zh": "这是一张0费的 Uncommon 非凡 攻击牌。它是 Regent: Star Engine 套路的关键辅助牌（0费削弱+脆弱），同时兼顾其他相关方向。社区胜率 49.6%，选取率 19.6%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张0费的 Uncommon 非凡 攻击牌。它是 Regent: Star Engine 套路的关键辅助牌（0费削弱+脆弱），同时兼顾其他相关方向。社区中性（+0）。",
     "tier": "D",
     "best_archetypes": [
       "regent_star_engine",
@@ -2322,21 +2322,21 @@
     "source": "auto_generated"
   },
   "GANG_UP": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。社区胜率 59.4%，选取率 2.8%，社区整体评价中上。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。社区认可（+11 · 潜力股）。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "GATHER_LIGHT": {
-    "summary_zh": "这是一张1费的 Common 普通 技能牌。社区胜率 41.8%，选取率 21.4%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Common 普通 技能牌。社区冷淡（-15 · 高估风险）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "GENESIS": {
-    "summary_zh": "这是一张2费的 Rare 稀有 能力牌，永久效果持续整个战斗。它是 Regent: Star Engine 套路的核心牌（每回合被动生星），同时兼顾其他相关方向。社区胜率 56.1%，选取率 45.8%，社区整体评价中上。",
+    "summary_zh": "这是一张2费的 Rare 稀有 能力牌，永久效果持续整个战斗。它是 Regent: Star Engine 套路的核心牌（每回合被动生星），同时兼顾其他相关方向。社区认可（+24 · 高估风险）。",
     "tier": "B",
     "best_archetypes": [
       "regent_star_engine",
@@ -2352,7 +2352,7 @@
     "source": "auto_generated"
   },
   "GENETIC_ALGORITHM": {
-    "summary_zh": "这是一张1费的 Rare 稀有 技能牌。社区胜率 51.3%，选取率 21.8%，属于情景牌，视套路而定。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Rare 稀有 技能牌。社区中性（+5）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "C",
     "best_archetypes": [],
     "synergy_cards": [],
@@ -2366,7 +2366,7 @@
     "source": "auto_generated"
   },
   "GLACIER": {
-    "summary_zh": "这是一张2费的 Uncommon 非凡 技能牌。它是 Defect: Orb / Focus 套路的核心牌（格挡+双Frost通道），同时兼顾其他相关方向。社区胜率 53.6%，选取率 29.5%，属于情景牌，视套路而定。",
+    "summary_zh": "这是一张2费的 Uncommon 非凡 技能牌。它是 Defect: Orb / Focus 套路的核心牌（格挡+双Frost通道），同时兼顾其他相关方向。社区认可（+14）。",
     "tier": "C",
     "best_archetypes": [
       "defect_orb_focus",
@@ -2382,14 +2382,14 @@
     "source": "auto_generated"
   },
   "GLASSWORK": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。社区胜率 46.0%，选取率 18.4%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。社区冷淡（-8）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "GLIMMER": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Regent: Retain / Control 套路的补充牌（摸牌+微控制）。社区胜率 54.6%，选取率 27.4%，属于情景牌，视套路而定。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Regent: Retain / Control 套路的补充牌（摸牌+微控制）。社区认可（+15）。",
     "tier": "C",
     "best_archetypes": [
       "regent_retain_control"
@@ -2398,7 +2398,7 @@
     "source": "auto_generated"
   },
   "GLIMPSE_BEYOND": {
-    "summary_zh": "这是一张1费的 Rare 稀有 技能牌。它是 Necrobinder: Soul Engine 套路的核心牌（摸牌+Soul循环）。社区胜率 72.6%，选取率 52.0%，属于强力稳定选择。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
+    "summary_zh": "这是一张1费的 Rare 稀有 技能牌。它是 Necrobinder: Soul Engine 套路的核心牌（摸牌+Soul循环）。社区热门（+44）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
     "tier": "S",
     "best_archetypes": [
       "necrobinder_soul_engine"
@@ -2413,7 +2413,7 @@
     "source": "auto_generated"
   },
   "GLITTERSTREAM": {
-    "summary_zh": "这是一张2费的 Common 普通 技能牌。它是 Regent: Star Engine 套路的补充牌（星流过渡）。社区胜率 39.9%，选取率 4.6%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张2费的 Common 普通 技能牌。它是 Regent: Star Engine 套路的补充牌（星流过渡）。社区跳过（-26）。",
     "tier": "D",
     "best_archetypes": [
       "regent_star_engine",
@@ -2423,7 +2423,7 @@
     "source": "auto_generated"
   },
   "GLOW": {
-    "summary_zh": "这是一张1费的 Common 普通 技能牌。它是 Regent: Star Engine 套路的核心牌（基础星生成），同时兼顾其他相关方向。社区胜率 48.2%，选取率 52.8%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Common 普通 技能牌。它是 Regent: Star Engine 套路的核心牌（基础星生成），同时兼顾其他相关方向。社区中性（+8 · 高估风险）。",
     "tier": "D",
     "best_archetypes": [
       "regent_star_engine"
@@ -2438,14 +2438,14 @@
     "source": "auto_generated"
   },
   "GOLD_AXE": {
-    "summary_zh": "这是一张1费的 Rare 稀有 攻击牌。社区胜率 61.0%，选取率 0.5%，属于强力稳定选择。",
+    "summary_zh": "这是一张1费的 Rare 稀有 攻击牌。社区认可（+13 · 潜力股）。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "GO_FOR_THE_EYES": {
-    "summary_zh": "这是一张0费的 Common 普通 攻击牌。它是 Defect: Claw Cycle 套路的关键辅助牌（0费攻击+Weak，配合Claw），同时兼顾其他相关方向。社区胜率 49.1%，选取率 13.8%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张0费的 Common 普通 攻击牌。它是 Defect: Claw Cycle 套路的关键辅助牌（0费攻击+Weak，配合Claw），同时兼顾其他相关方向。社区中性（-4）。",
     "tier": "D",
     "best_archetypes": [
       "defect_claw_cycle",
@@ -2461,14 +2461,14 @@
     "source": "auto_generated"
   },
   "GRAND_FINALE": {
-    "summary_zh": "这是一张0费的 Rare 稀有 攻击牌。社区胜率 54.5%，选取率 15.8%，属于情景牌，视套路而定。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张0费的 Rare 稀有 攻击牌。社区中性（+8 · 潜力股）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "C",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "GRAVEBLAST": {
-    "summary_zh": "这是一张1费的 Common 普通 攻击牌。它是 Necrobinder: Soul Engine 套路的关键辅助牌（伤害+Soul），同时兼顾其他相关方向。社区胜率 52.9%，选取率 13.9%，属于情景牌，视套路而定。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
+    "summary_zh": "这是一张1费的 Common 普通 攻击牌。它是 Necrobinder: Soul Engine 套路的关键辅助牌（伤害+Soul），同时兼顾其他相关方向。社区中性（+4 · 潜力股）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
     "tier": "C",
     "best_archetypes": [
       "necrobinder_soul_engine",
@@ -2484,7 +2484,7 @@
     "source": "auto_generated"
   },
   "GRAVE_WARDEN": {
-    "summary_zh": "这是一张1费的 Common 普通 技能牌。它是 Necrobinder: Soul / Exhaust Engine 套路的核心牌（生成Soul/摸牌，循环核心），同时兼顾其他相关方向。社区胜率 50.2%，选取率 31.3%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Common 普通 技能牌。它是 Necrobinder: Soul / Exhaust Engine 套路的核心牌（生成Soul/摸牌，循环核心），同时兼顾其他相关方向。社区中性（+7 · 高估风险）。",
     "tier": "D",
     "best_archetypes": [
       "necrobinder_soul_exhaust",
@@ -2507,7 +2507,7 @@
     "source": "auto_generated"
   },
   "GUARDS": {
-    "summary_zh": "这是一张2费的 Rare 稀有 技能牌。它是 Regent: Colorless / Create 套路的关键辅助牌（创建无色牌）。社区胜率 59.0%，选取率 31.0%，社区整体评价中上。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
+    "summary_zh": "这是一张2费的 Rare 稀有 技能牌。它是 Regent: Colorless / Create 套路的关键辅助牌（创建无色牌）。社区认可（+24）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
     "tier": "A",
     "best_archetypes": [
       "regent_colorless_create"
@@ -2522,7 +2522,7 @@
     "source": "auto_generated"
   },
   "GUIDING_STAR": {
-    "summary_zh": "这是一张1费的 Common 普通 攻击牌。它是 Regent: Star Engine 套路的关键辅助牌（星生成辅助），同时兼顾其他相关方向。社区胜率 41.1%，选取率 8.3%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Common 普通 攻击牌。它是 Regent: Star Engine 套路的关键辅助牌（星生成辅助），同时兼顾其他相关方向。社区跳过（-23）。",
     "tier": "D",
     "best_archetypes": [
       "regent_star_engine",
@@ -2545,35 +2545,35 @@
     "source": "auto_generated"
   },
   "GUNK_UP": {
-    "summary_zh": "这是一张1费的 Common 普通 攻击牌。社区胜率 44.6%，选取率 6.4%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Common 普通 攻击牌。社区冷淡（-17）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "HAILSTORM": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。社区胜率 49.3%，选取率 13.8%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。社区中性（-4）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "HAMMER_TIME": {
-    "summary_zh": "这是一张2费的 Rare 稀有 能力牌，永久效果持续整个战斗。在 Regent: Retain / Control 套路中此牌被标记为污染，通常不建议拿取。社区胜率 61.9%，选取率 16.6%，属于强力稳定选择。在当前数据库定义的套路中，此牌与核心机制不协同；除非套路已成型否则建议跳过。",
+    "summary_zh": "这是一张2费的 Rare 稀有 能力牌，永久效果持续整个战斗。在 Regent: Retain / Control 套路中此牌被标记为污染，通常不建议拿取。社区认可（+22 · 潜力股）。在当前数据库定义的套路中，此牌与核心机制不协同；除非套路已成型否则建议跳过。",
     "tier": "A",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "HAND_OF_GREED": {
-    "summary_zh": "这是一张2费的 Rare 稀有 攻击牌。社区胜率 46.0%，选取率 0.2%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张2费的 Rare 稀有 攻击牌。社区冷淡（-17 · 潜力股）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "HAND_TRICK": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Silent: Sly / Discard 套路的核心牌（Sly触发辅助）。社区胜率 52.0%，选取率 12.5%，属于情景牌，视套路而定。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Silent: Sly / Discard 套路的核心牌（Sly触发辅助）。社区中性（+1 · 潜力股）。",
     "tier": "C",
     "best_archetypes": [
       "silent_sly_discard"
@@ -2588,14 +2588,14 @@
     "source": "auto_generated"
   },
   "HANG": {
-    "summary_zh": "这是一张1费的 Rare 稀有 攻击牌。社区胜率 59.2%，选取率 31.3%，社区整体评价中上。",
+    "summary_zh": "这是一张1费的 Rare 稀有 攻击牌。社区认可（+25）。",
     "tier": "A",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "HAUNT": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Necrobinder: Soul Engine 套路的核心牌（每打出Soul对随机敌伤害），同时兼顾其他相关方向。社区胜率 55.4%，选取率 28.6%，社区整体评价中上。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Necrobinder: Soul Engine 套路的核心牌（每打出Soul对随机敌伤害），同时兼顾其他相关方向。社区认可（+17）。",
     "tier": "B",
     "best_archetypes": [
       "necrobinder_soul_engine",
@@ -2626,21 +2626,21 @@
     "source": "auto_generated"
   },
   "HAZE": {
-    "summary_zh": "这是一张3费的 Uncommon 非凡 技能牌。社区胜率 51.9%，选取率 28.1%，属于情景牌，视套路而定。费用较高，游戏早期使用受限；建议在有能量遗物时才优先考虑。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张3费的 Uncommon 非凡 技能牌。社区中性（+9）。费用较高，游戏早期使用受限；建议在有能量遗物时才优先考虑。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "C",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "HEADBUTT": {
-    "summary_zh": "这是一张1费的 Common 普通 攻击牌。社区胜率 42.0%，选取率 10.7%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Common 普通 攻击牌。社区跳过（-20）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "HEAVENLY_DRILL": {
-    "summary_zh": "这是一张X费的 Rare 稀有 攻击牌。它是 Regent: Star Engine 套路的核心牌（星爆发终结），同时兼顾其他相关方向。社区胜率 62.9%，选取率 21.3%，属于强力稳定选择。费用为 X，输出随投入能量线性增长；能量遗物或充能类支持可显著提升价值。",
+    "summary_zh": "这是一张X费的 Rare 稀有 攻击牌。它是 Regent: Star Engine 套路的核心牌（星爆发终结），同时兼顾其他相关方向。社区热门（+25 · 潜力股）。费用为 X，输出随投入能量线性增长；能量遗物或充能类支持可显著提升价值。",
     "tier": "A",
     "best_archetypes": [
       "regent_star_engine"
@@ -2655,21 +2655,21 @@
     "source": "auto_generated"
   },
   "HEGEMONY": {
-    "summary_zh": "这是一张2费的 Uncommon 非凡 攻击牌。社区胜率 41.5%，选取率 11.4%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张2费的 Uncommon 非凡 攻击牌。社区跳过（-21）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "HEIRLOOM_HAMMER": {
-    "summary_zh": "这是一张2费的 Rare 稀有 攻击牌。社区胜率 41.7%，选取率 8.1%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张2费的 Rare 稀有 攻击牌。社区跳过（-22）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "HELIX_DRILL": {
-    "summary_zh": "这是一张0费的 Rare 稀有 攻击牌。社区胜率 58.5%，选取率 16.3%，社区整体评价中上。",
+    "summary_zh": "这是一张0费的 Rare 稀有 攻击牌。社区认可（+16 · 潜力股）。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
@@ -2683,7 +2683,7 @@
     "source": "auto_generated"
   },
   "HELLRAISER": {
-    "summary_zh": "这是一张2费的 Rare 稀有 能力牌，永久效果持续整个战斗。它是 Ironclad: Strike Scaling 套路的核心牌（每回合开始固定增加力量）。社区胜率 53.5%，选取率 46.4%，属于情景牌，视套路而定。",
+    "summary_zh": "这是一张2费的 Rare 稀有 能力牌，永久效果持续整个战斗。它是 Ironclad: Strike Scaling 套路的核心牌（每回合开始固定增加力量）。社区认可（+19 · 高估风险）。",
     "tier": "C",
     "best_archetypes": [
       "ironclad_strike_scaling"
@@ -2698,21 +2698,21 @@
     "source": "auto_generated"
   },
   "HEMOKINESIS": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。社区胜率 36.4%，选取率 11.3%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。社区跳过（-28 · 高估风险）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "HIDDEN_CACHE": {
-    "summary_zh": "这是一张1费的 Common 普通 技能牌。社区胜率 44.5%，选取率 26.7%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Common 普通 技能牌。社区冷淡（-7 · 高估风险）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "HIDDEN_DAGGERS": {
-    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。它是 Silent: Retain / Setup Burst 套路的核心牌（每弃一牌免费打Shiv，S级）。社区胜率 59.0%，选取率 33.4%，社区整体评价中上。",
+    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。它是 Silent: Retain / Setup Burst 套路的核心牌（每弃一牌免费打Shiv，S级）。社区热门（+25）。",
     "tier": "A",
     "best_archetypes": [
       "silent_retain_setup"
@@ -2727,14 +2727,14 @@
     "source": "auto_generated"
   },
   "HIDDEN_GEM": {
-    "summary_zh": "这是一张1费的 Rare 稀有 技能牌。社区胜率 67.5%，选取率 2.4%，属于强力稳定选择。",
+    "summary_zh": "这是一张1费的 Rare 稀有 技能牌。社区认可（+21 · 潜力股）。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "HIGH_FIVE": {
-    "summary_zh": "这是一张2费的 Uncommon 非凡 攻击牌。它是 Necrobinder: Osty Attack 套路的核心牌（Summon+摸牌）。社区胜率 44.4%，选取率 11.2%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张2费的 Uncommon 非凡 攻击牌。它是 Necrobinder: Osty Attack 套路的核心牌（Summon+摸牌）。社区冷淡（-15）。",
     "tier": "D",
     "best_archetypes": [
       "necrobinder_osty_attack"
@@ -2749,7 +2749,7 @@
     "source": "auto_generated"
   },
   "HOLOGRAM": {
-    "summary_zh": "这是一张1费的 Common 普通 技能牌。它是 Defect: 0 Cost / Cycle 套路的关键辅助牌（取回特定牌），同时兼顾其他相关方向。社区胜率 53.2%，选取率 25.4%，属于情景牌，视套路而定。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
+    "summary_zh": "这是一张1费的 Common 普通 技能牌。它是 Defect: 0 Cost / Cycle 套路的关键辅助牌（取回特定牌），同时兼顾其他相关方向。社区认可（+11）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
     "tier": "C",
     "best_archetypes": [
       "defect_zero_cost_cycle",
@@ -2765,28 +2765,28 @@
     "source": "auto_generated"
   },
   "HOTFIX": {
-    "summary_zh": "这是一张0费的 Common 普通 技能牌。社区胜率 47.5%，选取率 36.8%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张0费的 Common 普通 技能牌。社区中性（+3 · 高估风险）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "HOWL_FROM_BEYOND": {
-    "summary_zh": "这是一张3费的 Uncommon 非凡 攻击牌。社区胜率 41.2%，选取率 14.0%，玩家普遍倾向跳过。费用较高，游戏早期使用受限；建议在有能量遗物时才优先考虑。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张3费的 Uncommon 非凡 攻击牌。社区冷淡（-20 · 高估风险）。费用较高，游戏早期使用受限；建议在有能量遗物时才优先考虑。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "HUDDLE_UP": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。社区胜率 66.7%，选取率 8.1%，属于强力稳定选择。暂无套路精确定义，但社区数据显示此牌强度极高，通常值得考虑。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。社区认可（+23 · 潜力股）。暂无套路精确定义，但社区数据显示此牌强度极高，通常值得考虑。",
     "tier": "S",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "HYPERBEAM": {
-    "summary_zh": "这是一张2费的 Rare 稀有 攻击牌。它是 Defect: Dark / Evoke Burst 套路的关键辅助牌（高伤终结，重置Focus代价），同时兼顾其他相关方向。社区胜率 40.8%，选取率 7.2%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张2费的 Rare 稀有 攻击牌。它是 Defect: Dark / Evoke Burst 套路的关键辅助牌（高伤终结，重置Focus代价），同时兼顾其他相关方向。社区跳过（-24）。",
     "tier": "D",
     "best_archetypes": [
       "defect_dark_evoke",
@@ -2802,28 +2802,28 @@
     "source": "auto_generated"
   },
   "ICE_LANCE": {
-    "summary_zh": "这是一张3费的 Rare 稀有 攻击牌。社区胜率 55.2%，选取率 16.3%，社区整体评价中上。",
+    "summary_zh": "这是一张3费的 Rare 稀有 攻击牌。社区认可（+10 · 潜力股）。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "IGNITION": {
-    "summary_zh": "这是一张1费的 Rare 稀有 技能牌。社区胜率 64.0%，选取率 28.1%，属于强力稳定选择。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。 暂无套路精确定义，但社区数据显示此牌强度极高，通常值得考虑。",
+    "summary_zh": "这是一张1费的 Rare 稀有 技能牌。社区热门（+30 · 潜力股）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。 暂无套路精确定义，但社区数据显示此牌强度极高，通常值得考虑。",
     "tier": "S",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "IMPATIENCE": {
-    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。社区胜率 61.0%，选取率 2.4%，属于强力稳定选择。",
+    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。社区认可（+14 · 潜力股）。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "IMPERVIOUS": {
-    "summary_zh": "这是一张2费的 Rare 稀有 技能牌。它是 Ironclad: Block / Body Slam 套路的核心牌（大量格挡Exhaust，Barricade下永久）。社区胜率 56.7%，选取率 30.1%，社区整体评价中上。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
+    "summary_zh": "这是一张2费的 Rare 稀有 技能牌。它是 Ironclad: Block / Body Slam 套路的核心牌（大量格挡Exhaust，Barricade下永久）。社区认可（+20）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
     "tier": "B",
     "best_archetypes": [
       "ironclad_block_slam"
@@ -2845,7 +2845,7 @@
     "source": "auto_generated"
   },
   "INFERNAL_BLADE": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Ironclad: Strength 套路的补充牌（生成随机攻击牌）。社区胜率 40.1%，选取率 18.4%，玩家普遍倾向跳过。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Ironclad: Strength 套路的补充牌（生成随机攻击牌）。社区冷淡（-19 · 高估风险）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
     "tier": "D",
     "best_archetypes": [
       "ironclad_strength"
@@ -2854,7 +2854,7 @@
     "source": "auto_generated"
   },
   "INFERNO": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Ironclad: Self Damage 套路的核心牌（HP损耗转全体AoE）。社区胜率 47.3%，选取率 18.1%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Ironclad: Self Damage 套路的核心牌（HP损耗转全体AoE）。社区冷淡（-6）。",
     "tier": "D",
     "best_archetypes": [
       "ironclad_self_damage"
@@ -2869,7 +2869,7 @@
     "source": "auto_generated"
   },
   "INFINITE_BLADES": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Silent: Shiv 套路的核心牌（每回合生成1 Shiv）。社区胜率 52.8%，选取率 15.0%，属于情景牌，视套路而定。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Silent: Shiv 套路的核心牌（每回合生成1 Shiv）。社区中性（+4）。",
     "tier": "C",
     "best_archetypes": [
       "silent_shiv"
@@ -2884,7 +2884,7 @@
     "source": "auto_generated"
   },
   "INFLAME": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Ironclad: Strength 套路的核心牌（即时+2力量，核心来源）。社区胜率 43.6%，选取率 23.5%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Ironclad: Strength 套路的核心牌（即时+2力量，核心来源）。社区冷淡（-10 · 高估风险）。",
     "tier": "D",
     "best_archetypes": [
       "ironclad_strength"
@@ -2906,14 +2906,14 @@
     "source": "auto_generated"
   },
   "INTERCEPT": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。社区胜率 54.1%，选取率 1.2%，属于情景牌，视套路而定。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。社区中性（+1 · 潜力股）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "C",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "INVOKE": {
-    "summary_zh": "这是一张1费的 Common 普通 技能牌。它是 Necrobinder: Osty Attack 套路的关键辅助牌（Summon触发），同时兼顾其他相关方向。社区胜率 48.9%，选取率 30.7%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Common 普通 技能牌。它是 Necrobinder: Osty Attack 套路的关键辅助牌（Summon触发），同时兼顾其他相关方向。社区中性（+4 · 高估风险）。",
     "tier": "D",
     "best_archetypes": [
       "necrobinder_osty_attack",
@@ -2929,14 +2929,14 @@
     "source": "auto_generated"
   },
   "IRON_WAVE": {
-    "summary_zh": "这是一张1费的 Common 普通 攻击牌。社区胜率 32.2%，选取率 6.5%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Common 普通 攻击牌。社区跳过（-35 · 高估风险）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "ITERATION": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Defect: Status / Fuel 套路的核心牌（状态牌循环触发）。社区胜率 57.1%，选取率 21.6%，社区整体评价中上。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Defect: Status / Fuel 套路的核心牌（状态牌循环触发）。社区认可（+17）。",
     "tier": "B",
     "best_archetypes": [
       "defect_status_fuel"
@@ -2951,28 +2951,28 @@
     "source": "auto_generated"
   },
   "I_AM_INVINCIBLE": {
-    "summary_zh": "这是一张1费的 Rare 稀有 技能牌。社区胜率 47.0%，选取率 15.7%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Rare 稀有 技能牌。社区冷淡（-8）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "JACKPOT": {
-    "summary_zh": "这是一张X费的 Rare 稀有 攻击牌。社区胜率 66.3%，选取率 0.6%，属于强力稳定选择。费用为 X，输出随投入能量线性增长；能量遗物或充能类支持可显著提升价值。",
+    "summary_zh": "这是一张X费的 Rare 稀有 攻击牌。社区认可（+19 · 潜力股）。费用为 X，输出随投入能量线性增长；能量遗物或充能类支持可显著提升价值。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "JACK_OF_ALL_TRADES": {
-    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。社区胜率 49.9%，选取率 1.9%，玩家普遍倾向跳过。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。社区冷淡（-8 · 潜力股）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "JUGGERNAUT": {
-    "summary_zh": "这是一张2费的 Rare 稀有 能力牌，永久效果持续整个战斗。它是 Ironclad: Block / Body Slam 套路的核心牌（获得格挡时对敌造成伤害），同时兼顾其他相关方向。社区胜率 46.4%，选取率 15.2%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张2费的 Rare 稀有 能力牌，永久效果持续整个战斗。它是 Ironclad: Block / Body Slam 套路的核心牌（获得格挡时对敌造成伤害），同时兼顾其他相关方向。社区冷淡（-9）。",
     "tier": "D",
     "best_archetypes": [
       "ironclad_block_slam"
@@ -2987,42 +2987,42 @@
     "source": "auto_generated"
   },
   "JUGGLING": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。社区胜率 46.1%，选取率 10.6%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。社区冷淡（-12）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "KINGLY_KICK": {
-    "summary_zh": "这是一张4费的 Uncommon 非凡 攻击牌。社区胜率 37.6%，选取率 7.3%，玩家普遍倾向跳过。费用较高，游戏早期使用受限；建议在有能量遗物时才优先考虑。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张4费的 Uncommon 非凡 攻击牌。社区跳过（-29）。费用较高，游戏早期使用受限；建议在有能量遗物时才优先考虑。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "KINGLY_PUNCH": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。社区胜率 36.3%，选取率 7.8%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。社区跳过（-30）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "KNIFE_TRAP": {
-    "summary_zh": "这是一张2费的 Rare 稀有 技能牌。社区胜率 65.1%，选取率 27.1%，属于强力稳定选择。暂无套路精确定义，但社区数据显示此牌强度极高，通常值得考虑。",
+    "summary_zh": "这是一张2费的 Rare 稀有 技能牌。社区热门（+31 · 潜力股）。暂无套路精确定义，但社区数据显示此牌强度极高，通常值得考虑。",
     "tier": "S",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "KNOCKDOWN": {
-    "summary_zh": "这是一张3费的 Rare 稀有 攻击牌。社区胜率 75.5%，选取率 1.0%，属于强力稳定选择。",
+    "summary_zh": "这是一张3费的 Rare 稀有 攻击牌。社区热门（+25 · 潜力股）。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "KNOCKOUT_BLOW": {
-    "summary_zh": "这是一张3费的 Uncommon 非凡 攻击牌。它是 Regent: Sovereign Blade / Forge 套路的关键辅助牌（击晕控场）。社区胜率 35.4%，选取率 11.7%，玩家普遍倾向跳过。费用较高，游戏早期使用受限；建议在有能量遗物时才优先考虑。",
+    "summary_zh": "这是一张3费的 Uncommon 非凡 攻击牌。它是 Regent: Sovereign Blade / Forge 套路的关键辅助牌（击晕控场）。社区跳过（-29 · 高估风险）。费用较高，游戏早期使用受限；建议在有能量遗物时才优先考虑。",
     "tier": "D",
     "best_archetypes": [
       "regent_sovereign_blade_forge"
@@ -3037,7 +3037,7 @@
     "source": "auto_generated"
   },
   "KNOW_THY_PLACE": {
-    "summary_zh": "这是一张0费的 Common 普通 技能牌。社区胜率 45.7%，选取率 15.9%，玩家普遍倾向跳过。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张0费的 Common 普通 技能牌。社区冷淡（-10）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
@@ -3051,21 +3051,21 @@
     "source": "auto_generated"
   },
   "LARGESSE": {
-    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。社区胜率 57.7%，选取率 17.0%，社区整体评价中上。",
+    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。社区认可（+15 · 潜力股）。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "LEADING_STRIKE": {
-    "summary_zh": "这是一张1费的 Common 普通 攻击牌。社区胜率 41.3%，选取率 8.5%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Common 普通 攻击牌。社区跳过（-22）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "LEAP": {
-    "summary_zh": "这是一张1费的 Common 普通 技能牌。它是 Defect: Frost / Block 套路的关键辅助牌（格挡+补充手牌）。社区胜率 42.3%，选取率 5.6%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Common 普通 技能牌。它是 Defect: Frost / Block 套路的关键辅助牌（格挡+补充手牌）。社区跳过（-22）。",
     "tier": "D",
     "best_archetypes": [
       "defect_frost_block"
@@ -3080,7 +3080,7 @@
     "source": "auto_generated"
   },
   "LEGION_OF_BONE": {
-    "summary_zh": "这是一张2费的 Uncommon 非凡 技能牌。它是 Necrobinder: Osty Attack 套路的关键辅助牌（群体Summon），同时兼顾其他相关方向。社区胜率 63.2%，选取率 15.4%，属于强力稳定选择。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
+    "summary_zh": "这是一张2费的 Uncommon 非凡 技能牌。它是 Necrobinder: Osty Attack 套路的关键辅助牌（群体Summon），同时兼顾其他相关方向。社区认可（+23 · 潜力股）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
     "tier": "S",
     "best_archetypes": [
       "necrobinder_osty_attack",
@@ -3096,7 +3096,7 @@
     "source": "auto_generated"
   },
   "LEG_SWEEP": {
-    "summary_zh": "这是一张2费的 Uncommon 非凡 技能牌。它是 Silent: Poison 套路的关键辅助牌（削弱+格挡）。社区胜率 50.9%，选取率 8.3%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张2费的 Uncommon 非凡 技能牌。它是 Silent: Poison 套路的关键辅助牌（削弱+格挡）。社区中性（-3 · 潜力股）。",
     "tier": "D",
     "best_archetypes": [
       "silent_poison"
@@ -3111,7 +3111,7 @@
     "source": "auto_generated"
   },
   "LETHALITY": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Necrobinder: Ethereal Engine 套路的核心牌（Ethereal高伤攻击）。社区胜率 55.1%，选取率 19.3%，社区整体评价中上。带有以太属性（Ethereal），本回合未打出会被消耗；需确保本回合能使用，或避免在常规牌库中大量囤积。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Necrobinder: Ethereal Engine 套路的核心牌（Ethereal高伤攻击）。社区认可（+12）。带有以太属性（Ethereal），本回合未打出会被消耗；需确保本回合能使用，或避免在常规牌库中大量囤积。",
     "tier": "B",
     "best_archetypes": [
       "necrobinder_ethereal_engine"
@@ -3126,21 +3126,21 @@
     "source": "auto_generated"
   },
   "LIFT": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。社区胜率 52.6%，选取率 1.6%，属于情景牌，视套路而定。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。社区中性（-2 · 潜力股）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "C",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "LIGHTNING_ROD": {
-    "summary_zh": "这是一张1费的 Common 普通 技能牌。社区胜率 44.6%，选取率 21.4%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Common 普通 技能牌。社区冷淡（-10 · 高估风险）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "LOOP": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Defect: Orb / Focus 套路的核心牌（Orb被动额外触发），同时兼顾其他相关方向。社区胜率 50.3%，选取率 27.7%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Defect: Orb / Focus 套路的核心牌（Orb被动额外触发），同时兼顾其他相关方向。社区中性（+6 · 高估风险）。",
     "tier": "D",
     "best_archetypes": [
       "defect_orb_focus"
@@ -3162,14 +3162,14 @@
     "source": "auto_generated"
   },
   "LUNAR_BLAST": {
-    "summary_zh": "这是一张0费的 Uncommon 非凡 攻击牌。社区胜率 55.1%，选取率 12.9%，社区整体评价中上。",
+    "summary_zh": "这是一张0费的 Uncommon 非凡 攻击牌。社区中性（+8 · 潜力股）。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "MACHINE_LEARNING": {
-    "summary_zh": "这是一张1费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区胜率 61.1%，选取率 44.6%，属于强力稳定选择。",
+    "summary_zh": "这是一张1费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区热门（+32）。",
     "tier": "A",
     "best_archetypes": [],
     "synergy_cards": [],
@@ -3183,42 +3183,42 @@
     "source": "auto_generated"
   },
   "MAKE_IT_SO": {
-    "summary_zh": "这是一张0费的 Rare 稀有 攻击牌。社区胜率 54.5%，选取率 24.0%，属于情景牌，视套路而定。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张0费的 Rare 稀有 攻击牌。社区认可（+13）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "C",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "MALAISE": {
-    "summary_zh": "这是一张X费的 Rare 稀有 技能牌。社区胜率 60.3%，选取率 11.2%，属于强力稳定选择。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。 费用为 X，输出随投入能量线性增长；能量遗物或充能类支持可显著提升价值。",
+    "summary_zh": "这是一张X费的 Rare 稀有 技能牌。社区认可（+16 · 潜力股）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。 费用为 X，输出随投入能量线性增长；能量遗物或充能类支持可显著提升价值。",
     "tier": "A",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "MANGLE": {
-    "summary_zh": "这是一张3费的 Rare 稀有 攻击牌。社区胜率 49.1%，选取率 12.5%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张3费的 Rare 稀有 攻击牌。社区中性（-5）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "MANIFEST_AUTHORITY": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。社区胜率 46.2%，选取率 15.2%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。社区冷淡（-10）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "MASTER_OF_STRATEGY": {
-    "summary_zh": "这是一张0费的 Rare 稀有 技能牌。社区胜率 73.2%，选取率 1.5%，属于强力稳定选择。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
+    "summary_zh": "这是一张0费的 Rare 稀有 技能牌。社区认可（+24 · 潜力股）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "MASTER_PLANNER": {
-    "summary_zh": "这是一张2费的 Rare 稀有 能力牌，永久效果持续整个战斗。它是 Silent: Retain / Setup Burst 套路的核心牌（弃牌时免费打出一张），同时兼顾其他相关方向。社区胜率 64.4%，选取率 45.1%，属于强力稳定选择。",
+    "summary_zh": "这是一张2费的 Rare 稀有 能力牌，永久效果持续整个战斗。它是 Silent: Retain / Setup Burst 套路的核心牌（弃牌时免费打出一张），同时兼顾其他相关方向。社区热门（+36）。",
     "tier": "S",
     "best_archetypes": [
       "silent_retain_setup",
@@ -3241,21 +3241,21 @@
     "source": "auto_generated"
   },
   "MAYHEM": {
-    "summary_zh": "这是一张2费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区胜率 66.5%，选取率 0.6%，属于强力稳定选择。",
+    "summary_zh": "这是一张2费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区认可（+20 · 潜力股）。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "MELANCHOLY": {
-    "summary_zh": "这是一张3费的 Uncommon 非凡 技能牌。社区胜率 43.9%，选取率 6.7%，玩家普遍倾向跳过。费用较高，游戏早期使用受限；建议在有能量遗物时才优先考虑。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张3费的 Uncommon 非凡 技能牌。社区冷淡（-19）。费用较高，游戏早期使用受限；建议在有能量遗物时才优先考虑。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "MEMENTO_MORI": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。它是 Silent: Shiv 套路的关键辅助牌（计数终结），同时兼顾其他相关方向。社区胜率 50.9%，选取率 13.4%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。它是 Silent: Shiv 套路的关键辅助牌（计数终结），同时兼顾其他相关方向。社区中性（+0）。",
     "tier": "D",
     "best_archetypes": [
       "silent_shiv",
@@ -3278,28 +3278,28 @@
     "source": "auto_generated"
   },
   "METEOR_SHOWER": {
-    "summary_zh": "这是一张0费的 Ancient 先古 攻击牌。社区胜率 59.9%，选取率 3.0%，社区整体评价中上。",
+    "summary_zh": "这是一张0费的 Ancient 先古 攻击牌。社区认可（+12 · 潜力股）。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "METEOR_STRIKE": {
-    "summary_zh": "这是一张5费的 Rare 稀有 攻击牌。社区胜率 51.5%，选取率 11.0%，属于情景牌，视套路而定。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张5费的 Rare 稀有 攻击牌。社区中性（+0 · 潜力股）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "C",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "MIMIC": {
-    "summary_zh": "这是一张1费的 Rare 稀有 技能牌。社区胜率 70.0%，选取率 1.7%，属于强力稳定选择。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
+    "summary_zh": "这是一张1费的 Rare 稀有 技能牌。社区认可（+23 · 潜力股）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "MIND_BLAST": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。社区胜率 50.6%，选取率 0.8%，玩家普遍倾向跳过。为天赋牌（Innate），每次战斗开局必抽到；需确认此牌值得占用开局手牌位置。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。社区冷淡（-7 · 潜力股）。为天赋牌（Innate），每次战斗开局必抽到；需确认此牌值得占用开局手牌位置。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
@@ -3349,7 +3349,7 @@
     "source": "auto_generated"
   },
   "MISERY": {
-    "summary_zh": "这是一张0费的 Rare 稀有 攻击牌。它是 Necrobinder: Soul Engine 套路的核心牌（Soul大量消耗终结），同时兼顾其他相关方向。社区胜率 55.3%，选取率 27.6%，社区整体评价中上。",
+    "summary_zh": "这是一张0费的 Rare 稀有 攻击牌。它是 Necrobinder: Soul Engine 套路的核心牌（Soul大量消耗终结），同时兼顾其他相关方向。社区认可（+16）。",
     "tier": "B",
     "best_archetypes": [
       "necrobinder_soul_engine"
@@ -3364,14 +3364,14 @@
     "source": "auto_generated"
   },
   "MODDED": {
-    "summary_zh": "这是一张0费的 Rare 稀有 技能牌。社区胜率 57.6%，选取率 44.0%，社区整体评价中上。",
+    "summary_zh": "这是一张0费的 Rare 稀有 技能牌。社区热门（+26 · 高估风险）。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "MOLTEN_FIST": {
-    "summary_zh": "这是一张1费的 Common 普通 攻击牌。它是 Ironclad: Vulnerable 套路的关键辅助牌（攻击+Exhaust增伤）。社区胜率 41.7%，选取率 18.5%，玩家普遍倾向跳过。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
+    "summary_zh": "这是一张1费的 Common 普通 攻击牌。它是 Ironclad: Vulnerable 套路的关键辅助牌（攻击+Exhaust增伤）。社区冷淡（-17 · 高估风险）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
     "tier": "D",
     "best_archetypes": [
       "ironclad_vulnerable"
@@ -3386,21 +3386,21 @@
     "source": "auto_generated"
   },
   "MOMENTUM_STRIKE": {
-    "summary_zh": "这是一张1费的 Common 普通 攻击牌。社区胜率 39.4%，选取率 8.9%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Common 普通 攻击牌。社区跳过（-25）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "MONARCHS_GAZE": {
-    "summary_zh": "这是一张3费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区胜率 49.2%，选取率 15.6%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张3费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区中性（-3）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "MONOLOGUE": {
-    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。它是 Regent: Retain / Control 套路的补充牌（0费控制工具）。社区胜率 47.4%，选取率 20.4%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。它是 Regent: Retain / Control 套路的补充牌（0费控制工具）。社区中性（-4）。",
     "tier": "D",
     "best_archetypes": [
       "regent_retain_control"
@@ -3409,7 +3409,7 @@
     "source": "auto_generated"
   },
   "MULTI_CAST": {
-    "summary_zh": "这是一张X费的 Rare 稀有 技能牌。它是 Defect: Dark / Evoke Burst 套路的核心牌（多次触发Orb，Dark爆发），同时兼顾其他相关方向。社区胜率 48.4%，选取率 15.2%，玩家普遍倾向跳过。费用为 X，输出随投入能量线性增长；能量遗物或充能类支持可显著提升价值。",
+    "summary_zh": "这是一张X费的 Rare 稀有 技能牌。它是 Defect: Dark / Evoke Burst 套路的核心牌（多次触发Orb，Dark爆发），同时兼顾其他相关方向。社区中性（-5）。费用为 X，输出随投入能量线性增长；能量遗物或充能类支持可显著提升价值。",
     "tier": "D",
     "best_archetypes": [
       "defect_dark_evoke",
@@ -3425,14 +3425,14 @@
     "source": "auto_generated"
   },
   "MURDER": {
-    "summary_zh": "这是一张3费的 Rare 稀有 攻击牌。社区胜率 60.3%，选取率 15.0%，属于强力稳定选择。",
+    "summary_zh": "这是一张3费的 Rare 稀有 攻击牌。社区认可（+18 · 潜力股）。",
     "tier": "A",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "NECRO_MASTERY": {
-    "summary_zh": "这是一张2费的 Rare 稀有 能力牌，永久效果持续整个战斗。它是 Necrobinder: Osty Buff / Tank 套路的核心牌（永久强化Osty，游戏内长期价值），同时兼顾其他相关方向。社区胜率 56.5%，选取率 32.3%，社区整体评价中上。",
+    "summary_zh": "这是一张2费的 Rare 稀有 能力牌，永久效果持续整个战斗。它是 Necrobinder: Osty Buff / Tank 套路的核心牌（永久强化Osty，游戏内长期价值），同时兼顾其他相关方向。社区认可（+21）。",
     "tier": "B",
     "best_archetypes": [
       "necrobinder_osty_buff",
@@ -3448,7 +3448,7 @@
     "source": "auto_generated"
   },
   "NEGATIVE_PULSE": {
-    "summary_zh": "这是一张1费的 Common 普通 技能牌。社区胜率 40.6%，选取率 21.9%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Common 普通 技能牌。社区冷淡（-17 · 高估风险）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
@@ -3462,7 +3462,7 @@
     "source": "auto_generated"
   },
   "NEUROSURGE": {
-    "summary_zh": "这是一张0费的 Rare 稀有 能力牌，永久效果持续整个战斗。它是 Necrobinder: Soul / Exhaust Engine 套路的核心牌（0费排除+增强，S级），同时兼顾其他相关方向。社区胜率 66.6%，选取率 54.7%，属于强力稳定选择。",
+    "summary_zh": "这是一张0费的 Rare 稀有 能力牌，永久效果持续整个战斗。它是 Necrobinder: Soul / Exhaust Engine 套路的核心牌（0费排除+增强，S级），同时兼顾其他相关方向。社区热门（+40）。",
     "tier": "S",
     "best_archetypes": [
       "necrobinder_soul_exhaust"
@@ -3477,21 +3477,21 @@
     "source": "auto_generated"
   },
   "NEUTRALIZE": {
-    "summary_zh": "这是一张0费的 Basic 基础 攻击牌。社区胜率 34.4%，选取率 0.0%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张0费的 Basic 基础 攻击牌。社区跳过（-35）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "NEUTRON_AEGIS": {
-    "summary_zh": "这是一张1费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区胜率 50.3%，选取率 19.7%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区中性（+2）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "NIGHTMARE": {
-    "summary_zh": "这是一张3费的 Rare 稀有 技能牌。它是 Silent: Sly / Discard 套路的关键辅助牌（复制关键牌终结），同时兼顾其他相关方向。社区胜率 54.7%，选取率 16.5%，属于情景牌，视套路而定。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
+    "summary_zh": "这是一张3费的 Rare 稀有 技能牌。它是 Silent: Sly / Discard 套路的关键辅助牌（复制关键牌终结），同时兼顾其他相关方向。社区中性（+9 · 潜力股）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
     "tier": "C",
     "best_archetypes": [
       "silent_sly_discard",
@@ -3514,7 +3514,7 @@
     "source": "auto_generated"
   },
   "NOSTALGIA": {
-    "summary_zh": "这是一张1费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区胜率 66.9%，选取率 0.4%，属于强力稳定选择。",
+    "summary_zh": "这是一张1费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区认可（+20 · 潜力股）。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
@@ -3536,7 +3536,7 @@
     "source": "auto_generated"
   },
   "NOXIOUS_FUMES": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Silent: Poison 套路的核心牌（每回合被动叠毒）。社区胜率 50.5%，选取率 20.4%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Silent: Poison 套路的核心牌（每回合被动叠毒）。社区中性（+2）。",
     "tier": "D",
     "best_archetypes": [
       "silent_poison"
@@ -3551,7 +3551,7 @@
     "source": "auto_generated"
   },
   "NO_ESCAPE": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Necrobinder: Doom / Execute 套路的核心牌（已有Doom时额外叠加）。社区胜率 48.0%，选取率 30.5%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Necrobinder: Doom / Execute 套路的核心牌（已有Doom时额外叠加）。社区中性（+2 · 高估风险）。",
     "tier": "D",
     "best_archetypes": [
       "necrobinder_doom_execute"
@@ -3566,14 +3566,14 @@
     "source": "auto_generated"
   },
   "NULL": {
-    "summary_zh": "这是一张2费的 Uncommon 非凡 攻击牌。社区胜率 49.3%，选取率 6.8%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张2费的 Uncommon 非凡 攻击牌。社区冷淡（-7 · 潜力股）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "OBLIVION": {
-    "summary_zh": "这是一张0费的 Rare 稀有 技能牌。它是 Necrobinder: Doom / Execute 套路的核心牌（Doom施加核心）。社区胜率 60.9%，选取率 39.8%，属于强力稳定选择。",
+    "summary_zh": "这是一张0费的 Rare 稀有 技能牌。它是 Necrobinder: Doom / Execute 套路的核心牌（Doom施加核心）。社区热门（+30）。",
     "tier": "A",
     "best_archetypes": [
       "necrobinder_doom_execute"
@@ -3588,7 +3588,7 @@
     "source": "auto_generated"
   },
   "OFFERING": {
-    "summary_zh": "这是一张0费的 Rare 稀有 技能牌。它是 Ironclad: Self Damage 套路的核心牌（HP换费+摸牌），同时兼顾其他相关方向。社区胜率 63.9%，选取率 64.0%，属于强力稳定选择。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
+    "summary_zh": "这是一张0费的 Rare 稀有 技能牌。它是 Ironclad: Self Damage 套路的核心牌（HP换费+摸牌），同时兼顾其他相关方向。社区热门（+38）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
     "tier": "S",
     "best_archetypes": [
       "ironclad_self_damage"
@@ -3603,14 +3603,14 @@
     "source": "auto_generated"
   },
   "OMNISLICE": {
-    "summary_zh": "这是一张0费的 Uncommon 非凡 攻击牌。社区胜率 44.4%，选取率 2.4%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张0费的 Uncommon 非凡 攻击牌。社区冷淡（-19）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "ONE_TWO_PUNCH": {
-    "summary_zh": "这是一张1费的 Rare 稀有 技能牌。它是 Ironclad: Strength 套路的关键辅助牌（双段攻击力量倍化）。社区胜率 48.7%，选取率 25.1%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Rare 稀有 技能牌。它是 Ironclad: Strength 套路的关键辅助牌（双段攻击力量倍化）。社区中性（+1 · 高估风险）。",
     "tier": "D",
     "best_archetypes": [
       "ironclad_strength"
@@ -3625,14 +3625,14 @@
     "source": "auto_generated"
   },
   "ORBIT": {
-    "summary_zh": "这是一张2费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。社区胜率 52.9%，选取率 35.1%，属于情景牌，视套路而定。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张2费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。社区认可（+14 · 高估风险）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "C",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "OUTBREAK": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Silent: Poison 套路的核心牌（毒扩散全体）。社区胜率 49.7%，选取率 14.0%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Silent: Poison 套路的核心牌（毒扩散全体）。社区中性（-3）。",
     "tier": "D",
     "best_archetypes": [
       "silent_poison"
@@ -3654,7 +3654,7 @@
     "source": "auto_generated"
   },
   "OVERCLOCK": {
-    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。它是 Defect: 0 Cost / Cycle 套路的核心牌（0费摸牌+状态），同时兼顾其他相关方向。社区胜率 58.1%，选取率 38.7%，社区整体评价中上。",
+    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。它是 Defect: 0 Cost / Cycle 套路的核心牌（0费摸牌+状态），同时兼顾其他相关方向。社区热门（+26）。",
     "tier": "B",
     "best_archetypes": [
       "defect_zero_cost_cycle"
@@ -3669,7 +3669,7 @@
     "source": "auto_generated"
   },
   "PACTS_END": {
-    "summary_zh": "这是一张0费的 Rare 稀有 攻击牌。它是 Ironclad: Exhaust Engine 套路的核心牌（排除堆终结技），同时兼顾其他相关方向。社区胜率 54.5%，选取率 22.3%，属于情景牌，视套路而定。",
+    "summary_zh": "这是一张0费的 Rare 稀有 攻击牌。它是 Ironclad: Exhaust Engine 套路的核心牌（排除堆终结技），同时兼顾其他相关方向。社区认可（+12）。",
     "tier": "C",
     "best_archetypes": [
       "ironclad_exhaust",
@@ -3685,7 +3685,7 @@
     "source": "auto_generated"
   },
   "PAGESTORM": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Necrobinder: Ethereal Engine 套路的核心牌（Ethereal摸牌引擎）。社区胜率 56.5%，选取率 11.6%，社区整体评价中上。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Necrobinder: Ethereal Engine 套路的核心牌（Ethereal摸牌引擎）。社区认可（+10 · 潜力股）。",
     "tier": "B",
     "best_archetypes": [
       "necrobinder_ethereal_engine"
@@ -3700,7 +3700,7 @@
     "source": "auto_generated"
   },
   "PALE_BLUE_DOT": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Regent: Colorless / Create 套路的关键辅助牌（创建无色牌）。社区胜率 57.4%，选取率 7.6%，社区整体评价中上。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Regent: Colorless / Create 套路的关键辅助牌（创建无色牌）。社区中性（+10 · 潜力股）。",
     "tier": "B",
     "best_archetypes": [
       "regent_colorless_create"
@@ -3715,21 +3715,21 @@
     "source": "auto_generated"
   },
   "PANACHE": {
-    "summary_zh": "这是一张0费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。社区胜率 59.3%，选取率 3.5%，社区整体评价中上。",
+    "summary_zh": "这是一张0费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。社区认可（+11 · 潜力股）。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "PANIC_BUTTON": {
-    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。社区胜率 51.7%，选取率 0.8%，属于情景牌，视套路而定。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。社区中性（-4 · 潜力股）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "C",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "PARRY": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Regent: Sovereign Blade / Forge 套路的核心牌（格挡+触发Forge）。社区胜率 37.6%，选取率 8.0%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Regent: Sovereign Blade / Forge 套路的核心牌（格挡+触发Forge）。社区跳过（-28）。",
     "tier": "D",
     "best_archetypes": [
       "regent_sovereign_blade_forge"
@@ -3744,7 +3744,7 @@
     "source": "auto_generated"
   },
   "PARSE": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Necrobinder: Ethereal Engine 套路的核心牌（Ethereal摸牌循环）。社区胜率 58.6%，选取率 30.4%，社区整体评价中上。带有以太属性（Ethereal），本回合未打出会被消耗；需确保本回合能使用，或避免在常规牌库中大量囤积。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Necrobinder: Ethereal Engine 套路的核心牌（Ethereal摸牌循环）。社区认可（+24）。带有以太属性（Ethereal），本回合未打出会被消耗；需确保本回合能使用，或避免在常规牌库中大量囤积。",
     "tier": "B",
     "best_archetypes": [
       "necrobinder_ethereal_engine"
@@ -3759,7 +3759,7 @@
     "source": "auto_generated"
   },
   "PARTICLE_WALL": {
-    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。它是 Regent: Retain / Control 套路的核心牌（0费格挡，控制路线基础）。社区胜率 52.6%，选取率 35.9%，属于情景牌，视套路而定。",
+    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。它是 Regent: Retain / Control 套路的核心牌（0费格挡，控制路线基础）。社区认可（+14 · 高估风险）。",
     "tier": "C",
     "best_archetypes": [
       "regent_retain_control"
@@ -3774,7 +3774,7 @@
     "source": "auto_generated"
   },
   "PATTER": {
-    "summary_zh": "这是一张1费的 Common 普通 技能牌。社区胜率 49.4%，选取率 10.7%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Common 普通 技能牌。社区冷淡（-5）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
@@ -3788,7 +3788,7 @@
     "source": "auto_generated"
   },
   "PERFECTED_STRIKE": {
-    "summary_zh": "这是一张2费的 Common 普通 攻击牌。它是 Ironclad: Strike Scaling 套路的核心牌（Strike数量倍化伤害，核心）。社区胜率 38.0%，选取率 24.3%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张2费的 Common 普通 攻击牌。它是 Ironclad: Strike Scaling 套路的核心牌（Strike数量倍化伤害，核心）。社区冷淡（-19 · 高估风险）。",
     "tier": "D",
     "best_archetypes": [
       "ironclad_strike_scaling"
@@ -3803,7 +3803,7 @@
     "source": "auto_generated"
   },
   "PHANTOM_BLADES": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Silent: Shiv 套路的核心牌（Shiv打全体）。社区胜率 57.4%，选取率 9.4%，社区整体评价中上。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Silent: Shiv 套路的核心牌（Shiv打全体）。社区认可（+11 · 潜力股）。",
     "tier": "B",
     "best_archetypes": [
       "silent_shiv"
@@ -3818,14 +3818,14 @@
     "source": "auto_generated"
   },
   "PHOTON_CUT": {
-    "summary_zh": "这是一张1费的 Common 普通 攻击牌。社区胜率 44.0%，选取率 12.1%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Common 普通 攻击牌。社区冷淡（-16）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "PIERCING_WAIL": {
-    "summary_zh": "这是一张1费的 Common 普通 技能牌。它是 Silent: Poison 套路的补充牌（全体削弱）。社区胜率 52.9%，选取率 22.0%，属于情景牌，视套路而定。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
+    "summary_zh": "这是一张1费的 Common 普通 技能牌。它是 Silent: Poison 套路的补充牌（全体削弱）。社区中性（+8）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
     "tier": "C",
     "best_archetypes": [
       "silent_poison",
@@ -3835,14 +3835,14 @@
     "source": "auto_generated"
   },
   "PILLAGE": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。社区胜率 47.6%，选取率 26.9%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。社区中性（-1 · 高估风险）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "PILLAR_OF_CREATION": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Regent: Colorless / Create 套路的核心牌（批量创建无色牌）。社区胜率 44.6%，选取率 5.6%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Regent: Colorless / Create 套路的核心牌（批量创建无色牌）。社区冷淡（-18）。",
     "tier": "D",
     "best_archetypes": [
       "regent_colorless_create"
@@ -3857,7 +3857,7 @@
     "source": "auto_generated"
   },
   "PINPOINT": {
-    "summary_zh": "这是一张3费的 Uncommon 非凡 攻击牌。它是 Silent: Sly / Discard 套路的关键辅助牌（弃牌触发加成）。社区胜率 52.7%，选取率 20.6%，属于情景牌，视套路而定。费用较高，游戏早期使用受限；建议在有能量遗物时才优先考虑。",
+    "summary_zh": "这是一张3费的 Uncommon 非凡 攻击牌。它是 Silent: Sly / Discard 套路的关键辅助牌（弃牌触发加成）。社区中性（+7）。费用较高，游戏早期使用受限；建议在有能量遗物时才优先考虑。",
     "tier": "C",
     "best_archetypes": [
       "silent_sly_discard"
@@ -3872,7 +3872,7 @@
     "source": "auto_generated"
   },
   "POISONED_STAB": {
-    "summary_zh": "这是一张1费的 Common 普通 攻击牌。它是 Silent: Poison 套路的核心牌（攻击+叠毒）。社区胜率 36.3%，选取率 8.7%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Common 普通 攻击牌。它是 Silent: Poison 套路的核心牌（攻击+叠毒）。社区跳过（-29 · 高估风险）。",
     "tier": "D",
     "best_archetypes": [
       "silent_poison"
@@ -3887,7 +3887,7 @@
     "source": "auto_generated"
   },
   "POKE": {
-    "summary_zh": "这是一张0费的 Common 普通 攻击牌。它是 Necrobinder: Osty Attack 套路的核心牌（触发Osty攻击）。社区胜率 39.6%，选取率 11.8%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张0费的 Common 普通 攻击牌。它是 Necrobinder: Osty Attack 套路的核心牌（触发Osty攻击）。社区跳过（-23 · 高估风险）。",
     "tier": "D",
     "best_archetypes": [
       "necrobinder_osty_attack"
@@ -3902,7 +3902,7 @@
     "source": "auto_generated"
   },
   "POMMEL_STRIKE": {
-    "summary_zh": "这是一张1费的 Common 普通 攻击牌。它是 Ironclad: Strike Scaling 套路的关键辅助牌（Strike+摸牌，循环辅助）。社区胜率 46.7%，选取率 48.9%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Common 普通 攻击牌。它是 Ironclad: Strike Scaling 套路的关键辅助牌（Strike+摸牌，循环辅助）。社区中性（+4 · 高估风险）。",
     "tier": "D",
     "best_archetypes": [
       "ironclad_strike_scaling"
@@ -3924,7 +3924,7 @@
     "source": "auto_generated"
   },
   "POUNCE": {
-    "summary_zh": "这是一张2费的 Uncommon 非凡 攻击牌。它是 Silent: Sly / Discard 套路的关键辅助牌（轻量攻击补充）。社区胜率 37.5%，选取率 6.7%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张2费的 Uncommon 非凡 攻击牌。它是 Silent: Sly / Discard 套路的关键辅助牌（轻量攻击补充）。社区跳过（-29）。",
     "tier": "D",
     "best_archetypes": [
       "silent_sly_discard"
@@ -3939,21 +3939,21 @@
     "source": "auto_generated"
   },
   "PRECISE_CUT": {
-    "summary_zh": "这是一张0费的 Uncommon 非凡 攻击牌。社区胜率 42.1%，选取率 7.5%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张0费的 Uncommon 非凡 攻击牌。社区跳过（-21）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "PREDATOR": {
-    "summary_zh": "这是一张2费的 Uncommon 非凡 攻击牌。社区胜率 43.9%，选取率 5.7%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张2费的 Uncommon 非凡 攻击牌。社区冷淡（-19）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "PREPARED": {
-    "summary_zh": "这是一张0费的 Common 普通 技能牌。它是 Silent: Sly / Discard 套路的核心牌（0费摸1弃1），同时兼顾其他相关方向。社区胜率 54.3%，选取率 51.1%，属于情景牌，视套路而定。",
+    "summary_zh": "这是一张0费的 Common 普通 技能牌。它是 Silent: Sly / Discard 套路的核心牌（0费摸1弃1），同时兼顾其他相关方向。社区认可（+21 · 高估风险）。",
     "tier": "C",
     "best_archetypes": [
       "silent_sly_discard"
@@ -3968,35 +3968,35 @@
     "source": "auto_generated"
   },
   "PREP_TIME": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。社区胜率 51.9%，选取率 1.5%，属于情景牌，视套路而定。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。社区中性（-4 · 潜力股）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "C",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "PRIMAL_FORCE": {
-    "summary_zh": "这是一张0费的 Rare 稀有 技能牌。社区胜率 39.8%，选取率 16.8%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张0费的 Rare 稀有 技能牌。社区跳过（-21 · 高估风险）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "PRODUCTION": {
-    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。社区胜率 59.2%，选取率 11.8%，社区整体评价中上。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
+    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。社区认可（+15 · 潜力股）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
     "tier": "A",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "PROLONG": {
-    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。社区胜率 56.5%，选取率 2.6%，社区整体评价中上。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
+    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。社区中性（+6 · 潜力股）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "PROPHESIZE": {
-    "summary_zh": "这是一张2费的 Uncommon 非凡 技能牌。社区胜率 56.0%，选取率 17.9%，社区整体评价中上。",
+    "summary_zh": "这是一张2费的 Uncommon 非凡 技能牌。社区认可（+13 · 潜力股）。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
@@ -4018,21 +4018,21 @@
     "source": "auto_generated"
   },
   "PROWESS": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。社区胜率 58.9%，选取率 2.7%，社区整体评价中上。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。社区认可（+10 · 潜力股）。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "PULL_AGGRO": {
-    "summary_zh": "这是一张2费的 Common 普通 技能牌。社区胜率 37.7%，选取率 6.8%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张2费的 Common 普通 技能牌。社区跳过（-29）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "PULL_FROM_BELOW": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。它是 Necrobinder: Ethereal Engine 套路的核心牌（Ethereal计数×伤害终结）。社区胜率 49.5%，选取率 7.6%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。它是 Necrobinder: Ethereal Engine 套路的核心牌（Ethereal计数×伤害终结）。社区冷淡（-6 · 潜力股）。",
     "tier": "D",
     "best_archetypes": [
       "necrobinder_ethereal_engine"
@@ -4047,21 +4047,21 @@
     "source": "auto_generated"
   },
   "PURITY": {
-    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。社区胜率 61.8%，选取率 4.6%，属于强力稳定选择。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。 带有保留效果（Retain），可以跨回合持有；适合需要特定组合的套路。",
+    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。社区认可（+16 · 潜力股）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。 带有保留效果（Retain），可以跨回合持有；适合需要特定组合的套路。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "PUTREFY": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。社区胜率 55.8%，选取率 16.7%，社区整体评价中上。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。社区认可（+12 · 潜力股）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "PYRE": {
-    "summary_zh": "这是一张2费的 Rare 稀有 能力牌，永久效果持续整个战斗。它是 Ironclad: Strike Scaling 套路的核心牌（每打出攻击牌积累伤害）。社区胜率 49.4%，选取率 61.2%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张2费的 Rare 稀有 能力牌，永久效果持续整个战斗。它是 Ironclad: Strike Scaling 套路的核心牌（每打出攻击牌积累伤害）。社区认可（+11 · 高估风险）。",
     "tier": "D",
     "best_archetypes": [
       "ironclad_strike_scaling"
@@ -4076,7 +4076,7 @@
     "source": "auto_generated"
   },
   "QUADCAST": {
-    "summary_zh": "这是一张1费的 Ancient 先古 技能牌。它是 Defect: Dark / Evoke Burst 套路的核心牌（四次触发Orb终结）。社区胜率 53.1%，选取率 1.8%，属于情景牌，视套路而定。",
+    "summary_zh": "这是一张1费的 Ancient 先古 技能牌。它是 Defect: Dark / Evoke Burst 套路的核心牌（四次触发Orb终结）。社区中性（-1 · 潜力股）。",
     "tier": "C",
     "best_archetypes": [
       "defect_dark_evoke"
@@ -4091,28 +4091,28 @@
     "source": "auto_generated"
   },
   "QUASAR": {
-    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。社区胜率 46.6%，选取率 15.5%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。社区冷淡（-9）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "RADIATE": {
-    "summary_zh": "这是一张0费的 Uncommon 非凡 攻击牌。社区胜率 53.8%，选取率 34.3%，属于情景牌，视套路而定。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张0费的 Uncommon 非凡 攻击牌。社区认可（+16 · 高估风险）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "C",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "RAGE": {
-    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。社区胜率 42.6%，选取率 31.3%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。社区冷淡（-9 · 高估风险）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "RAINBOW": {
-    "summary_zh": "这是一张2费的 Rare 稀有 技能牌。它是 Defect: Dark / Evoke Burst 套路的关键辅助牌（通道三色Orb），同时兼顾其他相关方向。社区胜率 49.8%，选取率 17.8%，玩家普遍倾向跳过。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
+    "summary_zh": "这是一张2费的 Rare 稀有 技能牌。它是 Defect: Dark / Evoke Burst 套路的关键辅助牌（通道三色Orb），同时兼顾其他相关方向。社区中性（-1）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
     "tier": "D",
     "best_archetypes": [
       "defect_dark_evoke",
@@ -4128,21 +4128,21 @@
     "source": "auto_generated"
   },
   "RALLY": {
-    "summary_zh": "这是一张2费的 Rare 稀有 技能牌。社区胜率 70.4%，选取率 1.2%，属于强力稳定选择。",
+    "summary_zh": "这是一张2费的 Rare 稀有 技能牌。社区认可（+23 · 潜力股）。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "RAMPAGE": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。社区胜率 34.9%，选取率 13.5%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。社区跳过（-29 · 高估风险）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "RATTLE": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。它是 Necrobinder: Osty Buff / Tank 套路的关键辅助牌（攻击+Osty联动）。社区胜率 41.1%，选取率 10.8%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。它是 Necrobinder: Osty Buff / Tank 套路的关键辅助牌（攻击+Osty联动）。社区跳过（-22）。",
     "tier": "D",
     "best_archetypes": [
       "necrobinder_osty_buff"
@@ -4157,21 +4157,21 @@
     "source": "auto_generated"
   },
   "REANIMATE": {
-    "summary_zh": "这是一张3费的 Rare 稀有 技能牌。社区胜率 58.4%，选取率 25.9%，社区整体评价中上。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
+    "summary_zh": "这是一张3费的 Rare 稀有 技能牌。社区认可（+21）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "REAP": {
-    "summary_zh": "这是一张3费的 Common 普通 攻击牌。社区胜率 38.2%，选取率 3.7%，玩家普遍倾向跳过。带有保留效果（Retain），可以跨回合持有；适合需要特定组合的套路。 费用较高，游戏早期使用受限；建议在有能量遗物时才优先考虑。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张3费的 Common 普通 攻击牌。社区跳过（-29）。带有保留效果（Retain），可以跨回合持有；适合需要特定组合的套路。 费用较高，游戏早期使用受限；建议在有能量遗物时才优先考虑。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "REAPER_FORM": {
-    "summary_zh": "这是一张3费的 Rare 稀有 能力牌，永久效果持续整个战斗。它是 Necrobinder: Doom / Execute 套路的核心牌（Doom效果强化）。社区胜率 51.2%，选取率 29.8%，属于情景牌，视套路而定。",
+    "summary_zh": "这是一张3费的 Rare 稀有 能力牌，永久效果持续整个战斗。它是 Necrobinder: Doom / Execute 套路的核心牌（Doom效果强化）。社区中性（+9 · 高估风险）。",
     "tier": "C",
     "best_archetypes": [
       "necrobinder_doom_execute"
@@ -4186,7 +4186,7 @@
     "source": "auto_generated"
   },
   "REAVE": {
-    "summary_zh": "这是一张1费的 Common 普通 攻击牌。它是 Necrobinder: Soul Engine 套路的核心牌（Soul生成核心），同时兼顾其他相关方向。社区胜率 39.7%，选取率 14.6%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Common 普通 攻击牌。它是 Necrobinder: Soul Engine 套路的核心牌（Soul生成核心），同时兼顾其他相关方向。社区跳过（-22 · 高估风险）。",
     "tier": "D",
     "best_archetypes": [
       "necrobinder_soul_engine"
@@ -4201,7 +4201,7 @@
     "source": "auto_generated"
   },
   "REBOOT": {
-    "summary_zh": "这是一张0费的 Rare 稀有 技能牌。它是 Defect: 0 Cost / Cycle 套路的关键辅助牌（重置摸牌堆）。社区胜率 62.9%，选取率 43.1%，属于强力稳定选择。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
+    "summary_zh": "这是一张0费的 Rare 稀有 技能牌。它是 Defect: 0 Cost / Cycle 套路的关键辅助牌（重置摸牌堆）。社区热门（+34）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
     "tier": "A",
     "best_archetypes": [
       "defect_zero_cost_cycle"
@@ -4223,7 +4223,7 @@
     "source": "auto_generated"
   },
   "REFINE_BLADE": {
-    "summary_zh": "这是一张1费的 Common 普通 技能牌。它是 Regent: Sovereign Blade / Forge 套路的核心牌（Forge+取刀入手）。社区胜率 35.2%，选取率 13.2%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Common 普通 技能牌。它是 Regent: Sovereign Blade / Forge 套路的核心牌（Forge+取刀入手）。社区跳过（-28 · 高估风险）。",
     "tier": "D",
     "best_archetypes": [
       "regent_sovereign_blade_forge"
@@ -4238,7 +4238,7 @@
     "source": "auto_generated"
   },
   "REFLECT": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Regent: Retain / Control 套路的核心牌（摸牌+格挡，循环控制），同时兼顾其他相关方向。社区胜率 49.8%，选取率 32.8%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Regent: Retain / Control 套路的核心牌（摸牌+格挡，循环控制），同时兼顾其他相关方向。社区中性（+7 · 高估风险）。",
     "tier": "D",
     "best_archetypes": [
       "regent_retain_control"
@@ -4253,7 +4253,7 @@
     "source": "auto_generated"
   },
   "REFLEX": {
-    "summary_zh": "这是一张3费的 Uncommon 非凡 技能牌。它是 Silent: Sly / Discard 套路的核心牌（弃牌摸2张），同时兼顾其他相关方向。社区胜率 62.4%，选取率 51.2%，属于强力稳定选择。费用较高，游戏早期使用受限；建议在有能量遗物时才优先考虑。",
+    "summary_zh": "这是一张3费的 Uncommon 非凡 技能牌。它是 Silent: Sly / Discard 套路的核心牌（弃牌摸2张），同时兼顾其他相关方向。社区热门（+35）。费用较高，游戏早期使用受限；建议在有能量遗物时才优先考虑。",
     "tier": "A",
     "best_archetypes": [
       "silent_sly_discard"
@@ -4268,7 +4268,7 @@
     "source": "auto_generated"
   },
   "REFRACT": {
-    "summary_zh": "这是一张3费的 Uncommon 非凡 攻击牌。社区胜率 41.7%，选取率 6.0%，玩家普遍倾向跳过。费用较高，游戏早期使用受限；建议在有能量遗物时才优先考虑。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张3费的 Uncommon 非凡 攻击牌。社区跳过（-23）。费用较高，游戏早期使用受限；建议在有能量遗物时才优先考虑。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
@@ -4289,14 +4289,14 @@
     "source": "auto_generated"
   },
   "REND": {
-    "summary_zh": "这是一张2费的 Rare 稀有 攻击牌。社区胜率 67.1%，选取率 0.1%，属于强力稳定选择。",
+    "summary_zh": "这是一张2费的 Rare 稀有 攻击牌。社区认可（+20 · 潜力股）。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "RESONANCE": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Regent: Star Engine 套路的关键辅助牌（星共鸣触发）。社区胜率 45.2%，选取率 11.4%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Regent: Star Engine 套路的关键辅助牌（星共鸣触发）。社区冷淡（-14）。",
     "tier": "D",
     "best_archetypes": [
       "regent_star_engine"
@@ -4311,21 +4311,21 @@
     "source": "auto_generated"
   },
   "RESTLESSNESS": {
-    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。社区胜率 54.3%，选取率 2.7%，属于情景牌，视套路而定。带有保留效果（Retain），可以跨回合持有；适合需要特定组合的套路。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。社区中性（+2 · 潜力股）。带有保留效果（Retain），可以跨回合持有；适合需要特定组合的套路。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "C",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "RICOCHET": {
-    "summary_zh": "这是一张2费的 Common 普通 攻击牌。社区胜率 49.2%，选取率 16.2%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张2费的 Common 普通 攻击牌。社区中性（-3）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "RIGHT_HAND_HAND": {
-    "summary_zh": "这是一张0费的 Uncommon 非凡 攻击牌。社区胜率 42.6%，选取率 13.3%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张0费的 Uncommon 非凡 攻击牌。社区冷淡（-18）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
@@ -4339,28 +4339,28 @@
     "source": "auto_generated"
   },
   "ROCKET_PUNCH": {
-    "summary_zh": "这是一张2费的 Uncommon 非凡 攻击牌。社区胜率 53.5%，选取率 13.8%，属于情景牌，视套路而定。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张2费的 Uncommon 非凡 攻击牌。社区中性（+5 · 潜力股）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "C",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "ROLLING_BOULDER": {
-    "summary_zh": "这是一张3费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区胜率 57.1%，选取率 0.3%，社区整体评价中上。",
+    "summary_zh": "这是一张3费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区中性（+6 · 潜力股）。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "ROYALTIES": {
-    "summary_zh": "这是一张1费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区胜率 46.1%，选取率 24.8%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区中性（-5 · 高估风险）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "ROYAL_GAMBLE": {
-    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。它是 Regent: Star Engine 套路的关键辅助牌（高风险高收益星消耗），同时兼顾其他相关方向。社区胜率 53.6%，选取率 44.6%，属于情景牌，视套路而定。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
+    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。它是 Regent: Star Engine 套路的关键辅助牌（高风险高收益星消耗），同时兼顾其他相关方向。社区认可（+18 · 高估风险）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
     "tier": "C",
     "best_archetypes": [
       "regent_star_engine",
@@ -4376,7 +4376,7 @@
     "source": "auto_generated"
   },
   "RUPTURE": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Ironclad: Self Damage 套路的核心牌（HP损耗转永久力量），同时兼顾其他相关方向。社区胜率 46.9%，选取率 17.8%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Ironclad: Self Damage 套路的核心牌（HP损耗转永久力量），同时兼顾其他相关方向。社区冷淡（-7）。",
     "tier": "D",
     "best_archetypes": [
       "ironclad_self_damage",
@@ -4392,35 +4392,35 @@
     "source": "auto_generated"
   },
   "SACRIFICE": {
-    "summary_zh": "这是一张1费的 Rare 稀有 技能牌。社区胜率 51.3%，选取率 10.5%，属于情景牌，视套路而定。带有保留效果（Retain），可以跨回合持有；适合需要特定组合的套路。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Rare 稀有 技能牌。社区中性（-1 · 潜力股）。带有保留效果（Retain），可以跨回合持有；适合需要特定组合的套路。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "C",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "SALVO": {
-    "summary_zh": "这是一张1费的 Rare 稀有 攻击牌。社区胜率 61.8%，选取率 0.3%，属于强力稳定选择。",
+    "summary_zh": "这是一张1费的 Rare 稀有 攻击牌。社区认可（+14 · 潜力股）。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "SCAVENGE": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。社区胜率 56.1%，选取率 32.6%，社区整体评价中上。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。社区认可（+20）。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "SCOURGE": {
-    "summary_zh": "这是一张1费的 Common 普通 技能牌。社区胜率 46.8%，选取率 21.1%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Common 普通 技能牌。社区冷淡（-5 · 高估风险）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "SCRAPE": {
-    "summary_zh": "这是一张X费的 Uncommon 非凡 攻击牌。它是 Defect: Claw Cycle 套路的核心牌（攻击+摸牌，加速循环），同时兼顾其他相关方向。社区胜率 53.1%，选取率 11.5%，属于情景牌，视套路而定。费用为 X，输出随投入能量线性增长；能量遗物或充能类支持可显著提升价值。",
+    "summary_zh": "这是一张X费的 Uncommon 非凡 攻击牌。它是 Defect: Claw Cycle 套路的核心牌（攻击+摸牌，加速循环），同时兼顾其他相关方向。社区中性（+3 · 潜力股）。费用为 X，输出随投入能量线性增长；能量遗物或充能类支持可显著提升价值。",
     "tier": "C",
     "best_archetypes": [
       "defect_claw_cycle",
@@ -4436,28 +4436,28 @@
     "source": "auto_generated"
   },
   "SCRAWL": {
-    "summary_zh": "这是一张1费的 Rare 稀有 技能牌。社区胜率 80.6%，选取率 1.0%，属于强力稳定选择。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
+    "summary_zh": "这是一张1费的 Rare 稀有 技能牌。社区热门（+27 · 潜力股）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "SCULPTING_STRIKE": {
-    "summary_zh": "这是一张1费的 Common 普通 攻击牌。社区胜率 51.6%，选取率 9.5%，属于情景牌，视套路而定。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Common 普通 攻击牌。社区中性（-1 · 潜力股）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "C",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "SEANCE": {
-    "summary_zh": "这是一张0费的 Rare 稀有 技能牌。在 Necrobinder: Osty Buff / Tank 套路中此牌被标记为污染，通常不建议拿取。社区胜率 65.0%，选取率 47.5%，属于强力稳定选择。带有以太属性（Ethereal），本回合未打出会被消耗；需确保本回合能使用，或避免在常规牌库中大量囤积。 在当前数据库定义的套路中，此牌与核心机制不协同；除非套路已成型否则建议跳过。",
+    "summary_zh": "这是一张0费的 Rare 稀有 技能牌。在 Necrobinder: Osty Buff / Tank 套路中此牌被标记为污染，通常不建议拿取。社区热门（+37）。带有以太属性（Ethereal），本回合未打出会被消耗；需确保本回合能使用，或避免在常规牌库中大量囤积。 在当前数据库定义的套路中，此牌与核心机制不协同；除非套路已成型否则建议跳过。",
     "tier": "S",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "SECOND_WIND": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Ironclad: Exhaust Engine 套路的核心牌（大量技能牌时价值高）。社区胜率 47.9%，选取率 25.6%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Ironclad: Exhaust Engine 套路的核心牌（大量技能牌时价值高）。社区中性（-1 · 高估风险）。",
     "tier": "D",
     "best_archetypes": [
       "ironclad_exhaust"
@@ -4472,77 +4472,77 @@
     "source": "auto_generated"
   },
   "SECRET_TECHNIQUE": {
-    "summary_zh": "这是一张0费的 Rare 稀有 技能牌。社区胜率 70.5%，选取率 0.8%，属于强力稳定选择。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
+    "summary_zh": "这是一张0费的 Rare 稀有 技能牌。社区认可（+23 · 潜力股）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "SECRET_WEAPON": {
-    "summary_zh": "这是一张0费的 Rare 稀有 技能牌。社区胜率 64.7%，选取率 0.4%，属于强力稳定选择。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
+    "summary_zh": "这是一张0费的 Rare 稀有 技能牌。社区认可（+18 · 潜力股）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "SEEKER_STRIKE": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。社区胜率 50.6%，选取率 1.3%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。社区冷淡（-7 · 潜力股）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "SEEKING_EDGE": {
-    "summary_zh": "这是一张1费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区胜率 49.4%，选取率 32.1%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区中性（+6 · 高估风险）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "SENTRY_MODE": {
-    "summary_zh": "这是一张2费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区胜率 51.0%，选取率 20.9%，属于情景牌，视套路而定。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张2费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区中性（+4）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "C",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "SERPENT_FORM": {
-    "summary_zh": "这是一张3费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区胜率 60.9%，选取率 21.6%，属于强力稳定选择。",
+    "summary_zh": "这是一张3费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区认可（+23 · 潜力股）。",
     "tier": "A",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "SETUP_STRIKE": {
-    "summary_zh": "这是一张1费的 Common 普通 攻击牌。社区胜率 35.6%，选取率 16.1%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Common 普通 攻击牌。社区跳过（-27 · 高估风险）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "SEVEN_STARS": {
-    "summary_zh": "这是一张2费的 Rare 稀有 攻击牌。社区胜率 54.3%，选取率 30.3%，属于情景牌，视套路而定。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张2费的 Rare 稀有 攻击牌。社区认可（+15）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "C",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "SEVERANCE": {
-    "summary_zh": "这是一张2费的 Uncommon 非凡 攻击牌。社区胜率 51.5%，选取率 19.9%，属于情景牌，视套路而定。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张2费的 Uncommon 非凡 攻击牌。社区中性（+4）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "C",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "SHADOWMELD": {
-    "summary_zh": "这是一张1费的 Rare 稀有 技能牌。社区胜率 58.0%，选取率 27.6%，社区整体评价中上。",
+    "summary_zh": "这是一张1费的 Rare 稀有 技能牌。社区认可（+21）。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "SHADOW_SHIELD": {
-    "summary_zh": "这是一张2费的 Uncommon 非凡 技能牌。它是 Defect: Dark / Evoke Burst 套路的核心牌（Dark专用格挡），同时兼顾其他相关方向。社区胜率 46.2%，选取率 16.2%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张2费的 Uncommon 非凡 技能牌。它是 Defect: Dark / Evoke Burst 套路的核心牌（Dark专用格挡），同时兼顾其他相关方向。社区冷淡（-9）。",
     "tier": "D",
     "best_archetypes": [
       "defect_dark_evoke"
@@ -4557,7 +4557,7 @@
     "source": "auto_generated"
   },
   "SHADOW_STEP": {
-    "summary_zh": "这是一张1费的 Rare 稀有 技能牌。它是 Silent: Retain / Setup Burst 套路的补充牌（摸牌+格挡，低费过渡）。社区胜率 58.7%，选取率 26.6%，社区整体评价中上。",
+    "summary_zh": "这是一张1费的 Rare 稀有 技能牌。它是 Silent: Retain / Setup Burst 套路的补充牌（摸牌+格挡，低费过渡）。社区认可（+22）。",
     "tier": "B",
     "best_archetypes": [
       "silent_retain_setup"
@@ -4573,14 +4573,14 @@
     "source": "auto_generated"
   },
   "SHARED_FATE": {
-    "summary_zh": "这是一张0费的 Rare 稀有 技能牌。社区胜率 60.4%，选取率 19.1%，属于强力稳定选择。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
+    "summary_zh": "这是一张0费的 Rare 稀有 技能牌。社区认可（+21 · 潜力股）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
     "tier": "A",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "SHATTER": {
-    "summary_zh": "这是一张1费的 Rare 稀有 攻击牌。它是 Defect: Dark / Evoke Burst 套路的关键辅助牌（Orb爆发终结），同时兼顾其他相关方向。社区胜率 45.5%，选取率 22.4%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Rare 稀有 攻击牌。它是 Defect: Dark / Evoke Burst 套路的关键辅助牌（Orb爆发终结），同时兼顾其他相关方向。社区冷淡（-7 · 高估风险）。",
     "tier": "D",
     "best_archetypes": [
       "defect_dark_evoke",
@@ -4596,7 +4596,7 @@
     "source": "auto_generated"
   },
   "SHINING_STRIKE": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。社区胜率 44.7%，选取率 24.5%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。社区冷淡（-8 · 高估风险）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
@@ -4610,14 +4610,14 @@
     "source": "auto_generated"
   },
   "SHOCKWAVE": {
-    "summary_zh": "这是一张2费的 Uncommon 非凡 技能牌。社区胜率 63.5%，选取率 2.4%，属于强力稳定选择。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
+    "summary_zh": "这是一张2费的 Uncommon 非凡 技能牌。社区认可（+17 · 潜力股）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "SHROUD": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Necrobinder: Doom / Execute 套路的关键辅助牌（格挡辅助），同时兼顾其他相关方向。社区胜率 51.0%，选取率 17.3%，属于情景牌，视套路而定。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Necrobinder: Doom / Execute 套路的关键辅助牌（格挡辅助），同时兼顾其他相关方向。社区中性（+2）。",
     "tier": "C",
     "best_archetypes": [
       "necrobinder_doom_execute",
@@ -4633,7 +4633,7 @@
     "source": "auto_generated"
   },
   "SHRUG_IT_OFF": {
-    "summary_zh": "这是一张1费的 Common 普通 技能牌。它是 Ironclad: Block / Body Slam 套路的关键辅助牌（低费防御+摸牌），同时兼顾其他相关方向。社区胜率 44.8%，选取率 28.5%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Common 普通 技能牌。它是 Ironclad: Block / Body Slam 套路的关键辅助牌（低费防御+摸牌），同时兼顾其他相关方向。社区冷淡（-6 · 高估风险）。",
     "tier": "D",
     "best_archetypes": [
       "ironclad_block_slam",
@@ -4649,7 +4649,7 @@
     "source": "auto_generated"
   },
   "SIC_EM": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。它是 Necrobinder: Osty Buff / Tank 套路的核心牌（指挥Osty攻击，核心输出）。社区胜率 39.5%，选取率 13.5%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。它是 Necrobinder: Osty Buff / Tank 套路的核心牌（指挥Osty攻击，核心输出）。社区跳过（-23 · 高估风险）。",
     "tier": "D",
     "best_archetypes": [
       "necrobinder_osty_buff"
@@ -4664,21 +4664,21 @@
     "source": "auto_generated"
   },
   "SIGNAL_BOOST": {
-    "summary_zh": "这是一张1费的 Rare 稀有 技能牌。社区胜率 56.7%，选取率 31.2%，社区整体评价中上。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
+    "summary_zh": "这是一张1费的 Rare 稀有 技能牌。社区认可（+20）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "SKEWER": {
-    "summary_zh": "这是一张X费的 Uncommon 非凡 攻击牌。社区胜率 40.8%，选取率 2.7%，玩家普遍倾向跳过。费用为 X，输出随投入能量线性增长；能量遗物或充能类支持可显著提升价值。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张X费的 Uncommon 非凡 攻击牌。社区跳过（-26）。费用为 X，输出随投入能量线性增长；能量遗物或充能类支持可显著提升价值。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "SKIM": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Defect: 0 Cost / Cycle 套路的关键辅助牌（摸牌），同时兼顾其他相关方向。社区胜率 58.6%，选取率 42.7%，社区整体评价中上。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Defect: 0 Cost / Cycle 套路的关键辅助牌（摸牌），同时兼顾其他相关方向。社区热门（+28）。",
     "tier": "B",
     "best_archetypes": [
       "defect_zero_cost_cycle",
@@ -4694,7 +4694,7 @@
     "source": "auto_generated"
   },
   "SLEIGHT_OF_FLESH": {
-    "summary_zh": "这是一张2费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Necrobinder: Doom / Execute 套路的关键辅助牌（Doom转化辅助）。社区胜率 52.1%，选取率 11.4%，属于情景牌，视套路而定。",
+    "summary_zh": "这是一张2费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Necrobinder: Doom / Execute 套路的关键辅助牌（Doom转化辅助）。社区中性（+1 · 潜力股）。",
     "tier": "C",
     "best_archetypes": [
       "necrobinder_doom_execute"
@@ -4709,7 +4709,7 @@
     "source": "auto_generated"
   },
   "SLICE": {
-    "summary_zh": "这是一张0费的 Common 普通 攻击牌。社区胜率 41.0%，选取率 5.7%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张0费的 Common 普通 攻击牌。社区跳过（-24）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
@@ -4730,7 +4730,7 @@
     "source": "auto_generated"
   },
   "SMOKESTACK": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Defect: Status / Fuel 套路的核心牌（状态牌生成+格挡）。社区胜率 52.5%，选取率 17.9%，属于情景牌，视套路而定。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Defect: Status / Fuel 套路的核心牌（状态牌生成+格挡）。社区中性（+5）。",
     "tier": "C",
     "best_archetypes": [
       "defect_status_fuel"
@@ -4745,7 +4745,7 @@
     "source": "auto_generated"
   },
   "SNAKEBITE": {
-    "summary_zh": "这是一张2费的 Common 普通 技能牌。它是 Silent: Retain / Setup Burst 套路的核心牌（Retain攻击+叠毒）。社区胜率 41.6%，选取率 4.7%，玩家普遍倾向跳过。带有保留效果（Retain），可以跨回合持有；适合需要特定组合的套路。",
+    "summary_zh": "这是一张2费的 Common 普通 技能牌。它是 Silent: Retain / Setup Burst 套路的核心牌（Retain攻击+叠毒）。社区跳过（-24）。带有保留效果（Retain），可以跨回合持有；适合需要特定组合的套路。",
     "tier": "D",
     "best_archetypes": [
       "silent_retain_setup"
@@ -4774,7 +4774,7 @@
     "source": "auto_generated"
   },
   "SOLAR_STRIKE": {
-    "summary_zh": "这是一张1费的 Common 普通 攻击牌。社区胜率 37.7%，选取率 12.1%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Common 普通 攻击牌。社区跳过（-26 · 高估风险）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
@@ -4795,7 +4795,7 @@
     "source": "auto_generated"
   },
   "SOUL_STORM": {
-    "summary_zh": "这是一张1费的 Rare 稀有 攻击牌。它是 Necrobinder: Soul / Exhaust Engine 套路的核心牌（消耗Soul打出大伤）。社区胜率 56.1%，选取率 29.0%，社区整体评价中上。",
+    "summary_zh": "这是一张1费的 Rare 稀有 攻击牌。它是 Necrobinder: Soul / Exhaust Engine 套路的核心牌（消耗Soul打出大伤）。社区认可（+18）。",
     "tier": "B",
     "best_archetypes": [
       "necrobinder_soul_exhaust"
@@ -4825,35 +4825,35 @@
     "source": "auto_generated"
   },
   "SOW": {
-    "summary_zh": "这是一张1费的 Common 普通 攻击牌。社区胜率 33.5%，选取率 6.0%，玩家普遍倾向跳过。带有保留效果（Retain），可以跨回合持有；适合需要特定组合的套路。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Common 普通 攻击牌。社区跳过（-34 · 高估风险）。带有保留效果（Retain），可以跨回合持有；适合需要特定组合的套路。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "SPECTRUM_SHIFT": {
-    "summary_zh": "这是一张2费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。社区胜率 47.4%，选取率 8.8%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张2费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。社区冷淡（-10）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "SPEEDSTER": {
-    "summary_zh": "这是一张2费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。社区胜率 56.3%，选取率 13.2%，社区整体评价中上。",
+    "summary_zh": "这是一张2费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。社区认可（+11 · 潜力股）。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "SPINNER": {
-    "summary_zh": "这是一张1费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区胜率 55.7%，选取率 34.9%，社区整体评价中上。",
+    "summary_zh": "这是一张1费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区认可（+20）。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "SPIRIT_OF_ASH": {
-    "summary_zh": "这是一张1费的 Rare 稀有 能力牌，永久效果持续整个战斗。它是 Necrobinder: Ethereal Engine 套路的核心牌（每打出Ethereal获格挡）。社区胜率 53.9%，选取率 16.8%，属于情景牌，视套路而定。",
+    "summary_zh": "这是一张1费的 Rare 稀有 能力牌，永久效果持续整个战斗。它是 Necrobinder: Ethereal Engine 套路的核心牌（每打出Ethereal获格挡）。社区中性（+8）。",
     "tier": "C",
     "best_archetypes": [
       "necrobinder_ethereal_engine"
@@ -4868,7 +4868,7 @@
     "source": "auto_generated"
   },
   "SPITE": {
-    "summary_zh": "这是一张0费的 Uncommon 非凡 攻击牌。它是 Ironclad: Self Damage 套路的关键辅助牌（自伤触发多次攻击，配合Rupture/Bloodletting）。社区胜率 49.3%，选取率 23.4%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张0费的 Uncommon 非凡 攻击牌。它是 Ironclad: Self Damage 套路的关键辅助牌（自伤触发多次攻击，配合Rupture/Bloodletting）。社区中性（+1）。",
     "tier": "D",
     "best_archetypes": [
       "ironclad_self_damage"
@@ -4883,7 +4883,7 @@
     "source": "auto_generated"
   },
   "SPLASH": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。社区胜率 57.7%，选取率 3.2%，社区整体评价中上。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。社区中性（+9 · 潜力股）。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
@@ -4897,7 +4897,7 @@
     "source": "auto_generated"
   },
   "SPOILS_OF_BATTLE": {
-    "summary_zh": "这是一张1费的 Common 普通 技能牌。社区胜率 38.6%，选取率 8.6%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Common 普通 技能牌。社区跳过（-27）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
@@ -4911,7 +4911,7 @@
     "source": "auto_generated"
   },
   "SPUR": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Necrobinder: Osty Buff / Tank 套路的核心牌（Retain+强化Osty属性）。社区胜率 46.4%，选取率 25.5%，玩家普遍倾向跳过。带有保留效果（Retain），可以跨回合持有；适合需要特定组合的套路。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Necrobinder: Osty Buff / Tank 套路的核心牌（Retain+强化Osty属性）。社区中性（-4 · 高估风险）。带有保留效果（Retain），可以跨回合持有；适合需要特定组合的套路。",
     "tier": "D",
     "best_archetypes": [
       "necrobinder_osty_buff"
@@ -4933,7 +4933,7 @@
     "source": "auto_generated"
   },
   "SQUEEZE": {
-    "summary_zh": "这是一张3费的 Rare 稀有 攻击牌。社区胜率 49.2%，选取率 13.5%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张3费的 Rare 稀有 攻击牌。社区中性（-4）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
@@ -4947,21 +4947,21 @@
     "source": "auto_generated"
   },
   "STAMPEDE": {
-    "summary_zh": "这是一张2费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。社区胜率 42.1%，选取率 16.0%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张2费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。社区冷淡（-17 · 高估风险）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "STARDUST": {
-    "summary_zh": "这是一张0费的 Uncommon 非凡 攻击牌。社区胜率 53.8%，选取率 26.4%，属于情景牌，视套路而定。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张0费的 Uncommon 非凡 攻击牌。社区认可（+13）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "C",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "STOKE": {
-    "summary_zh": "这是一张1费的 Rare 稀有 技能牌。它是 Ironclad: Exhaust Engine 套路的核心牌（排除手牌生成升级牌，引擎核心）。社区胜率 57.6%，选取率 37.9%，社区整体评价中上。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
+    "summary_zh": "这是一张1费的 Rare 稀有 技能牌。它是 Ironclad: Exhaust Engine 套路的核心牌（排除手牌生成升级牌，引擎核心）。社区认可（+25）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
     "tier": "B",
     "best_archetypes": [
       "ironclad_exhaust"
@@ -4976,14 +4976,14 @@
     "source": "auto_generated"
   },
   "STOMP": {
-    "summary_zh": "这是一张3费的 Uncommon 非凡 攻击牌。社区胜率 35.4%，选取率 19.7%，玩家普遍倾向跳过。费用较高，游戏早期使用受限；建议在有能量遗物时才优先考虑。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张3费的 Uncommon 非凡 攻击牌。社区跳过（-25 · 高估风险）。费用较高，游戏早期使用受限；建议在有能量遗物时才优先考虑。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "STONE_ARMOR": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Ironclad: Block / Body Slam 套路的关键辅助牌（每回合被动格挡叠加）。社区胜率 45.4%，选取率 9.7%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Ironclad: Block / Body Slam 套路的关键辅助牌（每回合被动格挡叠加）。社区冷淡（-14）。",
     "tier": "D",
     "best_archetypes": [
       "ironclad_block_slam"
@@ -4998,42 +4998,42 @@
     "source": "auto_generated"
   },
   "STORM": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。社区胜率 51.4%，选取率 25.0%，属于情景牌，视套路而定。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。社区中性（+7）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "C",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "STORM_OF_STEEL": {
-    "summary_zh": "这是一张1费的 Rare 稀有 技能牌。社区胜率 56.4%，选取率 23.7%，社区整体评价中上。",
+    "summary_zh": "这是一张1费的 Rare 稀有 技能牌。社区认可（+16）。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "STRANGLE": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。社区胜率 49.1%，选取率 13.0%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。社区中性（-5）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "STRATAGEM": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。社区胜率 57.5%，选取率 2.1%，社区整体评价中上。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。社区中性（+8 · 潜力股）。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "STRIKE_DEFECT": {
-    "summary_zh": "这是一张1费的 Basic 基础 攻击牌。社区胜率 22.0%，选取率 0.0%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Basic 基础 攻击牌。社区跳过（-42 · 高估风险）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "STRIKE_IRONCLAD": {
-    "summary_zh": "这是一张1费的 Basic 基础 攻击牌。它是 Ironclad: Strike Scaling 套路的补充牌（基础Strike，计入Perfected）。社区胜率 22.0%，选取率 0.0%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Basic 基础 攻击牌。它是 Ironclad: Strike Scaling 套路的补充牌（基础Strike，计入Perfected）。社区跳过（-42 · 高估风险）。",
     "tier": "D",
     "best_archetypes": [
       "ironclad_strike_scaling"
@@ -5042,77 +5042,77 @@
     "source": "auto_generated"
   },
   "STRIKE_NECROBINDER": {
-    "summary_zh": "这是一张1费的 Basic 基础 攻击牌。社区胜率 22.0%，选取率 0.0%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Basic 基础 攻击牌。社区跳过（-42 · 高估风险）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "STRIKE_REGENT": {
-    "summary_zh": "这是一张1费的 Basic 基础 攻击牌。社区胜率 22.0%，选取率 0.0%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Basic 基础 攻击牌。社区跳过（-42 · 高估风险）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "STRIKE_SILENT": {
-    "summary_zh": "这是一张1费的 Basic 基础 攻击牌。社区胜率 22.0%，选取率 0.0%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Basic 基础 攻击牌。社区跳过（-42 · 高估风险）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "SUBROUTINE": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。社区胜率 53.0%，选取率 30.8%，属于情景牌，视套路而定。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。社区认可（+13）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "C",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "SUCKER_PUNCH": {
-    "summary_zh": "这是一张1费的 Common 普通 攻击牌。社区胜率 40.9%，选取率 3.2%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Common 普通 攻击牌。社区跳过（-25）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "SUMMON_FORTH": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。社区胜率 43.4%，选取率 24.7%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。社区冷淡（-10 · 高估风险）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "SUNDER": {
-    "summary_zh": "这是一张3费的 Uncommon 非凡 攻击牌。社区胜率 37.4%，选取率 8.3%，玩家普遍倾向跳过。费用较高，游戏早期使用受限；建议在有能量遗物时才优先考虑。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张3费的 Uncommon 非凡 攻击牌。社区跳过（-28）。费用较高，游戏早期使用受限；建议在有能量遗物时才优先考虑。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "SUPERCRITICAL": {
-    "summary_zh": "这是一张0费的 Rare 稀有 技能牌。社区胜率 60.0%，选取率 51.8%，属于强力稳定选择。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
+    "summary_zh": "这是一张0费的 Rare 稀有 技能牌。社区热门（+31 · 高估风险）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
     "tier": "A",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "SUPERMASSIVE": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。社区胜率 48.7%，选取率 4.6%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。社区冷淡（-9 · 潜力股）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "SUPPRESS": {
-    "summary_zh": "这是一张0费的 Ancient 先古 攻击牌。社区胜率 65.8%，选取率 1.2%，属于强力稳定选择。为天赋牌（Innate），每次战斗开局必抽到；需确认此牌值得占用开局手牌位置。",
+    "summary_zh": "这是一张0费的 Ancient 先古 攻击牌。社区认可（+19 · 潜力股）。为天赋牌（Innate），每次战斗开局必抽到；需确认此牌值得占用开局手牌位置。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "SURVIVOR": {
-    "summary_zh": "这是一张1费的 Basic 基础 技能牌。它是 Silent: Dexterity / Block 套路的补充牌（格挡+弃牌，灵活过渡）。社区胜率 35.2%，选取率 0.9%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Basic 基础 技能牌。它是 Silent: Dexterity / Block 套路的补充牌（格挡+弃牌，灵活过渡）。社区跳过（-34）。",
     "tier": "D",
     "best_archetypes": [
       "silent_dexterity_block"
@@ -5121,49 +5121,49 @@
     "source": "auto_generated"
   },
   "SWEEPING_BEAM": {
-    "summary_zh": "这是一张1费的 Common 普通 攻击牌。社区胜率 41.1%，选取率 9.7%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Common 普通 攻击牌。社区跳过（-22）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "SWEEPING_GAZE": {
-    "summary_zh": "这是一张0费的 Token 攻击牌。社区胜率 55.6%，选取率 1.1%，社区整体评价中上。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。 带有以太属性（Ethereal），本回合未打出会被消耗；需确保本回合能使用，或避免在常规牌库中大量囤积。",
+    "summary_zh": "这是一张0费的 Token 攻击牌。社区中性（+4 · 潜力股）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。 带有以太属性（Ethereal），本回合未打出会被消耗；需确保本回合能使用，或避免在常规牌库中大量囤积。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "SWORD_BOOMERANG": {
-    "summary_zh": "这是一张1费的 Common 普通 攻击牌。社区胜率 40.1%，选取率 6.1%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Common 普通 攻击牌。社区跳过（-25）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "SWORD_SAGE": {
-    "summary_zh": "这是一张2费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区胜率 51.0%，选取率 19.5%，属于情景牌，视套路而定。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张2费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区中性（+3）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "C",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "SYNCHRONIZE": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。社区胜率 49.4%，选取率 16.2%，玩家普遍倾向跳过。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。社区中性（-2）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "SYNTHESIS": {
-    "summary_zh": "这是一张2费的 Uncommon 非凡 攻击牌。社区胜率 42.2%，选取率 5.7%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张2费的 Uncommon 非凡 攻击牌。社区跳过（-22）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "TACTICIAN": {
-    "summary_zh": "这是一张3费的 Uncommon 非凡 技能牌。它是 Silent: Retain / Setup Burst 套路的关键辅助牌（Sly：弃牌时+1能量）。社区胜率 58.0%，选取率 58.8%，社区整体评价中上。费用较高，游戏早期使用受限；建议在有能量遗物时才优先考虑。",
+    "summary_zh": "这是一张3费的 Uncommon 非凡 技能牌。它是 Silent: Retain / Setup Burst 套路的关键辅助牌（Sly：弃牌时+1能量）。社区热门（+29 · 高估风险）。费用较高，游戏早期使用受限；建议在有能量遗物时才优先考虑。",
     "tier": "B",
     "best_archetypes": [
       "silent_retain_setup"
@@ -5178,21 +5178,21 @@
     "source": "auto_generated"
   },
   "TAG_TEAM": {
-    "summary_zh": "这是一张2费的 Uncommon 非凡 攻击牌。社区胜率 51.8%，选取率 1.0%，属于情景牌，视套路而定。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张2费的 Uncommon 非凡 攻击牌。社区中性（-4 · 潜力股）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "C",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "TANK": {
-    "summary_zh": "这是一张1费的 Rare 稀有 能力牌，永久效果持续整个战斗。在 Ironclad: Self Damage 套路中此牌被标记为污染，通常不建议拿取。社区胜率 56.5%，选取率 8.6%，社区整体评价中上。在当前数据库定义的套路中，此牌与核心机制不协同；除非套路已成型否则建议跳过。",
+    "summary_zh": "这是一张1费的 Rare 稀有 能力牌，永久效果持续整个战斗。在 Ironclad: Self Damage 套路中此牌被标记为污染，通常不建议拿取。社区中性（+9 · 潜力股）。在当前数据库定义的套路中，此牌与核心机制不协同；除非套路已成型否则建议跳过。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "TAUNT": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Ironclad: Vulnerable 套路的核心牌（嘲讽+格挡+Vulnerable），同时兼顾其他相关方向。社区胜率 48.4%，选取率 29.9%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。它是 Ironclad: Vulnerable 套路的核心牌（嘲讽+格挡+Vulnerable），同时兼顾其他相关方向。社区中性（+2 · 高估风险）。",
     "tier": "D",
     "best_archetypes": [
       "ironclad_vulnerable"
@@ -5207,98 +5207,98 @@
     "source": "auto_generated"
   },
   "TEAR_ASUNDER": {
-    "summary_zh": "这是一张2费的 Rare 稀有 攻击牌。社区胜率 56.3%，选取率 15.1%，社区整体评价中上。",
+    "summary_zh": "这是一张2费的 Rare 稀有 攻击牌。社区认可（+12 · 潜力股）。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "TEMPEST": {
-    "summary_zh": "这是一张X费的 Uncommon 非凡 技能牌。社区胜率 51.3%，选取率 25.4%，属于情景牌，视套路而定。费用为 X，输出随投入能量线性增长；能量遗物或充能类支持可显著提升价值。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张X费的 Uncommon 非凡 技能牌。社区中性（+7）。费用为 X，输出随投入能量线性增长；能量遗物或充能类支持可显著提升价值。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "C",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "TERRAFORMING": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。社区胜率 49.4%，选取率 10.9%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。社区冷淡（-5）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "TESLA_COIL": {
-    "summary_zh": "这是一张0费的 Uncommon 非凡 攻击牌。社区胜率 44.8%，选取率 19.4%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张0费的 Uncommon 非凡 攻击牌。社区冷淡（-10 · 高估风险）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "THE_BOMB": {
-    "summary_zh": "这是一张2费的 Uncommon 非凡 技能牌。社区胜率 40.6%，选取率 0.9%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张2费的 Uncommon 非凡 技能牌。社区跳过（-27）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "THE_GAMBIT": {
-    "summary_zh": "这是一张0费的 Rare 稀有 技能牌。社区胜率 56.6%，选取率 0.3%，社区整体评价中上。",
+    "summary_zh": "这是一张0费的 Rare 稀有 技能牌。社区中性（+6 · 潜力股）。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "THE_HUNT": {
-    "summary_zh": "这是一张1费的 Rare 稀有 攻击牌。社区胜率 51.6%，选取率 19.1%，属于情景牌，视套路而定。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Rare 稀有 攻击牌。社区中性（+4）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "C",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "THE_SCYTHE": {
-    "summary_zh": "这是一张2费的 Rare 稀有 攻击牌。社区胜率 44.3%，选取率 12.7%，玩家普遍倾向跳过。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张2费的 Rare 稀有 攻击牌。社区冷淡（-15）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "THE_SEALED_THRONE": {
-    "summary_zh": "这是一张1费的 Ancient 先古 能力牌，永久效果持续整个战斗。社区胜率 74.6%，选取率 11.6%，属于强力稳定选择。暂无套路精确定义，但社区数据显示此牌强度极高，通常值得考虑。",
+    "summary_zh": "这是一张1费的 Ancient 先古 能力牌，永久效果持续整个战斗。社区热门（+29 · 潜力股）。暂无套路精确定义，但社区数据显示此牌强度极高，通常值得考虑。",
     "tier": "S",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "THE_SMITH": {
-    "summary_zh": "这是一张1费的 Rare 稀有 技能牌。社区胜率 51.3%，选取率 29.2%，属于情景牌，视套路而定。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Rare 稀有 技能牌。社区中性（+9 · 高估风险）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "C",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "THINKING_AHEAD": {
-    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。社区胜率 59.8%，选取率 3.5%，社区整体评价中上。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
+    "summary_zh": "这是一张0费的 Uncommon 非凡 技能牌。社区认可（+12 · 潜力股）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "THRASH": {
-    "summary_zh": "这是一张1费的 Rare 稀有 攻击牌。社区胜率 52.7%，选取率 39.1%，属于情景牌，视套路而定。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Rare 稀有 攻击牌。社区认可（+15 · 高估风险）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "C",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "THRUMMING_HATCHET": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。社区胜率 43.3%，选取率 0.9%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。社区跳过（-22）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "THUNDER": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。社区胜率 51.6%，选取率 33.7%，属于情景牌，视套路而定。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。社区认可（+11 · 高估风险）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "C",
     "best_archetypes": [],
     "synergy_cards": [],
@@ -5320,7 +5320,7 @@
     "source": "auto_generated"
   },
   "TIMES_UP": {
-    "summary_zh": "这是一张2费的 Rare 稀有 攻击牌。它是 Necrobinder: Doom / Execute 套路的核心牌（Doom值转直接伤害终结）。社区胜率 52.4%，选取率 22.3%，属于情景牌，视套路而定。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
+    "summary_zh": "这是一张2费的 Rare 稀有 攻击牌。它是 Necrobinder: Doom / Execute 套路的核心牌（Doom值转直接伤害终结）。社区中性（+8）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
     "tier": "C",
     "best_archetypes": [
       "necrobinder_doom_execute"
@@ -5335,7 +5335,7 @@
     "source": "auto_generated"
   },
   "TOOLS_OF_THE_TRADE": {
-    "summary_zh": "这是一张1费的 Rare 稀有 能力牌，永久效果持续整个战斗。它是 Silent: Sly / Discard 套路的核心牌（每回合免费摸1弃1）。社区胜率 56.6%，选取率 0.0%，社区整体评价中上。",
+    "summary_zh": "这是一张1费的 Rare 稀有 能力牌，永久效果持续整个战斗。它是 Silent: Sly / Discard 套路的核心牌（每回合免费摸1弃1）。社区中性（+5 · 潜力股）。",
     "tier": "B",
     "best_archetypes": [
       "silent_sly_discard"
@@ -5364,7 +5364,7 @@
     "source": "auto_generated"
   },
   "TRACKING": {
-    "summary_zh": "这是一张2费的 Rare 稀有 能力牌，永久效果持续整个战斗。它是 Silent: Poison 套路的核心牌（毒伤终结），同时兼顾其他相关方向。社区胜率 67.2%，选取率 32.3%，属于强力稳定选择。",
+    "summary_zh": "这是一张2费的 Rare 稀有 能力牌，永久效果持续整个战斗。它是 Silent: Poison 套路的核心牌（毒伤终结），同时兼顾其他相关方向。社区热门（+35）。",
     "tier": "S",
     "best_archetypes": [
       "silent_poison"
@@ -5379,21 +5379,21 @@
     "source": "auto_generated"
   },
   "TRANSFIGURE": {
-    "summary_zh": "这是一张X费的 Rare 稀有 技能牌。社区胜率 60.4%，选取率 42.3%，属于强力稳定选择。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。 费用为 X，输出随投入能量线性增长；能量遗物或充能类支持可显著提升价值。",
+    "summary_zh": "这是一张X费的 Rare 稀有 技能牌。社区热门（+30）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。 费用为 X，输出随投入能量线性增长；能量遗物或充能类支持可显著提升价值。",
     "tier": "A",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "TRASH_TO_TREASURE": {
-    "summary_zh": "这是一张1费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区胜率 57.8%，选取率 35.7%，社区整体评价中上。",
+    "summary_zh": "这是一张1费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区认可（+24）。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "TREMBLE": {
-    "summary_zh": "这是一张1费的 Common 普通 技能牌。它是 Ironclad: Vulnerable 套路的核心牌（0费施加Vulnerable，高效），同时兼顾其他相关方向。社区胜率 41.1%，选取率 11.9%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Common 普通 技能牌。它是 Ironclad: Vulnerable 套路的核心牌（0费施加Vulnerable，高效），同时兼顾其他相关方向。社区跳过（-21）。",
     "tier": "D",
     "best_archetypes": [
       "ironclad_vulnerable"
@@ -5408,7 +5408,7 @@
     "source": "auto_generated"
   },
   "TRUE_GRIT": {
-    "summary_zh": "这是一张1费的 Common 普通 技能牌。它是 Ironclad: Exhaust Engine 套路的核心牌（主动排除+格挡）。社区胜率 45.6%，选取率 14.3%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Common 普通 技能牌。它是 Ironclad: Exhaust Engine 套路的核心牌（主动排除+格挡）。社区冷淡（-11）。",
     "tier": "D",
     "best_archetypes": [
       "ironclad_exhaust"
@@ -5423,7 +5423,7 @@
     "source": "auto_generated"
   },
   "TURBO": {
-    "summary_zh": "这是一张0费的 Common 普通 技能牌。它是 Defect: 0 Cost / Cycle 套路的核心牌（0费生成费用），同时兼顾其他相关方向。社区胜率 52.5%，选取率 33.3%，属于情景牌，视套路而定。",
+    "summary_zh": "这是一张0费的 Common 普通 技能牌。它是 Defect: 0 Cost / Cycle 套路的核心牌（0费生成费用），同时兼顾其他相关方向。社区认可（+13 · 高估风险）。",
     "tier": "C",
     "best_archetypes": [
       "defect_zero_cost_cycle"
@@ -5438,7 +5438,7 @@
     "source": "auto_generated"
   },
   "TWIN_STRIKE": {
-    "summary_zh": "这是一张1费的 Common 普通 攻击牌。它是 Ironclad: Strike Scaling 套路的关键辅助牌（双段Strike，计入Perfected）。社区胜率 38.4%，选取率 10.3%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Common 普通 攻击牌。它是 Ironclad: Strike Scaling 套路的关键辅助牌（双段Strike，计入Perfected）。社区跳过（-26 · 高估风险）。",
     "tier": "D",
     "best_archetypes": [
       "ironclad_strike_scaling"
@@ -5453,42 +5453,42 @@
     "source": "auto_generated"
   },
   "TYRANNY": {
-    "summary_zh": "这是一张1费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区胜率 58.5%，选取率 29.8%，社区整体评价中上。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
+    "summary_zh": "这是一张1费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区认可（+23）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "ULTIMATE_DEFEND": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。社区胜率 58.1%，选取率 1.4%，社区整体评价中上。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。社区中性（+9 · 潜力股）。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "ULTIMATE_STRIKE": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。社区胜率 55.3%，选取率 1.0%，社区整体评价中上。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。社区中性（+3 · 潜力股）。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "UNDEATH": {
-    "summary_zh": "这是一张0费的 Rare 稀有 技能牌。社区胜率 54.4%，选取率 26.6%，属于情景牌，视套路而定。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张0费的 Rare 稀有 技能牌。社区认可（+14）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "C",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "UNLEASH": {
-    "summary_zh": "这是一张1费的 Basic 基础 攻击牌。社区胜率 31.3%，选取率 3.0%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Basic 基础 攻击牌。社区跳过（-37）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "UNMOVABLE": {
-    "summary_zh": "这是一张2费的 Rare 稀有 能力牌，永久效果持续整个战斗。它是 Ironclad: Block / Body Slam 套路的核心牌（每回合自动叠格挡）。社区胜率 56.9%，选取率 26.1%，社区整体评价中上。",
+    "summary_zh": "这是一张2费的 Rare 稀有 能力牌，永久效果持续整个战斗。它是 Ironclad: Block / Body Slam 套路的核心牌（每回合自动叠格挡）。社区认可（+19）。",
     "tier": "B",
     "best_archetypes": [
       "ironclad_block_slam"
@@ -5510,7 +5510,7 @@
     "source": "auto_generated"
   },
   "UNTOUCHABLE": {
-    "summary_zh": "这是一张2费的 Common 普通 技能牌。它是 Silent: Sly / Discard 套路的核心牌（弃牌获格挡），同时兼顾其他相关方向。社区胜率 52.5%，选取率 22.7%，属于情景牌，视套路而定。",
+    "summary_zh": "这是一张2费的 Common 普通 技能牌。它是 Silent: Sly / Discard 套路的核心牌（弃牌获格挡），同时兼顾其他相关方向。社区中性（+8）。",
     "tier": "C",
     "best_archetypes": [
       "silent_sly_discard"
@@ -5525,7 +5525,7 @@
     "source": "auto_generated"
   },
   "UPPERCUT": {
-    "summary_zh": "这是一张2费的 Uncommon 非凡 攻击牌。它是 Ironclad: Vulnerable 套路的核心牌（攻击+施弱+施Vulnerable）。社区胜率 40.4%，选取率 14.1%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张2费的 Uncommon 非凡 攻击牌。它是 Ironclad: Vulnerable 套路的核心牌（攻击+施弱+施Vulnerable）。社区跳过（-21 · 高估风险）。",
     "tier": "D",
     "best_archetypes": [
       "ironclad_vulnerable"
@@ -5540,35 +5540,35 @@
     "source": "auto_generated"
   },
   "UPROAR": {
-    "summary_zh": "这是一张2费的 Common 普通 攻击牌。社区胜率 40.8%，选取率 2.8%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张2费的 Common 普通 攻击牌。社区跳过（-26）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "UP_MY_SLEEVE": {
-    "summary_zh": "这是一张2费的 Uncommon 非凡 技能牌。社区胜率 52.9%，选取率 24.9%，属于情景牌，视套路而定。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张2费的 Uncommon 非凡 技能牌。社区中性（+10）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "C",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "VEILPIERCER": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。社区胜率 52.6%，选取率 11.5%，属于情景牌，视套路而定。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 攻击牌。社区中性（+2 · 潜力股）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "C",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "VENERATE": {
-    "summary_zh": "这是一张1费的 Basic 基础 技能牌。社区胜率 30.0%，选取率 4.8%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Basic 基础 技能牌。社区跳过（-37 · 高估风险）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "VICIOUS": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Ironclad: Strength 套路的关键辅助牌（追加攻击段数）。社区胜率 48.6%，选取率 22.3%，玩家普遍倾向跳过。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Ironclad: Strength 套路的关键辅助牌（追加攻击段数）。社区中性（-1）。",
     "tier": "D",
     "best_archetypes": [
       "ironclad_strength"
@@ -5590,21 +5590,21 @@
     "source": "auto_generated"
   },
   "VOID_FORM": {
-    "summary_zh": "这是一张3费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区胜率 58.1%，选取率 53.1%，社区整体评价中上。",
+    "summary_zh": "这是一张3费的 Rare 稀有 能力牌，永久效果持续整个战斗。社区热门（+28 · 高估风险）。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "VOLLEY": {
-    "summary_zh": "这是一张X费的 Uncommon 非凡 攻击牌。社区胜率 48.8%，选取率 0.8%，玩家普遍倾向跳过。费用为 X，输出随投入能量线性增长；能量遗物或充能类支持可显著提升价值。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张X费的 Uncommon 非凡 攻击牌。社区冷淡（-11 · 潜力股）。费用为 X，输出随投入能量线性增长；能量遗物或充能类支持可显著提升价值。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "VOLTAIC": {
-    "summary_zh": "这是一张2费的 Rare 稀有 技能牌。社区胜率 61.6%，选取率 59.6%，属于强力稳定选择。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
+    "summary_zh": "这是一张2费的 Rare 稀有 技能牌。社区热门（+35 · 高估风险）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
     "tier": "A",
     "best_archetypes": [],
     "synergy_cards": [],
@@ -5618,7 +5618,7 @@
     "source": "auto_generated"
   },
   "WELL_LAID_PLANS": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Silent: Retain / Setup Burst 套路的核心牌（Retain任意手牌，核心引擎）。社区胜率 60.1%，选取率 21.1%，属于强力稳定选择。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 能力牌，永久效果持续整个战斗。它是 Silent: Retain / Setup Burst 套路的核心牌（Retain任意手牌，核心引擎）。社区认可（+21 · 潜力股）。",
     "tier": "A",
     "best_archetypes": [
       "silent_retain_setup"
@@ -5633,7 +5633,7 @@
     "source": "auto_generated"
   },
   "WHIRLWIND": {
-    "summary_zh": "这是一张X费的 Uncommon 非凡 攻击牌。社区胜率 41.1%，选取率 20.3%，玩家普遍倾向跳过。费用为 X，输出随投入能量线性增长；能量遗物或充能类支持可显著提升价值。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张X费的 Uncommon 非凡 攻击牌。社区冷淡（-17 · 高估风险）。费用为 X，输出随投入能量线性增长；能量遗物或充能类支持可显著提升价值。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
@@ -5647,7 +5647,7 @@
     "source": "auto_generated"
   },
   "WHITE_NOISE": {
-    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。社区胜率 51.9%，选取率 48.8%，属于情景牌，视套路而定。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Uncommon 非凡 技能牌。社区认可（+16 · 高估风险）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。 此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "C",
     "best_archetypes": [],
     "synergy_cards": [],
@@ -5661,7 +5661,7 @@
     "source": "auto_generated"
   },
   "WISP": {
-    "summary_zh": "这是一张0费的 Common 普通 技能牌。它是 Necrobinder: Soul / Exhaust Engine 套路的补充牌（0费Exhaust，Soul类触发）。社区胜率 48.8%，选取率 34.9%，玩家普遍倾向跳过。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
+    "summary_zh": "这是一张0费的 Common 普通 技能牌。它是 Necrobinder: Soul / Exhaust Engine 套路的补充牌（0费Exhaust，Soul类触发）。社区中性（+5 · 高估风险）。带有排除效果（Exhaust），可主动减薄牌组；配合 Feel No Pain 等排除触发遗物效果最佳。",
     "tier": "D",
     "best_archetypes": [
       "necrobinder_soul_exhaust"
@@ -5677,7 +5677,7 @@
     "source": "auto_generated"
   },
   "WRAITH_FORM": {
-    "summary_zh": "这是一张3费的 Ancient 先古 能力牌，永久效果持续整个战斗。社区胜率 62.6%，选取率 0.0%，属于强力稳定选择。",
+    "summary_zh": "这是一张3费的 Ancient 先古 能力牌，永久效果持续整个战斗。社区认可（+15 · 潜力股）。",
     "tier": "B",
     "best_archetypes": [],
     "synergy_cards": [],
@@ -5691,14 +5691,14 @@
     "source": "auto_generated"
   },
   "WROUGHT_IN_WAR": {
-    "summary_zh": "这是一张1费的 Common 普通 攻击牌。社区胜率 30.2%，选取率 9.0%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Common 普通 攻击牌。社区跳过（-35 · 高估风险）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
     "source": "auto_generated"
   },
   "ZAP": {
-    "summary_zh": "这是一张1费的 Basic 基础 技能牌。社区胜率 32.9%，选取率 0.0%，玩家普遍倾向跳过。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
+    "summary_zh": "这是一张1费的 Basic 基础 技能牌。社区跳过（-37）。此牌无明确套路归属且社区数据偏低，建议谨慎考量。",
     "tier": "D",
     "best_archetypes": [],
     "synergy_cards": [],
