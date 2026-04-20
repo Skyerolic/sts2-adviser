@@ -239,20 +239,20 @@ python -m uvicorn backend.main:app --port 8001
 - **OCR candidate selection fix**: Switched from shortest-string to nearest-bbox-center strategy, fixing misidentification when multiple card names appear in a wide zone (e.g. slot 1 returning "Precise Cut" instead of "Untouchable")
 - **Grade simplification**: Removed D grade; low scores consolidate into C; color scheme simplified to gold/green/blue/orange-red
 
-### v1.25
+### v1.2.5
 - **Archetype library: 17 → 27**: 10 new archetypes covering Ironclad (Block/Body Slam · Vulnerable Pressure · Strike Scaling), Silent (Dexterity Block · Retain Burst), Defect (Frost Block · Claw Cycle), Necrobinder (Soul Exhaust Engine · Osty Defense Buff), Regent (Retain Control); each confirmed by 2+ community sources with all card IDs verified in the database
 - **Score distribution fix**: Rarity baselines widened (Ancient 0.95 / Rare 0.88 / Uncommon 0.62 / Common 0.38); no-archetype TRANSITION early-game `phase_score` raised to 0.92; floor bonus now tiered by rarity — Rare receives less compensation, Common retains the full floor. Result: Rare transition cards B (51–57) · Uncommon B/B− (44–52) · Common C+ (~40)
 - **Card text summaries**: New `data/card_summaries.json` covering 84.9% (489/576) of scoreable cards; each entry combines card type, archetype fit, community win/pick rate, and usage tips; displayed as a grey italic line at the bottom of each card result in Chinese mode
 - `scripts/generate_card_summaries.py` included to regenerate locally after archetype or data updates
 
-### v1.21
+### v1.2.1
 - **Scoring system calibration**: Fixed systematically low scores
   - Weight rebalance: archetype fit 0.40→0.35, inherent value 0.25→0.30 — reduces over-reliance on archetype matching
   - Floor bonus: non-pollution cards with no archetype match receive +8 points, preventing useful generic cards from landing in the "Skip" tier
   - Transition card recognition: in early game with small deck (≤15 cards), cheap cards (0/1 cost, Common/Uncommon) with no archetype match are identified as transition cards and receive phase-weighted scoring (0.85 early → 0.60 mid → 0.15 late)
   - Tightened transition conditions: STATUS/CURSE types excluded; cards with any archetype match stay on the normal FILLER path to avoid interfering with archetype edge cards
 
-### v1.2
+### v1.2.0
 - **Minimize to tray**: New `−` button in title bar hides the overlay to the system tray; double-click the tray icon or use the right-click menu to restore
 - **Ancient card support**: Manual picker now includes an "Ancient" group with distinct purple styling; fixes a bug where Ancient cards were filtered out. Evaluation returns an advisory note ("outside archetype scoring") rather than a misleading score; fixes 500 errors when evaluating Ancient/Curse cards. Ancient cards won't appear in actual card rewards, and the tool has no interest in steering player choices — but the manual picker lets you add them anyway and see what happens
 - **Click again to deselect**: Click a selected card chip again to deselect it; clicking a tag in the selection tray also deselects without scrolling back
@@ -266,45 +266,45 @@ python -m uvicorn backend.main:app --port 8001
 - **Relic synergy expansion**: Added 30+ relic→archetype mappings (Silent / Defect / Necrobinder / Regent); added universal and Ancient relic entries
 - **Larger resize handle**: Bottom-right resize grip enlarged from 24px to 32px with more visible gold coloring; overlaid `⤡` symbol indicates drag direction
 
-### v1.0 Test
+### v1.0.0
 - **Standalone EXE**: First fully packaged release, no Python installation needed
 - **GameWatcher fix**: `scripts/` converted to proper Python package; character/floor/deck info now loads correctly in EXE mode
 - **Path fix (PyInstaller 6.x)**: Use `sys._MEIPASS` to resolve `_internal/` directory; `data/`, `styles.qss`, and log paths all correct in EXE mode
 - **Process exit fix**: Use `os._exit()` to immediately terminate all processes (including uvicorn backend threads) on window close
 - **UI**: Initial window height increased 1.5× (600×750); resize grip updated to visible gold style
 
-### v0.99
+### v0.9.9
 - **EXE packaging path compatibility**: Added `utils/paths.py` to unify root directory resolution across all modules (development vs PyInstaller frozen mode)
 - **Dependency split**: `requirements-prod.txt` (production only) vs `requirements.txt` (dev + test)
 - **build_exe.bat upgrade**: Auto-creates/reuses `.venv`, installs only production deps, reports directory size and UPX status after build
 - **spec completions**: Added hidden imports for `rapidfuzz`, `psutil`, `mss`, `PIL`, `numpy`, `anyio._backends._trio`, `uvicorn.protocols.websockets.wsproto_impl`
 
-### v0.95
+### v0.9.5
 - **Relic synergy system**: Added `relic_archetype_map.py` for relic→archetype affinity mapping; added `data/relics.json` relic definitions
 - **Community data**: `data/card_library.json` now covers all available cards with win rate and pick rate stats
 - **Packaging infrastructure**: Added `build_exe.bat` and `sts2_adviser.spec` for one-click standalone EXE builds
 
-### v0.9
+### v0.9.0
 - **Code quality cleanup**: Replaced all `print` debug output with structured `logging`
 - **vision_bridge.py simplification**: Removed redundant OCR methods, unified to `_extract_card_names_combined` dual-strategy (full-image clustering + region completion)
 - **UI fixes**: Drawer expand/collapse now dynamically resizes window width; adaptive window height after startup via `_auto_fit_height`; card buttons use `Expanding` policy for even distribution
 
-### v0.8
+### v0.8.0
 - **OCR stability improvements**: Whitelist filtering strategy (fuzzy matching auto-filters all noise); narrowed full-image OCR Y-range to exclude card type label rows; OCR concurrency lock prevents overlapping WinRT RecognizeAsync calls
 - **OpenCV preprocessing**: INTER_CUBIC upscale + CLAHE + Gaussian denoising + sharpening when OpenCV is available; PIL contrast enhancement fallback otherwise
 - **Chinese OCR correction table expanded**: Covers high-frequency misread card names
 - **UI rewrite**: Font size increased 20%; vertical card layout; side drawer replaces inline panel; recommendation reasons color-coded; 3-column card grid at 340px width
 
-### v0.7
+### v0.7.0
 - Community data cross-validation layer: joint decision-making with community win/pick rates
 - Sigmoid normalization for community stats
 - AGREEMENT / SOFT_CONFLICT / CONFLICT three-tier confidence adjustment
 
-### v0.6
+### v0.6.0
 - Archetype inference layer (`archetype_inference.py`): keyword/description-based weight inference for cards not in the explicit lists
 - Covers 11 archetype inference configs across Ironclad / Silent / Defect / Watcher
 
-### v0.5
+### v0.5.0
 - OCR rewrite: dual-strategy (full-image clustering + region completion)
 - Scoring engine rewrite (archetype / value / phase / completion / synergy)
 - Logging infrastructure: score JSON logs + OCR snapshot auto-save

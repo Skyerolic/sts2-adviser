@@ -238,20 +238,20 @@ python -m uvicorn backend.main:app --port 8001
 - **OCR 候选选择策略优化**：改为按 bbox X 中心与裁剪区中心距离最近的候选，解决宽分区内多卡名并存时选错的问题（如 slot1 误识别为"切割"而非"触不可及"）
 - **评分等级简化**：去除 D 等级，低分统归 C；颜色方案简化为金/绿/蓝/橙红四色
 
-### v1.25
+### v1.2.5
 - **套路库扩充（17 → 27）**：新增 10 个套路，覆盖 Ironclad（Block/Body Slam · Vulnerable 压制 · Strike 增幅）、Silent（敏捷格挡 · Retain 爆发）、Defect（冰球格挡 · Claw 循环）、Necrobinder（Soul 排除引擎 · Osty 防御强化）、Regent（Retain 控制）；所有套路经 2 个以上社区来源确认，卡牌 ID 均在数据库中验证
 - **评分分布优化**：稀有度基线拉开（Ancient 0.95 / Rare 0.88 / Uncommon 0.62 / Common 0.38），无套路早期 TRANSITION `phase_score` 提升至 0.92；地板补偿按稀有度三档分级，Rare 补偿较小，Common 保留完整补偿。实际效果：Rare 过渡牌 B（51~57）· Uncommon B/B-（44~52）· Common C+（~40），分层清晰
 - **卡牌文字总结**：新增 `data/card_summaries.json`，覆盖 84.9%（489/576 张）可评分卡；每条总结自动组合卡牌定位、套路归属、社区胜率/选取率和使用建议；中文模式下评分结果底部以灰色斜体显示
 - 附 `scripts/generate_card_summaries.py`，套路或数据更新后可本地重新生成
 
-### v1.21
+### v1.2.1
 - **评分系统校准**：修正评分普遍偏低的问题
   - 权重调整：套路契合度 0.40→0.35，卡牌固有价值 0.25→0.30，减少对套路匹配的过度依赖
   - 新增地板补偿：无套路命中的非污染牌补 +8 分，避免有用的通用牌被错误归入"跳过"档
   - 过渡牌识别：早期小牌库（≤15张）中，无套路命中的廉价牌（0/1费 COMMON/UNCOMMON）自动识别为过渡牌，给予早期阶段加权评分（0.85），中期平滑降至 0.60，后期 0.15
   - 过渡牌条件收紧：排除 STATUS/CURSE 类型；有套路匹配时一律走正常 FILLER 路径，避免干扰套路边缘牌的评分
 
-### v1.2
+### v1.2.0
 - **最小化到托盘**：标题栏新增 `−` 最小化按钮，点击后隐藏浮窗并在系统托盘驻留；托盘双击或右键菜单可恢复显示，避免窗口在任务栏消失后无法找回
 - **先古之民卡牌支持**：手动选牌抽屉新增「先古」分组，以紫色样式区分；修复了 Ancient 卡被过滤的问题。评估时显示「超出套路评分体系」提示而非强行打分，避免误导；修复对先古/诅咒卡评估时的 500 错误。尽管实际游戏中不会出现选择这些卡的情形，工具也无意干涉玩家的取向，但手动选牌模式支持选入先古卡体验评分流程——可以试着把它们放进去看看
 - **再次点击取消选中**：卡片按钮支持再次点击取消选中；已选卡托盘中的标签也可点击取消，无需再滚动回原位
@@ -265,25 +265,25 @@ python -m uvicorn backend.main:app --port 8001
 - **遗物协同扩展**：新增 30+ 条遗物套路映射（Silent / Defect / Necrobinder / Regent），新增跨角色通用与先古遗物的协同数据
 - **缩放手柄增大**：右下角缩放手柄从 24px 放大至 32px，颜色更醒目，更易拖拽；叠加 `⤡` 符号提示方向
 
-### v1.0 Test
+### v1.0.0
 - **EXE 正式可用**：首个完整可独立运行的打包版本，无需安装 Python，解压即用
 - **GameWatcher 修复**：`scripts/` 改为标准 Python 包，EXE 模式下角色/楼层/牌组信息现可正确加载，套路契合度评分更准确
 - **路径修复（PyInstaller 6.x）**：用 `sys._MEIPASS` 解析 `_internal/` 目录，`data/`、`styles.qss`、日志路径在 EXE 模式下均正确
 - **进程退出修复**：改用 `os._exit()` 关闭浮窗后立即终止全部进程（含 uvicorn 后端线程）
 - **UI 调整**：初始窗口高度增大 1.5 倍（600×750），右下角缩放手柄改为金色可见样式
 
-### v0.99
+### v0.9.9
 - **EXE 打包路径兼容**：新增 `utils/paths.py`，统一所有模块的根目录解析（开发模式 vs PyInstaller frozen 模式），修复 EXE 运行时 `data/`、`logs/`、`styles.qss` 路径错位问题
 - **依赖拆分**：`requirements-prod.txt`（仅生产依赖）与 `requirements.txt`（开发+测试）分离，用户安装更简洁
 - **build_exe.bat 升级**：自动创建/复用 `.venv` 虚拟环境，仅安装生产依赖，打包后显示目录大小并检测 UPX
 - **spec 补全**：补充 `rapidfuzz`、`psutil`、`mss`、`PIL`、`numpy`、`anyio._backends._trio`、`uvicorn.protocols.websockets.wsproto_impl` 等 hidden imports，打包覆盖率更完整
 
-### v0.95
+### v0.9.5
 - **遗物协同系统完善**：新增 `relic_archetype_map.py` 遗物→套路适配度映射；补充 `data/relics.json` 遗物定义数据
 - **社区数据补全**：`data/card_library.json` 覆盖全部可用卡牌的胜率和选取率统计
 - **打包基础设施**：新增 `build_exe.bat` 和 `sts2_adviser.spec`，支持一键打包为无需安装 Python 的独立 EXE
 
-### v0.9
+### v0.9.0
 - **代码质量清理**：全面替换 `print` 调试输出为结构化 `logging`，提升日志可读性
 - **vision_bridge.py 精简**：移除冗余的独立 OCR 方法，统一为 `_extract_card_names_combined` 双策略（全图聚类 + 区域补全）
 - **UI 修复**：
@@ -291,7 +291,7 @@ python -m uvicorn backend.main:app --port 8001
   - 启动后自适应窗口高度（由 `_auto_fit_height` 在布局完成后调整）
   - 卡片按钮改为 `Expanding` 策略，宽度均匀分布
 
-### v0.8
+### v0.8.0
 - **OCR 稳定性大幅提升**：
   - 白名单过滤策略替代黑名单（fuzzy 匹配自动过滤所有乱码，无需手动维护规则）
   - 全图 OCR 候选区 Y 范围精确收窄，排除卡牌类型标签行（攻击/技能）
@@ -306,24 +306,24 @@ python -m uvicorn backend.main:app --port 8001
   - 推荐理由分色显示（绿色 / 橙红）
   - 卡牌选择面板改为 3 列网格，加宽至 340px，防止卡名截断
 
-### v0.7
+### v0.7.0
 - 社区数据交叉验证层：算法评分与社区胜率 / 选取率联合决策
 - sigmoid 归一化将社区统计转换为 0~1 评分
 - AGREEMENT / SOFT_CONFLICT / CONFLICT 三档置信度调整
 - 推荐理由新增社区数据相关说明
 
-### v0.6
+### v0.6.0
 - 套路推断层（`archetype_inference.py`）：基于关键词 / 描述文本自动推断卡牌套路权重
 - 覆盖铁甲人 / 沉默者 / 机器人 / 守望者共 11 个套路推断配置
 - 不在精确卡牌列表中的卡也能获得推断权重，显著扩大套路覆盖面
 
-### v0.5
+### v0.5.0
 - OCR 识别重写：双策略（全图聚类 + 区域补全）
 - 评分引擎重构（archetype / value / phase / completion / synergy 五维度）
 - 日志基础设施：评分 JSON 日志 + OCR 快照自动保存
 - WebSocket 稳定性修复（UTF-8 编码 / asyncio 阻塞问题）
 
-### v0.1 — v0.4
+### v0.1.0 — v0.4.0
 - 项目初始化，基础 FastAPI 后端 + PyQt6 浮窗
 - Windows PrintWindow 截图模块
 - Windows OCR 引擎封装
