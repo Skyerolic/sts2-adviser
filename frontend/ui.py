@@ -1443,10 +1443,12 @@ class CardResultWidget(QFrame):
         name_row.addWidget(name_label, 0, Qt.AlignmentFlag.AlignVCenter)
 
         path_impact: dict = result.get("path_impact", {})
-        if path_impact and self._archetype_name_map:
+        if path_impact:
             path_widget = self._build_path_impact_row(path_impact)
             if path_widget:
                 name_row.addWidget(path_widget, 1, Qt.AlignmentFlag.AlignVCenter)
+            else:
+                name_row.addStretch()
         else:
             name_row.addStretch()
 
