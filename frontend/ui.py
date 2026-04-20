@@ -52,7 +52,7 @@ from PyQt6.QtWidgets import (
 _port = os.environ.get("STS2_BACKEND_PORT", "8000")
 BACKEND_URL = f"http://127.0.0.1:{_port}"
 
-VERSION = "1.6.0"
+VERSION = "1.6.1"
 
 # 套路名映射（archetype_id → name_zh），后端连通后懒加载
 _ARCHETYPE_NAME_MAP: dict[str, str] = {}
@@ -1383,7 +1383,6 @@ _GRADE_COLORS = {
     "B-": "#1E88E5",  # 深蓝
     "C+": "#FFB74D",  # 橙色
     "C":  "#FF7043",  # 红橙
-    "D":  "#EF5350",  # 红色
 }
 
 

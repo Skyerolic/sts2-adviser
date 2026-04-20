@@ -227,7 +227,7 @@ python -m uvicorn backend.main:app --port 8001
 
 ## Changelog
 
-### v1.6 (current)
+### v1.6.1 (current)
 - **Game Major Update #1 (v0.103.2) data sync**: Updated card database (additions/removals/modifications), Chinese localization, relic data, and relic-archetype mappings; added archetype weights for DOMINATE / STOKE / BLADE_OF_INK / ARSENAL / NOT_YET / SPITE / FOLLOW_THROUGH / BORROWED_TIME and other new cards
 - **Path impact visualization (Issue #4)**: Colored archetype tags now appear next to each candidate card name, showing compatibility with **all** current character archetypes (✦ core / ● enabler / · filler / ✗ pollution); visible from game start — no archetype lock required
 - **Community data algorithm overhaul**: Win rate / pick rate now displayed as sigmoid-normalized deviation values (±integer) instead of raw percentages; skip rate added as a factor; divergence (win deviation − pick deviation) beyond threshold shows "hidden gem" / "overhyped" tags
