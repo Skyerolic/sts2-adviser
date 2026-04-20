@@ -18,7 +18,6 @@ env/
 # 日志 & 运行时输出
 logs/
 *.log
-app.log
 
 # OCR 诊断输出
 diagnose_full.png
