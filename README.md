@@ -234,6 +234,9 @@ python -m uvicorn backend.main:app --port 8001
 - **UI 整合与字体自适应**：卡牌摘要 + 推荐理由 + 不推荐理由合并为单行彩色富文本；字体改用 `QFont.setPixelSize()` 跟随系统 DPI；评分颜色调整（S=金色、A=绿色、B=蓝色）；套路标签移至卡名同行
 - **日志规范化**：backend 全部 `print()` 调用改为 `logging`，统一写入日志文件
 - **套路权重补全（27条）**：补录高胜率但缺失精确权重的核心牌 — Silent（ACCELERANT/CORROSIVE_WAVE/FAN_OF_KNIVES/KNIFE_TRAP/STORM_OF_STEEL/AFTERIMAGE/SHADOWMELD/MALAISE）、Ironclad（TEAR_ASUNDER）、Defect（ECHO_FORM/VOLTAIC/MODDED/FLAK_CANNON/TRASH_TO_TREASURE/BUFFER 等）、Necrobinder（REANIMATE/HANG/DEBILITATE/BANSHEES_CRY 等）、Regent（BIG_BANG/VOID_FORM/DECISIONS_DECISIONS 等）
+- **OCR 动态分区**：用 resolved_centers 中点动态计算三槽位区域边界，替换原来基于 &lt;1500px 的硬编码阈值，窗口任意大小均可自适应
+- **OCR 候选选择策略优化**：改为按 bbox X 中心与裁剪区中心距离最近的候选，解决宽分区内多卡名并存时选错的问题（如 slot1 误识别为"切割"而非"触不可及"）
+- **评分等级简化**：去除 D 等级，低分统归 C；颜色方案简化为金/绿/蓝/橙红四色
 
 ### v1.25
 - **套路库扩充（17 → 27）**：新增 10 个套路，覆盖 Ironclad（Block/Body Slam · Vulnerable 压制 · Strike 增幅）、Silent（敏捷格挡 · Retain 爆发）、Defect（冰球格挡 · Claw 循环）、Necrobinder（Soul 排除引擎 · Osty 防御强化）、Regent（Retain 控制）；所有套路经 2 个以上社区来源确认，卡牌 ID 均在数据库中验证

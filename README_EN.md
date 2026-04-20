@@ -235,6 +235,9 @@ python -m uvicorn backend.main:app --port 8001
 - **UI consolidation and font DPI scaling**: Card summary + reasons merged into a single colored rich text line; font now uses `QFont.setPixelSize()` for proper DPI scaling; grade colors updated (S=gold, A=green, B=blue); archetype tags moved to the same row as card name
 - **Log cleanup**: All `print()` calls in backend replaced with `logging`, unified into log file output
 - **Archetype weight coverage (+27 entries)**: Added missing core/enabler weights for high win-rate cards — Silent (ACCELERANT/CORROSIVE_WAVE/FAN_OF_KNIVES/KNIFE_TRAP/STORM_OF_STEEL/AFTERIMAGE/SHADOWMELD/MALAISE), Ironclad (TEAR_ASUNDER), Defect (ECHO_FORM/VOLTAIC/MODDED/FLAK_CANNON/TRASH_TO_TREASURE/BUFFER etc.), Necrobinder (REANIMATE/HANG/DEBILITATE/BANSHEES_CRY etc.), Regent (BIG_BANG/VOID_FORM/DECISIONS_DECISIONS etc.)
+- **Dynamic OCR zone detection**: Card slot boundaries now computed from `resolved_centers` midpoints instead of a hardcoded &lt;1500px threshold — works correctly at any window size
+- **OCR candidate selection fix**: Switched from shortest-string to nearest-bbox-center strategy, fixing misidentification when multiple card names appear in a wide zone (e.g. slot 1 returning "Precise Cut" instead of "Untouchable")
+- **Grade simplification**: Removed D grade; low scores consolidate into C; color scheme simplified to gold/green/blue/orange-red
 
 ### v1.25
 - **Archetype library: 17 → 27**: 10 new archetypes covering Ironclad (Block/Body Slam · Vulnerable Pressure · Strike Scaling), Silent (Dexterity Block · Retain Burst), Defect (Frost Block · Claw Cycle), Necrobinder (Soul Exhaust Engine · Osty Defense Buff), Regent (Retain Control); each confirmed by 2+ community sources with all card IDs verified in the database
