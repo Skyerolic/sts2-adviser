@@ -227,7 +227,11 @@ python -m uvicorn backend.main:app --port 8001
 
 ## Changelog
 
-### v1.6.1 (current)
+### v1.6.2 (current)
+- **Chinese card recognition fix (Issue #5)**: When OCR read 2–3 character Chinese card names (e.g. "熔融", "强化", "双重"), the flat 0.55 fuzzy threshold would lock them onto their 4-character supersets — `fuzz.ratio('打击','双重打击')=0.667` passes 0.55, and 46% of the Chinese card DB is 2-char. `CardNameIndex.search` now partitions by language (CJK only searches the Chinese list, ASCII only searches English), takes an exact-match fast path, applies length-aware thresholds (CJK ≤3 chars 0.85 / ≥4 chars 0.70, English stays at 0.55), and rejects ambiguous results when top-1 and top-2 confidences differ by <0.05 — leaving the slot unlocked for the next OCR frame instead of locking in the wrong card
+- **Archetype chip localization**: The v1.6.1 "language-aware archetype names" change only covered reason text and the bottom detection label; the colored archetype chips next to each card name (✦ core / ● enabler / · filler / ✗ pollution) were still hardcoded to `name_zh` and showed Chinese on the English UI. The backend mapping now stores both `{zh, en}` names per archetype id, and the chip picks by the current UI language (14-char cap for English, 6-char for CJK)
+
+### v1.6.1
 - **Game Major Update #1 (v0.103.2) data sync**: Updated card database (additions/removals/modifications), Chinese localization, relic data, and relic-archetype mappings; added archetype weights for DOMINATE / STOKE / BLADE_OF_INK / ARSENAL / NOT_YET / SPITE / FOLLOW_THROUGH / BORROWED_TIME and other new cards
 - **Path impact visualization (Issue #4)**: Colored archetype tags now appear next to each candidate card name, showing compatibility with **all** current character archetypes (✦ core / ● enabler / · filler / ✗ pollution); visible from game start — no archetype lock required
 - **Community data algorithm overhaul**: Win rate / pick rate now displayed as sigmoid-normalized deviation values (±integer) instead of raw percentages; skip rate added as a factor; divergence (win deviation − pick deviation) beyond threshold shows "hidden gem" / "overhyped" tags
