@@ -54,8 +54,9 @@ BACKEND_URL = f"http://127.0.0.1:{_port}"
 
 VERSION = "1.6.1"
 
-# 套路名映射（archetype_id → name_zh），后端连通后懒加载
-_ARCHETYPE_NAME_MAP: dict[str, str] = {}
+# 套路名映射（archetype_id → {"zh": name_zh, "en": name}），后端连通后懒加载
+# 路径影响标签按当前 UI 语言从内层字典取名，避免英文界面下残留中文
+_ARCHETYPE_NAME_MAP: dict[str, dict[str, str]] = {}
 _GITHUB_REPO = "Skyerolic/sts2-adviser"
 
 
@@ -1399,13 +1400,13 @@ class CardResultWidget(QFrame):
         self,
         result: dict,
         language: str = "en",
-        archetype_name_map: dict[str, str] | None = None,
+        archetype_name_map: dict[str, dict[str, str]] | None = None,
         parent: QWidget | None = None,
     ) -> None:
         super().__init__(parent)
         self.setObjectName("CardResultWidget")
         self._language = language
-        self._archetype_name_map: dict[str, str] = archetype_name_map or {}
+        self._archetype_name_map: dict[str, dict[str, str]] = archetype_name_map or {}
         self._fs = _fs   # 字体缩放快捷引用
         self._build_ui(result)
 
@@ -1556,8 +1557,11 @@ class CardResultWidget(QFrame):
             if not style:
                 continue
             prefix, fg, bg = style
-            short_name = self._archetype_name_map.get(arch_id, arch_id)
-            short_name = short_name[:6] if len(short_name) > 6 else short_name
+            names = self._archetype_name_map.get(arch_id, {})
+            short_name = names.get(self._language) or names.get("en") or arch_id
+            max_len = 6 if self._language == "zh" else 14
+            if len(short_name) > max_len:
+                short_name = short_name[:max_len]
 
             tag = QLabel(f"{prefix} {short_name}")
             tag.setStyleSheet(
@@ -2119,7 +2123,10 @@ class CardAdviserWindow(QWidget):
             resp = requests.get(f"{BACKEND_URL}/api/archetypes", timeout=4)
             if resp.status_code == 200:
                 for arch in resp.json().get("archetypes", []):
-                    _ARCHETYPE_NAME_MAP[arch["id"]] = arch.get("name_zh") or arch.get("name", arch["id"])
+                    arch_id = arch["id"]
+                    zh_name = arch.get("name_zh") or arch.get("name") or arch_id
+                    en_name = arch.get("name") or arch.get("name_zh") or arch_id
+                    _ARCHETYPE_NAME_MAP[arch_id] = {"zh": zh_name, "en": en_name}
         except Exception:
             pass
 

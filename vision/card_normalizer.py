@@ -137,18 +137,20 @@ class CardNameIndex:
         self,
         query: str,
         top_k: int = 3,
-        threshold: float = DEFAULT_CONFIDENCE_THRESHOLD,
+        threshold: Optional[float] = None,
     ) -> list[MatchResult]:
         """
-        模糊搜索卡名。
+        模糊搜索卡名（按语言分区 + 精确匹配快速通道 + 长度感知阈值 + 歧义拒绝）。
 
         Args:
             query: OCR 识别的原始文字
             top_k: 返回前 N 个候选
-            threshold: 最低置信度
+            threshold: 最低置信度。传 None 则根据 query 语言+长度自适应
+                       （见 _threshold_for）。
 
         Returns:
-            按置信度降序的 MatchResult 列表
+            按置信度降序的 MatchResult 列表；若 top-1/top-2 置信度差距 < 0.05
+            且均非精确匹配，视为歧义，返回空列表。
         """
         if not self._loaded:
             self.load()
@@ -162,73 +164,82 @@ class CardNameIndex:
         if not normalized:
             return []
 
+        effective_threshold = (
+            threshold if threshold is not None else _threshold_for(normalized)
+        )
+
+        # 语言分区：CJK 查询只搜中文列表，纯 ASCII 只搜英文列表
+        is_cjk = bool(_CJK_PATTERN.search(normalized))
+        if is_cjk:
+            search_list = self._zh_list
+            lang = "zh"
+            name_field_idx = 1  # _index[cid] = (en_name, zh_name)
+        else:
+            search_list = self._en_list
+            lang = "en"
+            name_field_idx = 0
+
+        if not search_list:
+            return []
+
+        # 精确匹配快速通道：规范化后完全相等则 confidence=1.0 立即返回
+        for norm_name, card_id in search_list:
+            if norm_name == normalized:
+                return [MatchResult(
+                    card_id=card_id,
+                    matched_name=self._index[card_id][name_field_idx],
+                    input_text=query,
+                    confidence=1.0,
+                    language=lang,
+                )]
+
         try:
             from rapidfuzz import process, fuzz
         except ImportError:
             log.error("rapidfuzz 未安装，请运行: pip install rapidfuzz")
             return []
 
-        results: list[MatchResult] = []
-
-        # 在英文列表中搜索
-        en_names = [name for name, _ in self._en_list]
-        en_matches = process.extract(
+        names = [name for name, _ in search_list]
+        # 至少取 2 个用于歧义检查
+        matches = process.extract(
             normalized,
-            en_names,
+            names,
             scorer=fuzz.token_sort_ratio,
-            limit=top_k,
+            limit=max(top_k, 2),
         )
-        for match_name, score, idx in en_matches:
+
+        candidates: list[MatchResult] = []
+        for match_name, score, idx in matches:
             confidence = score / 100.0
-            if confidence >= threshold:
-                _, card_id = self._en_list[idx]
-                results.append(MatchResult(
+            if confidence >= effective_threshold:
+                _, card_id = search_list[idx]
+                candidates.append(MatchResult(
                     card_id=card_id,
-                    matched_name=self._index[card_id][0],
+                    matched_name=self._index[card_id][name_field_idx],
                     input_text=query,
                     confidence=confidence,
-                    language="en",
+                    language=lang,
                 ))
 
-        # 在中文列表中搜索
-        zh_names = [name for name, _ in self._zh_list]
-        zh_matches = process.extract(
-            normalized,
-            zh_names,
-            scorer=fuzz.token_sort_ratio,
-            limit=top_k,
-        )
-        for match_name, score, idx in zh_matches:
-            confidence = score / 100.0
-            if confidence >= threshold:
-                _, card_id = self._zh_list[idx]
-                # 避免重复（同一 card_id 已在英文结果中）
-                existing_ids = {r.card_id for r in results}
-                if card_id not in existing_ids:
-                    results.append(MatchResult(
-                        card_id=card_id,
-                        matched_name=self._index[card_id][1],
-                        input_text=query,
-                        confidence=confidence,
-                        language="zh",
-                    ))
-                else:
-                    # 更新已有结果的置信度（取较高值）
-                    for r in results:
-                        if r.card_id == card_id and confidence > r.confidence:
-                            r.confidence = confidence
-                            r.language = "zh"
+        # 歧义拒绝：top-1 与 top-2 都过阈值且置信度差距 < 0.05 → 拒绝
+        # 宁可让槽位保持未锁定等下一帧，也不锁入错误结果
+        if len(candidates) >= 2 and candidates[0].confidence < 1.0:
+            if candidates[0].confidence - candidates[1].confidence < 0.05:
+                log.debug(
+                    f"歧义拒绝: '{query}' → {candidates[0].card_id}"
+                    f"({candidates[0].confidence:.2f}) vs {candidates[1].card_id}"
+                    f"({candidates[1].confidence:.2f})"
+                )
+                return []
 
-        # 按置信度降序
-        results.sort(key=lambda r: r.confidence, reverse=True)
-        return results[:top_k]
+        return candidates[:top_k]
 
     def best_match(
         self,
         query: str,
-        threshold: float = DEFAULT_CONFIDENCE_THRESHOLD,
+        threshold: Optional[float] = None,
     ) -> Optional[MatchResult]:
-        """返回最佳匹配，低于阈值返回 None"""
+        """返回最佳匹配，低于阈值或歧义时返回 None"""
         results = self.search(query, top_k=1, threshold=threshold)
         return results[0] if results else None
 
@@ -245,9 +256,10 @@ class CardNormalizer:
     def __init__(
         self,
         index: Optional[CardNameIndex] = None,
-        threshold: float = DEFAULT_CONFIDENCE_THRESHOLD,
+        threshold: Optional[float] = None,
     ) -> None:
         self._index = index or CardNameIndex()
+        # None 表示使用 _threshold_for 的长度感知自适应阈值（推荐）
         self._threshold = threshold
         if not self._index._loaded:
             self._index.load()
@@ -323,6 +335,28 @@ _ZH_OCR_CORRECTIONS = {
 }
 
 _NOISE_PATTERN = re.compile(r"[^\w\s\u4e00-\u9fff]")  # 保留字母/数字/空格/中文
+
+# CJK 基本统一表意文字（用于语言分区）
+_CJK_PATTERN = re.compile(r"[一-鿿]")
+
+
+def _threshold_for(normalized_query: str) -> float:
+    """
+    长度 + 语言自适应置信度阈值。
+
+    - 纯 ASCII 查询（英文卡名）     -> 0.55（保留原行为）
+    - 中文，总字符数 <= 3           -> 0.85
+      （防 2 字 ⊂ 4 字卡名误匹配：如 OCR 读到 "打击"，"双重打击" 的 fuzz.ratio=0.667）
+    - 中文，总字符数 >= 4           -> 0.70
+
+    若调用方显式传 threshold，将覆盖此函数的返回值。
+    """
+    if not _CJK_PATTERN.search(normalized_query):
+        return DEFAULT_CONFIDENCE_THRESHOLD
+    cjk_len = len(normalized_query.replace(" ", ""))
+    if cjk_len <= 3:
+        return 0.85
+    return 0.70
 
 
 def _clean_ocr_text(text: str) -> str:
