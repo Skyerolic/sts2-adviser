@@ -6,6 +6,12 @@
   <img src="assets/Preview_chz.png" width="220" alt="STS2 Adviser 预览"/>
 </p>
 
+<p align="center">
+  <a href="#感谢名单"><img src="https://img.shields.io/badge/%E6%84%9F%E8%B0%A2-3%E4%BD%8D%E8%B4%A1%E7%8C%AE%E8%80%85-blue?style=flat-square" alt="贡献者"/></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-GPLv3-green.svg?style=flat-square" alt="License"/></a>
+  <img src="https://img.shields.io/badge/version-1.6.2-orange?style=flat-square" alt="Version"/>
+</p>
+
 进入选卡界面时自动截图识别候选卡，读取游戏存档和日志，综合套路契合度、固有价值、阶段适配、完成度贡献、遗物协同五个维度评分，并与社区胜率/选取率数据交叉验证，以置顶浮窗形式给出推荐评分和理由。
 
 ## 设计理念
@@ -332,6 +338,14 @@ python -m uvicorn backend.main:app --port 8001
 - Windows PrintWindow 截图模块
 - Windows OCR 引擎封装
 - 游戏日志文件监视器（GameWatcher）
+
+---
+
+## 感谢名单
+
+- [@p33333333333333l](https://github.com/p33333333333333l) 反馈窗口最小化问题（#3）和手动选牌相关 bug（#1 #2）
+- [@blaaaakuu](https://github.com/blaaaakuu) 建议新增套路预锁功能（#4）
+- [@Jonsbe](https://github.com/Jonsbe) 反馈非中文游戏界面下 OCR 识别问题（#5）
 
 ---
 

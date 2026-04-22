@@ -6,6 +6,12 @@
   <img src="assets/preview_en.png" width="220" alt="STS2 Adviser Preview"/>
 </p>
 
+<p align="center">
+  <a href="#acknowledgments"><img src="https://img.shields.io/badge/Thanks-3%20contributors-blue?style=flat-square" alt="Contributors"/></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-GPLv3-green.svg?style=flat-square" alt="License"/></a>
+  <img src="https://img.shields.io/badge/version-1.6.2-orange?style=flat-square" alt="Version"/>
+</p>
+
 Automatically captures the card reward screen via screenshot, reads your save file and game log, scores each candidate card across five dimensions — archetype fit, inherent value, phase adaptation, completion contribution, and relic synergy — then cross-validates against community win-rate/pick-rate data. Results are displayed as a pinned overlay on top of the game window.
 
 ## Design Philosophy
@@ -319,6 +325,14 @@ python -m uvicorn backend.main:app --port 8001
 - Windows PrintWindow capture module
 - Windows OCR engine wrapper
 - Game log file monitor (GameWatcher)
+
+---
+
+## Acknowledgments
+
+- [@p33333333333333l](https://github.com/p33333333333333l) for reporting window minimize issues (#3) and manual card selection bugs (#1 #2)
+- [@blaaaakuu](https://github.com/blaaaakuu) for suggesting archetype pre-selection (#4)
+- [@Jonsbe](https://github.com/Jonsbe) for reporting OCR issues with non-Chinese game UI (#5)
 
 ---
 
