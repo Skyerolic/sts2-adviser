@@ -239,7 +239,13 @@ python -m uvicorn backend.main:app --port 8001
 
 ## Changelog
 
-### v1.6.2 (current)
+### v1.6.3 (current)
+- **Small-window OCR fix**: On small game windows (1280×960 / 1366×768 etc.), the full-image OCR pass couldn't reach the ~30 px card titles and instead returned card body descriptions (e.g. `doubledamage`, `Gain6BIc•zk`), causing all three slots to mis-recognize or lock to the wrong cards. Two independent changes stack to fix this:
+  - **Aggressive small-window upscale**: Full screenshots with max dim < 1500 px are now upscaled to 2400 px long edge with INTER_LANCZOS4 (just under WinRT OCR's 2600 px cap), bringing 30 px titles to 50 px+ where the full-image OCR can pick them up. 1080p+ is untouched.
+  - **Brightness-projection slot bounds**: The card-reward screen has a strong "dark background + brightly-framed cards" contrast. A new helper performs a column-wise mean brightness projection over the title band and takes connected runs to derive pixel-precise card edges, replacing the hardcoded default-centers + midpoints logic. Slot 0 / slot 2 no longer extend to the screen edges and stop dragging character art and dark corners into OCR.
+- **4K E_FAIL fix**: Windows.Media.Ocr enforces a documented 2600 px maximum image dimension — 4K fullscreen screenshots (3840×2160) trigger `[WinError -2147467259]`. The preprocess step now downscales oversized images to 2400 px long edge with INTER_AREA before OCR.
+
+### v1.6.2
 - **Chinese card recognition fix (Issue #5)**: When OCR read 2–3 character Chinese card names (e.g. "熔融", "强化", "双重"), the flat 0.55 fuzzy threshold would lock them onto their 4-character supersets — `fuzz.ratio('打击','双重打击')=0.667` passes 0.55, and 46% of the Chinese card DB is 2-char. `CardNameIndex.search` now partitions by language (CJK only searches the Chinese list, ASCII only searches English), takes an exact-match fast path, applies length-aware thresholds (CJK ≤3 chars 0.85 / ≥4 chars 0.70, English stays at 0.55), and rejects ambiguous results when top-1 and top-2 confidences differ by <0.05 — leaving the slot unlocked for the next OCR frame instead of locking in the wrong card
 - **Archetype chip localization**: The v1.6.1 "language-aware archetype names" change only covered reason text and the bottom detection label; the colored archetype chips next to each card name (✦ core / ● enabler / · filler / ✗ pollution) were still hardcoded to `name_zh` and showed Chinese on the English UI. The backend mapping now stores both `{zh, en}` names per archetype id, and the chip picks by the current UI language (14-char cap for English, 6-char for CJK)
 
