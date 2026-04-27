@@ -461,15 +461,25 @@ class VisionBridge:
         log.debug(f"最终X中心: {resolved_centers}")
 
         # ── 步骤3：对空槽位做区域 OCR ──────────────────────────────────
-        # 动态分区：基于已推算的 resolved_centers 计算两个中点，无需窗口尺寸阈值
-        _margin = 0.06
-        mid01 = (resolved_centers[0] + resolved_centers[1]) / 2
-        mid12 = (resolved_centers[1] + resolved_centers[2]) / 2
-        _slot_bands = [
-            (0.0,             mid01 + _margin),
-            (mid01 - _margin, mid12 + _margin),
-            (mid12 - _margin, 1.0),
-        ]
+        # 优先：用列亮度投影做像素级精确分割（暗背景 + 亮卡片对比明显）
+        # 失败则回退：基于 resolved_centers 的中点法
+        detected_px_bounds = VisionBridge._detect_card_x_bounds(
+            screenshot, card_y_top, card_y_bot, expected_count=3
+        )
+        if detected_px_bounds is not None:
+            log.debug(f"亮度投影检测到精确卡边界(px): {detected_px_bounds}")
+            _slot_bands_px = detected_px_bounds
+            use_px_bands = True
+        else:
+            _margin = 0.06
+            mid01 = (resolved_centers[0] + resolved_centers[1]) / 2
+            mid12 = (resolved_centers[1] + resolved_centers[2]) / 2
+            _slot_bands = [
+                (0.0,             mid01 + _margin),
+                (mid01 - _margin, mid12 + _margin),
+                (mid12 - _margin, 1.0),
+            ]
+            use_px_bands = False
         _skip = set(skip_slots or [])
         result = list(full_ocr_names)
         for i, cx in enumerate(resolved_centers[:3]):
@@ -477,9 +487,12 @@ class VisionBridge:
                 continue
             if result[i]:  # 已从全图OCR获得，跳过
                 continue
-            x_lo, x_hi = _slot_bands[i]
-            x0 = max(0, int(x_lo * w_px))
-            x1 = min(w_px, int(x_hi * w_px))
+            if use_px_bands:
+                x0, x1 = _slot_bands_px[i]
+            else:
+                x_lo, x_hi = _slot_bands[i]
+                x0 = max(0, int(x_lo * w_px))
+                x1 = min(w_px, int(x_hi * w_px))
             y0 = max(0, int(card_y_top * h_px))
             y1 = min(h_px, int(card_y_bot * h_px))
             region = screenshot[y0:y1, x0:x1]
@@ -508,6 +521,81 @@ class VisionBridge:
 
         log.debug(f"最终卡名: {result}")
         return result
+
+    @staticmethod
+    def _detect_card_x_bounds(
+        screenshot: np.ndarray,
+        y_top_rel: float,
+        y_bot_rel: float,
+        expected_count: int = 3,
+    ) -> Optional[list[tuple[int, int]]]:
+        """
+        在标题带 Y 范围内做列亮度投影，找到 N 张卡的精确像素 X 边界。
+
+        利用选卡界面的视觉特性：纯黑/暗背景 + 高亮卡牌（绿框 + 彩色标题）。
+        每列像素的灰度均值在卡片列高，在卡片间隙列接近 0；阈值化后取连续段。
+
+        Returns:
+            按从左到右排序的 [(x0, x1), ...] 像素边界对，或 None 表示检测失败
+            （连续段数 < 3 时回退到现有的中点法）
+        """
+        try:
+            import cv2
+        except ImportError:
+            return None
+
+        h, w = screenshot.shape[:2]
+        y0 = max(0, int(y_top_rel * h))
+        y1 = min(h, int(y_bot_rel * h))
+        if y1 - y0 < 10 or w < 100:
+            return None
+
+        band = screenshot[y0:y1, :]
+        if band.ndim == 3:
+            gray = cv2.cvtColor(band, cv2.COLOR_BGR2GRAY)
+        else:
+            gray = band
+
+        col_mean = gray.mean(axis=0)
+        peak = float(col_mean.max())
+        if peak < 30:
+            log.debug(f"亮度投影：标题带过暗 (peak={peak:.0f})，跳过")
+            return None
+
+        # 阈值：max * 0.3 —— 在 max=200 时阈值 60，黑背景 (~10) 远低于此
+        threshold = peak * 0.3
+        is_card = col_mean > threshold
+
+        # 找连续 True 段
+        runs: list[tuple[int, int]] = []
+        in_run = False
+        start = 0
+        for x in range(w):
+            if is_card[x]:
+                if not in_run:
+                    start = x
+                    in_run = True
+            else:
+                if in_run:
+                    runs.append((start, x))
+                    in_run = False
+        if in_run:
+            runs.append((start, w))
+
+        # 滤掉太窄的段（< 5% 窗口宽度，多半是字幕、UI 元素或噪点）
+        min_width = max(int(w * 0.05), 20)
+        runs = [r for r in runs if (r[1] - r[0]) >= min_width]
+
+        if len(runs) < expected_count:
+            log.debug(f"亮度投影：仅检测到 {len(runs)} 段（需要 {expected_count}）")
+            return None
+
+        # 多于预期 → 挑最宽的 N 个（卡片通常远比 UI 元素宽）
+        if len(runs) > expected_count:
+            runs = sorted(runs, key=lambda r: r[1] - r[0], reverse=True)[:expected_count]
+            runs.sort(key=lambda r: r[0])
+
+        return runs
 
     @staticmethod
     def _find_title_y(ocr_result) -> Optional[float]:
