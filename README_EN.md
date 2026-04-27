@@ -8,7 +8,7 @@
 
 <p align="center">
   <a href="https://github.com/Skyerolic/sts2-adviser/releases"><img src="https://img.shields.io/github/v/release/Skyerolic/sts2-adviser?style=flat-square&color=orange" alt="Latest release"/></a>
-  <a href="https://github.com/Skyerolic/sts2-adviser/releases"><img src="https://img.shields.io/badge/downloads-777-brightgreen?style=flat-square" alt="Downloads"/></a>
+  <a href="https://github.com/Skyerolic/sts2-adviser/releases"><img src="https://img.shields.io/github/downloads/Skyerolic/sts2-adviser/total?style=flat-square&color=brightgreen" alt="Downloads"/></a>
   <img src="https://img.shields.io/badge/platform-Windows-0078d6?style=flat-square" alt="Platform"/>
   <img src="https://img.shields.io/badge/STS2-v0.103.2-9b59b6?style=flat-square" alt="Game version"/>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-GPLv3-green.svg?style=flat-square" alt="License"/></a>
