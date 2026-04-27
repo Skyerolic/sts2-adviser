@@ -53,6 +53,11 @@ _PREFERRED_LANGS = ["zh-Hans-CN", "zh-CN", "zh-Hans", "zh", "en-US", "en"]
 # 英文专用语言标签顺序（用于卡名 OCR）
 _EN_PREFERRED_LANGS = ["en-US", "en-GB", "en"]
 
+# Windows.Media.Ocr 文档规定的图像尺寸硬上限：任一维 > 2600 px 即抛 E_FAIL
+# 4K 全屏截图（3840 × 2160）会触发该限制，必须先缩小
+_WINRT_MAX_DIM = 2600
+_DOWNSCALE_TARGET = 2400        # 留 200 px 余量
+
 
 @dataclass
 class OcrWord:
@@ -385,32 +390,43 @@ class WindowsOcrEngine:
     def _preprocess(img: "Image.Image") -> "Image.Image":
         """
         OCR 前预处理：
-        - 全图截图（h >= 300px）：不处理，Windows OCR 直接处理效果良好
-        - 卡名截图（h < 300px）：
-            有 OpenCV：放大(INTER_CUBIC) → 灰度 → CLAHE → 高斯去噪 → 锐化
-            无 OpenCV：放大(PIL LANCZOS) → 对比度×1.8 → 锐化×1.5（原有逻辑）
+        - 超大图（任一维 > 2600px，如 4K 全屏）：用 INTER_AREA 缩小到长边 2400px，
+          避开 Windows.Media.Ocr 的尺寸硬上限（否则抛 E_FAIL）
+        - 卡名截图（h < 300px）：放大 + CLAHE/锐化（cv2 路径）或 LANCZOS+对比度增强（PIL 回退）
+        - 其他尺寸：直接返回，避免对全图截图做插值导致文字畸变
         """
         from PIL import ImageEnhance
         w, h = img.size
+        max_dim = max(w, h)
 
-        if h >= 300:
+        # 1. 超大图缩小（修复 4K 下的 E_FAIL）
+        if max_dim > _WINRT_MAX_DIM:
+            scale = _DOWNSCALE_TARGET / max_dim
+            new_w = max(int(w * scale), 1)
+            new_h = max(int(h * scale), 1)
+            if _check_cv2():
+                import cv2
+                bgr = np.array(img.convert("RGB"))[:, :, ::-1].copy()
+                bgr = cv2.resize(bgr, (new_w, new_h), interpolation=cv2.INTER_AREA)
+                img = Image.fromarray(bgr[:, :, ::-1])
+            else:
+                img = img.resize((new_w, new_h), Image.LANCZOS)
+            log.debug(f"OCR 缩小: {w}x{h} → {new_w}x{new_h} (避开 WinRT 2600px 上限)")
             return img
 
-        target_h = 300
-
-        if _check_cv2():
-            return WindowsOcrEngine._preprocess_cv(img, target_h)
-
-        # PIL 回退路径
-        if h < target_h:
+        # 2. 卡名截图（小高度）：现有路径
+        if h < 300:
+            target_h = 300
+            if _check_cv2():
+                return WindowsOcrEngine._preprocess_cv(img, target_h)
             scale = target_h / max(h, 1)
             new_w = int(w * scale)
-            new_h = int(h * scale)
-            img = img.resize((new_w, new_h), Image.LANCZOS)
-            log.debug(f"PIL 放大: {w}x{h} → {new_w}x{new_h}")
-        img = ImageEnhance.Contrast(img).enhance(1.8)
-        img = ImageEnhance.Sharpness(img).enhance(1.5)
-        log.debug("PIL 增强: contrast×1.8 sharpness×1.5")
+            img = img.resize((new_w, target_h), Image.LANCZOS)
+            img = ImageEnhance.Contrast(img).enhance(1.8)
+            img = ImageEnhance.Sharpness(img).enhance(1.5)
+            log.debug(f"OCR 卡名放大: {w}x{h} → {new_w}x{target_h} (PIL 回退)")
+            return img
+
         return img
 
     @staticmethod
@@ -422,11 +438,11 @@ class WindowsOcrEngine:
         bgr = np.array(img.convert("RGB"))[:, :, ::-1].copy()
         h, w = bgr.shape[:2]
 
-        # 1. INTER_CUBIC 放大至目标高度
+        # 1. LANCZOS4 放大至目标高度（对文字边缘最锐利、伪影最少）
         if h < target_h:
             scale = target_h / h
             new_w = int(w * scale)
-            bgr = cv2.resize(bgr, (new_w, target_h), interpolation=cv2.INTER_CUBIC)
+            bgr = cv2.resize(bgr, (new_w, target_h), interpolation=cv2.INTER_LANCZOS4)
             log.debug(f"cv2 放大: {w}x{h} → {new_w}x{target_h}")
 
         # 2. 转灰度
