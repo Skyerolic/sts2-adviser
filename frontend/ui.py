@@ -52,7 +52,7 @@ from PyQt6.QtWidgets import (
 _port = os.environ.get("STS2_BACKEND_PORT", "8000")
 BACKEND_URL = f"http://127.0.0.1:{_port}"
 
-VERSION = "1.6.4"
+VERSION = "1.6.5"
 
 # 套路名映射（archetype_id → {"zh": name_zh, "en": name}），后端连通后懒加载
 # 路径影响标签按当前 UI 语言从内层字典取名，避免英文界面下残留中文

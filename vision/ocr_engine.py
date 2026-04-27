@@ -53,19 +53,20 @@ _PREFERRED_LANGS = ["zh-Hans-CN", "zh-CN", "zh-Hans", "zh", "en-US", "en"]
 # 英文专用语言标签顺序（用于卡名 OCR）
 _EN_PREFERRED_LANGS = ["en-US", "en-GB", "en"]
 
-# Windows.Media.Ocr 文档规定的图像尺寸硬上限：任一维 > 2600 px 即抛 E_FAIL
-# 4K 全屏截图（3840 × 2160）会触发该限制，必须先缩小
-# v1.6.3 用 2400 仍然在某些 4K 用户上 E_FAIL（en-US 引擎也复现）——疑似 PIL→PNG→
-# BitmapDecoder 链路上的内存/解码问题，与 MaxImageDimension 无关。降到 1800 留更多
-# 余量（4K 缩到 1800×1012，PNG 体积 ~3MB，原 ~10MB）
-_WINRT_MAX_DIM = 2600
-_DOWNSCALE_TARGET = 1800        # 留充足余量绕开未明确的解码失败
+# WinRT OCR 在 v1.6.4 后续测试中发现：实际可靠工作的图像上限远低于文档值 2600。
+# 用户报告 2400×1349 / 2582×1656 / 3842×2160 全部 E_FAIL（en-US 引擎，Win11）；
+# 文档说"超出 MaxImageDimension 应返回空、不抛异常"——所以这是另一个未明确的失败
+# 模式（疑似 PIL→PNG→BitmapDecoder 链路上的内存/解码问题，对实际 WinRT 限制更紧）。
+# 实证安全边界在 1920–2400 之间，统一归一化到 1800 长边覆盖所有失败配置。
+_WINRT_MAX_DIM = 1900           # 任一维 > 1900 触发缩小；1080p (1920) 也会被轻微缩到 1800
+_DOWNSCALE_TARGET = 1800        # 缩小目标长边
 
-# 实验：小游戏窗口（1280×720 / 1366×768 / 1280×960）下卡名标题仅 ~30px，
-# OCR 几乎读不到。把全图直接放大到接近 WinRT 上限（2400 长边），让标题文字
-# 放大到 56px+，再喂 OCR。用 LANCZOS4 保证文字边缘锐利
-_SMALL_WINDOW_THRESHOLD = 1500  # 1080p (1920) 不动，900p (1600) 也不动，仅放大 720p/768p/960p
-_SMALL_WINDOW_TARGET = 2400     # 接近 _WINRT_MAX_DIM，最大化标题可读性
+# 小游戏窗口（1280×720 / 1366×768 / 1280×960）下卡名标题仅 ~30px，OCR 几乎读不到。
+# 把全图放大让标题文字变大再喂 OCR；LANCZOS4 保证文字边缘锐利。
+# 目标 1800（与 DOWNSCALE_TARGET 对齐），保证所有路径输出长边都不超过 1800px——
+# 之前用 2400 是想让标题更大，但 2400 在部分用户上仍然炸 E_FAIL，必须降下来。
+_SMALL_WINDOW_THRESHOLD = 1500  # 1080p (1920) 不动；仅放大 720p/768p/960p 这种小窗口
+_SMALL_WINDOW_TARGET = 1800     # 与 _DOWNSCALE_TARGET 对齐：所有 OCR 输入长边 ≤ 1800px
 
 
 @dataclass

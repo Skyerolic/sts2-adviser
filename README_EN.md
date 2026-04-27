@@ -239,7 +239,13 @@ python -m uvicorn backend.main:app --port 8001
 
 ## Changelog
 
-### v1.6.4 (current)
+### v1.6.5 (current)
+- **OCR size threshold lowered further**: v1.6.4 downscaled 4K to 1800 but kept the trigger threshold at `_WINRT_MAX_DIM = 2600`. The same user then hit E_FAIL on a 2582×1656 window — 2582 < 2600 so the downscale never fired, and the raw image went straight to WinRT and crashed. Empirically the failure boundary on that machine (Win11 + en-US OCR) is far below the documented 2600 value, somewhere between 1920 and 2400. Normalize all OCR inputs to 1800 long edge:
+  - `_WINRT_MAX_DIM` 2600 → **1900** (1080p users get a barely-visible 5% downscale to 1800; everything above 1080p is downscaled)
+  - `_SMALL_WINDOW_TARGET` 2400 → **1800** (aligned with DOWNSCALE_TARGET; every OCR input now has long edge ≤ 1800 px)
+- Trade-off: small-window (1280×960) card titles shrink from ~56 px to ~42 px, still readable; 1080p users see negligible degradation from the 5% downscale.
+
+### v1.6.4
 - **4K E_FAIL hotfix**: v1.6.3 downscaled 4K screenshots to 2400 long edge but some users still hit E_FAIL (reproduced on en-US engine too, ruling out "Chinese language pack has smaller limit" hypothesis). Per MS docs, exceeding MaxImageDimension should return empty results rather than raise — so this E_FAIL is actually a memory/decoding issue in the PIL→PNG→BitmapDecoder pipeline. `_DOWNSCALE_TARGET` lowered 2400 → **1800** (4K becomes 1800×1012, PNG drops from ~10MB to ~3MB), giving enough headroom to bypass the unspecified decoding failure. Trade-off: 4K card titles shrink from ~70 px to ~33 px, still readable.
 - **OpenCV bundled in EXE**: Added `opencv-python-headless` to `requirements-prod.txt` and `cv2` to `sts2_adviser.spec` hidden imports. Previous EXE builds were silently falling back to the PIL path for everyone, losing CLAHE/sharpening and the v1.6.3 brightness-projection slot detection. EXE size grows by ~30 MB.
 

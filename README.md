@@ -238,7 +238,13 @@ python -m uvicorn backend.main:app --port 8001
 
 ## 版本历史
 
-### v1.6.4（当前）
+### v1.6.5（当前）
+- **OCR 尺寸阈值再压低**：v1.6.4 把 4K 缩到 1800 但触发阈值还是 `_WINRT_MAX_DIM = 2600`——结果同一用户在 2582×1656 窗口下仍然 E_FAIL，因为 2582 < 2600 不触发缩小，原图直接喂 WinRT 然后炸。实证表明该用户机器（Win11 + en-US OCR）的实际可靠上限远低于文档值 2600，故障边界落在 1920–2400 之间。统一归一化到 1800 长边覆盖所有失败配置：
+  - `_WINRT_MAX_DIM` 2600 → **1900**（1080p 用户也会被轻微缩到 1800，几乎无可见差异；1080p 以上全部触发缩小）
+  - `_SMALL_WINDOW_TARGET` 2400 → **1800**（与 DOWNSCALE_TARGET 对齐，所有 OCR 输入长边 ≤ 1800px）
+- 代价：小窗口（1280×960 等）卡名从原本 56px 降到 ~42px，仍可读；1080p 用户 5% 轻微缩放，肉眼无感
+
+### v1.6.4
 - **4K E_FAIL hotfix**：v1.6.3 把 4K 截图缩到 2400 长边仍然在部分用户上 E_FAIL（en-US 引擎也复现，排除了"中文语言包上限小"的猜测）。Windows.Media.Ocr 文档说超过 MaxImageDimension 应该返回空结果而非抛异常，所以这个 E_FAIL 实际是 PIL→PNG→BitmapDecoder 链路上的内存/解码问题。`_DOWNSCALE_TARGET` 从 2400 降到 **1800**——4K 缩到 1800×1012、PNG 体积从 ~10MB 降到 ~3MB，绕开未明确的解码失败。代价：4K 卡名标题从原 ~70px 降到 ~33px，仍可读
 - **EXE 打包 OpenCV**：`requirements-prod.txt` 加入 `opencv-python-headless`、`sts2_adviser.spec` 加入 `cv2` 隐式导入。之前 EXE 没有 cv2，所有用户都走 PIL 回退路径，丢失了 CLAHE/锐化预处理和 v1.6.3 新增的列亮度投影分割。EXE 体积增加 ~30MB
 
