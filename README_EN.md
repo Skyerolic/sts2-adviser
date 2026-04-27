@@ -239,7 +239,11 @@ python -m uvicorn backend.main:app --port 8001
 
 ## Changelog
 
-### v1.6.3 (current)
+### v1.6.4 (current)
+- **4K E_FAIL hotfix**: v1.6.3 downscaled 4K screenshots to 2400 long edge but some users still hit E_FAIL (reproduced on en-US engine too, ruling out "Chinese language pack has smaller limit" hypothesis). Per MS docs, exceeding MaxImageDimension should return empty results rather than raise — so this E_FAIL is actually a memory/decoding issue in the PIL→PNG→BitmapDecoder pipeline. `_DOWNSCALE_TARGET` lowered 2400 → **1800** (4K becomes 1800×1012, PNG drops from ~10MB to ~3MB), giving enough headroom to bypass the unspecified decoding failure. Trade-off: 4K card titles shrink from ~70 px to ~33 px, still readable.
+- **OpenCV bundled in EXE**: Added `opencv-python-headless` to `requirements-prod.txt` and `cv2` to `sts2_adviser.spec` hidden imports. Previous EXE builds were silently falling back to the PIL path for everyone, losing CLAHE/sharpening and the v1.6.3 brightness-projection slot detection. EXE size grows by ~30 MB.
+
+### v1.6.3
 - **Small-window OCR fix**: On small game windows (1280×960 / 1366×768 etc.), the full-image OCR pass couldn't reach the ~30 px card titles and instead returned card body descriptions (e.g. `doubledamage`, `Gain6BIc•zk`), causing all three slots to mis-recognize or lock to the wrong cards. Two independent changes stack to fix this:
   - **Aggressive small-window upscale**: Full screenshots with max dim < 1500 px are now upscaled to 2400 px long edge with INTER_LANCZOS4 (just under WinRT OCR's 2600 px cap), bringing 30 px titles to 50 px+ where the full-image OCR can pick them up. 1080p+ is untouched.
   - **Brightness-projection slot bounds**: The card-reward screen has a strong "dark background + brightly-framed cards" contrast. A new helper performs a column-wise mean brightness projection over the title band and takes connected runs to derive pixel-precise card edges, replacing the hardcoded default-centers + midpoints logic. Slot 0 / slot 2 no longer extend to the screen edges and stop dragging character art and dark corners into OCR.

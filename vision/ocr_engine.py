@@ -55,8 +55,11 @@ _EN_PREFERRED_LANGS = ["en-US", "en-GB", "en"]
 
 # Windows.Media.Ocr 文档规定的图像尺寸硬上限：任一维 > 2600 px 即抛 E_FAIL
 # 4K 全屏截图（3840 × 2160）会触发该限制，必须先缩小
+# v1.6.3 用 2400 仍然在某些 4K 用户上 E_FAIL（en-US 引擎也复现）——疑似 PIL→PNG→
+# BitmapDecoder 链路上的内存/解码问题，与 MaxImageDimension 无关。降到 1800 留更多
+# 余量（4K 缩到 1800×1012，PNG 体积 ~3MB，原 ~10MB）
 _WINRT_MAX_DIM = 2600
-_DOWNSCALE_TARGET = 2400        # 留 200 px 余量
+_DOWNSCALE_TARGET = 1800        # 留充足余量绕开未明确的解码失败
 
 # 实验：小游戏窗口（1280×720 / 1366×768 / 1280×960）下卡名标题仅 ~30px，
 # OCR 几乎读不到。把全图直接放大到接近 WinRT 上限（2400 长边），让标题文字

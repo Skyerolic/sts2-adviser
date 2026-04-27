@@ -93,6 +93,7 @@ a = Analysis(
         "PIL",
         "PIL.Image",
         "numpy",
+        "cv2",
         "mss",
         "rapidfuzz",
         "rapidfuzz.fuzz",

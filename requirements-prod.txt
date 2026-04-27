@@ -19,6 +19,9 @@ psutil==5.9.6
 # Image processing (vision module)
 Pillow
 numpy
+# OpenCV: enables CLAHE/sharpening preprocess + brightness-projection slot bounds
+# (-headless avoids GUI deps; we never display via cv2)
+opencv-python-headless
 
 # Screen capture (vision module)
 mss

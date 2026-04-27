@@ -238,7 +238,11 @@ python -m uvicorn backend.main:app --port 8001
 
 ## 版本历史
 
-### v1.6.3（当前）
+### v1.6.4（当前）
+- **4K E_FAIL hotfix**：v1.6.3 把 4K 截图缩到 2400 长边仍然在部分用户上 E_FAIL（en-US 引擎也复现，排除了"中文语言包上限小"的猜测）。Windows.Media.Ocr 文档说超过 MaxImageDimension 应该返回空结果而非抛异常，所以这个 E_FAIL 实际是 PIL→PNG→BitmapDecoder 链路上的内存/解码问题。`_DOWNSCALE_TARGET` 从 2400 降到 **1800**——4K 缩到 1800×1012、PNG 体积从 ~10MB 降到 ~3MB，绕开未明确的解码失败。代价：4K 卡名标题从原 ~70px 降到 ~33px，仍可读
+- **EXE 打包 OpenCV**：`requirements-prod.txt` 加入 `opencv-python-headless`、`sts2_adviser.spec` 加入 `cv2` 隐式导入。之前 EXE 没有 cv2，所有用户都走 PIL 回退路径，丢失了 CLAHE/锐化预处理和 v1.6.3 新增的列亮度投影分割。EXE 体积增加 ~30MB
+
+### v1.6.3
 - **小窗口 OCR 修复**：1280×960 / 1366×768 等小游戏窗口下，原先全图 OCR 读不到 ~30px 的卡名标题，只能读到卡身的描述文字（如 `doubledamage`、`Gain6BIc•zk`），导致三张卡全部识别失败或被错误锁定。两条独立改动叠加修复：
   - **小窗口积极放大**：长边 < 1500px 的全图 LANCZOS4 放大到 2400px 长边（接近 WinRT OCR 的 2600px 上限），让 30px 标题变成 50px+，全图 OCR 能直接读到；1080p+ 不动
   - **列亮度投影分割**：选卡界面有"暗背景 + 亮卡片"的鲜明对比；新方法对标题带做列亮度投影，threshold 后取连续段，给出像素级精确卡边界。替代原先"默认中心 + 中点"的写死分区，slot 0 / slot 2 不再裁到屏幕边缘把人物立绘和暗角带进 OCR
