@@ -58,6 +58,12 @@ _EN_PREFERRED_LANGS = ["en-US", "en-GB", "en"]
 _WINRT_MAX_DIM = 2600
 _DOWNSCALE_TARGET = 2400        # 留 200 px 余量
 
+# 实验：小游戏窗口（1280×720 / 1366×768 / 1280×960）下卡名标题仅 ~30px，
+# OCR 几乎读不到。把全图直接放大到接近 WinRT 上限（2400 长边），让标题文字
+# 放大到 56px+，再喂 OCR。用 LANCZOS4 保证文字边缘锐利
+_SMALL_WINDOW_THRESHOLD = 1500  # 1080p (1920) 不动，900p (1600) 也不动，仅放大 720p/768p/960p
+_SMALL_WINDOW_TARGET = 2400     # 接近 _WINRT_MAX_DIM，最大化标题可读性
+
 
 @dataclass
 class OcrWord:
@@ -389,11 +395,12 @@ class WindowsOcrEngine:
     @staticmethod
     def _preprocess(img: "Image.Image") -> "Image.Image":
         """
-        OCR 前预处理：
-        - 超大图（任一维 > 2600px，如 4K 全屏）：用 INTER_AREA 缩小到长边 2400px，
-          避开 Windows.Media.Ocr 的尺寸硬上限（否则抛 E_FAIL）
-        - 卡名截图（h < 300px）：放大 + CLAHE/锐化（cv2 路径）或 LANCZOS+对比度增强（PIL 回退）
-        - 其他尺寸：直接返回，避免对全图截图做插值导致文字畸变
+        OCR 前预处理（实验分支：小窗口积极放大）：
+        - 超大图（任一维 > 2600px）：INTER_AREA 缩小到长边 2400px，避开 WinRT 尺寸上限
+        - 卡名截图（h < 300px）：放大 + CLAHE/锐化（cv2）或 LANCZOS+对比度增强（PIL 回退）
+        - 小窗口全图（h ≥ 300 且长边 < 1500px）：LANCZOS4 放大到长边 2400px (~1.6-1.9x)，
+          让 30px 标题变成 50px+ 让 OCR 能读到
+        - 其他尺寸：直接返回
         """
         from PIL import ImageEnhance
         w, h = img.size
@@ -425,6 +432,21 @@ class WindowsOcrEngine:
             img = ImageEnhance.Contrast(img).enhance(1.8)
             img = ImageEnhance.Sharpness(img).enhance(1.5)
             log.debug(f"OCR 卡名放大: {w}x{h} → {new_w}x{target_h} (PIL 回退)")
+            return img
+
+        # 3. 小窗口全图：LANCZOS4 放大到接近 WinRT 上限
+        if max_dim < _SMALL_WINDOW_THRESHOLD:
+            scale = _SMALL_WINDOW_TARGET / max_dim
+            new_w = max(int(w * scale), 1)
+            new_h = max(int(h * scale), 1)
+            if _check_cv2():
+                import cv2
+                bgr = np.array(img.convert("RGB"))[:, :, ::-1].copy()
+                bgr = cv2.resize(bgr, (new_w, new_h), interpolation=cv2.INTER_LANCZOS4)
+                img = Image.fromarray(bgr[:, :, ::-1])
+            else:
+                img = img.resize((new_w, new_h), Image.LANCZOS)
+            log.debug(f"OCR 小窗放大 (LANCZOS4): {w}x{h} → {new_w}x{new_h}")
             return img
 
         return img
