@@ -8,13 +8,14 @@
 
 <p align="center">
   <a href="https://github.com/Skyerolic/sts2-adviser/releases"><img src="https://img.shields.io/github/v/release/Skyerolic/sts2-adviser?style=flat-square&color=orange" alt="最新版本"/></a>
-  <a href="https://github.com/Skyerolic/sts2-adviser/releases"><img src="https://img.shields.io/github/downloads/Skyerolic/sts2-adviser/total?style=flat-square&color=brightgreen" alt="下载量"/></a>
+  <a href="https://github.com/Skyerolic/sts2-adviser/releases"><img src="https://img.shields.io/badge/downloads-777-brightgreen?style=flat-square" alt="下载量"/></a>
   <img src="https://img.shields.io/badge/platform-Windows-0078d6?style=flat-square" alt="平台"/>
   <img src="https://img.shields.io/badge/STS2-v0.103.2-9b59b6?style=flat-square" alt="游戏版本"/>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-GPLv3-green.svg?style=flat-square" alt="License"/></a>
 </p>
 <p align="center">
   <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=3696131100"><img src="https://img.shields.io/badge/Steam-%E6%94%BB%E7%95%A5-000000?style=flat-square&logo=steam&logoColor=white" alt="Steam 攻略"/></a>
+  <a href="https://discord.gg/x8FAMMRjwA"><img src="https://img.shields.io/badge/Discord-Join-5865F2?style=flat-square&logo=discord&logoColor=white" alt="Discord"/></a>
   <a href="#感谢名单"><img src="https://img.shields.io/badge/%E6%84%9F%E8%B0%A2-3%E4%BD%8D%E8%B4%A1%E7%8C%AE%E8%80%85-blue?style=flat-square" alt="贡献者"/></a>
 </p>
 

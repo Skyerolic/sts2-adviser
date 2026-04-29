@@ -15,6 +15,7 @@
 </p>
 <p align="center">
   <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=3696131100"><img src="https://img.shields.io/badge/Steam-Guide-000000?style=flat-square&logo=steam&logoColor=white" alt="Steam Guide"/></a>
+  <a href="https://discord.gg/x8FAMMRjwA"><img src="https://img.shields.io/badge/Discord-Join-5865F2?style=flat-square&logo=discord&logoColor=white" alt="Discord"/></a>
   <a href="#acknowledgments"><img src="https://img.shields.io/badge/Thanks-3%20contributors-blue?style=flat-square" alt="Contributors"/></a>
 </p>
 
