@@ -43,7 +43,14 @@ if getattr(sys, "frozen", False):
 else:
     _LOG_FILE = Path(__file__).parent / "app.log"
 
-_log_handlers = [logging.FileHandler(_LOG_FILE, mode="w", encoding="utf-8")]
+# 日志轮转：单个文件最大 5MB，保留 1 个备份（共 ≤ 10MB），
+# 防止用户长时间运行后 app.log 撑爆磁盘
+from logging.handlers import RotatingFileHandler
+_log_handlers = [
+    RotatingFileHandler(
+        _LOG_FILE, maxBytes=5 * 1024 * 1024, backupCount=1, encoding="utf-8"
+    )
+]
 if sys.stdout:  # None in GUI EXE mode (console=False)
     _log_handlers.append(logging.StreamHandler(sys.stdout))
 

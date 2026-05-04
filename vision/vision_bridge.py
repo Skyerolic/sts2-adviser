@@ -275,14 +275,33 @@ class VisionBridge:
 
         # 综合全图OCR行坐标 + 区域补全，提取三张卡名
         title_y_rel = VisionBridge._find_title_y(det_ocr_result)
+        skip_slots = [i for i, cid in enumerate(self._slot_locks) if cid is not None]
         ocr_texts = VisionBridge._extract_card_names_combined(
             screenshot, self._ocr, det_ocr_result, title_y_rel,
-            skip_slots=[i for i, cid in enumerate(self._slot_locks) if cid is not None],
+            skip_slots=skip_slots,
         )
         log.debug(f"OCR 结果: {ocr_texts}")
 
         # 规范化
         normalize_result = self._normalizer.normalize(ocr_texts)
+
+        # 若全图 OCR 给出文本但无法匹配任何卡（OCR 漏笔画导致 fuzzy 失败），
+        # 强制对那些槽位走区域 OCR 重试 —— 区域 OCR 用 cv2 LANCZOS4 放大 + CLAHE 锐化，
+        # 通常能恢复偏旁细节
+        retry_slots = {
+            i for i, m in enumerate(normalize_result.cards)
+            if i not in skip_slots and not (m and m.is_reliable) and ocr_texts[i].strip()
+        }
+        if retry_slots:
+            log.debug(f"全图OCR匹配失败，区域OCR重试槽位: {sorted(retry_slots)}")
+            ocr_texts = VisionBridge._extract_card_names_combined(
+                screenshot, self._ocr, det_ocr_result, title_y_rel,
+                skip_slots=skip_slots,
+                force_region_slots=retry_slots,
+                prefilled=ocr_texts,
+            )
+            log.debug(f"区域OCR重试后结果: {ocr_texts}")
+            normalize_result = self._normalizer.normalize(ocr_texts)
 
         # 构建识别结果，已锁定槽位用锁定值，新识别槽位尝试锁定
         card_names: list[str] = []
@@ -322,6 +341,9 @@ class VisionBridge:
         else:
             locked = [i for i, cid in enumerate(stable_ids) if cid is not None]
             log.debug(f"已锁定槽位: {locked} / 3")
+            # OCR 部分失败时也保存截图（可禁用），方便用户报 bug 时打包分享
+            # 截图仅保存到本地 logs/，不离开本机
+            self._maybe_save_fail_snapshot(screenshot, recognized)
 
     # ------------------------------------------------------------------
     # 卡名提取（全图 OCR + 区域补全双策略）
@@ -334,12 +356,18 @@ class VisionBridge:
         ocr_result,
         title_y_rel: Optional[float],
         skip_slots: Optional[list[int]] = None,
+        force_region_slots: Optional[set[int]] = None,
+        prefilled: Optional[list[str]] = None,
     ) -> list[str]:
         """
         综合两种策略提取三张卡名：
           1. 先从全图 OCR 行坐标（按X聚类）取名称
           2. 对识别失败的槽位，用区域 OCR 补全
         skip_slots: 已锁定槽位索引，跳过不识别
+        force_region_slots: 即使全图 OCR 已给出文本，也强制走区域 OCR 重试
+                            （用于全图 OCR 给的文本无法匹配任何卡的情况）
+        prefilled: 沿用上一轮的全图 OCR 结果（避免重复全图 OCR），仅对 force_region_slots
+                   的槽位做区域 OCR；非 force 槽位保持 prefilled 值
         """
         import re
 
@@ -368,10 +396,16 @@ class VisionBridge:
             return False
 
         # ── 步骤1：从全图 OCR 行坐标用 X 聚类找卡名 ──────────────────
-        full_ocr_names = ["", "", ""]
-        card_x_from_ocr: list[Optional[float]] = [None, None, None]  # 每组X中心
+        # 若调用方提供了 prefilled（重试模式），直接复用上一轮结果，跳过全图聚类
+        if prefilled is not None:
+            full_ocr_names = list(prefilled) + [""] * (3 - len(prefilled))
+            full_ocr_names = full_ocr_names[:3]
+            card_x_from_ocr: list[Optional[float]] = [None, None, None]
+        else:
+            full_ocr_names = ["", "", ""]
+            card_x_from_ocr = [None, None, None]
 
-        if ocr_result is not None and ocr_result.lines and title_y_rel is not None:
+        if prefilled is None and ocr_result is not None and ocr_result.lines and title_y_rel is not None:
             y_min = title_y_rel + 0.10
             y_max = title_y_rel + 0.32   # 只取卡名横幅（约+15%~+30%），排除下方类型标签行
 
@@ -481,11 +515,12 @@ class VisionBridge:
             ]
             use_px_bands = False
         _skip = set(skip_slots or [])
+        _force = set(force_region_slots or [])
         result = list(full_ocr_names)
         for i, cx in enumerate(resolved_centers[:3]):
             if i in _skip:  # 已锁定，跳过
                 continue
-            if result[i]:  # 已从全图OCR获得，跳过
+            if result[i] and i not in _force:  # 已从全图OCR获得且未被强制重试，跳过
                 continue
             if use_px_bands:
                 x0, x1 = _slot_bands_px[i]
@@ -643,6 +678,8 @@ class VisionBridge:
         for buf in self._ocr_votes:
             buf.clear()
         self._slot_locks = [None, None, None]
+        # 允许下一会话再写一张失败快照
+        self._fail_snapshot_written = False
 
     # ------------------------------------------------------------------
     # 状态与回调
@@ -673,6 +710,60 @@ class VisionBridge:
                 })
             except Exception as e:
                 log.error(f"status_change 回调异常: {e}")
+
+    def _maybe_save_fail_snapshot(
+        self,
+        screenshot: np.ndarray,
+        recognized: RecognizedCards,
+    ) -> None:
+        """
+        OCR 部分失败时保存截图（前缀 FAIL_）。可通过 config 禁用。
+        节流：同一识别会话最多保存 1 张失败快照（避免每次轮询都写盘）。
+        """
+        try:
+            from scripts.config_manager import get_save_fail_snapshot
+            if not get_save_fail_snapshot():
+                return
+        except Exception:
+            return  # config 读取失败保守跳过
+
+        # 节流：当前识别会话已写过失败快照就不重复
+        if getattr(self, "_fail_snapshot_written", False):
+            return
+
+        try:
+            import cv2
+            ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+            img_path = _LOGS_DIR / f"ocr_FAIL_{ts}.png"
+            txt_path = _LOGS_DIR / f"ocr_FAIL_{ts}.txt"
+            cv2.imwrite(str(img_path), screenshot)
+            lines = [
+                f"时间: {ts}",
+                f"全部可信: {recognized.all_reliable}",
+                "",
+            ]
+            for i, (cid, name, conf, ocr_txt) in enumerate(zip(
+                recognized.card_ids,
+                recognized.card_names,
+                recognized.confidences,
+                recognized.ocr_texts,
+            )):
+                lines.append(f"槽位 {i}:")
+                lines.append(f"  card_id  : {cid}")
+                lines.append(f"  匹配名称 : {name}")
+                lines.append(f"  置信度   : {conf:.3f}")
+                lines.append(f"  OCR原文  : {ocr_txt}")
+            txt_path.write_text("\n".join(lines), encoding="utf-8")
+            self._fail_snapshot_written = True
+            log.info(f"OCR失败快照已保存: {img_path.name}")
+
+            # 清理：FAIL 快照保留最近 5 份（防止失败循环堆积大量文件）
+            fails = sorted(_LOGS_DIR.glob("ocr_FAIL_*.png"))
+            for old in fails[:-5]:
+                old.unlink(missing_ok=True)
+                old.with_suffix(".txt").unlink(missing_ok=True)
+        except Exception as e:
+            log.warning(f"保存OCR失败快照失败: {e}")
 
     def _save_ocr_snapshot(
         self,
@@ -716,9 +807,12 @@ class VisionBridge:
 
             log.info(f"OCR快照已保存: {img_path.name}")
 
-            # 清理旧快照，只保留最新 20 份
-            snapshots = sorted(_LOGS_DIR.glob("ocr_*.png"))
-            for old in snapshots[:-20]:
+            # 清理旧快照（仅成功快照，不动 FAIL 快照），保留最新 10 份
+            snapshots = sorted(
+                p for p in _LOGS_DIR.glob("ocr_*.png")
+                if not p.name.startswith("ocr_FAIL_")
+            )
+            for old in snapshots[:-10]:
                 old.unlink(missing_ok=True)
                 old.with_suffix(".txt").unlink(missing_ok=True)
 

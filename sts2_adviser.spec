@@ -103,6 +103,17 @@ a = Analysis(
         # scripts 包
         "scripts.game_watcher",
         "scripts.config_manager",
+        # utils 包（含诊断/打包模块，部分调用是函数内 lazy import）
+        "utils.paths",
+        "utils.diagnostic",
+        # vision 包（手动选卡候选 + OCR 重试，含函数内 lazy import）
+        "vision.window_capture",
+        "vision.screen_detector",
+        "vision.ocr_engine",
+        "vision.card_normalizer",
+        "vision.vision_bridge",
+        # 标准库 logging.handlers（RotatingFileHandler）
+        "logging.handlers",
         # asyncio 子进程支持（Windows）
         "multiprocessing.popen_spawn_win32",
         # winrt 全量

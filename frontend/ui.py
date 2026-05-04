@@ -52,7 +52,7 @@ from PyQt6.QtWidgets import (
 _port = os.environ.get("STS2_BACKEND_PORT", "8000")
 BACKEND_URL = f"http://127.0.0.1:{_port}"
 
-VERSION = "1.6.5"
+VERSION = "1.7.0"
 
 # 套路名映射（archetype_id → {"zh": name_zh, "en": name}），后端连通后懒加载
 # 路径影响标签按当前 UI 语言从内层字典取名，避免英文界面下残留中文
@@ -91,6 +91,46 @@ _UI_STRINGS: dict[str, dict[str, str]] = {
     "ocr_hint_stable":        {"zh": "识别稳定，已自动填入候选卡并触发评估", "en": "Stable — auto-filled candidates and triggered evaluation"},
     "ocr_hint_waiting":       {"zh": "正在等待多帧稳定以确认卡名...", "en": "Waiting for multi-frame confirmation..."},
     "ocr_card_placeholder":   {"zh": "— 卡 {i} —",              "en": "— Card {i} —"},
+    "ocr_click_to_pick":      {"zh": "点击手动选卡",                "en": "Click to pick manually"},
+    "ocr_pick_menu_title":    {"zh": "OCR 候选（点击选择）",         "en": "OCR Candidates (click to pick)"},
+    "ocr_no_candidates":      {"zh": "（无相近候选）",               "en": "(no close candidates)"},
+    "ocr_more_choices":       {"zh": "🔍 全部卡牌搜索...",            "en": "🔍 Search all cards..."},
+    "ocr_clear_override":     {"zh": "清除手动选择",                "en": "Clear manual pick"},
+    "ocr_picked_manually":    {"zh": "✏ 手动",                     "en": "✏ Manual"},
+    "ocr_pick_dialog_title":  {"zh": "为槽位 {n} 选卡",             "en": "Pick card for slot {n}"},
+    "ocr_pick_search_ph":     {"zh": "搜索（中文 / English）...",    "en": "Search (中文 / English)..."},
+    "ocr_pick_close":         {"zh": "关闭",                       "en": "Close"},
+    # 诊断与调试
+    "settings_debug_section": {"zh": "🔧 诊断与调试",                 "en": "🔧 Debug & Diagnostics"},
+    "settings_debug_help":    {"zh": "下列功能仅在你主动点击时收集本机信息或生成本地文件，不会上传任何数据。",
+                               "en": "These tools collect local info or generate local files only when you click. Nothing is uploaded."},
+    "btn_diagnostic_view":    {"zh": "🔍 查看诊断信息",                "en": "🔍 View diagnostic info"},
+    "btn_open_logs_dir":      {"zh": "📁 打开日志目录",                "en": "📁 Open logs folder"},
+    "btn_package_diagnostic": {"zh": "📦 打包诊断数据...",             "en": "📦 Package diagnostic data..."},
+    "settings_save_fail_snap":{"zh": "保存 OCR 失败截图（仅本地 logs/）",
+                               "en": "Save OCR failure screenshots (local logs/ only)"},
+    "settings_show_ocr_raw":  {"zh": "在卡槽下显示 OCR 原始文字（用于诊断误读）",
+                               "en": "Show OCR raw text under each slot (diagnose misreads)"},
+    "diag_dialog_title":      {"zh": "诊断信息（脱敏视图）",            "en": "Diagnostic Info (Redacted View)"},
+    "diag_dialog_note":       {"zh": "下列信息已对用户名和 Steam ID 做脱敏。仅在你点击复制 / 关闭对话框时存在剪贴板/内存中。",
+                               "en": "User names and Steam IDs are redacted below. The text leaves this dialog only if you copy it."},
+    "diag_btn_copy":          {"zh": "复制到剪贴板",                  "en": "Copy to clipboard"},
+    "diag_btn_view_raw":      {"zh": "查看未脱敏原始版本",             "en": "View unredacted version"},
+    "diag_btn_close":         {"zh": "关闭",                       "en": "Close"},
+    "diag_copied":            {"zh": "✓ 已复制",                    "en": "✓ Copied"},
+    "pkg_dialog_title":       {"zh": "打包诊断数据",                 "en": "Package Diagnostic Data"},
+    "pkg_header_note":        {"zh": "以下文件会打包到一个本地 zip 文件，**不会上传任何地方**。生成后请在分享前自行检查内容。",
+                               "en": "The selected files will be packaged into a local zip file. **Nothing is uploaded.** Inspect the zip before sharing."},
+    "pkg_redact_label":       {"zh": "对路径中的用户名和 Steam ID 脱敏（推荐）",
+                               "en": "Redact user names and Steam IDs (recommended)"},
+    "pkg_btn_save_desktop":   {"zh": "保存到桌面",                   "en": "Save to Desktop"},
+    "pkg_btn_save_chooser":   {"zh": "选择位置...",                  "en": "Choose location..."},
+    "pkg_btn_cancel":         {"zh": "取消",                       "en": "Cancel"},
+    "pkg_no_files":           {"zh": "未找到可打包的文件（无 app.log 或 OCR 快照）",
+                               "en": "No packageable files found (no app.log or OCR snapshots)"},
+    "pkg_done":               {"zh": "✓ 已生成: {p}",                "en": "✓ Saved: {p}"},
+    "ocr_raw_prefix":         {"zh": "原文",                        "en": "OCR"},
+    "ocr_title_hint":         {"zh": "💡 点击卡名手动选择候选",        "en": "💡 Click a card to pick a candidate"},
     # 状态栏
     "status_ready":           {"zh": "就绪 — 等待游戏数据",        "en": "Ready — waiting for game data"},
     "status_evaluating":      {"zh": "评估中...",                 "en": "Evaluating..."},
@@ -327,6 +367,310 @@ class _OcrSnapshotWorker(QThread):
             })
 
 
+class ClickableLabel(QLabel):
+    """QLabel that emits clicked(int) carrying its slot index when clicked."""
+    clicked = pyqtSignal(int)
+
+    def __init__(self, slot_index: int, parent: QWidget | None = None) -> None:
+        super().__init__(parent)
+        self._slot_index = slot_index
+        self.setCursor(Qt.CursorShape.PointingHandCursor)
+
+    def mousePressEvent(self, event):
+        if event.button() == Qt.MouseButton.LeftButton:
+            self.clicked.emit(self._slot_index)
+            event.accept()
+            return
+        super().mousePressEvent(event)
+
+
+class SlotCardPickerDialog(QDialog):
+    """
+    Fallback 全卡搜索对话框。当 OCR 候选都不对时，让用户从当前角色（含无色 + 全索引）
+    的全部卡牌里手动搜索。返回选中 card_id（小写）。
+    """
+    def __init__(
+        self,
+        slot_index: int,
+        cards: list[dict],
+        language: str = "zh",
+        parent: QWidget | None = None,
+    ) -> None:
+        super().__init__(parent)
+        self._language = language
+        self._cards = cards  # [{id, name, name_zh, ...}]
+        self._picked_card_id: str | None = None
+
+        self.setWindowTitle(_t("ocr_pick_dialog_title", language, n=slot_index + 1))
+        self.setModal(True)
+        self.resize(420, 480)
+
+        layout = QVBoxLayout(self)
+        layout.setContentsMargins(8, 8, 8, 8)
+        layout.setSpacing(6)
+
+        self._search_box = QLineEdit()
+        self._search_box.setPlaceholderText(_t("ocr_pick_search_ph", language))
+        self._search_box.textChanged.connect(self._refresh)
+        layout.addWidget(self._search_box)
+
+        # 滚动列表
+        self._list_container = QWidget()
+        self._list_layout = QVBoxLayout(self._list_container)
+        self._list_layout.setContentsMargins(0, 0, 0, 0)
+        self._list_layout.setSpacing(2)
+        self._list_layout.addStretch()
+
+        scroll = QScrollArea()
+        scroll.setWidgetResizable(True)
+        scroll.setWidget(self._list_container)
+        layout.addWidget(scroll, 1)
+
+        close_btn = QPushButton(_t("ocr_pick_close", language))
+        close_btn.clicked.connect(self.reject)
+        layout.addWidget(close_btn)
+
+        self._refresh("")
+
+    def _refresh(self, query: str) -> None:
+        """根据搜索框内容刷新列表（中英文双向匹配）"""
+        # 清空除 stretch 之外的所有按钮
+        while self._list_layout.count() > 1:
+            item = self._list_layout.takeAt(0)
+            if item and item.widget():
+                item.widget().deleteLater()
+
+        q = (query or "").strip().lower()
+        shown = 0
+        max_shown = 200  # 太多按钮卡 UI
+        for c in self._cards:
+            cid = (c.get("id") or "").lower()
+            en = (c.get("name") or "")
+            zh = (c.get("name_zh") or "")
+            if q:
+                if (q not in cid and q not in en.lower() and q not in zh.lower()):
+                    continue
+            label_zh = zh or "—"
+            label_en = en or cid.upper()
+            btn = QPushButton(f"{label_zh}   /   {label_en}")
+            btn.setStyleSheet(
+                "text-align:left;padding:4px 8px;"
+                "background:#1a2230;color:#cce;border:1px solid #2a3a4f;"
+            )
+            btn.clicked.connect(lambda _, cid=cid: self._pick(cid))
+            self._list_layout.insertWidget(self._list_layout.count() - 1, btn)
+            shown += 1
+            if shown >= max_shown:
+                break
+
+    def _pick(self, card_id: str) -> None:
+        self._picked_card_id = card_id
+        self.accept()
+
+    @property
+    def picked_card_id(self) -> str | None:
+        return self._picked_card_id
+
+
+class DiagnosticInfoDialog(QDialog):
+    """显示本机诊断信息的只读对话框（默认脱敏视图，可手动切换原始版本）"""
+
+    def __init__(self, language: str = "zh", parent: QWidget | None = None) -> None:
+        super().__init__(parent)
+        self._language = language
+        self._show_raw = False
+        self.setWindowTitle(_t("diag_dialog_title", language))
+        self.setModal(True)
+        self.resize(640, 480)
+
+        layout = QVBoxLayout(self)
+        layout.setContentsMargins(10, 10, 10, 10)
+        layout.setSpacing(8)
+
+        note = QLabel(_t("diag_dialog_note", language))
+        note.setWordWrap(True)
+        note.setStyleSheet("color: #888; font-size: 10pt; padding: 4px;")
+        layout.addWidget(note)
+
+        # 用 QLineEdit (read-only) 不行（不能多行），改用 QLabel + QScrollArea，
+        # 但要可选+可复制 → 用 QPlainTextEdit
+        from PyQt6.QtWidgets import QPlainTextEdit
+        self._text = QPlainTextEdit()
+        self._text.setReadOnly(True)
+        self._text.setStyleSheet(
+            "background:#0d1520;color:#cce;font-family:Consolas,monospace;"
+            "font-size:10pt;border:1px solid #2a3a4f;"
+        )
+        layout.addWidget(self._text, 1)
+
+        self._refresh()
+
+        btn_row = QHBoxLayout()
+        btn_row.addStretch()
+
+        self._copy_btn = QPushButton(_t("diag_btn_copy", language))
+        self._copy_btn.clicked.connect(self._on_copy)
+        btn_row.addWidget(self._copy_btn)
+
+        self._raw_btn = QPushButton(_t("diag_btn_view_raw", language))
+        self._raw_btn.setCheckable(True)
+        self._raw_btn.toggled.connect(self._on_toggle_raw)
+        btn_row.addWidget(self._raw_btn)
+
+        close_btn = QPushButton(_t("diag_btn_close", language))
+        close_btn.clicked.connect(self.accept)
+        btn_row.addWidget(close_btn)
+
+        layout.addLayout(btn_row)
+
+    def _refresh(self) -> None:
+        try:
+            from utils.diagnostic import collect_system_info
+            self._text.setPlainText(collect_system_info(redact_pii=not self._show_raw))
+        except Exception as e:
+            self._text.setPlainText(f"诊断信息收集失败: {e}")
+
+    def _on_copy(self) -> None:
+        from PyQt6.QtWidgets import QApplication
+        QApplication.clipboard().setText(self._text.toPlainText())
+        self._copy_btn.setText(_t("diag_copied", self._language))
+        QTimer.singleShot(1500, lambda: self._copy_btn.setText(_t("diag_btn_copy", self._language)))
+
+    def _on_toggle_raw(self, checked: bool) -> None:
+        self._show_raw = checked
+        self._refresh()
+
+
+class PackageDiagnosticDialog(QDialog):
+    """打包本地诊断 zip 的对话框：列出文件清单 + 脱敏开关 + 保存按钮"""
+
+    def __init__(self, language: str = "zh", parent: QWidget | None = None) -> None:
+        super().__init__(parent)
+        self._language = language
+        self.setWindowTitle(_t("pkg_dialog_title", language))
+        self.setModal(True)
+        self.resize(560, 480)
+
+        from utils.diagnostic import list_packageable_files
+        self._files = list_packageable_files()
+        self._checks: list = []  # parallel: QCheckBox per file
+        self._zip_path: Path | None = None  # 设置成 type-only annotation 不依赖 Path 导入
+
+        layout = QVBoxLayout(self)
+        layout.setContentsMargins(10, 10, 10, 10)
+        layout.setSpacing(8)
+
+        header = QLabel(_t("pkg_header_note", language))
+        header.setWordWrap(True)
+        header.setStyleSheet("color:#FFD54F;font-size:10pt;padding:4px;background:#1a1200;border:1px solid #FF9800;border-radius:4px;")
+        layout.addWidget(header)
+
+        # 文件清单
+        from PyQt6.QtWidgets import QCheckBox
+        list_container = QWidget()
+        list_layout = QVBoxLayout(list_container)
+        list_layout.setContentsMargins(4, 4, 4, 4)
+        list_layout.setSpacing(2)
+
+        if not self._files:
+            empty = QLabel(_t("pkg_no_files", language))
+            empty.setStyleSheet("color:#888;font-size:10pt;padding:8px;")
+            list_layout.addWidget(empty)
+        else:
+            for f in self._files:
+                size_kb = f["size_bytes"] // 1024
+                cb = QCheckBox(f"{f['name']}   ({size_kb} KB)")
+                cb.setChecked(True)
+                cb.setStyleSheet("color:#cce;font-size:10pt;")
+                self._checks.append(cb)
+                list_layout.addWidget(cb)
+        list_layout.addStretch()
+
+        scroll = QScrollArea()
+        scroll.setWidgetResizable(True)
+        scroll.setWidget(list_container)
+        scroll.setStyleSheet("border:1px solid #2a3a4f;background:#0d1520;")
+        layout.addWidget(scroll, 1)
+
+        self._redact_cb = QCheckBox(_t("pkg_redact_label", language))
+        self._redact_cb.setChecked(True)
+        self._redact_cb.setStyleSheet("color:#cce;font-size:10pt;")
+        layout.addWidget(self._redact_cb)
+
+        # 状态行（保存后显示路径）
+        self._status_label = QLabel("")
+        self._status_label.setStyleSheet("color:#A8D870;font-size:10pt;")
+        self._status_label.setWordWrap(True)
+        layout.addWidget(self._status_label)
+
+        btn_row = QHBoxLayout()
+        btn_row.addStretch()
+
+        self._desktop_btn = QPushButton(_t("pkg_btn_save_desktop", language))
+        self._desktop_btn.setEnabled(bool(self._files))
+        self._desktop_btn.clicked.connect(self._on_save_desktop)
+        btn_row.addWidget(self._desktop_btn)
+
+        self._chooser_btn = QPushButton(_t("pkg_btn_save_chooser", language))
+        self._chooser_btn.setEnabled(bool(self._files))
+        self._chooser_btn.clicked.connect(self._on_save_chooser)
+        btn_row.addWidget(self._chooser_btn)
+
+        cancel_btn = QPushButton(_t("pkg_btn_cancel", language))
+        cancel_btn.clicked.connect(self.reject)
+        btn_row.addWidget(cancel_btn)
+
+        layout.addLayout(btn_row)
+
+    def _selected_paths(self) -> list:
+        from pathlib import Path
+        out: list = []
+        for cb, f in zip(self._checks, self._files):
+            if cb.isChecked():
+                out.append(f["path"])
+        return out
+
+    def _default_zip_path(self) -> "Path":
+        from pathlib import Path
+        ts = time.strftime("%Y%m%d_%H%M%S")
+        desktop = Path.home() / "Desktop"
+        if not desktop.exists():
+            desktop = Path.home()
+        return desktop / f"sts2_adviser_diag_{ts}.zip"
+
+    def _on_save_desktop(self) -> None:
+        from utils.diagnostic import create_diagnostic_zip, reveal_in_explorer
+        out = self._default_zip_path()
+        try:
+            create_diagnostic_zip(out, self._selected_paths(), redact_pii=self._redact_cb.isChecked())
+            self._status_label.setText(_t("pkg_done", self._language, p=str(out)))
+            reveal_in_explorer(out)
+        except Exception as e:
+            self._status_label.setStyleSheet("color:#FF7043;font-size:10pt;")
+            self._status_label.setText(f"❌ {e}")
+
+    def _on_save_chooser(self) -> None:
+        from utils.diagnostic import create_diagnostic_zip, reveal_in_explorer
+        from pathlib import Path
+        suggested = self._default_zip_path()
+        chosen, _ = QFileDialog.getSaveFileName(
+            self,
+            _t("pkg_dialog_title", self._language),
+            str(suggested),
+            "Zip files (*.zip)",
+        )
+        if not chosen:
+            return
+        try:
+            out = Path(chosen)
+            create_diagnostic_zip(out, self._selected_paths(), redact_pii=self._redact_cb.isChecked())
+            self._status_label.setText(_t("pkg_done", self._language, p=str(out)))
+            reveal_in_explorer(out)
+        except Exception as e:
+            self._status_label.setStyleSheet("color:#FF7043;font-size:10pt;")
+            self._status_label.setText(f"❌ {e}")
+
+
 class CardsFetchWorker(QThread):
     """在独立线程中拉取指定角色的卡牌列表（含无色卡）"""
     cards_ready = pyqtSignal(list)
@@ -373,6 +717,17 @@ _RARITY_CHIP_PARAMS = {
     "rare":     ("rgba(50,30,10,0.8)",  "#8A5A1E", "#FFD54F", "rgba(80,50,10,0.9)",   "#C8901E", "#FFE082"),
     "basic":    ("rgba(30,30,30,0.8)",  "#444",    "#888",    "rgba(50,50,50,0.9)",   "#666",    "#bbb"),
     "ancient":  ("rgba(40,20,50,0.8)",  "#7A3A9A", "#CC88FF", "rgba(70,30,90,0.9)",   "#AA60CC", "#EEB8FF"),
+}
+
+
+_DEFAULT_THEME_ACCENT = "#C8A96E"
+
+CHARACTER_THEMES: dict[str, str] = {
+    "ironclad":    "#C8302E",
+    "silent":      "#3FA34D",
+    "defect":      "#3F8FD2",
+    "regent":      "#E89B2A",
+    "necrobinder": "#7A4FB0",
 }
 
 
@@ -1091,6 +1446,58 @@ class PathSettingsDialog(QDialog):
         layout.addWidget(self._log_status)
         self._update_log_hint()
 
+        # 分隔线
+        separator3 = QFrame()
+        separator3.setFrameShape(QFrame.Shape.HLine)
+        separator3.setFrameShadow(QFrame.Shadow.Sunken)
+        layout.addWidget(separator3)
+
+        # ===== 诊断与调试（本地，不外发）=====
+        debug_label = QLabel(_t("settings_debug_section", self._language))
+        debug_label.setStyleSheet("font-weight: bold; font-size: 11pt;")
+        layout.addWidget(debug_label)
+
+        debug_help = QLabel(_t("settings_debug_help", self._language))
+        debug_help.setStyleSheet("color: #888; font-size: 9pt; padding: 2px 4px 6px 4px;")
+        debug_help.setWordWrap(True)
+        layout.addWidget(debug_help)
+
+        # 复选框：失败快照 + OCR 原文
+        try:
+            from scripts.config_manager import get_save_fail_snapshot, get_show_ocr_raw_text
+            init_save_fail = get_save_fail_snapshot()
+            init_show_raw = get_show_ocr_raw_text()
+        except Exception:
+            init_save_fail = True
+            init_show_raw = False
+
+        from PyQt6.QtWidgets import QCheckBox
+        self._save_fail_cb = QCheckBox(_t("settings_save_fail_snap", self._language))
+        self._save_fail_cb.setChecked(init_save_fail)
+        self._save_fail_cb.setStyleSheet("font-size: 10pt; padding: 2px 4px;")
+        layout.addWidget(self._save_fail_cb)
+
+        self._show_raw_cb = QCheckBox(_t("settings_show_ocr_raw", self._language))
+        self._show_raw_cb.setChecked(init_show_raw)
+        self._show_raw_cb.setStyleSheet("font-size: 10pt; padding: 2px 4px;")
+        layout.addWidget(self._show_raw_cb)
+
+        # 三个调试按钮一行
+        debug_btn_row = QHBoxLayout()
+        diag_btn = QPushButton(_t("btn_diagnostic_view", self._language))
+        diag_btn.clicked.connect(self._on_show_diagnostic)
+        debug_btn_row.addWidget(diag_btn)
+
+        open_logs_btn = QPushButton(_t("btn_open_logs_dir", self._language))
+        open_logs_btn.clicked.connect(self._on_open_logs_dir)
+        debug_btn_row.addWidget(open_logs_btn)
+
+        pkg_btn = QPushButton(_t("btn_package_diagnostic", self._language))
+        pkg_btn.clicked.connect(self._on_package_diagnostic)
+        debug_btn_row.addWidget(pkg_btn)
+
+        layout.addLayout(debug_btn_row)
+
         layout.addStretch()
 
         # 按钮
@@ -1307,7 +1714,10 @@ class PathSettingsDialog(QDialog):
         try:
             # 保存语言设置
             self._saved_lang = self._lang_combo.currentData()
-            from scripts.config_manager import set_language, set_font_scale, set_hotkey, set_opacity
+            from scripts.config_manager import (
+                set_language, set_font_scale, set_hotkey, set_opacity,
+                set_save_fail_snapshot, set_show_ocr_raw_text,
+            )
             set_language(self._saved_lang)
 
             # 保存字体缩放
@@ -1322,6 +1732,13 @@ class PathSettingsDialog(QDialog):
             # 保存透明度
             self._saved_opacity = self._opacity_slider.value() / 100.0
             set_opacity(self._saved_opacity)
+
+            # 保存调试开关
+            try:
+                set_save_fail_snapshot(self._save_fail_cb.isChecked())
+                set_show_ocr_raw_text(self._show_raw_cb.isChecked())
+            except Exception as e:
+                log.warning(f"保存调试开关失败: {e}")
 
             # 尝试通知后端更新路径（失败不阻止关闭）
             save_path = self._save_path_input.text().strip()
@@ -1346,6 +1763,33 @@ class PathSettingsDialog(QDialog):
             self.accept()
         except Exception as e:
             log.error(f"保存设置失败: {e}")
+
+    # ------------------------------------------------------------------
+    # 调试与诊断按钮处理
+    # ------------------------------------------------------------------
+
+    def _on_show_diagnostic(self) -> None:
+        """打开诊断信息对话框（脱敏视图）"""
+        dlg = DiagnosticInfoDialog(self._language, self)
+        dlg.exec()
+
+    def _on_open_logs_dir(self) -> None:
+        """在文件管理器中打开 logs/ 目录"""
+        try:
+            from utils.paths import get_app_root
+            logs_dir = get_app_root() / "logs"
+            logs_dir.mkdir(exist_ok=True)
+            if sys.platform.startswith("win"):
+                subprocess.Popen(["explorer", str(logs_dir)])
+            else:
+                os.startfile(str(logs_dir))
+        except Exception as e:
+            log.error(f"打开 logs 目录失败: {e}")
+
+    def _on_package_diagnostic(self) -> None:
+        """打开打包诊断对话框"""
+        dlg = PackageDiagnosticDialog(self._language, self)
+        dlg.exec()
 
 
 # ---------------------------------------------------------------------------
@@ -1661,6 +2105,16 @@ class CardAdviserWindow(QWidget):
         self._card_picker: CardPickerPanel | None = None
         self._selection_tray: SelectionTrayWidget | None = None
         self._cards_fetch_worker: CardsFetchWorker | None = None
+
+        # OCR 手动覆盖：slot_idx -> card_id（小写），优先于 OCR 自动识别结果
+        self._manual_card_overrides: dict[int, str] = {}
+        # 最近一次 OCR 状态（供手动覆盖菜单使用）
+        self._latest_ocr_texts: list[str] = ["", "", ""]
+        self._latest_ocr_card_ids: list[str | None] = [None, None, None]
+        self._latest_ocr_card_names: list[str] = ["", "", ""]
+        self._latest_ocr_confidences: list[float] = [0.0, 0.0, 0.0]
+        # 当前角色卡牌列表（含无色卡），供 SlotCardPickerDialog 使用
+        self._current_cards_for_pick: list[dict] = []
 
         # 读取语言配置
         try:
@@ -2036,11 +2490,17 @@ class CardAdviserWindow(QWidget):
         layout.setContentsMargins(8, 6, 8, 6)
         layout.setSpacing(4)
 
-        # 标题行：图标 + "视觉识别" + 状态
+        # 标题行：图标 + "视觉识别" + 提示 + 状态
         title_row = QHBoxLayout()
-        lbl_title = QLabel(_t("ocr_title", self._language))
-        lbl_title.setStyleSheet(f"color:#64B5F6;font-size:{_fs(12)}px;font-weight:bold;")
-        title_row.addWidget(lbl_title)
+        self._ocr_panel_title = QLabel(_t("ocr_title", self._language))
+        self._ocr_panel_title.setStyleSheet(f"color:#64B5F6;font-size:{_fs(12)}px;font-weight:bold;")
+        title_row.addWidget(self._ocr_panel_title)
+
+        self._ocr_title_hint = QLabel(_t("ocr_title_hint", self._language))
+        self._ocr_title_hint.setStyleSheet(
+            f"color:#7090A8;font-size:{_fs(10)}px;padding-left:8px;"
+        )
+        title_row.addWidget(self._ocr_title_hint)
         title_row.addStretch()
 
         self._ocr_preview_status = QLabel(_t("ocr_recognizing", self._language))
@@ -2048,20 +2508,23 @@ class CardAdviserWindow(QWidget):
         title_row.addWidget(self._ocr_preview_status)
         layout.addLayout(title_row)
 
-        # 三张候选卡名（大字，作为识别结果展示）
+        # 三张候选卡名（大字，作为识别结果展示）；点击任意一张可手动选卡
         cards_row = QHBoxLayout()
         cards_row.setSpacing(6)
-        self._ocr_preview_cards: list[QLabel] = []
+        self._ocr_preview_cards: list[ClickableLabel] = []
         for i in range(3):
-            card_lbl = QLabel(_t("ocr_card_placeholder", self._language, i=i + 1))
+            card_lbl = ClickableLabel(i)
+            card_lbl.setText(_t("ocr_card_placeholder", self._language, i=i + 1))
             card_lbl.setObjectName(f"OcrPreviewCard{i}")
             card_lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            card_lbl.setToolTip(_t("ocr_click_to_pick", self._language))
             card_lbl.setStyleSheet(
                 f"color:#555;font-size:{_fs(13)}px;"
                 "border:1px solid #1E3A5A;border-radius:4px;"
                 "padding:4px 6px;background:#0d1520;"
             )
             card_lbl.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
+            card_lbl.clicked.connect(self._on_slot_clicked)
             self._ocr_preview_cards.append(card_lbl)
             cards_row.addWidget(card_lbl)
         layout.addLayout(cards_row)
@@ -2237,9 +2700,10 @@ class CardAdviserWindow(QWidget):
                 else "Ready — select candidates and evaluate"
             )
 
-        # 检测到角色时加载对应卡牌
+        # 检测到角色时加载对应卡牌 + 切换 UI 主题色
         if norm_char and norm_char != self._current_character:
             self._fetch_cards_for_character(norm_char)
+            self._apply_character_theme(norm_char)
 
     def _on_connection_status(self, status: str, connected: bool) -> None:
         """处理 WebSocket 连接状态变化"""
@@ -2264,9 +2728,50 @@ class CardAdviserWindow(QWidget):
         """处理 OCR 视觉识别结果"""
         screen_type = data.get("screen_type", "unknown")
         all_reliable = data.get("all_reliable", False)
-        card_names = data.get("card_names", [])
-        card_choices = data.get("card_choices", [])
-        confidences = data.get("confidences", [])
+        card_names = list(data.get("card_names", []))
+        card_choices = list(data.get("card_choices", []))
+        confidences = list(data.get("confidences", []))
+        ocr_texts = list(data.get("ocr_texts", []))
+
+        # 离开选卡界面 → 清空手动覆盖（一轮选卡结束）
+        if screen_type != "card_reward" and self._manual_card_overrides:
+            self._manual_card_overrides.clear()
+
+        # 缓存最新 OCR 文本，供手动覆盖菜单查询候选时使用
+        # （ocr_texts 是每槽 OCR 原始文字，按 vision_bridge 内部约定长度=3）
+        # card_choices 顺序与 card_ids 不同（card_choices 已剔除 None）
+        # 实际 card_ids 应从 card_names 推断；vision_bridge 直接发的是 [m.card_id for m]
+        # 这里我们按顺序对齐：position i 的 card_id == 第 i 张卡（如果可识别）
+        # 但 WebSocket payload 没有暴露每槽 card_id，只有压缩过的 card_choices
+        # → 简单回退：若 card_names[i] 非空且 reliable，认为该槽已识别
+        self._latest_ocr_texts = (ocr_texts + ["", "", ""])[:3]
+        # 推断每槽 card_id：靠 card_choices 的顺序填入非空槽
+        slot_ids: list[str | None] = [None, None, None]
+        cc_iter = iter(card_choices)
+        for i in range(3):
+            name = card_names[i] if i < len(card_names) else ""
+            if name:
+                slot_ids[i] = next(cc_iter, None)
+        self._latest_ocr_card_ids = slot_ids
+        self._latest_ocr_card_names = (card_names + ["", "", ""])[:3]
+        self._latest_ocr_confidences = (confidences + [0.0, 0.0, 0.0])[:3]
+
+        # 应用手动覆盖：覆盖 card_names / card_choices / confidences
+        if self._manual_card_overrides and screen_type == "card_reward":
+            merged_names = list(self._latest_ocr_card_names)
+            merged_confs = list(self._latest_ocr_confidences)
+            merged_ids = list(self._latest_ocr_card_ids)
+            for slot_idx, override_id in self._manual_card_overrides.items():
+                if 0 <= slot_idx < 3:
+                    en, zh = self._lookup_card_names_bilingual(override_id)
+                    display = zh if self._language == "zh" else en
+                    merged_names[slot_idx] = display or override_id.upper()
+                    merged_confs[slot_idx] = 1.0
+                    merged_ids[slot_idx] = override_id
+            card_names = merged_names
+            confidences = merged_confs
+            card_choices = [cid for cid in merged_ids if cid]
+            all_reliable = all(cid is not None for cid in merged_ids)
 
         # 更新视觉轮询指示灯 + badge
         if screen_type == "card_reward":
@@ -2397,33 +2902,60 @@ class CardAdviserWindow(QWidget):
             self._ocr_hint_label.setText(_t("ocr_hint_waiting", self._language))
             self._ocr_hint_label.setStyleSheet(f"color:#7A6030;font-size:{_ocr_fs}px;padding-top:2px;")
 
+        # 是否在卡名下方追加 OCR 原始文字（用户开启诊断开关后）
+        try:
+            from scripts.config_manager import get_show_ocr_raw_text
+            show_raw = get_show_ocr_raw_text()
+        except Exception:
+            show_raw = False
+        raw_prefix = _t("ocr_raw_prefix", self._language)
+
         # 三张卡名标签
         for i, lbl in enumerate(self._ocr_preview_cards):
             name = card_names[i] if i < len(card_names) else ""
             conf = confidences[i] if i < len(confidences) else 0.0
+            raw_text = ""
+            if show_raw and i < len(self._latest_ocr_texts):
+                raw_text = (self._latest_ocr_texts[i] or "").strip()
+
+            def _wrap(main: str, color: str) -> str:
+                """根据 show_raw 决定是否追加 OCR 原文小字（HTML 富文本）"""
+                if raw_text:
+                    return (
+                        f"<span style='color:{color};'>{main}</span>"
+                        f"<br/><span style='color:#888;font-size:{_fs(9)}px;'>"
+                        f"({raw_prefix}: {raw_text})</span>"
+                    )
+                return main
+
             if not name:
-                lbl.setText(_t("ocr_card_placeholder", self._language, i=i + 1))
+                placeholder = _t("ocr_card_placeholder", self._language, i=i + 1)
+                lbl.setText(_wrap(placeholder, "#555"))
+                lbl.setTextFormat(Qt.TextFormat.RichText if raw_text else Qt.TextFormat.PlainText)
                 lbl.setStyleSheet(
                     f"color: #555; font-size: {_ocr_fs}px; "
                     "border: 1px solid #333; border-radius: 4px; "
                     "padding: 2px 6px; background: #1a1a1a;"
                 )
             elif conf >= 0.8:
-                lbl.setText(name)
+                lbl.setText(_wrap(name, "#A8D870"))
+                lbl.setTextFormat(Qt.TextFormat.RichText if raw_text else Qt.TextFormat.PlainText)
                 lbl.setStyleSheet(
                     f"color: #A8D870; font-size: {_ocr_fs}px; font-weight: bold; "
                     "border: 1px solid #4CAF50; border-radius: 4px; "
                     "padding: 2px 6px; background: #0d1a0d;"
                 )
             elif conf >= 0.55:
-                lbl.setText(name)
+                lbl.setText(_wrap(name, "#FFD54F"))
+                lbl.setTextFormat(Qt.TextFormat.RichText if raw_text else Qt.TextFormat.PlainText)
                 lbl.setStyleSheet(
                     f"color: #FFD54F; font-size: {_ocr_fs}px; "
                     "border: 1px solid #FF9800; border-radius: 4px; "
                     "padding: 2px 6px; background: #1a1200;"
                 )
             else:
-                lbl.setText(f"{name}?")
+                lbl.setText(_wrap(f"{name}?", "#FF7043"))
+                lbl.setTextFormat(Qt.TextFormat.RichText if raw_text else Qt.TextFormat.PlainText)
                 lbl.setStyleSheet(
                     f"color: #FF7043; font-size: {_ocr_fs}px; "
                     "border: 1px solid #BF360C; border-radius: 4px; "
@@ -2489,6 +3021,143 @@ class CardAdviserWindow(QWidget):
         )
         log.info(f"OCR 自动填入候选卡: {normalized}")
         self._on_evaluate_from_picker(fake_cards)
+
+    # ------------------------------------------------------------------
+    # OCR 槽位手动覆盖
+    # ------------------------------------------------------------------
+
+    def _lookup_card_names_bilingual(self, card_id: str) -> tuple[str, str]:
+        """返回 (en_name, zh_name)。未找到时返回空字符串。"""
+        if not card_id:
+            return ("", "")
+        try:
+            from vision.card_normalizer import get_card_normalizer
+            return get_card_normalizer().get_card_names(card_id)
+        except Exception:
+            pass
+        # 回退：从已加载的角色卡列表里查
+        cid_lower = card_id.lower()
+        for c in self._current_cards_for_pick:
+            if (c.get("id") or "").lower() == cid_lower:
+                return (c.get("name") or "", c.get("name_zh") or "")
+        return ("", "")
+
+    def _on_slot_clicked(self, slot_idx: int) -> None:
+        """用户点击 OCR 槽位 → 弹出手动选卡菜单（OCR 候选 + 全卡搜索 fallback）"""
+        if not (0 <= slot_idx < 3):
+            return
+
+        menu = QMenu(self)
+        # 标题（不可点击的提示行）
+        title_act = QAction(_t("ocr_pick_menu_title", self._language), self)
+        title_act.setEnabled(False)
+        menu.addAction(title_act)
+        menu.addSeparator()
+
+        # OCR 候选（双语显示，按置信度降序）
+        ocr_text = self._latest_ocr_texts[slot_idx] if slot_idx < len(self._latest_ocr_texts) else ""
+        candidates: list = []
+        if ocr_text and ocr_text.strip():
+            try:
+                from vision.card_normalizer import get_card_normalizer
+                candidates = get_card_normalizer().search_topk(ocr_text, k=5)
+            except Exception as e:
+                log.warning(f"获取 OCR 候选失败: {e}")
+
+        if candidates:
+            for m in candidates:
+                en, zh = self._lookup_card_names_bilingual(m.card_id)
+                # 双语显示：中文 / English (置信度)
+                if zh and en:
+                    label = f"{zh}  /  {en}   ({m.confidence:.2f})"
+                else:
+                    label = f"{m.matched_name}   ({m.confidence:.2f})"
+                act = QAction(label, self)
+                act.triggered.connect(
+                    lambda _checked=False, cid=m.card_id, idx=slot_idx:
+                    self._apply_manual_card_pick(idx, cid)
+                )
+                menu.addAction(act)
+        else:
+            empty_act = QAction(_t("ocr_no_candidates", self._language), self)
+            empty_act.setEnabled(False)
+            menu.addAction(empty_act)
+
+        menu.addSeparator()
+        # Fallback：全卡搜索
+        more_act = QAction(_t("ocr_more_choices", self._language), self)
+        more_act.triggered.connect(lambda: self._open_slot_full_search(slot_idx))
+        menu.addAction(more_act)
+
+        # 已有手动覆盖时，提供"清除"选项
+        if slot_idx in self._manual_card_overrides:
+            menu.addSeparator()
+            clear_act = QAction(_t("ocr_clear_override", self._language), self)
+            clear_act.triggered.connect(lambda: self._clear_manual_override(slot_idx))
+            menu.addAction(clear_act)
+
+        # 在卡片标签下方弹出
+        anchor = self._ocr_preview_cards[slot_idx]
+        global_pos = anchor.mapToGlobal(anchor.rect().bottomLeft())
+        menu.exec(global_pos)
+
+    def _open_slot_full_search(self, slot_idx: int) -> None:
+        """打开 SlotCardPickerDialog 让用户从当前角色全卡里搜索"""
+        cards_for_dialog = list(self._current_cards_for_pick)
+        if not cards_for_dialog:
+            log.warning("未加载角色卡牌列表，无法打开手动选卡对话框")
+            self._status_label.setText(
+                "请先等待角色卡牌加载完成" if self._language == "zh"
+                else "Wait for character cards to load first"
+            )
+            return
+        dialog = SlotCardPickerDialog(slot_idx, cards_for_dialog, self._language, self)
+        if dialog.exec() == QDialog.DialogCode.Accepted and dialog.picked_card_id:
+            self._apply_manual_card_pick(slot_idx, dialog.picked_card_id)
+
+    def _apply_manual_card_pick(self, slot_idx: int, card_id: str) -> None:
+        """应用用户的手动选卡：记录覆盖、刷新预览、触发评估"""
+        cid = (card_id or "").lower()
+        if not cid:
+            return
+        self._manual_card_overrides[slot_idx] = cid
+        log.info(f"手动选卡: 槽位 {slot_idx} = {cid}")
+
+        # 重建当前 OCR 状态字典并触发 UI 刷新
+        merged_ids = list(self._latest_ocr_card_ids)
+        for s, oid in self._manual_card_overrides.items():
+            if 0 <= s < 3:
+                merged_ids[s] = oid
+        # 构造伪 vision_state 走完整刷新逻辑
+        en, zh = self._lookup_card_names_bilingual(cid)
+        display = zh if self._language == "zh" else en
+        names = list(self._latest_ocr_card_names)
+        confs = list(self._latest_ocr_confidences)
+        for s, oid in self._manual_card_overrides.items():
+            if 0 <= s < 3:
+                e, z = self._lookup_card_names_bilingual(oid)
+                names[s] = (z if self._language == "zh" else e) or oid.upper()
+                confs[s] = 1.0
+        all_reliable = all(cid is not None for cid in merged_ids)
+        self._update_ocr_preview_panel("card_reward", names, confs, all_reliable)
+
+        # 三槽都有 card_id 时触发评估
+        if all_reliable:
+            self._auto_fill_vision_cards([c for c in merged_ids if c])
+
+    def _clear_manual_override(self, slot_idx: int) -> None:
+        """清除某个槽位的手动覆盖，恢复 OCR 自动结果"""
+        if slot_idx in self._manual_card_overrides:
+            del self._manual_card_overrides[slot_idx]
+            log.info(f"清除槽位 {slot_idx} 的手动选择")
+            # 用最新 OCR 状态重新渲染
+            all_reliable = all(cid is not None for cid in self._latest_ocr_card_ids)
+            self._update_ocr_preview_panel(
+                "card_reward",
+                self._latest_ocr_card_names,
+                self._latest_ocr_confidences,
+                all_reliable,
+            )
 
     def _on_refresh_detect(self) -> None:
         """刷新检测：重新初始化游戏和日志检测"""
@@ -2570,6 +3239,7 @@ class CardAdviserWindow(QWidget):
         self._status_label.setText(_t("status_ready", lang))
         self._game_info_label.setText(f"<span style='color:#999'>{_t('game_waiting', lang)}</span>")
         # OCR 预览面板内的文字（若面板不可见则更新占位符）
+        self._ocr_title_hint.setText(_t("ocr_title_hint", lang))
         if not self._ocr_preview_panel.isVisible():
             self._ocr_preview_status.setText(_t("ocr_recognizing", lang))
             self._ocr_hint_label.setText(_t("ocr_hint_waiting", lang))
@@ -2668,6 +3338,8 @@ class CardAdviserWindow(QWidget):
             or c.get("rarity", "").lower() == "ancient"
         ]
         self._card_picker.populate(playable)
+        # 缓存全量列表（含非 playable 卡，比如祝福/诅咒）供手动选卡 fallback 对话框使用
+        self._current_cards_for_pick = list(cards)
         self._status_label.setText(_t("status_loaded", self._language, n=len(playable)))
 
     def _on_card_selection_changed(self, selected_cards: list[dict], display_names: list[str]) -> None:
@@ -2838,11 +3510,6 @@ class CardAdviserWindow(QWidget):
                 f"color: rgba(220,200,100,0.9); font-size: {_fs(16)}px; "
                 "font-weight: bold; background: transparent;"
             )
-        # 套路提示标签
-        if hasattr(self, '_archetype_label'):
-            self._archetype_label.setStyleSheet(
-                f"color:#C8A96E;font-size:{_fs(18)}px;font-weight:bold;padding:2px 0px;"
-            )
         # 游戏信息标签
         if hasattr(self, '_game_info_label'):
             self._game_info_label.setStyleSheet(f"font-size: {_fs(14)}px;")
@@ -2858,19 +3525,81 @@ class CardAdviserWindow(QWidget):
                 f"color: #888; font-size: {_fs(14)}px; padding: 2px 0px;"
             )
         # OCR 预览面板内的标签
+        if hasattr(self, '_ocr_panel_title'):
+            self._ocr_panel_title.setStyleSheet(
+                f"color:#64B5F6;font-size:{_fs(12)}px;font-weight:bold;"
+            )
+        if hasattr(self, '_ocr_title_hint'):
+            self._ocr_title_hint.setStyleSheet(
+                f"color:#7090A8;font-size:{_fs(10)}px;padding-left:8px;"
+            )
         if hasattr(self, '_ocr_preview_status'):
             self._ocr_preview_status.setStyleSheet(f"color:#888;font-size:{_fs(11)}px;")
         if hasattr(self, '_ocr_hint_label'):
             self._ocr_hint_label.setStyleSheet(
                 f"color:#556672;font-size:{_fs(11)}px;padding-top:2px;"
             )
+        # 三张卡名标签：当面板可见时按当前 OCR 状态重渲染（保留颜色/边框），
+        # 否则只刷字号
         if hasattr(self, '_ocr_preview_cards'):
-            for card_lbl in self._ocr_preview_cards:
-                card_lbl.setStyleSheet(
-                    f"color:#555;font-size:{_fs(13)}px;"
-                    "border:1px solid #1E3A5A;border-radius:4px;"
-                    "padding:4px 6px;background:#0d1520;"
+            if (
+                hasattr(self, '_ocr_preview_panel')
+                and self._ocr_preview_panel.isVisible()
+                and any(self._latest_ocr_card_names)
+            ):
+                # 用缓存的最近一次 OCR 状态重新渲染（含 OCR 原文显示）
+                all_reliable = all(c is not None for c in self._latest_ocr_card_ids)
+                self._update_ocr_preview_panel(
+                    "card_reward",
+                    self._latest_ocr_card_names,
+                    self._latest_ocr_confidences,
+                    all_reliable,
                 )
+            else:
+                for card_lbl in self._ocr_preview_cards:
+                    card_lbl.setStyleSheet(
+                        f"color:#555;font-size:{_fs(13)}px;"
+                        "border:1px solid #1E3A5A;border-radius:4px;"
+                        "padding:4px 6px;background:#0d1520;"
+                    )
+        # 当前角色主题色（标题栏 / 标题 / 主容器边框 / 套路标签）
+        self._apply_character_theme(self._current_character)
+
+    def _apply_character_theme(self, character: str | None) -> None:
+        """根据当前角色（ironclad/silent/defect/regent/necrobinder）切换 UI 强调色。
+
+        无角色 / 未识别角色 / 菜单态时回退到 _DEFAULT_THEME_ACCENT (金色)。
+        """
+        key = (character or "").strip().lower()
+        accent = CHARACTER_THEMES.get(key, _DEFAULT_THEME_ACCENT)
+
+        title_bar = self.findChild(QWidget, "TitleBar")
+        if title_bar is not None:
+            title_bar.setStyleSheet(
+                "#TitleBar { background-color: rgba(40,30,18,0.95); "
+                "border-top-left-radius: 8px; border-top-right-radius: 8px; "
+                f"border-bottom: 2px solid {accent}; min-height: 42px; }}"
+            )
+
+        title_label = self.findChild(QLabel, "TitleLabel")
+        if title_label is not None:
+            title_label.setStyleSheet(
+                f"color: {accent}; font-size: {_fs(19)}px; "
+                "font-weight: bold; letter-spacing: 0.5px;"
+            )
+
+        main_container = self.findChild(QWidget, "MainContainer")
+        if main_container is not None:
+            main_container.setStyleSheet(
+                "#MainContainer { background-color: rgba(22,18,14,0.92); "
+                f"border: 1px solid {accent}; border-radius: 8px; }}"
+            )
+
+        if hasattr(self, "_archetype_label"):
+            self._archetype_label.setStyleSheet(
+                f"color: {accent}; font-size: {_fs(18)}px; "
+                "font-weight: bold; padding: 2px 0px;"
+            )
 
     # ------------------------------------------------------------------
     # 系统托盘

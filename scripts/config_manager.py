@@ -114,3 +114,23 @@ def get_opacity() -> float:
 def set_opacity(val: float) -> bool:
     """设置窗口不透明度（0.0–1.0）"""
     return set_config_value("opacity", str(val))
+
+
+def get_save_fail_snapshot() -> bool:
+    """是否保存 OCR 失败时的截图到本地 logs/（默认开启，永远不离开本机）"""
+    val = get_config_value("save_fail_snapshot", "true")
+    return str(val).lower() in ("true", "1", "yes")
+
+
+def set_save_fail_snapshot(enabled: bool) -> bool:
+    return set_config_value("save_fail_snapshot", "true" if enabled else "false")
+
+
+def get_show_ocr_raw_text() -> bool:
+    """是否在 OCR 预览面板显示 OCR 原始文字（用于诊断 OCR 误读）"""
+    val = get_config_value("show_ocr_raw_text", "false")
+    return str(val).lower() in ("true", "1", "yes")
+
+
+def set_show_ocr_raw_text(enabled: bool) -> bool:
+    return set_config_value("show_ocr_raw_text", "true" if enabled else "false")

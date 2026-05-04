@@ -240,7 +240,23 @@ python -m uvicorn backend.main:app --port 8001
 
 ## Changelog
 
-### v1.6.5 (current)
+### v1.7.0 (current)
+- **Character-aware UI theming**: Window accent colors (title bar bottom border, title text, main container border, archetype tags) automatically switch to the current character's signature color. Driven by the WebSocket `character` field — no manual config, no restart on character change.
+- **Manual card override**: Click any card slot to pick from the top-5 OCR candidates (bilingual 中文 / English with confidence), or search the full character card library (bilingual matching). Last-mile fix for OCR misreads and modded cards.
+- **OCR accuracy improvements**:
+  - Downscale trigger `_WINRT_MAX_DIM` 1900 → **2300**. 1080p~1440p windows (e.g. 1936×1119) no longer get unnecessarily downscaled — thin CJK radical strokes are preserved.
+  - Slots whose global-OCR text fails to match any card now **automatically retry with region OCR** (cv2 LANCZOS4 + CLAHE), often recovering radical detail (e.g. "宇宙冷漠" misread as "阻宙辶漠" now matches on retry).
+- **Local-only debug & diagnostics**: Settings dialog adds a new "🔧 Debug & Diagnostics" section
+  - 🔍 View diagnostic info (redacted: usernames and Steam IDs automatically replaced with `<USER>` / `<STEAM_ID>`; optional toggle to view the unredacted version)
+  - 📁 Open logs folder
+  - 📦 Package diagnostic data → local zip (app.log + OCR snapshots + system info + privacy README), saved to Desktop or a chosen location. Redaction enabled by default. **Nothing is uploaded.**
+- **OCR failure screenshots**: Saved to `logs/ocr_FAIL_*.png` when recognition fails (toggleable, local only). Throttled to one per session to avoid disk spam.
+- **OCR raw text toggle**: When enabled, each card slot shows a small `(OCR: 阻宙辶漠)` line underneath — diagnoses misreads at a glance.
+- **File accumulation prevention**: app.log now uses `RotatingFileHandler` (5MB × 2 files = ~10MB cap). Success snapshot cap 20 → 10, failure snapshot cap → 5.
+- **Discoverability hint**: Added `💡 Click a card to pick a candidate` next to the Vision OCR title so users find the manual override.
+- **Font scale fix**: Vision OCR panel labels (title, hint, card slots, status) now respond live to the font scale slider.
+
+### v1.6.5
 - **OCR size threshold lowered further**: v1.6.4 downscaled 4K to 1800 but kept the trigger threshold at `_WINRT_MAX_DIM = 2600`. The same user then hit E_FAIL on a 2582×1656 window — 2582 < 2600 so the downscale never fired, and the raw image went straight to WinRT and crashed. Empirically the failure boundary on that machine (Win11 + en-US OCR) is far below the documented 2600 value, somewhere between 1920 and 2400. Normalize all OCR inputs to 1800 long edge:
   - `_WINRT_MAX_DIM` 2600 → **1900** (1080p users get a barely-visible 5% downscale to 1800; everything above 1080p is downscaled)
   - `_SMALL_WINDOW_TARGET` 2400 → **1800** (aligned with DOWNSCALE_TARGET; every OCR input now has long edge ≤ 1800 px)

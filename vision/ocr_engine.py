@@ -57,8 +57,12 @@ _EN_PREFERRED_LANGS = ["en-US", "en-GB", "en"]
 # 用户报告 2400×1349 / 2582×1656 / 3842×2160 全部 E_FAIL（en-US 引擎，Win11）；
 # 文档说"超出 MaxImageDimension 应返回空、不抛异常"——所以这是另一个未明确的失败
 # 模式（疑似 PIL→PNG→BitmapDecoder 链路上的内存/解码问题，对实际 WinRT 限制更紧）。
-# 实证安全边界在 1920–2400 之间，统一归一化到 1800 长边覆盖所有失败配置。
-_WINRT_MAX_DIM = 1900           # 任一维 > 1900 触发缩小；1080p (1920) 也会被轻微缩到 1800
+#
+# v1.7.0 调整：旧阈值 1900 会把 1936×1119（小窗口，实证不会 E_FAIL）也缩到 1800，
+# 反而让中文细笔画偏旁丢失（用户 sammy 在 1936px 窗口下 OCR "护"被读成"户"）。
+# 实证安全边界 ≥ 2300 是危险区，< 2200 大概率安全。提阈值到 2300 让 1080p~1440p
+# 类窗口保留原始细节，仅 4K / 1440p+ 被压缩。
+_WINRT_MAX_DIM = 2300           # 任一维 > 2300 才触发缩小；1080p (1920) / 1440p (2560 边界外) 保持原尺寸
 _DOWNSCALE_TARGET = 1800        # 缩小目标长边
 
 # 小游戏窗口（1280×720 / 1366×768 / 1280×960）下卡名标题仅 ~30px，OCR 几乎读不到。
@@ -422,7 +426,7 @@ class WindowsOcrEngine:
                 img = Image.fromarray(bgr[:, :, ::-1])
             else:
                 img = img.resize((new_w, new_h), Image.LANCZOS)
-            log.debug(f"OCR 缩小: {w}x{h} → {new_w}x{new_h} (避开 WinRT 2600px 上限)")
+            log.debug(f"OCR 缩小: {w}x{h} → {new_w}x{new_h} (> {_WINRT_MAX_DIM}px 触发)")
             return img
 
         # 2. 卡名截图（小高度）：现有路径

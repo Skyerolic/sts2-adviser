@@ -243,6 +243,70 @@ class CardNameIndex:
         results = self.search(query, top_k=1, threshold=threshold)
         return results[0] if results else None
 
+    def search_topk(self, query: str, k: int = 5) -> list[MatchResult]:
+        """
+        返回前 K 个候选（不过滤阈值、不做歧义拒绝）——供 UI 手动覆盖时展示候选列表。
+
+        与 search() 的差异：
+          - 不应用 _threshold_for；最低分也返回（让用户自己判断）
+          - 不做歧义拒绝（用户需要看到所有可能的相近卡）
+          - 仍按语言分区（CJK→中文库，ASCII→英文库），保证候选合理
+        """
+        if not self._loaded:
+            self.load()
+        if not query or not query.strip():
+            return []
+
+        cleaned = _clean_ocr_text(query)
+        normalized = _normalize_text(cleaned)
+        if not normalized:
+            return []
+
+        is_cjk = bool(_CJK_PATTERN.search(normalized))
+        if is_cjk:
+            search_list = self._zh_list
+            lang = "zh"
+            name_field_idx = 1
+        else:
+            search_list = self._en_list
+            lang = "en"
+            name_field_idx = 0
+
+        if not search_list:
+            return []
+
+        try:
+            from rapidfuzz import process, fuzz
+        except ImportError:
+            log.error("rapidfuzz 未安装，请运行: pip install rapidfuzz")
+            return []
+
+        names = [name for name, _ in search_list]
+        matches = process.extract(
+            normalized, names, scorer=fuzz.token_sort_ratio, limit=k,
+        )
+        out: list[MatchResult] = []
+        for match_name, score, idx in matches:
+            _, card_id = search_list[idx]
+            out.append(MatchResult(
+                card_id=card_id,
+                matched_name=self._index[card_id][name_field_idx],
+                input_text=query,
+                confidence=score / 100.0,
+                language=lang,
+            ))
+        return out
+
+    def get_card_names(self, card_id: str) -> tuple[str, str]:
+        """返回 (英文名, 中文名)，未知 card_id 返回 ('', '')"""
+        return self._index.get(card_id.upper(), ("", ""))
+
+    def all_card_ids(self) -> list[str]:
+        """返回全部已索引的 card_id 列表（用于 UI 全卡搜索 fallback）"""
+        if not self._loaded:
+            self.load()
+        return list(self._index.keys())
+
 
 class CardNormalizer:
     """
@@ -298,6 +362,18 @@ class CardNormalizer:
     def normalize_single(self, ocr_text: str) -> Optional[MatchResult]:
         """对单个文字做规范化"""
         return self._index.best_match(ocr_text, self._threshold)
+
+    def search_topk(self, ocr_text: str, k: int = 5) -> list[MatchResult]:
+        """返回前 K 个候选（不过滤阈值），供 UI 手动选卡时展示"""
+        return self._index.search_topk(ocr_text, k=k)
+
+    def get_card_names(self, card_id: str) -> tuple[str, str]:
+        """返回 (英文名, 中文名)"""
+        return self._index.get_card_names(card_id)
+
+    def all_card_ids(self) -> list[str]:
+        """返回全部 card_id"""
+        return self._index.all_card_ids()
 
 
 # -----------------------------------------------------------------------
